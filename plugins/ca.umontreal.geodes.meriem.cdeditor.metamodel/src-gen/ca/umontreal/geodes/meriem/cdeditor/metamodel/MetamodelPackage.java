@@ -1,0 +1,772 @@
+/**
+ */
+package ca.umontreal.geodes.meriem.cdeditor.metamodel;
+
+import org.eclipse.emf.ecore.EAttribute;
+import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EPackage;
+import org.eclipse.emf.ecore.EReference;
+
+/**
+ * <!-- begin-user-doc -->
+ * The <b>Package</b> for the model.
+ * It contains accessors for the meta objects to represent
+ * <ul>
+ *   <li>each class,</li>
+ *   <li>each feature of each class,</li>
+ *   <li>each operation of each class,</li>
+ *   <li>each enum,</li>
+ *   <li>and each data type</li>
+ * </ul>
+ * <!-- end-user-doc -->
+ * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory
+ * @model kind="package"
+ * @generated
+ */
+public interface MetamodelPackage extends EPackage {
+	/**
+	 * The package name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	String eNAME = "metamodel";
+
+	/**
+	 * The package namespace URI.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	String eNS_URI = "http://www.umontreal.geodes/metamodel";
+
+	/**
+	 * The package namespace name.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	String eNS_PREFIX = "metamodel";
+
+	/**
+	 * The singleton instance of the package.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	MetamodelPackage eINSTANCE = ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl.init();
+
+	/**
+	 * The meta object id for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl <em>Model</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getModel()
+	 * @generated
+	 */
+	int MODEL = 0;
+
+	/**
+	 * The feature id for the '<em><b>Namedelement</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__NAMEDELEMENT = 0;
+
+	/**
+	 * The feature id for the '<em><b>Typedelement</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__TYPEDELEMENT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Operation</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__OPERATION = 2;
+
+	/**
+	 * The feature id for the '<em><b>Clazz</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__CLAZZ = 3;
+
+	/**
+	 * The feature id for the '<em><b>Attribute</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__ATTRIBUTE = 4;
+
+	/**
+	 * The number of structural features of the '<em>Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_FEATURE_COUNT = 5;
+
+	/**
+	 * The number of operations of the '<em>Model</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.NamedElementImpl <em>Named Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.NamedElementImpl
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getNamedElement()
+	 * @generated
+	 */
+	int NAMED_ELEMENT = 1;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT__NAME = 0;
+
+	/**
+	 * The number of structural features of the '<em>Named Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Named Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int NAMED_ELEMENT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.TypedElementImpl <em>Typed Element</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.TypedElementImpl
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getTypedElement()
+	 * @generated
+	 */
+	int TYPED_ELEMENT = 2;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_ELEMENT__TYPE = 0;
+
+	/**
+	 * The number of structural features of the '<em>Typed Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_ELEMENT_FEATURE_COUNT = 1;
+
+	/**
+	 * The number of operations of the '<em>Typed Element</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int TYPED_ELEMENT_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationImpl <em>Operation</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationImpl
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getOperation()
+	 * @generated
+	 */
+	int OPERATION = 3;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The number of structural features of the '<em>Operation</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Operation</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl <em>Clazz</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getClazz()
+	 * @generated
+	 */
+	int CLAZZ = 4;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Generalizes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ__GENERALIZES = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Specializes</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ__SPECIALIZES = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Associated From</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ__ASSOCIATED_FROM = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Associated To</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ__ASSOCIATED_TO = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The feature id for the '<em><b>Has</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ__HAS = NAMED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The feature id for the '<em><b>Is Member</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ__IS_MEMBER = NAMED_ELEMENT_FEATURE_COUNT + 5;
+
+	/**
+	 * The number of structural features of the '<em>Clazz</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
+	 * The number of operations of the '<em>Clazz</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl <em>Attribute</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getAttribute()
+	 * @generated
+	 */
+	int ATTRIBUTE = 5;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE__TYPE = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of structural features of the '<em>Attribute</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The number of operations of the '<em>Attribute</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model <em>Model</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Model</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Model
+	 * @generated
+	 */
+	EClass getModel();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getNamedelement <em>Namedelement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Namedelement</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getNamedelement()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EReference getModel_Namedelement();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getTypedelement <em>Typedelement</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Typedelement</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getTypedelement()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EReference getModel_Typedelement();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getOperation <em>Operation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Operation</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getOperation()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EReference getModel_Operation();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getClazz <em>Clazz</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Clazz</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getClazz()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EReference getModel_Clazz();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getAttribute <em>Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Attribute</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getAttribute()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EReference getModel_Attribute();
+
+	/**
+	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.NamedElement <em>Named Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Named Element</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.NamedElement
+	 * @generated
+	 */
+	EClass getNamedElement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.NamedElement#getName <em>Name</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Name</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.NamedElement#getName()
+	 * @see #getNamedElement()
+	 * @generated
+	 */
+	EAttribute getNamedElement_Name();
+
+	/**
+	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.TypedElement <em>Typed Element</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Typed Element</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.TypedElement
+	 * @generated
+	 */
+	EClass getTypedElement();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.TypedElement#getType <em>Type</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Type</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.TypedElement#getType()
+	 * @see #getTypedElement()
+	 * @generated
+	 */
+	EAttribute getTypedElement_Type();
+
+	/**
+	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation <em>Operation</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Operation</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation
+	 * @generated
+	 */
+	EClass getOperation();
+
+	/**
+	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz <em>Clazz</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Clazz</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz
+	 * @generated
+	 */
+	EClass getClazz();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getGeneralizes <em>Generalizes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Generalizes</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getGeneralizes()
+	 * @see #getClazz()
+	 * @generated
+	 */
+	EReference getClazz_Generalizes();
+
+	/**
+	 * Returns the meta object for the reference '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getSpecializes <em>Specializes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Specializes</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getSpecializes()
+	 * @see #getClazz()
+	 * @generated
+	 */
+	EReference getClazz_Specializes();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedFrom <em>Associated From</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Associated From</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedFrom()
+	 * @see #getClazz()
+	 * @generated
+	 */
+	EReference getClazz_AssociatedFrom();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedTo <em>Associated To</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Associated To</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedTo()
+	 * @see #getClazz()
+	 * @generated
+	 */
+	EReference getClazz_AssociatedTo();
+
+	/**
+	 * Returns the meta object for the reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getHas <em>Has</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Has</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getHas()
+	 * @see #getClazz()
+	 * @generated
+	 */
+	EReference getClazz_Has();
+
+	/**
+	 * Returns the meta object for the reference '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getIsMember <em>Is Member</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Is Member</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getIsMember()
+	 * @see #getClazz()
+	 * @generated
+	 */
+	EReference getClazz_IsMember();
+
+	/**
+	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute <em>Attribute</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Attribute</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute
+	 * @generated
+	 */
+	EClass getAttribute();
+
+	/**
+	 * Returns the factory that creates the instances of the model.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the factory that creates the instances of the model.
+	 * @generated
+	 */
+	MetamodelFactory getMetamodelFactory();
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * Defines literals for the meta objects that represent
+	 * <ul>
+	 *   <li>each class,</li>
+	 *   <li>each feature of each class,</li>
+	 *   <li>each operation of each class,</li>
+	 *   <li>each enum,</li>
+	 *   <li>and each data type</li>
+	 * </ul>
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	interface Literals {
+		/**
+		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl <em>Model</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getModel()
+		 * @generated
+		 */
+		EClass MODEL = eINSTANCE.getModel();
+
+		/**
+		 * The meta object literal for the '<em><b>Namedelement</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL__NAMEDELEMENT = eINSTANCE.getModel_Namedelement();
+
+		/**
+		 * The meta object literal for the '<em><b>Typedelement</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL__TYPEDELEMENT = eINSTANCE.getModel_Typedelement();
+
+		/**
+		 * The meta object literal for the '<em><b>Operation</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL__OPERATION = eINSTANCE.getModel_Operation();
+
+		/**
+		 * The meta object literal for the '<em><b>Clazz</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL__CLAZZ = eINSTANCE.getModel_Clazz();
+
+		/**
+		 * The meta object literal for the '<em><b>Attribute</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL__ATTRIBUTE = eINSTANCE.getModel_Attribute();
+
+		/**
+		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.NamedElementImpl <em>Named Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.NamedElementImpl
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getNamedElement()
+		 * @generated
+		 */
+		EClass NAMED_ELEMENT = eINSTANCE.getNamedElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Name</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute NAMED_ELEMENT__NAME = eINSTANCE.getNamedElement_Name();
+
+		/**
+		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.TypedElementImpl <em>Typed Element</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.TypedElementImpl
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getTypedElement()
+		 * @generated
+		 */
+		EClass TYPED_ELEMENT = eINSTANCE.getTypedElement();
+
+		/**
+		 * The meta object literal for the '<em><b>Type</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute TYPED_ELEMENT__TYPE = eINSTANCE.getTypedElement_Type();
+
+		/**
+		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationImpl <em>Operation</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationImpl
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getOperation()
+		 * @generated
+		 */
+		EClass OPERATION = eINSTANCE.getOperation();
+
+		/**
+		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl <em>Clazz</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getClazz()
+		 * @generated
+		 */
+		EClass CLAZZ = eINSTANCE.getClazz();
+
+		/**
+		 * The meta object literal for the '<em><b>Generalizes</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLAZZ__GENERALIZES = eINSTANCE.getClazz_Generalizes();
+
+		/**
+		 * The meta object literal for the '<em><b>Specializes</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLAZZ__SPECIALIZES = eINSTANCE.getClazz_Specializes();
+
+		/**
+		 * The meta object literal for the '<em><b>Associated From</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLAZZ__ASSOCIATED_FROM = eINSTANCE.getClazz_AssociatedFrom();
+
+		/**
+		 * The meta object literal for the '<em><b>Associated To</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLAZZ__ASSOCIATED_TO = eINSTANCE.getClazz_AssociatedTo();
+
+		/**
+		 * The meta object literal for the '<em><b>Has</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLAZZ__HAS = eINSTANCE.getClazz_Has();
+
+		/**
+		 * The meta object literal for the '<em><b>Is Member</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLAZZ__IS_MEMBER = eINSTANCE.getClazz_IsMember();
+
+		/**
+		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl <em>Attribute</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getAttribute()
+		 * @generated
+		 */
+		EClass ATTRIBUTE = eINSTANCE.getAttribute();
+
+	}
+
+} //MetamodelPackage
