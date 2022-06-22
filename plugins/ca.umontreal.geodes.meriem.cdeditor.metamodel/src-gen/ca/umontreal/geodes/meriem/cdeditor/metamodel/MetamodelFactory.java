@@ -58,6 +58,15 @@ public interface MetamodelFactory extends EFactory {
 	Attribute createAttribute();
 
 	/**
+	 * Returns a new object of class '<em>Clazz Condidate</em>'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return a new object of class '<em>Clazz Condidate</em>'.
+	 * @generated
+	 */
+	ClazzCondidate createClazzCondidate();
+
+	/**
 	 * Returns the package supported by this factory.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->

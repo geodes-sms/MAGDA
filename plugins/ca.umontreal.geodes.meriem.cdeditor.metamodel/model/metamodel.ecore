@@ -33,6 +33,9 @@
         eOpposite="#//Clazz/isMember"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="isMember" eType="#//Clazz"
         eOpposite="#//Clazz/has"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributes" upperBound="-1"
+        eType="#//Attribute" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//NamedElement #//TypedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClazzCondidate" eSuperTypes="#//NamedElement"/>
 </ecore:EPackage>

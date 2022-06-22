@@ -97,6 +97,11 @@ public class MetamodelAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
+		public Adapter caseClazzCondidate(ClazzCondidate object) {
+			return createClazzCondidateAdapter();
+		}
+
+		@Override
 		public Adapter defaultCase(EObject object) {
 			return createEObjectAdapter();
 		}
@@ -196,6 +201,20 @@ public class MetamodelAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	public Adapter createAttributeAdapter() {
+		return null;
+	}
+
+	/**
+	 * Creates a new adapter for an object of class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate <em>Clazz Condidate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * This default implementation returns null so that we can easily ignore cases;
+	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
+	 * <!-- end-user-doc -->
+	 * @return the new adapter.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate
+	 * @generated
+	 */
+	public Adapter createClazzCondidateAdapter() {
 		return null;
 	}
 

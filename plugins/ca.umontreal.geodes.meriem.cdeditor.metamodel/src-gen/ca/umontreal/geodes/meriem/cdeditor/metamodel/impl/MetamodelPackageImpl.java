@@ -4,6 +4,7 @@ package ca.umontreal.geodes.meriem.cdeditor.metamodel.impl;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
@@ -66,6 +67,13 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * @generated
 	 */
 	private EClass attributeEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass clazzCondidateEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -298,8 +306,26 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getClazz_Attributes() {
+		return (EReference) clazzEClass.getEStructuralFeatures().get(6);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAttribute() {
 		return attributeEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getClazzCondidate() {
+		return clazzCondidateEClass;
 	}
 
 	/**
@@ -353,8 +379,11 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		createEReference(clazzEClass, CLAZZ__ASSOCIATED_TO);
 		createEReference(clazzEClass, CLAZZ__HAS);
 		createEReference(clazzEClass, CLAZZ__IS_MEMBER);
+		createEReference(clazzEClass, CLAZZ__ATTRIBUTES);
 
 		attributeEClass = createEClass(ATTRIBUTE);
+
+		clazzCondidateEClass = createEClass(CLAZZ_CONDIDATE);
 	}
 
 	/**
@@ -390,6 +419,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		clazzEClass.getESuperTypes().add(this.getNamedElement());
 		attributeEClass.getESuperTypes().add(this.getNamedElement());
 		attributeEClass.getESuperTypes().add(this.getTypedElement());
+		clazzCondidateEClass.getESuperTypes().add(this.getNamedElement());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -441,8 +471,14 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		initEReference(getClazz_IsMember(), this.getClazz(), this.getClazz_Has(), "isMember", null, 0, 1, Clazz.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getClazz_Attributes(), this.getAttribute(), null, "attributes", null, 0, -1, Clazz.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeEClass, Attribute.class, "Attribute", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(clazzCondidateEClass, ClazzCondidate.class, "ClazzCondidate", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource

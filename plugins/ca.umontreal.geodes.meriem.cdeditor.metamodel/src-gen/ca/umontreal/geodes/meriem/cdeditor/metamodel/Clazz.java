@@ -19,6 +19,7 @@ import org.eclipse.emf.common.util.EList;
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedTo <em>Associated To</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getHas <em>Has</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getIsMember <em>Is Member</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAttributes <em>Attributes</em>}</li>
  * </ul>
  *
  * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getClazz()
@@ -129,5 +130,17 @@ public interface Clazz extends NamedElement {
 	 * @generated
 	 */
 	void setIsMember(Clazz value);
+
+	/**
+	 * Returns the value of the '<em><b>Attributes</b></em>' containment reference list.
+	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Attributes</em>' containment reference list.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getClazz_Attributes()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Attribute> getAttributes();
 
 } // Clazz

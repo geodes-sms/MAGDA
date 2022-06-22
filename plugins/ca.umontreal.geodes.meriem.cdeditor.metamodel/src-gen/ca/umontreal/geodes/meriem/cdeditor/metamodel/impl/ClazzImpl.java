@@ -2,6 +2,7 @@
  */
 package ca.umontreal.geodes.meriem.cdeditor.metamodel.impl;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
 
@@ -17,6 +18,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.EObjectWithInverseResolvingEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -34,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl#getAssociatedTo <em>Associated To</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl#getHas <em>Has</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl#getIsMember <em>Is Member</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl#getAttributes <em>Attributes</em>}</li>
  * </ul>
  *
  * @generated
@@ -98,6 +101,16 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 	 * @ordered
 	 */
 	protected Clazz isMember;
+
+	/**
+	 * The cached value of the '{@link #getAttributes() <em>Attributes</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAttributes()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Attribute> attributes;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -311,6 +324,19 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Attribute> getAttributes() {
+		if (attributes == null) {
+			attributes = new EObjectContainmentEList<Attribute>(Attribute.class, this,
+					MetamodelPackage.CLAZZ__ATTRIBUTES);
+		}
+		return attributes;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@SuppressWarnings("unchecked")
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
@@ -357,6 +383,8 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 			return ((InternalEList<?>) getHas()).basicRemove(otherEnd, msgs);
 		case MetamodelPackage.CLAZZ__IS_MEMBER:
 			return basicSetIsMember(null, msgs);
+		case MetamodelPackage.CLAZZ__ATTRIBUTES:
+			return ((InternalEList<?>) getAttributes()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -385,6 +413,8 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 			if (resolve)
 				return getIsMember();
 			return basicGetIsMember();
+		case MetamodelPackage.CLAZZ__ATTRIBUTES:
+			return getAttributes();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -420,6 +450,10 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 		case MetamodelPackage.CLAZZ__IS_MEMBER:
 			setIsMember((Clazz) newValue);
 			return;
+		case MetamodelPackage.CLAZZ__ATTRIBUTES:
+			getAttributes().clear();
+			getAttributes().addAll((Collection<? extends Attribute>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -450,6 +484,9 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 		case MetamodelPackage.CLAZZ__IS_MEMBER:
 			setIsMember((Clazz) null);
 			return;
+		case MetamodelPackage.CLAZZ__ATTRIBUTES:
+			getAttributes().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -474,6 +511,8 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 			return has != null && !has.isEmpty();
 		case MetamodelPackage.CLAZZ__IS_MEMBER:
 			return isMember != null;
+		case MetamodelPackage.CLAZZ__ATTRIBUTES:
+			return attributes != null && !attributes.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

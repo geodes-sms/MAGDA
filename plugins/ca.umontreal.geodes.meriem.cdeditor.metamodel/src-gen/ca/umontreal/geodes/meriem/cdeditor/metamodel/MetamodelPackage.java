@@ -314,13 +314,22 @@ public interface MetamodelPackage extends EPackage {
 	int CLAZZ__IS_MEMBER = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
+	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ__ATTRIBUTES = NAMED_ELEMENT_FEATURE_COUNT + 6;
+
+	/**
 	 * The number of structural features of the '<em>Clazz</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLAZZ_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int CLAZZ_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 7;
 
 	/**
 	 * The number of operations of the '<em>Clazz</em>' class.
@@ -376,6 +385,43 @@ public interface MetamodelPackage extends EPackage {
 	 * @ordered
 	 */
 	int ATTRIBUTE_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
+	 * The meta object id for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl <em>Clazz Condidate</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getClazzCondidate()
+	 * @generated
+	 */
+	int CLAZZ_CONDIDATE = 6;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ_CONDIDATE__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The number of structural features of the '<em>Clazz Condidate</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ_CONDIDATE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The number of operations of the '<em>Clazz Condidate</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ_CONDIDATE_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
 	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model <em>Model</em>}'.
@@ -571,6 +617,17 @@ public interface MetamodelPackage extends EPackage {
 	EReference getClazz_IsMember();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAttributes <em>Attributes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Attributes</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAttributes()
+	 * @see #getClazz()
+	 * @generated
+	 */
+	EReference getClazz_Attributes();
+
+	/**
 	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute <em>Attribute</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -579,6 +636,16 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getAttribute();
+
+	/**
+	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate <em>Clazz Condidate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Clazz Condidate</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate
+	 * @generated
+	 */
+	EClass getClazzCondidate();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -758,6 +825,14 @@ public interface MetamodelPackage extends EPackage {
 		EReference CLAZZ__IS_MEMBER = eINSTANCE.getClazz_IsMember();
 
 		/**
+		 * The meta object literal for the '<em><b>Attributes</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference CLAZZ__ATTRIBUTES = eINSTANCE.getClazz_Attributes();
+
+		/**
 		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl <em>Attribute</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -766,6 +841,16 @@ public interface MetamodelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ATTRIBUTE = eINSTANCE.getAttribute();
+
+		/**
+		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl <em>Clazz Condidate</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getClazzCondidate()
+		 * @generated
+		 */
+		EClass CLAZZ_CONDIDATE = eINSTANCE.getClazzCondidate();
 
 	}
 
