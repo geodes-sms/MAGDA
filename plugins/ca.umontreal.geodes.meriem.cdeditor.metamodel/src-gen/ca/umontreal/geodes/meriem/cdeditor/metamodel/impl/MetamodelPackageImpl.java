@@ -3,6 +3,7 @@
 package ca.umontreal.geodes.meriem.cdeditor.metamodel.impl;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
@@ -74,6 +75,13 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * @generated
 	 */
 	private EClass clazzCondidateEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass attributeCondidateEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -153,7 +161,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModel_Namedelement() {
+	public EReference getModel_Operation() {
 		return (EReference) modelEClass.getEStructuralFeatures().get(0);
 	}
 
@@ -162,7 +170,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModel_Typedelement() {
+	public EReference getModel_Clazz() {
 		return (EReference) modelEClass.getEStructuralFeatures().get(1);
 	}
 
@@ -171,7 +179,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModel_Operation() {
+	public EReference getModel_Attribute() {
 		return (EReference) modelEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -180,17 +188,8 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getModel_Clazz() {
+	public EReference getModel_Attributecondidate() {
 		return (EReference) modelEClass.getEStructuralFeatures().get(3);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getModel_Attribute() {
-		return (EReference) modelEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -333,6 +332,24 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getClazzCondidate_Attributecondidate() {
+		return (EReference) clazzCondidateEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EClass getAttributeCondidate() {
+		return attributeCondidateEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public MetamodelFactory getMetamodelFactory() {
 		return (MetamodelFactory) getEFactoryInstance();
 	}
@@ -358,11 +375,10 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 
 		// Create classes and their features
 		modelEClass = createEClass(MODEL);
-		createEReference(modelEClass, MODEL__NAMEDELEMENT);
-		createEReference(modelEClass, MODEL__TYPEDELEMENT);
 		createEReference(modelEClass, MODEL__OPERATION);
 		createEReference(modelEClass, MODEL__CLAZZ);
 		createEReference(modelEClass, MODEL__ATTRIBUTE);
+		createEReference(modelEClass, MODEL__ATTRIBUTECONDIDATE);
 
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
@@ -384,6 +400,9 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		attributeEClass = createEClass(ATTRIBUTE);
 
 		clazzCondidateEClass = createEClass(CLAZZ_CONDIDATE);
+		createEReference(clazzCondidateEClass, CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE);
+
+		attributeCondidateEClass = createEClass(ATTRIBUTE_CONDIDATE);
 	}
 
 	/**
@@ -420,15 +439,10 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		attributeEClass.getESuperTypes().add(this.getNamedElement());
 		attributeEClass.getESuperTypes().add(this.getTypedElement());
 		clazzCondidateEClass.getESuperTypes().add(this.getNamedElement());
+		attributeCondidateEClass.getESuperTypes().add(this.getTypedElement());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
-		initEReference(getModel_Namedelement(), this.getNamedElement(), null, "namedelement", null, 0, -1, Model.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
-				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getModel_Typedelement(), this.getTypedElement(), null, "typedelement", null, 0, -1, Model.class,
-				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
-				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModel_Operation(), this.getOperation(), null, "operation", null, 0, -1, Model.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -438,6 +452,9 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		initEReference(getModel_Attribute(), this.getAttribute(), null, "attribute", null, 0, -1, Model.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModel_Attributecondidate(), this.getAttributeCondidate(), null, "attributecondidate", null, 0,
+				-1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
@@ -480,6 +497,12 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 
 		initEClass(clazzCondidateEClass, ClazzCondidate.class, "ClazzCondidate", !IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
+		initEReference(getClazzCondidate_Attributecondidate(), this.getAttributeCondidate(), null, "attributecondidate",
+				null, 0, -1, ClazzCondidate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE,
+				!IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		initEClass(attributeCondidateEClass, AttributeCondidate.class, "AttributeCondidate", !IS_ABSTRACT,
+				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 
 		// Create resource
 		createResource(eNS_URI);

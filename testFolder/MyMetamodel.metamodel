@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="ASCII"?>
 <metamodel:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.umontreal.geodes/metamodel">
-  <clazz name="" generalizes="//@clazz.2" associatedFrom="//@clazz.1" associatedTo="//@clazz.1"/>
-  <clazz name="c2" associatedFrom="//@clazz.0" associatedTo="//@clazz.0"/>
-  <clazz name="dog" specializes="//@clazz.0"/>
-  <clazz name="C3"/>
-  <attribute name="name" type="String"/>
+  <clazz name="plane" isMember="//@clazz.1"/>
+  <clazz name="airport" associatedFrom="//@clazz.2" has="//@clazz.0"/>
+  <clazz name="passenger" associatedTo="//@clazz.1">
+    <attributes name="attribute" type="String"/>
+    <attributes name="attribute2"/>
+    <attributes name="a1"/>
+  </clazz>
 </metamodel:Model>

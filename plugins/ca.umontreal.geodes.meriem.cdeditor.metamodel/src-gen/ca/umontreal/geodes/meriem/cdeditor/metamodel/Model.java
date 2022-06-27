@@ -15,11 +15,10 @@ import org.eclipse.emf.ecore.EObject;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getNamedelement <em>Namedelement</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getTypedelement <em>Typedelement</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getOperation <em>Operation</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getClazz <em>Clazz</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getAttribute <em>Attribute</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getAttributecondidate <em>Attributecondidate</em>}</li>
  * </ul>
  *
  * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getModel()
@@ -27,30 +26,6 @@ import org.eclipse.emf.ecore.EObject;
  * @generated
  */
 public interface Model extends EObject {
-	/**
-	 * Returns the value of the '<em><b>Namedelement</b></em>' containment reference list.
-	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.NamedElement}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Namedelement</em>' containment reference list.
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getModel_Namedelement()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<NamedElement> getNamedelement();
-
-	/**
-	 * Returns the value of the '<em><b>Typedelement</b></em>' containment reference list.
-	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.TypedElement}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Typedelement</em>' containment reference list.
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getModel_Typedelement()
-	 * @model containment="true"
-	 * @generated
-	 */
-	EList<TypedElement> getTypedelement();
-
 	/**
 	 * Returns the value of the '<em><b>Operation</b></em>' containment reference list.
 	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation}.
@@ -86,5 +61,17 @@ public interface Model extends EObject {
 	 * @generated
 	 */
 	EList<Attribute> getAttribute();
+
+	/**
+	 * Returns the value of the '<em><b>Attributecondidate</b></em>' containment reference list.
+	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Attributecondidate</em>' containment reference list.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getModel_Attributecondidate()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<AttributeCondidate> getAttributecondidate();
 
 } // Model

@@ -2,16 +2,14 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metamodel" nsURI="http://www.umontreal.geodes/metamodel" nsPrefix="metamodel">
   <eClassifiers xsi:type="ecore:EClass" name="Model">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="namedelement" upperBound="-1"
-        eType="#//NamedElement" containment="true"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="typedelement" upperBound="-1"
-        eType="#//TypedElement" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" upperBound="-1"
         eType="#//Operation" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" upperBound="-1"
         eType="#//Clazz" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" upperBound="-1"
         eType="#//Attribute" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributecondidate" upperBound="-1"
+        eType="#//AttributeCondidate" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -37,5 +35,9 @@
         eType="#//Attribute" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//NamedElement #//TypedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ClazzCondidate" eSuperTypes="#//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClazzCondidate" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="attributecondidate" upperBound="-1"
+        eType="#//AttributeCondidate" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeCondidate" eSuperTypes="#//TypedElement"/>
 </ecore:EPackage>

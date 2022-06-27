@@ -13,11 +13,10 @@
   <genPackages prefix="Metamodel" basePackage="ca.umontreal.geodes.meriem.cdeditor"
       disposableProviderFactory="true" ecorePackage="metamodel.ecore#/">
     <genClasses ecoreClass="metamodel.ecore#//Model">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodel.ecore#//Model/namedelement"/>
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodel.ecore#//Model/typedelement"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodel.ecore#//Model/operation"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodel.ecore#//Model/clazz"/>
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodel.ecore#//Model/attribute"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodel.ecore#//Model/attributecondidate"/>
     </genClasses>
     <genClasses ecoreClass="metamodel.ecore#//NamedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodel.ecore#//NamedElement/name"/>
@@ -36,6 +35,9 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodel.ecore#//Clazz/attributes"/>
     </genClasses>
     <genClasses ecoreClass="metamodel.ecore#//Attribute"/>
-    <genClasses ecoreClass="metamodel.ecore#//ClazzCondidate"/>
+    <genClasses ecoreClass="metamodel.ecore#//ClazzCondidate">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodel.ecore#//ClazzCondidate/attributecondidate"/>
+    </genClasses>
+    <genClasses ecoreClass="metamodel.ecore#//AttributeCondidate"/>
   </genPackages>
 </genmodel:GenModel>

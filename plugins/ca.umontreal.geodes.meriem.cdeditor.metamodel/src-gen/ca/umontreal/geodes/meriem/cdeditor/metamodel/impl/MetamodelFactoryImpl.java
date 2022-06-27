@@ -66,6 +66,8 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 			return createAttribute();
 		case MetamodelPackage.CLAZZ_CONDIDATE:
 			return createClazzCondidate();
+		case MetamodelPackage.ATTRIBUTE_CONDIDATE:
+			return createAttributeCondidate();
 		default:
 			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -119,6 +121,16 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	public ClazzCondidate createClazzCondidate() {
 		ClazzCondidateImpl clazzCondidate = new ClazzCondidateImpl();
 		return clazzCondidate;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public AttributeCondidate createAttributeCondidate() {
+		AttributeCondidateImpl attributeCondidate = new AttributeCondidateImpl();
+		return attributeCondidate;
 	}
 
 	/**

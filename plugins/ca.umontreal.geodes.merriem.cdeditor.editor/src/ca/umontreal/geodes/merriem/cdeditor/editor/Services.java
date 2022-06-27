@@ -2,6 +2,9 @@ package ca.umontreal.geodes.merriem.cdeditor.editor;
 
 import org.eclipse.emf.ecore.EObject;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
+
 /**
  * The services class used by VSM.
  */
@@ -14,4 +17,9 @@ public class Services {
        // TODO Auto-generated code
       return self;
     }
+    
+    public void getRecommendation(Model m) {
+    	
+    }
+
 }
