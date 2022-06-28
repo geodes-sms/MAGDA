@@ -9,7 +9,7 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
  * The services class used by VSM.
  */
 public class Services {
-    
+	public Services() {	};
     /**
     * See http://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.sirius.doc%2Fdoc%2Findex.html&cp=24 for documentation on how to write service methods.
     */
@@ -19,7 +19,8 @@ public class Services {
     }
     
     public void getRecommendation(Model m) {
-    	System.out.print("I am in services ? ");
+    	System.out.print("am I in services ? ");
+    	System.out.println(m.getClazz());
     }
 
 }
