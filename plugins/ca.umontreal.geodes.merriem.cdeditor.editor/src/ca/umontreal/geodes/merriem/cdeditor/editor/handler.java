@@ -8,10 +8,12 @@ import org.eclipse.jface.dialogs.MessageDialog;
 public class handler extends AbstractHandler {
 
 
+	private Services services; 
 	/**
 	 * The constructor.
 	 */
 	public handler() {
+		this.services=new Services();
 	}
 
 	/**
@@ -24,7 +26,9 @@ public class handler extends AbstractHandler {
 				window.getShell(),
 				"Test",
 				"Hello, Eclipse world");
-		System.out.print("Is it working ? ");
+
+		services.getRecommendation(null);
+		
 		return null;
 	}
 }
