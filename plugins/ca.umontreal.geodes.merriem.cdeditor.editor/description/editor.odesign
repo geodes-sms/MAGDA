@@ -30,7 +30,7 @@
         </edgeMappings>
         <containerMappings name="clazzContainer" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" domainClass="metamodel::Clazz" dropDescriptions="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='updateClazz']" childrenPresentation="List">
           <subNodeMappings name="AttributesNode" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" semanticCandidatesExpression="feature:attributes" domainClass="metamodel::Attribute">
-            <style xsi:type="style:SquareDescription" labelSize="12" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" width="11" height="3">
+            <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql:self.name.concat(' : ')).concat(self.type)" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" width="11" height="3">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
