@@ -1,15 +1,24 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.core.runtime.Assert;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.sirius.diagram.impl.DDiagramImpl;
+import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramSpec;
 import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorReference;
+import org.eclipse.emf.ecore.EObject;
+import org.eclipse.gmf.runtime.notation.Diagram;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
 
@@ -70,21 +79,27 @@ public  class handler extends AbstractHandler {
         }
 
         EObject model = null;
+      
 
-        if (input instanceof Model) {
-        	model = input;
-            
+        
+        
+        if (input instanceof Diagram) {
+            EObject element = ((Diagram) input).getElement();
+            if (element instanceof DSemanticDiagramSpec) {
+                model = ((DSemanticDiagramSpec) element).getTarget();
+            }
         }
-
-        Assert.isTrue(model instanceof Model, "Fatal error: model not instance of Model.");
-
+        
         return (Model) model;
     }
     public Object execute(ExecutionEvent event) throws ExecutionException {
     	System.out.println("execute");
     	Model m = getModel();
-    	System.out.println("execute");
-		System.out.println(m.getClazz());
+    	List<Clazz> classes = new ArrayList<Clazz>();
+    	classes=m.getClazz();
+    	for(int i=0;i<classes.size();i++){
+    	    System.out.println(classes.get(i).getName());
+    	}
 
 		return null;
     }
