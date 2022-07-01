@@ -99,10 +99,9 @@ public  class handler extends AbstractHandler {
     	classes=m.getClazz();
     	String input=""; 
     	for(int i=0;i<classes.size();i++){
-    	    System.out.println(classes.get(i).getName());
     	    input= input.concat(",").concat(classes.get(i).getName());
     	}
-    	
+    	List<String> Concepts= new ArrayList<String>();
     	   Process p;
    		try {
    		
@@ -119,13 +118,15 @@ public  class handler extends AbstractHandler {
    	        }
 
    	        while ((s = stdError.readLine()) != null) {
-   	            System.out.println(s);
+   	            Concepts.add(s);
    	        }
    		} catch (IOException e) {
    			e.printStackTrace();
    		}
     	
-    
+   	  	for(int i=0;i<Concepts.size();i++){
+    	    System.out.println(Concepts.get(i));
+    	}
 			
 		
 		return null;

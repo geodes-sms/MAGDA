@@ -8,8 +8,11 @@ from nltk.corpus import wordnet
 from nltk.corpus import wordnet as wn
 import os
 import openai
-import wordninja
-openai.api_key = "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"
+from dotenv import load_dotenv
+
+load_dotenv()
+
+openai.api_key = os.getenv("OPEN_AI")
 
 df=pd.read_csv('dataWithAssociation.csv')
 df

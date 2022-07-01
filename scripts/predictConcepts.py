@@ -9,7 +9,12 @@ from nltk.corpus import wordnet as wn
 import os
 import openai
 import wordninja
-openai.api_key = "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"
+
+from dotenv import load_dotenv
+
+load_dotenv()
+
+openai.api_key = os.getenv("OPEN_AI")
 df=pd.read_csv('/home/meriem/editorCD/class-diagram-editor/scripts/data.csv')
 
 data=''
@@ -21,12 +26,6 @@ def interceptList(EdConcepts):
     allCouples = [(a, b) for idx, a in enumerate(EdConcepts) for b in EdConcepts[idx + 1:]]
     print(allCouples)
     return allCouples
-
-
-
-
-
-
 
 
 def removeLetter(TheList):
@@ -82,7 +81,8 @@ if __name__ == '__main__':
     args = sys.argv[1:]
     #print(args)
     concepts,res_= predictFinalList(args)
-    print(concepts)
+    for i in concepts:
+        print(i)
 
 
 
