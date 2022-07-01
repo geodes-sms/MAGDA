@@ -1,4 +1,7 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -79,10 +82,7 @@ public  class handler extends AbstractHandler {
         }
 
         EObject model = null;
-      
-
-        
-        
+ 
         if (input instanceof Diagram) {
             EObject element = ((Diagram) input).getElement();
             if (element instanceof DSemanticDiagramSpec) {
@@ -97,10 +97,37 @@ public  class handler extends AbstractHandler {
     	Model m = getModel();
     	List<Clazz> classes = new ArrayList<Clazz>();
     	classes=m.getClazz();
+    	String input=""; 
     	for(int i=0;i<classes.size();i++){
     	    System.out.println(classes.get(i).getName());
+    	    input= input.concat(",").concat(classes.get(i).getName());
     	}
+    	
+    	   Process p;
+   		try {
+   		
+   			Process P = new ProcessBuilder("python3", "/home/meriem/editorCD/class-diagram-editor/scripts/predictConcepts.py", input).start();
 
+   		
+   	    	String line = "";
+   			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
+   	        BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
+   	        
+   	        String s;
+   	        while ((s = stdInput.readLine()) != null) {
+   	            System.out.println(s);
+   	        }
+
+   	        while ((s = stdError.readLine()) != null) {
+   	            System.out.println(s);
+   	        }
+   		} catch (IOException e) {
+   			e.printStackTrace();
+   		}
+    	
+    
+			
+		
 		return null;
     }
 }
