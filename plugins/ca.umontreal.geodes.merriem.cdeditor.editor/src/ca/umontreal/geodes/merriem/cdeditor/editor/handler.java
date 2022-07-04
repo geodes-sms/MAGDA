@@ -16,10 +16,13 @@ import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramS
 import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.internal.EditorReference;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.jface.dialogs.MessageDialog;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
@@ -102,6 +105,8 @@ public  class handler extends AbstractHandler {
     	    input= input.concat(",").concat(classes.get(i).getName());
     	}
     	List<String> Concepts= new ArrayList<String>();
+      	Concepts.add("Cancel");
+      	 
     	   Process p;
    		try {
    		
@@ -114,21 +119,30 @@ public  class handler extends AbstractHandler {
    	        
    	        String s;
    	        while ((s = stdInput.readLine()) != null) {
-   	            System.out.println(s);
+   	            Concepts.add(s);
    	        }
 
    	        while ((s = stdError.readLine()) != null) {
-   	            Concepts.add(s);
+   	  
+   	            System.out.println(s);
    	        }
    		} catch (IOException e) {
    			e.printStackTrace();
    		}
     	
-   	  	for(int i=0;i<Concepts.size();i++){
-    	    System.out.println(Concepts.get(i));
-    	}
-			
+   	  	
+
+   	 String[] arrayConcepts = Concepts.toArray(new String[0]);
+   	for(int i=0;i<Concepts.size();i++){
+	    System.out.println(arrayConcepts[i]);
+	}
+   	 IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		
+		MessageDialog dialog = new MessageDialog(window.getShell(), "Choose relevant class", null,
+			    "My message", MessageDialog.QUESTION, arrayConcepts,0);
+			int result = dialog.open();
+			System.out.println("chosen");
+			System.out.println(arrayConcepts[result]);
 		return null;
     }
 }

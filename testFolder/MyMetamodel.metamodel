@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="ASCII"?>
 <metamodel:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.umontreal.geodes/metamodel">
   <clazz name="plane" isMember="//@clazz.1"/>
-  <clazz name="airport" associatedFrom="//@clazz.2" has="//@clazz.0"/>
+  <clazz name="airport" associatedFrom="//@clazz.2" has="//@clazz.0">
+    <attributes name="name " type="string"/>
+  </clazz>
   <clazz name="passenger" associatedTo="//@clazz.1">
     <attributes name="attribute" type="String"/>
     <attributes name="attribute2" type="string"/>
