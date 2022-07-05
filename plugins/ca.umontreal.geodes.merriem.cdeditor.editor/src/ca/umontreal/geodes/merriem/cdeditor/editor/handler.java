@@ -43,12 +43,7 @@ public  class handler extends AbstractHandler {
 	 * the command has been executed, so extract extract the needed information
 	 * from the application context.
 	 */
-	/*public Object execute(ExecutionEvent event) throws ExecutionException {
-		System.out.println("I am in handler "); 
-		services.getRecommendation(null);
-		
-		return null;
-	}*/
+
 	
 	protected static final String SIRIUS_DIAGRAM_EDITOR_ID = "org.eclipse.sirius.diagram.ui.part.SiriusDiagramEditorID";
 
@@ -79,6 +74,7 @@ public  class handler extends AbstractHandler {
             IEditorInput editorInput = editor.getEditorInput();
             if (editorInput instanceof SessionEditorInput) {
                 input = ((SessionEditorInput) editorInput).getInput();
+               
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -129,10 +125,8 @@ public  class handler extends AbstractHandler {
    		} catch (IOException e) {
    			e.printStackTrace();
    		}
-    	
-   	  	
 
-   	 String[] arrayConcepts = Concepts.toArray(new String[0]);
+   	String[] arrayConcepts = Concepts.toArray(new String[0]);
    	for(int i=0;i<Concepts.size();i++){
 	    System.out.println(arrayConcepts[i]);
 	}
