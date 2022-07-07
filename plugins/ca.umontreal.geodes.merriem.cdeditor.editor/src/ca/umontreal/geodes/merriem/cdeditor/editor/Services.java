@@ -41,6 +41,7 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
@@ -169,10 +170,24 @@ public class Services {
 	}
 
     
-    public EObject getRecommendationConcepts(EObject m) {
-    	System.out.print("DOuble clicked , predictAttibutes ");
-    	
-		
+    public EObject getAttributePrediction(EObject m) {
+    	String NodeName = m.toString().split(" ", 2)[1];
+    	System.out.println("DOuble clicked , predictAttibutes ");
+    	System.out.println(NodeName);
+    	System.out.println("attributes : " );
+    	List<String> attributes = new ArrayList<String>() ;
+    	for (int i =0 ; i< m.eContents().size(); i++) {
+    		
+    		attributes.add(m.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
+    		
+    		
+    	};
+    	for (int i =0 ; i< attributes.size(); i++) {
+    		
+    		System.out.println(attributes.get(i));
+    		
+    		
+    	};
     	return m;
     }
     

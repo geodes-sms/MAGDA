@@ -134,7 +134,7 @@
             <element name="element"/>
             <elementView name="elementView"/>
             <initialOperation>
-              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getRecommendationConcepts()"/>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getAttributePrediction()"/>
             </initialOperation>
           </ownedTools>
         </toolSections>
