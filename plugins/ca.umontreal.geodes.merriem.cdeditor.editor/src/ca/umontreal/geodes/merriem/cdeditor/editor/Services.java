@@ -40,28 +40,7 @@ public class Services {
 
 
     public EObject getRecommendationConcepts(EObject m) {
-    	System.out.print("am I in services ? ");
-
-    	/*Timer timer = new Timer();
-    
-		
-		IEditorPart editorPart = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-		
-		if (editorPart != null) {		
-			if (editorPart instanceof DiagramEditor) {
-				EditPartViewer viewer = ((DiagramEditor) editorPart).getDiagramEditPart().getViewer();
-				if (viewer instanceof SiriusDiagramGraphicalViewer) {
-					org.eclipse.gef.KeyHandler keyHandler = viewer.getKeyHandler();
-					if (keyHandler == null) {
-						keyHandler = new org.eclipse.gef.KeyHandler();
-					}
-					keyHandler.put(KeyStroke.getKeyStroke(SWT.TAB),  print());
-					viewer.setKeyHandler(keyHandler);
-					
-					viewer.setKeyHandler(keyHandler);
-				}								
-			}
-		}*/
+    	System.out.print("DOuble clicked , so service is called");
 		
     	return m;
     }
