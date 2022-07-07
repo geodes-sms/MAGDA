@@ -3,7 +3,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URI;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -15,16 +15,22 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.diagram.impl.DDiagramImpl;
 import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramSpec;
 import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
+import org.eclipse.sirius.viewpoint.DAnalysis;
+import org.eclipse.sirius.viewpoint.DRepresentation;
+import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
+import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchWindow;
@@ -36,9 +42,11 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.jface.dialogs.MessageDialog;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelFactoryImpl;
 
@@ -64,62 +72,85 @@ public  class handler extends AbstractHandler {
 
   
 
-    protected Model getModel() {
-        IEditorReference[] editorReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-                .getEditorReferences();
+   
+		public void createInstance(String instanceType,String Name,String containerName) {
+			try {
+				//URI sessionResourceURI = URI.createFileURI("/home/meriem/editorCD/class-diagram-editor/plugins/ca.umontreal.geodes.meriem.cdeditor.metamodel/model/metamodel.aird");
+				URI sessionResourceURI = URI.createFileURI("/home/meriem//editorCD/class-diagram-editor/testFolder/representations.aird");
 
-        IEditorReference editor = null;
+				
+				Session createdSession = SessionManager.INSTANCE.getSession(sessionResourceURI, new NullProgressMonitor());
+				createdSession.open(new NullProgressMonitor());
 
-        for (IEditorReference iEditorReference : editorReferences) {
-            EditorReference editRef = (EditorReference) iEditorReference;
-            if (editRef.getDescriptor().getId().equalsIgnoreCase(SIRIUS_DIAGRAM_EDITOR_ID)) {
-                editor = editRef;
-                break;
-            }
-        }
+				DAnalysis root = (DAnalysis) createdSession.getSessionResource().getContents().get(0);
+				DView dView = root.getOwnedViews().get(0);
+				
+				
+				TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+				
+			    CommandStack stack = domain.getCommandStack();
+				
+				RecordingCommand cmd =  new RecordingCommand(domain) {
 
-        if (editor == null) {
-            System.out.println("No process found.");
-            return null;
-        }
+					@Override
+					protected void doExecute() {
+						Model model = services.getModel();
+						MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+						
+						switch (instanceType) {
+						  case "class":
+							  	ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
+								newClazz.setName(Name);
+								model.getClazz().add(newClazz); 
+								
+							    break;
+						  case "attribute":
+							   AttributeImpl newAttribute=(AttributeImpl) metamodelFactory.createAttribute();
+							   newAttribute.setName(Name); 
+							   List<Clazz> classes = model.getClazz(); 
+							   for(int i=0 ; i<classes.size(); i++){
+								   if (classes.get(i).getName()==containerName) {
+									   model.getClazz().get(i).getAttributes().add(newAttribute);
+									   break; 
+								   }
+							   }
+							   
+							   break;
+							  default:
+							    
+							}
+							
+						
+						//model.eContents().add(newClazz);
+						
+						//refresh Model
+						DRepresentation represnt = null;
+						for(DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+						
+						}
+						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
-        EObject input = null;
-
-        try {
-            IEditorInput editorInput = editor.getEditorInput();
-            if (editorInput instanceof SessionEditorInput) {
-                input = ((SessionEditorInput) editorInput).getInput();
-               
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        EObject model = null;
- 
-        if (input instanceof Diagram) {
-            EObject element = ((Diagram) input).getElement();
-            if (element instanceof DSemanticDiagramSpec) {
-                model = ((DSemanticDiagramSpec) element).getTarget();
-            }
-        }
-        
-        return (Model) model;
-    }
-    
- 
+					}						
+					
+				};
+				
+				stack.execute(cmd);
+				}
+				catch (ServiceException e) {
+					e.printStackTrace();
+				}	
+		
+	
+		}
     
     public Object execute(ExecutionEvent event) throws ExecutionException {
-    	//org.eclipse.emf.common.util.URI airdFileUri =org.eclipse.emf.common.util.URI.createFileURI("/home/meriem/editorCD/class-diagram-editor/plugins/ca.umontreal.geodes.meriem.cdeditor.metamodel/model/metamodel.aird"); 
-    	//Session session = SessionManager.INSTANCE.getSession(airdFileUri, new NullProgressMonitor());
-    	//org.eclipse.emf.common.util.URI sessionResourceURI = org.eclipse.emf.common.util.URI.createPlatformResourceURI("/home/meriem/editorCD/class-diagram-editor/plugins/ca.umontreal.geodes.meriem.cdeditor.metamodel/model/metamodel.aird", true);
-    	//Session createdSession = SessionManager.INSTANCE.getSession(sessionResourceURI);
-    	//createdSession.open();
+
     	
     	
     	
-    	System.out.println("execute");
-    	Model m = getModel();
+    	
+    	Model m = services.getModel();
     	List<Clazz> classes = new ArrayList<Clazz>();
     	classes=m.getClazz();
     	String input=""; 
@@ -161,44 +192,24 @@ public  class handler extends AbstractHandler {
    	
    	
    	//For prototype: window to select from 
-   	 IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+   IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 		
 		MessageDialog dialog = new MessageDialog(window.getShell(), "Choose relevant class", null,
 			    "My message", MessageDialog.QUESTION, arrayConcepts,0);
 			int result = dialog.open();
 			System.out.println("chosen");
-			System.out.println(arrayConcepts[result]);
-			
-			
-			
-	// Create clazz (container)  in editor if a concept is chosen. (to Do) 
-			try {
-				
-				TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-				
-			    CommandStack stack = domain.getCommandStack();
-				
-				RecordingCommand cmd =  new RecordingCommand(domain) {
+			String inputSelected= arrayConcepts[result];
+			System.out.println(inputSelected);
 
-					@Override
-					protected void doExecute() {
-						Model model = getModel();
-						MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
-						ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
-						newClazz.setName("ticket");
-						model.getClazz().add(newClazz); 
-						model.eContents().add(newClazz);
-				 
-					
-						
-					}
-				};
+			
+			
+			
+	// Create clazz (container)  in editor if a concept is chosen. 
+			if(arrayConcepts[result]!= "Cancel") {
 				
-				stack.execute(cmd);
-				}
-				catch (ServiceException e) {
-					e.printStackTrace();
-				}	
+				createInstance("class",inputSelected, null );	
+			}
+			
 		
 	
 			
@@ -206,4 +217,7 @@ public  class handler extends AbstractHandler {
 			
 		return null;
     }
+    
+    
+    
 }
