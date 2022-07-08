@@ -15,7 +15,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 openai.api_key = os.getenv("OPEN_AI")
-df=pd.read_csv('/home/meriem/editorCD/class-diagram-editor/scripts/data.csv')
+df=pd.read_csv('/home/meriem/editorCD/class-diagram-editor/scripts/data/data.csv')
 
 data=''
 for i, row in df.iterrows():

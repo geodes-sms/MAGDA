@@ -3,11 +3,12 @@
   <clazz name="plane" isMember="//@clazz.1"/>
   <clazz name="airport" associatedFrom="//@clazz.2" has="//@clazz.0">
     <attributes name="name " type="string"/>
+    <attributes/>
   </clazz>
   <clazz name="passenger" associatedTo="//@clazz.1">
-    <attributes name="attribute" type="String"/>
-    <attributes name="attribute2" type="string"/>
-    <attributes name="a1" type="s"/>
-    <attributes/>
+    <attributes name="name" type="String"/>
+    <attributes name="passeportId" type="string"/>
+    <attributes name="nationality" type="s"/>
+    <attributes name="destination"/>
   </clazz>
 </metamodel:Model>

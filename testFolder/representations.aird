@@ -4,7 +4,7 @@
     <semanticResources>MyMetamodel.metamodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_7eon0PI_EeyK8IF0Z56BzA">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="51d8e7ac-8240-4540-b89f-54dc3e09d949">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="a64d4343-f2bf-49db-aa5e-1f7023ed3cb6">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']"/>
         <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
       </ownedRepresentationDescriptors>
@@ -28,6 +28,10 @@
             <children xmi:type="notation:Node" xmi:id="_i8GrcPt6EeyDH-WoB4Tj2w" type="3010" element="_i70XkPt6EeyDH-WoB4Tj2w">
               <styles xmi:type="notation:FontStyle" xmi:id="_i8Grcft6EeyDH-WoB4Tj2w" fontName="Ubuntu" fontHeight="12"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_i8Grcvt6EeyDH-WoB4Tj2w"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_EeORAP7NEeyT5ac_1tTGzw" type="3010" element="_Ed6vAP7NEeyT5ac_1tTGzw">
+              <styles xmi:type="notation:FontStyle" xmi:id="_EeORAf7NEeyT5ac_1tTGzw" fontName="Ubuntu" fontHeight="12"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_EeORAv7NEeyT5ac_1tTGzw"/>
             </children>
             <styles xmi:type="notation:SortingStyle" xmi:id="_RcpnIvMYEeylCO_ftL8cBQ"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_RcpnI_MYEeylCO_ftL8cBQ"/>
@@ -121,6 +125,14 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']"/>
       </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_Ed6vAP7NEeyT5ac_1tTGzw" name=" : ">
+        <target xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.1/@attributes.1"/>
+        <semanticElements xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.1/@attributes.1"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_Ed9LQP7NEeyT5ac_1tTGzw" labelSize="12" labelAlignment="LEFT" labelPosition="node" width="11" height="3" color="255,255,255">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']"/>
+      </ownedElements>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_Rca9ofMYEeylCO_ftL8cBQ" name="passenger" outgoingEdges="_YAAboPO2EeyWicayPfWQMg" width="13" height="3">
       <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.2"/>
@@ -132,7 +144,7 @@
         <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@style"/>
       </ownedStyle>
       <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
-      <ownedElements xmi:type="diagram:DNodeListElement" uid="_VqUPgPMaEeyKnpWk5zTXjQ" name="attribute : ">
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_VqUPgPMaEeyKnpWk5zTXjQ" name="name : ">
         <target xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.0"/>
         <semanticElements xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.0"/>
         <ownedStyle xmi:type="diagram:Square" uid="_VqXS0PMaEeyKnpWk5zTXjQ" labelSize="12" labelAlignment="LEFT" labelPosition="node" width="11" height="3" color="255,255,255">
@@ -140,7 +152,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']"/>
       </ownedElements>
-      <ownedElements xmi:type="diagram:DNodeListElement" uid="_uG6hQPMaEeyKnpWk5zTXjQ" name="attribute2 : ">
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_uG6hQPMaEeyKnpWk5zTXjQ" name="passeportId : ">
         <target xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.1"/>
         <semanticElements xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.1"/>
         <ownedStyle xmi:type="diagram:Square" uid="_uG7IUPMaEeyKnpWk5zTXjQ" labelSize="12" labelAlignment="LEFT" labelPosition="node" width="11" height="3" color="255,255,255">
@@ -148,7 +160,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']"/>
       </ownedElements>
-      <ownedElements xmi:type="diagram:DNodeListElement" uid="_z_sSgfMaEeyKnpWk5zTXjQ" name="a1 : ">
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_z_sSgfMaEeyKnpWk5zTXjQ" name="nationality : ">
         <target xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.2"/>
         <semanticElements xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.2"/>
         <ownedStyle xmi:type="diagram:Square" uid="_z_sSgvMaEeyKnpWk5zTXjQ" labelSize="12" labelAlignment="LEFT" labelPosition="node" width="11" height="3" color="255,255,255">
@@ -156,7 +168,7 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']"/>
       </ownedElements>
-      <ownedElements xmi:type="diagram:DNodeListElement" uid="_DQLQIPvFEeyRZfJ1ADGkRg" name=" : ">
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_DQLQIPvFEeyRZfJ1ADGkRg" name="destination : ">
         <target xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.3"/>
         <semanticElements xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.3"/>
         <ownedStyle xmi:type="diagram:Square" uid="_DQL3MPvFEeyRZfJ1ADGkRg" labelSize="12" labelAlignment="LEFT" labelPosition="node" width="11" height="3" color="255,255,255">

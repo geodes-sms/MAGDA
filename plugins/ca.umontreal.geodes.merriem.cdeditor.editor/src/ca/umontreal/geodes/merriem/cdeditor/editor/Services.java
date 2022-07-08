@@ -6,13 +6,8 @@ import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.gef.EditPartViewer;
-import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.jface.action.IAction;
-import org.eclipse.jface.action.IMenuCreator;
-import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.util.IPropertyChangeListener;
+
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
@@ -23,9 +18,6 @@ import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
-import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.HelpListener;
-import org.eclipse.swt.widgets.Event;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -41,13 +33,13 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
 
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Timer;
 
-import javax.sound.midi.SysexMessage;
-import javax.swing.KeyStroke;
-import javax.swing.plaf.basic.BasicComboBoxUI.KeyHandler;
+
 /**
  * The services class used by VSM.
  */
@@ -170,25 +162,64 @@ public class Services {
 	}
 
     
-    public EObject getAttributePrediction(EObject m) {
-    	String NodeName = m.toString().split(" ", 2)[1];
-    	System.out.println("DOuble clicked , predictAttibutes ");
+    public EObject getAttributePrediction(EObject node) {
+    	String NodeName = node.toString().split(" ", 2)[1];
+    	System.out.print("DOuble clicked , predictAttibutes for :  ");
     	System.out.println(NodeName);
-    	System.out.println("attributes : " );
     	List<String> attributes = new ArrayList<String>() ;
-    	for (int i =0 ; i< m.eContents().size(); i++) {
+    	
+    	for (int i =1 ; i< node.eContents().size(); i++) {
     		
-    		attributes.add(m.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
-    		
-    		
-    	};
-    	for (int i =0 ; i< attributes.size(); i++) {
-    		
-    		System.out.println(attributes.get(i));
-    		
+    		attributes.add(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
+    		System.out.println(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
     		
     	};
-    	return m;
+    	String input;
+    	if (node.eContents().size()>1) {
+	    	input=attributes.get(0);
+	    	
+	    	for (int i =1 ; i< attributes.size(); i++) {
+	    		
+	    	    input= input.concat(",").concat(attributes.get(i));
+	
+	    		
+	    	};
+	    }else
+	    	input="";
+    
+    	List<String> Results= new ArrayList<String>();
+    	
+      	 
+    	   Process p;
+   		try {
+   		
+   			Process P = new ProcessBuilder("python3", "/home/meriem/editorCD/class-diagram-editor/scripts/predictAttributes.py", NodeName,input).start();
+
+   			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
+   	        BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
+   	        
+   	        String s;
+   	        while ((s = stdInput.readLine()) != null) {
+   	        	Results.add(s);
+   	        }
+
+   	        while ((s = stdError.readLine()) != null) {
+   	        	//add logger ! 
+   	            System.out.println(s);
+   	        }
+   		} catch (IOException e) {
+   			e.printStackTrace();
+   		}
+
+   	String[] arrayAttributes = Results.toArray(new String[0]);
+   	
+   	//print recieved attributes from python script
+   	for(int i=0;i<Results.size();i++){
+	    System.out.println(arrayAttributes[i]);
+	}
+   	
+    	
+    	return node;
     }
     
 }
