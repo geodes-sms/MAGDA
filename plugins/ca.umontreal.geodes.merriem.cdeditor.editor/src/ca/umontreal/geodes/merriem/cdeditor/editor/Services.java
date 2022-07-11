@@ -171,7 +171,6 @@ public class Services {
     	for (int i =1 ; i< node.eContents().size(); i++) {
     		
     		attributes.add(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
-    		System.out.println(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
     		
     	};
     	String input;
@@ -218,7 +217,6 @@ public class Services {
 	    System.out.println(arrayAttributes[i]);
 	}
    	
-    	
     	return node;
     }
     

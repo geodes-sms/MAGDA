@@ -1,11 +1,7 @@
 import pandas as pd
-import gensim
-from gensim.models import Word2Vec
-import re
+
 import sys
-import nltk
-from nltk.corpus import wordnet
-from nltk.corpus import wordnet as wn
+
 import os
 import openai
 import wordninja
@@ -15,7 +11,7 @@ from dotenv import load_dotenv
 load_dotenv()
 openai.api_key = os.getenv("OPEN_AI")
 
-df=pd.read_csv('/home/meriem/editorCD/class-diagram-editor/scripts/data/dataAttributes.csv')
+df=pd.read_csv('/home/meriem/editorCD/class-diagram-editor/scripts/data/improvedAttributes.csv')
 data_attributes=''
 
 for i, row in df.iterrows():
@@ -43,10 +39,13 @@ def predictAttributes( className , args =""):
       presence_penalty=0
     )
     res= response.choices[0].text
+    print('res: ' , res)
     return ( className + ': [ '+ args + res)
 
 
 def interceptResults(results):
+    results=results.replace("\n", "")
+    results=results.replace("'", "")
     try:
         attributesStr= results[results.find("[")+1:results.find("]")]
 
@@ -54,16 +53,24 @@ def interceptResults(results):
         attributesStr= results.split("[")[1]
         print('error')
 
-    Attributes = wordninja.split(attributesStr)
+    try:
+        Attributes = attributesStr.split(',')
+
+    except:
+        Attributes = wordninja.split(attributesStr)
+
 
     while "'" in Attributes:
         Attributes.remove( "'")
+
+   
     return Attributes
 
 
 if __name__ == '__main__':
     args = sys.argv[1:]
     ClassName, attributes= intercept(args)
+
     print(interceptResults(predictAttributes(ClassName,attributes)))
 
 
