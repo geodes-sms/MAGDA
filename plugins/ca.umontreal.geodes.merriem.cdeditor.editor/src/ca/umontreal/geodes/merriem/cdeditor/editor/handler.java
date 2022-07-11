@@ -1,4 +1,5 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -50,174 +52,170 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelFactoryImpl;
 
+public class handler extends AbstractHandler {
 
+	private Services services;
 
-public  class handler extends AbstractHandler {
-	
-	private Services services; 
 	/**
 	 * The constructor.
 	 */
 	public handler() {
-		this.services=new Services();
+		this.services = new Services();
 	}
 
 	/**
-	 * the command has been executed, so extract extract the needed information
-	 * from the application context.
+	 * the command has been executed, so extract extract the needed information from
+	 * the application context.
 	 */
 
-	
 	protected static final String SIRIUS_DIAGRAM_EDITOR_ID = "org.eclipse.sirius.diagram.ui.part.SiriusDiagramEditorID";
 
-  
+	public void createInstance(String instanceType, String Name, String containerName) {
+		try {
+			// URI sessionResourceURI =
+			// URI.createFileURI("/home/meriem/editorCD/class-diagram-editor/plugins/ca.umontreal.geodes.meriem.cdeditor.metamodel/model/metamodel.aird");
+			URI sessionResourceURI = URI
+					.createFileURI("/home/meriem//editorCD/class-diagram-editor/testFolder/representations.aird");
 
-   
-		public void createInstance(String instanceType,String Name,String containerName) {
-			try {
-				//URI sessionResourceURI = URI.createFileURI("/home/meriem/editorCD/class-diagram-editor/plugins/ca.umontreal.geodes.meriem.cdeditor.metamodel/model/metamodel.aird");
-				URI sessionResourceURI = URI.createFileURI("/home/meriem//editorCD/class-diagram-editor/testFolder/representations.aird");
+			Session createdSession = SessionManager.INSTANCE.getSession(sessionResourceURI, new NullProgressMonitor());
+			createdSession.open(new NullProgressMonitor());
 
-				
-				Session createdSession = SessionManager.INSTANCE.getSession(sessionResourceURI, new NullProgressMonitor());
-				createdSession.open(new NullProgressMonitor());
+			DAnalysis root = (DAnalysis) createdSession.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
 
-				DAnalysis root = (DAnalysis) createdSession.getSessionResource().getContents().get(0);
-				DView dView = root.getOwnedViews().get(0);
-				
-				
-				TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-				
-			    CommandStack stack = domain.getCommandStack();
-				
-				RecordingCommand cmd =  new RecordingCommand(domain) {
+			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 
-					@Override
-					protected void doExecute() {
-						Model model = services.getModel();
-						MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
-						
-						switch (instanceType) {
-						  case "class":
-							  	ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
-								newClazz.setName(Name);
-								model.getClazz().add(newClazz); 
-								
-							    break;
-						  case "attribute":
-							   AttributeImpl newAttribute=(AttributeImpl) metamodelFactory.createAttribute();
-							   newAttribute.setName(Name); 
-							   List<Clazz> classes = model.getClazz(); 
-							   for(int i=0 ; i<classes.size(); i++){
-								   if (classes.get(i).getName()==containerName) {
-									   model.getClazz().get(i).getAttributes().add(newAttribute);
-									   break; 
-								   }
-							   }
-							   
-							   break;
-							  default:
-							    
+			CommandStack stack = domain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(domain) {
+
+				@Override
+				protected void doExecute() {
+					Model model = services.getModel();
+					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+
+					switch (instanceType) {
+					case "class":
+						ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
+						newClazz.setName(Name);
+						model.getClazz().add(newClazz);
+
+						break;
+					case "attribute":
+						AttributeImpl newAttribute = (AttributeImpl) metamodelFactory.createAttribute();
+						newAttribute.setName(Name);
+						List<Clazz> classes = model.getClazz();
+						for (int i = 0; i < classes.size(); i++) {
+
+							String Cname = classes.get(i).getName().replaceAll("\\s+", "");
+
+							if (containerName.equals(Cname)) {
+								EList<Attribute> attributesName = model.getClazz().get(i).getAttributes();
+								boolean attributeExist = false;
+								for (int j = 0; j < attributesName.size(); j++) {
+
+									if (attributesName.get(j).getName().replaceAll("\\s+", "")
+											.equals(Name.replaceAll("\\s+", ""))) {
+										attributeExist = true;
+										System.out.println("found attribute skip !");
+										System.out.println(Name);
+										break;
+									}
+								}
+								if (!attributeExist) {
+
+									model.getClazz().get(i).getAttributes().add(newAttribute);
+
+									break;
+								}
 							}
-							
-						
-						//model.eContents().add(newClazz);
-						
-						//refresh Model
-						DRepresentation represnt = null;
-						for(DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-						
 						}
-						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
-					}						
-					
-				};
-				
-				stack.execute(cmd);
+						break;
+					default:
+
+					}
+
+					// model.eContents().add(newClazz);
+
+					// refresh Model
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
 				}
-				catch (ServiceException e) {
-					e.printStackTrace();
-				}	
-		
-	
+
+			};
+
+			stack.execute(cmd);
+		} catch (ServiceException e) {
+			e.printStackTrace();
 		}
-    
-    public Object execute(ExecutionEvent event) throws ExecutionException {
 
-    	
-    	
-    	
-    	
-    	Model m = services.getModel();
-    	List<Clazz> classes = new ArrayList<Clazz>();
-    	classes=m.getClazz();
-    	String input=""; 
-    	for(int i=0;i<classes.size();i++){
-    	    input= input.concat(",").concat(classes.get(i).getName());
-    	}
-    	List<String> Concepts= new ArrayList<String>();
-      	Concepts.add("Cancel");
-      	 
-    	   Process p;
-   		try {
-   		
-   			Process P = new ProcessBuilder("python3", "/home/meriem/editorCD/class-diagram-editor/scripts/predictConcepts.py", input).start();
-
-   		
-   	    	String line = "";
-   			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
-   	        BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
-   	        
-   	        String s;
-   	        while ((s = stdInput.readLine()) != null) {
-   	            Concepts.add(s);
-   	        }
-
-   	        while ((s = stdError.readLine()) != null) {
-   	        	//add logger ! 
-   	            System.out.println(s);
-   	        }
-   		} catch (IOException e) {
-   			e.printStackTrace();
-   		}
-
-   	String[] arrayConcepts = Concepts.toArray(new String[0]);
-   	
-   	//print recieved concepts from python script
-   	for(int i=0;i<Concepts.size();i++){
-	    System.out.println(arrayConcepts[i]);
 	}
-   	
-   	
-   	//For prototype: window to select from 
-   IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		
-		MessageDialog dialog = new MessageDialog(window.getShell(), "Choose relevant class", null,
-			    "My message", MessageDialog.QUESTION, arrayConcepts,0);
-			int result = dialog.open();
-			System.out.println("chosen");
-			String inputSelected= arrayConcepts[result];
-			System.out.println(inputSelected);
 
-			
-			
-			
-	// Create clazz (container)  in editor if a concept is chosen. 
-			if(arrayConcepts[result]!= "Cancel") {
-				
-				createInstance("class",inputSelected, null );	
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+
+		Model m = services.getModel();
+		List<Clazz> classes = new ArrayList<Clazz>();
+		classes = m.getClazz();
+		String input = "";
+		for (int i = 0; i < classes.size(); i++) {
+			input = input.concat(",").concat(classes.get(i).getName());
+		}
+		List<String> Concepts = new ArrayList<String>();
+		Concepts.add("Cancel");
+
+		Process p;
+		try {
+
+			Process P = new ProcessBuilder("python3",
+					"/home/meriem/editorCD/class-diagram-editor/scripts/predictConcepts.py", input).start();
+
+			String line = "";
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
+			BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
+
+			String s;
+			while ((s = stdInput.readLine()) != null) {
+				Concepts.add(s);
 			}
-			
-		
-	
-			
-	//add newClazz to model 
-			
+
+			while ((s = stdError.readLine()) != null) {
+				// add logger !
+				System.out.println(s);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		String[] arrayConcepts = Concepts.toArray(new String[0]);
+
+		// print recieved concepts from python script
+		for (int i = 0; i < Concepts.size(); i++) {
+			System.out.println(arrayConcepts[i]);
+		}
+
+		// For prototype: window to select from
+		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+
+		MessageDialog dialog = new MessageDialog(window.getShell(), "Choose relevant class", null, "My message",
+				MessageDialog.QUESTION, arrayConcepts, 0);
+		int result = dialog.open();
+		System.out.println("chosen");
+		String inputSelected = arrayConcepts[result];
+		System.out.println(inputSelected);
+
+		// Create clazz (container) in editor if a concept is chosen.
+		if (arrayConcepts[result] != "Cancel") {
+
+			createInstance("class", inputSelected, null);
+		}
+
 		return null;
-    }
-    
-    
-    
+	}
+
 }
