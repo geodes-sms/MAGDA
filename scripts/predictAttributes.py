@@ -39,7 +39,7 @@ def predictAttributes( className , args =""):
       presence_penalty=0
     )
     res= response.choices[0].text
-    print('res: ' , res)
+
     return ( className + ': [ '+ args + res)
 
 
@@ -63,14 +63,17 @@ def interceptResults(results):
     while "'" in Attributes:
         Attributes.remove( "'")
 
-   
+
     return Attributes
 
 
 if __name__ == '__main__':
     args = sys.argv[1:]
     ClassName, attributes= intercept(args)
+    res_=interceptResults(predictAttributes(ClassName,attributes))
+    #    res_=['id', 'name']
+    for i in res_ :
+        print(i)
 
-    print(interceptResults(predictAttributes(ClassName,attributes)))
 
 

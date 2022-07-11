@@ -2,6 +2,7 @@ package ca.umontreal.geodes.merriem.cdeditor.editor;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.CommandStack;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
@@ -25,6 +26,7 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorReference;
 import org.osgi.framework.ServiceException;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
@@ -125,19 +127,36 @@ public class Services {
 					 
 				    AttributeImpl newAttribute=(AttributeImpl) metamodelFactory.createAttribute();
 						   newAttribute.setName(Name); 
+						   newAttribute.setType(Type);
 						   List<Clazz> classes = model.getClazz(); 
-						   for(int i=0 ; i<classes.size(); i++){
-							   if (classes.get(i).getName()==containerName) {
-								   model.getClazz().get(i).getAttributes().add(newAttribute);
-								   break; 
-							   }
-						   }
 						   
-				
-						    
+						   for(int i=0 ; i<classes.size(); i++){
+							  
+							   String Cname=classes.get(i).getName().replaceAll("\\s+","");
 						
-						
-					
+							   if (containerName.equals(Cname) ) {
+								   EList<Attribute> attributesName= model.getClazz().get(i).getAttributes();
+								boolean attributeExist = false; 
+								   for (int j=0 ; j<attributesName.size();j++) {
+									  
+										if ( attributesName.get(j).getName().replaceAll("\\s+","").equals(Name.replaceAll("\\s+",""))) {
+											attributeExist=true; 
+											System.out.println("found attribute skip !"); 
+											System.out.println(Name);
+											break ;
+											}
+										}	   
+								  if (! attributeExist) {
+								 
+								
+								   model.getClazz().get(i).getAttributes().add(newAttribute);
+								   
+								   break; 
+								   }
+								  }
+							   }
+						   
+						   	
 					//model.eContents().add(newClazz);
 					
 					//refresh Model
@@ -164,6 +183,7 @@ public class Services {
     
     public EObject getAttributePrediction(EObject node) {
     	String NodeName = node.toString().split(" ", 2)[1];
+    	NodeName=NodeName.replaceAll("\\s+","");
     	System.out.print("DOuble clicked , predictAttibutes for :  ");
     	System.out.println(NodeName);
     	List<String> attributes = new ArrayList<String>() ;
@@ -215,6 +235,11 @@ public class Services {
    	//print recieved attributes from python script
    	for(int i=0;i<Results.size();i++){
 	    System.out.println(arrayAttributes[i]);
+	   
+	    	createAttribute(arrayAttributes[i], "", NodeName);
+	    
+	    
+	    
 	}
    	
     	return node;
