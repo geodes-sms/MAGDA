@@ -8,7 +8,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.notation.Diagram;
-
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
@@ -25,14 +24,12 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorReference;
 import org.osgi.framework.ServiceException;
-
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
-
 import java.awt.event.InputEvent;
 import java.awt.event.KeyAdapter;
 import java.io.BufferedReader;
@@ -172,39 +169,30 @@ public class Services {
 		System.out.print("DOuble clicked , predictAttibutes for :  ");
 		System.out.println(NodeName);
 		List<String> attributes = new ArrayList<String>();
-
 		for (int i = 1; i < node.eContents().size(); i++) {
-
 			attributes.add(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
-
 		}
-		;
 		String input;
 		if (node.eContents().size() > 1) {
 			input = attributes.get(0);
-
 			for (int i = 1; i < attributes.size(); i++) {
-
 				input = input.concat(",").concat(attributes.get(i));
-
 			}
-			;
 		} else
 			input = "";
-
 		List<String> Results = new ArrayList<String>();
 
-		Process p;
 		try {
 
-			Process P = new ProcessBuilder("python3",
-					"/home/meriem/editorCD/class-diagram-editor/scripts/predictAttributes.py", NodeName, input).start();
-
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
-			BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
+			Process P1 = new ProcessBuilder("python3",
+					"/home/meriem/editorCD/class-diagram-editor/scripts/predictAttributes.py", NodeName, input,
+					"Attribute").start();
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P1.getInputStream()));
+			BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
 
 			String s;
 			while ((s = stdInput.readLine()) != null) {
+				
 				Results.add(s);
 			}
 
@@ -215,14 +203,31 @@ public class Services {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 		String[] arrayAttributes = Results.toArray(new String[0]);
 
 		// print recieved attributes from python script
 		for (int i = 0; i < Results.size(); i++) {
 			System.out.println(arrayAttributes[i]);
-
-			createAttribute(arrayAttributes[i], "", NodeName);
+			String Type = "";
+			try {
+				Process P2 = new ProcessBuilder("python3",
+						"/home/meriem/editorCD/class-diagram-editor/scripts/predictAttributes.py", arrayAttributes[i], input,
+						"Type").start();
+				BufferedReader stdInput = new BufferedReader(new InputStreamReader(P2.getInputStream()));
+				BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
+				String s;
+				while ((s = stdInput.readLine()) != null) {
+					System.out.println(s);
+					Type = s;
+				}
+				while ((s = stdError.readLine()) != null) {
+					// add logger !
+					System.out.println(s);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			createAttribute(arrayAttributes[i], Type, NodeName);
 
 		}
 

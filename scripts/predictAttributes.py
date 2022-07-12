@@ -67,13 +67,43 @@ def interceptResults(results):
     return Attributes
 
 
+
+
+def predictAttributeType(attribute):
+
+
+    response = openai.Completion.create(
+        model="text-davinci-002",
+        prompt="Address => String\nage => int\nname => String\nisCanceled => boolean\nsalary => int\nsold => float\nsurname => String\nbirthDate => Date\nisValidated => boolean\nstaffNumber => int\nwidth=> double\nphoneNumber => float\ncity => String\nstate => String\nzipCode => int" + attribute + "=>",
+        temperature=0.7,
+        max_tokens=1,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+    res = response.choices[0].text
+    return(res)
+
+
+
 if __name__ == '__main__':
     args = sys.argv[1:]
     ClassName, attributes= intercept(args)
-    res_=interceptResults(predictAttributes(ClassName,attributes))
-    #    res_=['id', 'name']
-    for i in res_ :
-        print(i)
+
+    if (sys.argv[3]=="Attribute"):
+
+        res_ = interceptResults(predictAttributes(ClassName, attributes))
+
+        for i in res_ :
+            print(i)
+    elif (sys.argv[3]=="Type"):
+
+        Type = predictAttributeType(sys.argv[2])
+        print(Type)
+    else:
+        print("no ! ")
+
+
 
 
 
