@@ -87,23 +87,21 @@ def predictAttributeType(attribute):
 
 
 if __name__ == '__main__':
-    #res_= interceptResults(predictAttributes('airport', 'name'))
-    #for i in res_:
-        #print(i)
     args = sys.argv[1:]
     ClassName, attributes= intercept(args)
 
     if (sys.argv[3]=="Attribute"):
+
         res_ = interceptResults(predictAttributes(ClassName, attributes))
 
         for i in res_:
             print(i)
     elif (sys.argv[3]=="Type"):
+
         Type = predictAttributeType(sys.argv[1])
         print(Type)
     else:
         print("no ! ")
-
 
 
 

@@ -99,6 +99,7 @@ public class handler extends AbstractHandler {
 						ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
 						newClazz.setName(Name);
 						model.getClazz().add(newClazz);
+						
 
 						break;
 					case "attribute":
@@ -212,7 +213,10 @@ public class handler extends AbstractHandler {
 		// Create clazz (container) in editor if a concept is chosen.
 		if (arrayConcepts[result] != "Cancel") {
 
-			createInstance("class", inputSelected, null);
+			//createInstance("class", inputSelected, null);
+		createInstance("class", "Ticket", null);
+
+		
 		}
 
 		return null;
