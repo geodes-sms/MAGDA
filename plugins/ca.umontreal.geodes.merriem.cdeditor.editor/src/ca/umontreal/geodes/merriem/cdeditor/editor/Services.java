@@ -191,7 +191,9 @@ public class Services {
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
 
 			String s;
+			
 			while ((s = stdInput.readLine()) != null) {
+				
 				
 				Results.add(s);
 			}
@@ -206,8 +208,8 @@ public class Services {
 		String[] arrayAttributes = Results.toArray(new String[0]);
 
 		// print recieved attributes from python script
-		for (int i = 0; i < Results.size(); i++) {
-			System.out.println(arrayAttributes[i]);
+		for (int i = 0; i < arrayAttributes.length; i++) {
+			
 			String Type = "";
 			try {
 				Process P2 = new ProcessBuilder("python3",
@@ -217,7 +219,7 @@ public class Services {
 				BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
 				String s;
 				while ((s = stdInput.readLine()) != null) {
-					System.out.println(s);
+					
 					Type = s;
 				}
 				while ((s = stdError.readLine()) != null) {
@@ -228,7 +230,6 @@ public class Services {
 				e.printStackTrace();
 			}
 			createAttribute(arrayAttributes[i], Type, NodeName);
-
 		}
 
 		return node;

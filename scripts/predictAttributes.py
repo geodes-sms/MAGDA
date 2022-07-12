@@ -17,7 +17,6 @@ data_attributes=''
 for i, row in df.iterrows():
 
   data_attributes= data_attributes+ '\n' + str(row['name']) +': '+str(row['attributes']).strip('{}')+ '.'
-#print(data_attributes)
 
 def intercept(args):
     ClassName=args[0]
@@ -28,7 +27,7 @@ def intercept(args):
     return ClassName, attributes
 
 def predictAttributes( className , args =""):
-    prompt= "generate attributes for class names: \n " + data_attributes + '\n' + className +': [ '+ args
+    prompt= "generate attributes for class names: \n " + data_attributes + '\n' + className +': [ '+ args + ','
     response = openai.Completion.create(
       engine="text-davinci-002",
       prompt=prompt,
@@ -40,12 +39,13 @@ def predictAttributes( className , args =""):
     )
     res= response.choices[0].text
 
-    return ( className + ': [ '+ args + res)
+    return ( className + ': [ '+ args +',' + res)
 
 
 def interceptResults(results):
     results=results.replace("\n", "")
     results=results.replace("'", "")
+
     try:
         attributesStr= results[results.find("[")+1:results.find("]")]
 
@@ -87,21 +87,23 @@ def predictAttributeType(attribute):
 
 
 if __name__ == '__main__':
+    #res_= interceptResults(predictAttributes('airport', 'name'))
+    #for i in res_:
+        #print(i)
     args = sys.argv[1:]
     ClassName, attributes= intercept(args)
 
     if (sys.argv[3]=="Attribute"):
-
         res_ = interceptResults(predictAttributes(ClassName, attributes))
 
-        for i in res_ :
+        for i in res_:
             print(i)
     elif (sys.argv[3]=="Type"):
-
-        Type = predictAttributeType(sys.argv[2])
+        Type = predictAttributeType(sys.argv[1])
         print(Type)
     else:
         print("no ! ")
+
 
 
 
