@@ -5,13 +5,11 @@
     <attributes name="model" type=" String"/>
     <attributes name="year" type=" int"/>
   </clazz>
-  <clazz name="airport" associatedFrom="//@clazz.2" has="//@clazz.0">
-    <attributes name="name " type="string"/>
-  </clazz>
-  <clazz name="passenger" associatedTo="//@clazz.1">
+  <clazz name="airport" has="//@clazz.0"/>
+  <clazz name="passenger" specializes="//@clazz.3">
     <attributes name="name" type="String"/>
     <attributes name="passeportId" type="String"/>
     <attributes name="nationality" type="String"/>
-    <attributes name="destination"/>
   </clazz>
+  <clazz name="person" generalizes="//@clazz.2"/>
 </metamodel:Model>

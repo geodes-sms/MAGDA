@@ -1,5 +1,4 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
-
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.EList;
@@ -163,6 +162,75 @@ public class Services {
 		}
 	}
 
+	
+	public void createAssociation(String AssociationName, String Type, String Target, String Source) {
+		try {
+			URI sessionResourceURI = URI
+					.createFileURI("/home/meriem//editorCD/class-diagram-editor/testFolder/representations.aird");
+
+			Session createdSession = SessionManager.INSTANCE.getSession(sessionResourceURI, new NullProgressMonitor());
+			createdSession.open(new NullProgressMonitor());
+
+			DAnalysis root = (DAnalysis) createdSession.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
+
+			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+
+			CommandStack stack = domain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(domain) {
+
+				@Override
+				protected void doExecute() {
+					Model model = getModel();
+					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+					List<Clazz> classes = new ArrayList<Clazz>();
+					classes = model.getClazz();
+					//find both classes target and source: 
+					Clazz ClassSource=null; 
+					Clazz ClassTarget= null; 
+					for(int i= 0 ; i<classes.size();i++) {
+						if (classes.get(i).getName().replaceAll("\\s+", "").equals(Source.replaceAll("\\s+", ""))) {
+							ClassSource=classes.get(i); 
+						}
+						if (classes.get(i).getName().replaceAll("\\s+", "").equals(Target.replaceAll("\\s+", ""))) {
+							ClassTarget=classes.get(i); 
+						}
+					}
+					switch (Type){
+					  case "inheritance":
+						  ClassSource.setSpecializes(ClassTarget);
+						  
+					    break;
+					  case "composition":
+						  ClassSource.setIsMember(ClassTarget);
+
+			
+					    break;
+					  case "simple":
+						  ClassSource.getAssociatedFrom().add(ClassTarget);
+						  ClassTarget.getAssociatedTo().add(ClassSource);
+						  break;
+					  default:
+					    // code block
+					}
+
+
+					// refresh Model
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
+				}
+			};
+			stack.execute(cmd);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public EObject getAttributePrediction(EObject node) {
 		String NodeName = node.toString().split(" ", 2)[1];
 		NodeName = NodeName.replaceAll("\\s+", "");
@@ -191,10 +259,9 @@ public class Services {
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
 
 			String s;
-			
+
 			while ((s = stdInput.readLine()) != null) {
-				
-				
+
 				Results.add(s);
 			}
 
@@ -209,17 +276,17 @@ public class Services {
 
 		// print recieved attributes from python script
 		for (int i = 0; i < arrayAttributes.length; i++) {
-			
+			System.out.println(arrayAttributes[i]);
 			String Type = "";
 			try {
 				Process P2 = new ProcessBuilder("python3",
-						"/home/meriem/editorCD/class-diagram-editor/scripts/predictAttributes.py", arrayAttributes[i], input,
-						"Type").start();
+						"/home/meriem/editorCD/class-diagram-editor/scripts/predictAttributes.py", arrayAttributes[i],
+						input, "Type").start();
 				BufferedReader stdInput = new BufferedReader(new InputStreamReader(P2.getInputStream()));
 				BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
 				String s;
 				while ((s = stdInput.readLine()) != null) {
-					
+
 					Type = s;
 				}
 				while ((s = stdError.readLine()) != null) {
@@ -230,7 +297,9 @@ public class Services {
 				e.printStackTrace();
 			}
 			createAttribute(arrayAttributes[i], Type, NodeName);
+			
 		}
+	
 
 		return node;
 	}

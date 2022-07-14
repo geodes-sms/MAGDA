@@ -35,6 +35,21 @@ def predictRelation(couples):
     print(str(couples) + "=> " + res)
 
     return res
+def predictTypeRelation(couples):
+
+
+    response = openai.Completion.create(
+        model="text-davinci-002",
+        prompt="What type of associations these concepts have: \n\nstudent , person => inheritance\ncomputer, cpu => composition\nplane , passenger => no \nperson , address => association \naccount , saving => inheritance\nBank, Atm => composition\nnurse , bank => no \nprofessor, student => association \nprofessor , person => inheritance\ncontact , address => composition\ncircle , bank => no \naccount , checking => inheritance \ncustomer , account => association\nbook , paper => composition\nbook , doctor => no \nlion , meat => association \nlion , salad => no \nmammal , dog => inheritance\ncustomer, order => association\naddressBook, contact   => composition\nBank, Atm => composition\nmanager, employee =>  association\nplane, manager =>    no\n" + couples + '=> ',
+        temperature=0.7,
+        max_tokens=1,
+        top_p=1,
+        frequency_penalty=0,
+        presence_penalty=0
+    )
+    res = response.choices[0].text
+    print(str(couples) + "=> " + res)
+    return res
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print('hello')

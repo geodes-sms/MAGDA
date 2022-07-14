@@ -95,7 +95,8 @@ if __name__ == '__main__':
         res_ = interceptResults(predictAttributes(ClassName, attributes))
 
         for i in res_:
-            print(i)
+            if i != ' ':
+                print(i)
     elif (sys.argv[3]=="Type"):
 
         Type = predictAttributeType(sys.argv[1])

@@ -1,11 +1,6 @@
 import pandas as pd
-import gensim
-from gensim.models import Word2Vec
 import re
 import sys
-import nltk
-from nltk.corpus import wordnet
-from nltk.corpus import wordnet as wn
 import os
 import openai
 import wordninja
@@ -24,7 +19,7 @@ for i, row in df.iterrows():
 
 def interceptList(EdConcepts):
     allCouples = [(a, b) for idx, a in enumerate(EdConcepts) for b in EdConcepts[idx + 1:]]
-    print(allCouples)
+
     return allCouples
 
 
@@ -58,31 +53,28 @@ def retrieveConcepts(res):
     return concepts
 
 def predictFinalList(designList_):
-    #print('To introduce to GPT3', designList_)
     Prompt = 'Continue the line: \n ' + data + '\n' + str(designList_) + ','
 
     response_ = openai.Completion.create(
         engine="text-davinci-002",
         prompt=Prompt,
         temperature=0.7,
-        max_tokens=35,
+        max_tokens=10,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0
     )
 
     res_ = response_.choices[0].text
-    #print('before processing : ', res_)
     concepts = retrieveConcepts(str(designList_) + ',' + res_)
-    #print('after processing : ', concepts)
+
     return concepts, res_
 
 if __name__ == '__main__':
     args = sys.argv[1:]
-    #print(args)
-    #concepts,res_= predictFinalList(args)
-    #for i in concepts:
-    print('airport')
-    print('ticket')
+
+    concepts,res_= predictFinalList(args)
+    for i in concepts:
+        print(i)
 
 

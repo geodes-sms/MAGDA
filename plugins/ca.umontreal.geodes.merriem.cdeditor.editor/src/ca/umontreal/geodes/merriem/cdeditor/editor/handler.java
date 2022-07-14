@@ -99,7 +99,6 @@ public class handler extends AbstractHandler {
 						ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
 						newClazz.setName(Name);
 						model.getClazz().add(newClazz);
-						
 
 						break;
 					case "attribute":
@@ -163,10 +162,13 @@ public class handler extends AbstractHandler {
 		Model m = services.getModel();
 		List<Clazz> classes = new ArrayList<Clazz>();
 		classes = m.getClazz();
+		List<String> classNames=new ArrayList<String>();
 		String input = "";
 		for (int i = 0; i < classes.size(); i++) {
 			input = input.concat(",").concat(classes.get(i).getName());
+			classNames.add(classes.get(i).getName());
 		}
+		System.out.println(input); 
 		List<String> Concepts = new ArrayList<String>();
 		Concepts.add("Cancel");
 
@@ -182,7 +184,10 @@ public class handler extends AbstractHandler {
 
 			String s;
 			while ((s = stdInput.readLine()) != null) {
-				Concepts.add(s);
+				if(! classNames.contains(s)) {
+					Concepts.add(s);
+				}
+				
 			}
 
 			while ((s = stdError.readLine()) != null) {
@@ -203,7 +208,7 @@ public class handler extends AbstractHandler {
 		// For prototype: window to select from
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 
-		MessageDialog dialog = new MessageDialog(window.getShell(), "Choose relevant class", null, "My message",
+		MessageDialog dialog = new MessageDialog(window.getShell(), "Choose relevant class", null, "Choose relevant class",
 				MessageDialog.QUESTION, arrayConcepts, 0);
 		int result = dialog.open();
 		System.out.println("chosen");
@@ -212,11 +217,8 @@ public class handler extends AbstractHandler {
 
 		// Create clazz (container) in editor if a concept is chosen.
 		if (arrayConcepts[result] != "Cancel") {
-
-			//createInstance("class", inputSelected, null);
-		createInstance("class", "Ticket", null);
-
-		
+			System.out.println(input);
+			createInstance("class", inputSelected, null);
 		}
 
 		return null;
