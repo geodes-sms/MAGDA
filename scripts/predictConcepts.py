@@ -17,6 +17,7 @@ for i, row in df.iterrows():
   data= data+ '\n' + str(row['sequence']).strip('{}')+ '.'
 
 
+
 def interceptList(EdConcepts):
     allCouples = [(a, b) for idx, a in enumerate(EdConcepts) for b in EdConcepts[idx + 1:]]
 
@@ -59,7 +60,7 @@ def predictFinalList(designList_):
         engine="text-davinci-002",
         prompt=Prompt,
         temperature=0.7,
-        max_tokens=10,
+        max_tokens=15,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0
@@ -71,9 +72,11 @@ def predictFinalList(designList_):
     return concepts, res_
 
 if __name__ == '__main__':
-    args = sys.argv[1:]
 
-    concepts,res_= predictFinalList(args)
+    args=['plane']
+    #args = sys.argv[1:]
+
+    concepts, res_ = predictFinalList(args)
     for i in concepts:
         print(i)
 

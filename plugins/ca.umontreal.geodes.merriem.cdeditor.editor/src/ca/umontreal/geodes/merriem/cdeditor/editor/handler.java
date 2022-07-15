@@ -217,7 +217,7 @@ public class handler extends AbstractHandler {
 
 		// Create clazz (container) in editor if a concept is chosen.
 		if (arrayConcepts[result] != "Cancel") {
-			System.out.println(input);
+			
 			createInstance("class", inputSelected, null);
 		}
 
