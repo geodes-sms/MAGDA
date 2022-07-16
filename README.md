@@ -1,7 +1,6 @@
 # class-diagram-editor
 An editor to create class diagram.
-
- Markup : *Eclipse Modeling Tools, 
+Markup : *Eclipse Modeling Tools, 
           *Eclipse Version: 2022-06 (4.24.0)
           *Sirius version: 7
           
@@ -19,7 +18,7 @@ Rollback exception is thrown when calling handler.
  
 
 Possible solutions to have good user experience: 
- Markup :        
+Markup :        
         *Put icons in top menu (such as predict button)
         *Right click in the canvas and finding the action in the menu (I think it's the best option but is it possible) 
           *=> but we need to solve the problem of the handler. 
