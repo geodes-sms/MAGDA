@@ -1,8 +1,8 @@
 # class-diagram-editor
 An editor to create class diagram.
-Markup : * Eclipse Modeling Tools, 
-          * Eclipse Version: 2022-06 (4.24.0)
-          * Sirius version: 7
+Markup : ⋅⋅* Eclipse Modeling Tools, 
+         ⋅⋅* Eclipse Version: 2022-06 (4.24.0)
+         ⋅⋅* Sirius version: 7
           
 Markup : To set up the environement for the prediction engine (written in python) 
 
