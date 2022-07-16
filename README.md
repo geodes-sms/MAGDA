@@ -6,7 +6,7 @@ An editor to create class diagram.
           *Sirius version: 7
           
 Markup : To set up the environement for the prediction engine (written in python) 
- Markup : 
+
            
            *Python:  3.8.10
            *wordninja : pip install wordninja
@@ -19,7 +19,8 @@ Rollback exception is thrown when calling handler.
  
 
 Possible solutions to have good user experience: 
- Markup :        *Put icons in top menu (such as predict button)
+ Markup :        
+        *Put icons in top menu (such as predict button)
         *Right click in the canvas and finding the action in the menu (I think it's the best option but is it possible) 
           *=> but we need to solve the problem of the handler. 
         *Using hotkeys (probably not possible in sirius)
