@@ -60,7 +60,7 @@
           </style>
         </containerMappings>
         <toolSections name="classDiagramEditTools" label="Tools">
-          <ownedTools xsi:type="tool:ContainerCreationDescription" name="createContainerClazz" label="Class" containerMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="createContainerClazz" label="Class" containerMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png">
             <variable name="container"/>
             <viewVariable name="containerView"/>
             <initialOperation>
