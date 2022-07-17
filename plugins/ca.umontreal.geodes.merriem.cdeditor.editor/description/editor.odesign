@@ -142,13 +142,13 @@
               <menuItemDescription xsi:type="tool_1:OperationAction" name="RecommendClass" label="Class">
                 <view name="views"/>
                 <initialOperation>
-                  <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:self"/>
+                  <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getClassPrediction()"/>
                 </initialOperation>
               </menuItemDescription>
-              <menuItemDescription xsi:type="tool_1:OperationAction" name="RecommendAttribute" label="Attribute">
+              <menuItemDescription xsi:type="tool_1:OperationAction" name="RecommendAttribute" label="Attribute" precondition="aql:self.oclIsKindOf(metamodel::Clazz)">
                 <view name="views"/>
                 <initialOperation>
-                  <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:self"/>
+                  <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getAttributePrediction()"/>
                 </initialOperation>
               </menuItemDescription>
             </itemDescriptions>
