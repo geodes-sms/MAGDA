@@ -1,48 +1,33 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
-import org.eclipse.core.runtime.Assert;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
-import org.eclipse.sirius.diagram.impl.DDiagramImpl;
-import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramSpec;
-import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
-import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IWorkbenchWindow;
-import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
-import org.eclipse.ui.internal.EditorReference;
 import org.osgi.framework.ServiceException;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.jface.dialogs.MessageDialog;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
@@ -50,17 +35,26 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelFactoryImpl;
 
 public class handler extends AbstractHandler {
 
 	private Services services;
+	private Properties config;
 
 	/**
 	 * The constructor.
 	 */
 	public handler() {
 		this.services = new Services();
+
+		this.config = new Properties();
+		try {
+			InputStream stream = Services.class.getClassLoader().getResourceAsStream("/config.properties");
+			this.config.load(stream);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/**
@@ -162,21 +156,22 @@ public class handler extends AbstractHandler {
 		Model m = services.getModel();
 		List<Clazz> classes = new ArrayList<Clazz>();
 		classes = m.getClazz();
-		List<String> classNames=new ArrayList<String>();
+		List<String> classNames = new ArrayList<String>();
 		String input = "";
 		for (int i = 0; i < classes.size(); i++) {
 			input = input.concat(",").concat(classes.get(i).getName());
 			classNames.add(classes.get(i).getName());
 		}
-		System.out.println(input); 
+		System.out.println(input);
 		List<String> Concepts = new ArrayList<String>();
 		Concepts.add("Cancel");
 
 		Process p;
-		try {
 
-			Process P = new ProcessBuilder("python3",
-					"/home/meriem/editorCD/class-diagram-editor/scripts/predictConcepts.py", input).start();
+		String scriptLocation = this.config.getProperty("scriptlocation");
+		String pythonCommand = this.config.getProperty("pythoncommand");
+		try {
+			Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictConcepts.py", input).start();
 
 			String line = "";
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
@@ -184,10 +179,10 @@ public class handler extends AbstractHandler {
 
 			String s;
 			while ((s = stdInput.readLine()) != null) {
-				if(! classNames.contains(s)) {
+				if (!classNames.contains(s)) {
 					Concepts.add(s);
 				}
-				
+
 			}
 
 			while ((s = stdError.readLine()) != null) {
@@ -208,8 +203,8 @@ public class handler extends AbstractHandler {
 		// For prototype: window to select from
 		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 
-		MessageDialog dialog = new MessageDialog(window.getShell(), "Choose relevant class", null, "Choose relevant class",
-				MessageDialog.QUESTION, arrayConcepts, 0);
+		MessageDialog dialog = new MessageDialog(window.getShell(), "Choose relevant class", null,
+				"Choose relevant class", MessageDialog.QUESTION, arrayConcepts, 0);
 		int result = dialog.open();
 		System.out.println("chosen");
 		String inputSelected = arrayConcepts[result];
@@ -217,7 +212,7 @@ public class handler extends AbstractHandler {
 
 		// Create clazz (container) in editor if a concept is chosen.
 		if (arrayConcepts[result] != "Cancel") {
-			
+
 			createInstance("class", inputSelected, null);
 		}
 

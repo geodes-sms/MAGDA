@@ -1,4 +1,13 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Properties;
+
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.EList;
@@ -11,50 +20,41 @@ import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramSpec;
-import org.eclipse.sirius.diagram.ui.tools.internal.part.SiriusDiagramGraphicalViewer;
 import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorReference;
 import org.osgi.framework.ServiceException;
+
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
-import java.awt.event.InputEvent;
-import java.awt.event.KeyAdapter;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * The services class used by VSM.
  */
 public class Services {
+
+	private Properties config;
 	protected static final String SIRIUS_DIAGRAM_EDITOR_ID = "org.eclipse.sirius.diagram.ui.part.SiriusDiagramEditorID";
 
 	public Services() {
+		this.config = new Properties();
+		try {
+			InputStream stream = Services.class.getClassLoader().getResourceAsStream("/config.properties");
+			this.config.load(stream);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	};
-
-	/**
-	 * See
-	 * http://help.eclipse.org/neon/index.jsp?topic=%2Forg.eclipse.sirius.doc%2Fdoc%2Findex.html&cp=24
-	 * for documentation on how to write service methods.
-	 */
-	public EObject myService(EObject self, String arg) {
-		// TODO Auto-generated code
-		return self;
-	}
 
 	protected Model getModel() {
 		IEditorReference[] editorReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
@@ -99,6 +99,13 @@ public class Services {
 		return (Model) model;
 	}
 
+	
+	/**
+	 * Comment from Istvan:
+	 * Use Session session = SessionManager.INSTANCE.getSession(node) in the {@link #getAttributePrediction(EObject)} method to
+	 * get a reference to the singleton Session object from the node, and then pass that session object to this method as a parameter.
+	 * This will allow you to get rid of the hard-coded aird file location.
+	 */
 	public void createAttribute(String Name, String Type, String containerName) {
 		try {
 			URI sessionResourceURI = URI
@@ -162,7 +169,11 @@ public class Services {
 		}
 	}
 
-	
+	/**
+	 * Comment from Istvan:
+	 * Similarly to the other comment above, pass a session object to this method as a parameter
+	 * to eliminate the hard-coded aird file location.
+	 */
 	public void createAssociation(String AssociationName, String Type, String Target, String Source) {
 		try {
 			URI sessionResourceURI = URI
@@ -186,35 +197,33 @@ public class Services {
 					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 					List<Clazz> classes = new ArrayList<Clazz>();
 					classes = model.getClazz();
-					//find both classes target and source: 
-					Clazz ClassSource=null; 
-					Clazz ClassTarget= null; 
-					for(int i= 0 ; i<classes.size();i++) {
+					// find both classes target and source:
+					Clazz ClassSource = null;
+					Clazz ClassTarget = null;
+					for (int i = 0; i < classes.size(); i++) {
 						if (classes.get(i).getName().replaceAll("\\s+", "").equals(Source.replaceAll("\\s+", ""))) {
-							ClassSource=classes.get(i); 
+							ClassSource = classes.get(i);
 						}
 						if (classes.get(i).getName().replaceAll("\\s+", "").equals(Target.replaceAll("\\s+", ""))) {
-							ClassTarget=classes.get(i); 
+							ClassTarget = classes.get(i);
 						}
 					}
-					switch (Type){
-					  case "inheritance":
-						  ClassSource.setSpecializes(ClassTarget);
-						  
-					    break;
-					  case "composition":
-						  ClassSource.setIsMember(ClassTarget);
+					switch (Type) {
+					case "inheritance":
+						ClassSource.setSpecializes(ClassTarget);
 
-			
-					    break;
-					  case "simple":
-						  ClassSource.getAssociatedFrom().add(ClassTarget);
-						  ClassTarget.getAssociatedTo().add(ClassSource);
-						  break;
-					  default:
-					    // code block
+						break;
+					case "composition":
+						ClassSource.setIsMember(ClassTarget);
+
+						break;
+					case "simple":
+						ClassSource.getAssociatedFrom().add(ClassTarget);
+						ClassTarget.getAssociatedTo().add(ClassSource);
+						break;
+					default:
+						// code block
 					}
-
 
 					// refresh Model
 					DRepresentation represnt = null;
@@ -232,6 +241,10 @@ public class Services {
 	}
 
 	public EObject getAttributePrediction(EObject node) {
+		
+		Session session = SessionManager.INSTANCE.getSession(node);
+		assert session != null;
+		
 		String NodeName = node.toString().split(" ", 2)[1];
 		NodeName = NodeName.replaceAll("\\s+", "");
 		System.out.print("DOuble clicked , predictAttibutes for :  ");
@@ -250,13 +263,20 @@ public class Services {
 			input = "";
 		List<String> Results = new ArrayList<String>();
 
-		try {
+		String scriptLocation = this.config.getProperty("scriptlocation");
+		String pythonCommand = this.config.getProperty("pythoncommand");
 
-			Process P1 = new ProcessBuilder("python3",
-					"/home/meriem/editorCD/class-diagram-editor/scripts/predictAttributes.py", NodeName, input,
+		try {
+			Process P1 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py", NodeName, input,
 					"Attribute").start();
+
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P1.getInputStream()));
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
+
+			/*
+			 * Runtime runtime = Runtime.getRuntime(); Process process =
+			 * runtime.exec("python 3");
+			 */
 
 			String s;
 
@@ -278,10 +298,10 @@ public class Services {
 		for (int i = 0; i < arrayAttributes.length; i++) {
 			System.out.println(arrayAttributes[i]);
 			String Type = "";
+
 			try {
-				Process P2 = new ProcessBuilder("python3",
-						"/home/meriem/editorCD/class-diagram-editor/scripts/predictAttributes.py", arrayAttributes[i],
-						input, "Type").start();
+				Process P2 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py",
+						arrayAttributes[i], input, "Type").start();
 				BufferedReader stdInput = new BufferedReader(new InputStreamReader(P2.getInputStream()));
 				BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
 				String s;
@@ -297,11 +317,25 @@ public class Services {
 				e.printStackTrace();
 			}
 			createAttribute(arrayAttributes[i], Type, NodeName);
-			
+
 		}
-	
 
 		return node;
+	}
+
+	/**
+	 * Comment from Istvan:
+	 * Here, the assumption was that the class prediction menu is shown when clicked on the canvas. This may or may not be the case.
+	 * Change the code accordingly. Acquire a reference to the session object as shown above.
+	 */
+	public EObject getClassPrediction(EObject rootModel) {
+		assert rootModel instanceof Model;
+		Model model = (Model) rootModel;
+
+		// TODO: Meriem, try to solve the class generation here. "Model model" is a
+		// reference to the working model.
+
+		return null;
 	}
 
 }
