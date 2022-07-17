@@ -5,13 +5,10 @@ An editor to create class diagram.
   * Sirius version: 7
           
 To set up the environement for the prediction engine (written in python) 
-
-           
-  * Python:  3.8.10
-  * wordninja : pip install wordninja
+  * Python: 3.8.10
+  * `pip install -r requirements.txt` in the `/scripts` folder
   * openAi:   
-    * pip install openai; 
-    * Sign up  and generate a token; https://openai.com/ 
+    * Sign up and generate a token; https://openai.com/ 
     * create .env file and add the personal token OPEN_AI=""; 
         
 Problem: What we have now generating classes could be done after clicking predict button (handler) and generating attributes is done by clicking twice in a class(service). 
