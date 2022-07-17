@@ -59,8 +59,24 @@
             <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
           </style>
         </containerMappings>
-        <toolSections>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setAssociation" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='Association']">
+        <toolSections name="classDiagramEditTools" label="Tools">
+          <ownedTools xsi:type="tool:ContainerCreationDescription" name="createContainerClazz" label="Class" containerMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
+                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="metamodel::Clazz" referenceName="clazz"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:NodeCreationDescription" name="attributesNodeCreation" label="Attribute" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']">
+            <variable name="container"/>
+            <viewVariable name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="metamodel::Attribute" referenceName="attributes"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setAssociation" label="Association" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='Association']">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -71,7 +87,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setInheritance" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='inheritance']">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setInheritance" label="Inheritance" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='inheritance']">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -82,7 +98,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setComposition" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='composition']">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setComposition" label="Composition" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='composition']">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -90,15 +106,6 @@
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:target">
                 <subModelOperations xsi:type="tool_1:SetValue" featureName="isMember" valueExpression="var:source"/>
-              </firstModelOperations>
-            </initialOperation>
-          </ownedTools>
-          <ownedTools xsi:type="tool:ContainerCreationDescription" name="createContainerClazz" label="new class" containerMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']">
-            <variable name="container"/>
-            <viewVariable name="containerView"/>
-            <initialOperation>
-              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:container">
-                <subModelOperations xsi:type="tool_1:CreateInstance" typeName="metamodel::Clazz" referenceName="clazz"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
@@ -123,19 +130,28 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:NodeCreationDescription" name="attributesNodeCreation" nodeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']">
-            <variable name="container"/>
-            <viewVariable name="containerView"/>
-            <initialOperation>
-              <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="metamodel::Attribute" referenceName="attributes"/>
-            </initialOperation>
-          </ownedTools>
           <ownedTools xsi:type="tool:DoubleClickDescription" name="predictConcepts" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']">
             <element name="element"/>
             <elementView name="elementView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getAttributePrediction()"/>
             </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool_1:GroupMenu" name="RecommendationMenu" label="Recommendations" locationURI="menu:root">
+            <itemDescriptions xsi:type="tool_1:PopupMenu" name="Recommend">
+              <menuItemDescription xsi:type="tool_1:OperationAction" name="RecommendClass" label="Class">
+                <view name="views"/>
+                <initialOperation>
+                  <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:self"/>
+                </initialOperation>
+              </menuItemDescription>
+              <menuItemDescription xsi:type="tool_1:OperationAction" name="RecommendAttribute" label="Attribute">
+                <view name="views"/>
+                <initialOperation>
+                  <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:self"/>
+                </initialOperation>
+              </menuItemDescription>
+            </itemDescriptions>
           </ownedTools>
         </toolSections>
       </defaultLayer>
