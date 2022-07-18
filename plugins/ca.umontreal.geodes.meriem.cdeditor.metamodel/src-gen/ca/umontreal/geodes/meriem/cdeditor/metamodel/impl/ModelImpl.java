@@ -5,6 +5,7 @@ package ca.umontreal.geodes.meriem.cdeditor.metamodel.impl;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation;
@@ -35,6 +36,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl#getClazz <em>Clazz</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl#getAttribute <em>Attribute</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl#getAttributecondidate <em>Attributecondidate</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl#getClazzcondidate <em>Clazzcondidate</em>}</li>
  * </ul>
  *
  * @generated
@@ -79,6 +81,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * @ordered
 	 */
 	protected EList<AttributeCondidate> attributecondidate;
+
+	/**
+	 * The cached value of the '{@link #getClazzcondidate() <em>Clazzcondidate</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getClazzcondidate()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<ClazzCondidate> clazzcondidate;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -155,6 +167,19 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<ClazzCondidate> getClazzcondidate() {
+		if (clazzcondidate == null) {
+			clazzcondidate = new EObjectContainmentEList<ClazzCondidate>(ClazzCondidate.class, this,
+					MetamodelPackage.MODEL__CLAZZCONDIDATE);
+		}
+		return clazzcondidate;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -166,6 +191,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			return ((InternalEList<?>) getAttribute()).basicRemove(otherEnd, msgs);
 		case MetamodelPackage.MODEL__ATTRIBUTECONDIDATE:
 			return ((InternalEList<?>) getAttributecondidate()).basicRemove(otherEnd, msgs);
+		case MetamodelPackage.MODEL__CLAZZCONDIDATE:
+			return ((InternalEList<?>) getClazzcondidate()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -186,6 +213,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			return getAttribute();
 		case MetamodelPackage.MODEL__ATTRIBUTECONDIDATE:
 			return getAttributecondidate();
+		case MetamodelPackage.MODEL__CLAZZCONDIDATE:
+			return getClazzcondidate();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -215,6 +244,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			getAttributecondidate().clear();
 			getAttributecondidate().addAll((Collection<? extends AttributeCondidate>) newValue);
 			return;
+		case MetamodelPackage.MODEL__CLAZZCONDIDATE:
+			getClazzcondidate().clear();
+			getClazzcondidate().addAll((Collection<? extends ClazzCondidate>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -239,6 +272,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		case MetamodelPackage.MODEL__ATTRIBUTECONDIDATE:
 			getAttributecondidate().clear();
 			return;
+		case MetamodelPackage.MODEL__CLAZZCONDIDATE:
+			getClazzcondidate().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -259,6 +295,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			return attribute != null && !attribute.isEmpty();
 		case MetamodelPackage.MODEL__ATTRIBUTECONDIDATE:
 			return attributecondidate != null && !attributecondidate.isEmpty();
+		case MetamodelPackage.MODEL__CLAZZCONDIDATE:
+			return clazzcondidate != null && !clazzcondidate.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

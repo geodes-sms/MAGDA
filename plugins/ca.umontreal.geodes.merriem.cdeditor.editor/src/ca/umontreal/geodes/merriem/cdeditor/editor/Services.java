@@ -11,11 +11,11 @@ import java.util.Properties;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.EList;
-import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
@@ -27,7 +27,9 @@ import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.internal.EditorReference;
 import org.osgi.framework.ServiceException;
 
@@ -36,6 +38,8 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
 
 /**
  * The services class used by VSM.
@@ -99,22 +103,98 @@ public class Services {
 		return (Model) model;
 	}
 
-	
 	/**
-	 * Comment from Istvan:
-	 * Use Session session = SessionManager.INSTANCE.getSession(node) in the {@link #getAttributePrediction(EObject)} method to
-	 * get a reference to the singleton Session object from the node, and then pass that session object to this method as a parameter.
-	 * This will allow you to get rid of the hard-coded aird file location.
+	 * Comment from Istvan: Use Session session =
+	 * SessionManager.INSTANCE.getSession(node) in the
+	 * {@link #getAttributePrediction(EObject)} method to get a reference to the
+	 * singleton Session object from the node, and then pass that session object to
+	 * this method as a parameter. This will allow you to get rid of the hard-coded
+	 * aird file location.
 	 */
-	public void createAttribute(String Name, String Type, String containerName) {
+
+	public void createClass(String Name, Session session) {
 		try {
-			URI sessionResourceURI = URI
-					.createFileURI("/home/meriem//editorCD/class-diagram-editor/testFolder/representations.aird");
 
-			Session createdSession = SessionManager.INSTANCE.getSession(sessionResourceURI, new NullProgressMonitor());
-			createdSession.open(new NullProgressMonitor());
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
 
-			DAnalysis root = (DAnalysis) createdSession.getSessionResource().getContents().get(0);
+			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+
+			CommandStack stack = domain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(domain) {
+
+				@Override
+				protected void doExecute() {
+					Model model = getModel();
+					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+
+					ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
+					newClazz.setName(Name);
+					model.getClazz().add(newClazz);
+
+					// refresh Model
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
+				}
+
+			};
+
+			stack.execute(cmd);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void createClassCondidate(String Name, Session session) {
+		try {
+
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
+
+			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+
+			CommandStack stack = domain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(domain) {
+
+				@Override
+				protected void doExecute() {
+					Model model = getModel();
+					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+					ClazzCondidateImpl newClazzCondidate = (ClazzCondidateImpl) metamodelFactory.createClazzCondidate();
+					newClazzCondidate.setName(Name);
+					model.getClazzcondidate().add(newClazzCondidate);
+
+					// refresh Model
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
+				}
+
+			};
+
+			stack.execute(cmd);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void createAttribute(String Name, String Type, String containerName, Session session) {
+		try {
+
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
 			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
@@ -170,19 +250,14 @@ public class Services {
 	}
 
 	/**
-	 * Comment from Istvan:
-	 * Similarly to the other comment above, pass a session object to this method as a parameter
-	 * to eliminate the hard-coded aird file location.
+	 * Comment from Istvan: Similarly to the other comment above, pass a session
+	 * object to this method as a parameter to eliminate the hard-coded aird file
+	 * location.
 	 */
-	public void createAssociation(String AssociationName, String Type, String Target, String Source) {
+	public void createAssociation(String AssociationName, String Type, String Target, String Source, Session session) {
 		try {
-			URI sessionResourceURI = URI
-					.createFileURI("/home/meriem//editorCD/class-diagram-editor/testFolder/representations.aird");
 
-			Session createdSession = SessionManager.INSTANCE.getSession(sessionResourceURI, new NullProgressMonitor());
-			createdSession.open(new NullProgressMonitor());
-
-			DAnalysis root = (DAnalysis) createdSession.getSessionResource().getContents().get(0);
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
 			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
@@ -241,13 +316,14 @@ public class Services {
 	}
 
 	public EObject getAttributePrediction(EObject node) {
-		
+
 		Session session = SessionManager.INSTANCE.getSession(node);
 		assert session != null;
-		
-		String NodeName = node.toString().split(" ", 2)[1];
+		System.out.println(node.toString());
+		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
+		System.out.println(node.toString());
 		NodeName = NodeName.replaceAll("\\s+", "");
-		System.out.print("DOuble clicked , predictAttibutes for :  ");
+		System.out.print("PredictAttibutes for :  ");
 		System.out.println(NodeName);
 		List<String> attributes = new ArrayList<String>();
 		for (int i = 1; i < node.eContents().size(); i++) {
@@ -316,7 +392,7 @@ public class Services {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			createAttribute(arrayAttributes[i], Type, NodeName);
+			createAttribute(arrayAttributes[i], Type, NodeName, session);
 
 		}
 
@@ -324,16 +400,91 @@ public class Services {
 	}
 
 	/**
-	 * Comment from Istvan:
-	 * Here, the assumption was that the class prediction menu is shown when clicked on the canvas. This may or may not be the case.
-	 * Change the code accordingly. Acquire a reference to the session object as shown above.
+	 * Comment from Istvan: Here, the assumption was that the class prediction menu
+	 * is shown when clicked on the canvas. This may or may not be the case. Change
+	 * the code accordingly. Acquire a reference to the session object as shown
+	 * above.
 	 */
 	public EObject getClassPrediction(EObject rootModel) {
 		assert rootModel instanceof Model;
-		Model model = (Model) rootModel;
+		Session session = SessionManager.INSTANCE.getSession(rootModel);
+		assert session != null;
+		System.out.println(rootModel);
+		List<String> classNames = new ArrayList<String>();
+		String input = "";
+		if (rootModel instanceof Model) {
 
-		// TODO: Meriem, try to solve the class generation here. "Model model" is a
-		// reference to the working model.
+			Model model = (Model) rootModel;
+
+			List<Clazz> classes = new ArrayList<Clazz>();
+			classes = model.getClazz();
+
+			for (int i = 0; i < classes.size(); i++) {
+
+				input = input.concat(",").concat(classes.get(i).getName());
+				classNames.add(classes.get(i).getName());
+			}
+		} else if (rootModel instanceof Clazz) {
+
+			Clazz inputClass = (Clazz) rootModel;
+			input = inputClass.getName();
+			classNames.add(inputClass.getName());
+		}
+
+		System.out.println(input);
+		List<String> Concepts = new ArrayList<String>();
+		
+
+		Process p;
+
+		String scriptLocation = this.config.getProperty("scriptlocation");
+		String pythonCommand = this.config.getProperty("pythoncommand");
+
+		try {
+			Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictConcepts.py", input).start();
+
+			String line = "";
+			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
+			BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
+
+			String s;
+			while ((s = stdInput.readLine()) != null) {
+				if (!classNames.contains(s)) {
+					Concepts.add(s);
+				}
+
+			}
+
+			while ((s = stdError.readLine()) != null) { // add logger !
+				System.out.println(s);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		String[] arrayConcepts = Concepts.toArray(new String[0]);
+
+		// print recieved concepts from python script
+		for (int i = 0; i < Concepts.size(); i++) {
+			System.out.println("recieved");
+			if (! classNames.contains(arrayConcepts[i])) {
+				createClassCondidate(arrayConcepts[i], session);
+				System.out.println(arrayConcepts[i]);
+			}
+		}
+
+		// For prototype: window to select from
+
+		/*
+		 * IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+		 * 
+		 * MessageDialog dialog = new MessageDialog(window.getShell(),
+		 * "Choose relevant class", null, "Choose relevant class",
+		 * MessageDialog.QUESTION, arrayConcepts, 0); int result = dialog.open();
+		 * System.out.println("chosen"); String inputSelected = arrayConcepts[result];
+		 */
+
+		// Create clazz (container) in editor if a concept is chosen.
 
 		return null;
 	}

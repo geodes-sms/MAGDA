@@ -103,13 +103,22 @@ public interface MetamodelPackage extends EPackage {
 	int MODEL__ATTRIBUTECONDIDATE = 3;
 
 	/**
+	 * The feature id for the '<em><b>Clazzcondidate</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__CLAZZCONDIDATE = 4;
+
+	/**
 	 * The number of structural features of the '<em>Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_FEATURE_COUNT = 4;
+	int MODEL_FEATURE_COUNT = 5;
 
 	/**
 	 * The number of operations of the '<em>Model</em>' class.
@@ -515,6 +524,17 @@ public interface MetamodelPackage extends EPackage {
 	EReference getModel_Attributecondidate();
 
 	/**
+	 * Returns the meta object for the containment reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getClazzcondidate <em>Clazzcondidate</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Clazzcondidate</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getClazzcondidate()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EReference getModel_Clazzcondidate();
+
+	/**
 	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.NamedElement <em>Named Element</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -758,6 +778,14 @@ public interface MetamodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference MODEL__ATTRIBUTECONDIDATE = eINSTANCE.getModel_Attributecondidate();
+
+		/**
+		 * The meta object literal for the '<em><b>Clazzcondidate</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL__CLAZZCONDIDATE = eINSTANCE.getModel_Clazzcondidate();
 
 		/**
 		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.NamedElementImpl <em>Named Element</em>}' class.

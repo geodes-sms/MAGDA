@@ -28,7 +28,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <containerMappings name="clazzContainer" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='predictConcepts']" domainClass="metamodel::Clazz" dropDescriptions="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='updateClazz']" childrenPresentation="List">
+        <containerMappings name="clazzContainer" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" domainClass="metamodel::Clazz" dropDescriptions="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='updateClazz']" childrenPresentation="List">
           <subNodeMappings name="AttributesNode" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" semanticCandidatesExpression="feature:attributes" domainClass="metamodel::Attribute">
             <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql:self.name.concat(' : ').concat(self.type)" labelAlignment="LEFT" labelPosition="node" resizeKind="NSEW" width="11" height="3">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -44,7 +44,7 @@
             <labelBorderStyle href="environment:/viewpoint#//@labelBorderStyles/@labelBorderStyleDescriptions.1"/>
           </style>
         </containerMappings>
-        <containerMappings name="clazzCondidateContainer" domainClass="metamodel::ClazzCondidate" childrenPresentation="List">
+        <containerMappings name="clazzCondidateContainer" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='predictConcepts']" domainClass="metamodel::ClazzCondidate" childrenPresentation="List">
           <subNodeMappings name="CondidateAttributeNode" semanticCandidatesExpression="feature:eAllContents" domainClass="metamodel::AttributeCondidate">
             <style xsi:type="style:SquareDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -52,11 +52,12 @@
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
             </style>
           </subNodeMappings>
-          <style xsi:type="style:FlatContainerStyleDescription" borderSizeComputationExpression="1" labelSize="12">
+          <style xsi:type="style:FlatContainerStyleDescription" arcWidth="20" arcHeight="20" borderSizeComputationExpression="1" labelSize="12" roundedCorner="true" widthComputationExpression="13" heightComputationExpression="3">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
             <foregroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_yellow']"/>
+            <labelBorderStyle href="environment:/viewpoint#//@labelBorderStyles/@labelBorderStyleDescriptions.1"/>
           </style>
         </containerMappings>
         <toolSections name="classDiagramEditTools" label="Tools">
@@ -130,7 +131,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:DoubleClickDescription" name="predictConcepts" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']">
+          <ownedTools xsi:type="tool:DoubleClickDescription" name="predictConcepts" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzCondidateContainer']">
             <element name="element"/>
             <elementView name="elementView"/>
             <initialOperation>

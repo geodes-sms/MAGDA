@@ -197,6 +197,15 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getModel_Clazzcondidate() {
+		return (EReference) modelEClass.getEStructuralFeatures().get(4);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getNamedElement() {
 		return namedElementEClass;
 	}
@@ -379,6 +388,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		createEReference(modelEClass, MODEL__CLAZZ);
 		createEReference(modelEClass, MODEL__ATTRIBUTE);
 		createEReference(modelEClass, MODEL__ATTRIBUTECONDIDATE);
+		createEReference(modelEClass, MODEL__CLAZZCONDIDATE);
 
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
@@ -454,6 +464,9 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getModel_Attributecondidate(), this.getAttributeCondidate(), null, "attributecondidate", null, 0,
 				-1, Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModel_Clazzcondidate(), this.getClazzCondidate(), null, "clazzcondidate", null, 0, -1,
+				Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE,
