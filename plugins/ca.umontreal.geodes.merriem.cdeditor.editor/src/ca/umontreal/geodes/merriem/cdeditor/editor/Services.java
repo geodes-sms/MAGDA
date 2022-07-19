@@ -149,6 +149,7 @@ public class Services {
 		}
 
 	}
+
 	public void deletetClassCondidate(String classToRemove, Session session) {
 		try {
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -164,15 +165,16 @@ public class Services {
 				protected void doExecute() {
 					Model model = getModel();
 					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
-					
+
 					List<ClazzCondidate> classesCondidate = model.getClazzcondidate();
-					int index=Nan; 
-					for (int i =0 ; i<classesCondidate.size();i++) {
-						if (classesCondidate.get(i).getName().replaceAll("\\s+", "").equals(classToRemove.replaceAll("\\s+", ""))) {
-							index=i; 
-							break; 
+					int index = Nan;
+					for (int i = 0; i < classesCondidate.size(); i++) {
+						if (classesCondidate.get(i).getName().replaceAll("\\s+", "")
+								.equals(classToRemove.replaceAll("\\s+", ""))) {
+							index = i;
+							break;
 						}
-				
+
 					}
 					model.getClazzcondidate().remove(index);
 
@@ -453,7 +455,7 @@ public class Services {
 		List<String> classNames = new ArrayList<String>();
 		String input = "";
 		if (rootModel instanceof Model) {
-			System.out.println("from one Canvas"); 
+			System.out.println("from one Canvas");
 
 			Model model = (Model) rootModel;
 
@@ -466,7 +468,7 @@ public class Services {
 				classNames.add(classes.get(i).getName());
 			}
 		} else if (rootModel instanceof Clazz) {
-			System.out.println("from one class"); 
+			System.out.println("from one class");
 
 			Clazz inputClass = (Clazz) rootModel;
 			input = inputClass.getName();
@@ -529,20 +531,17 @@ public class Services {
 		return null;
 	}
 
-	
-	
 	public EObject approveClassCondidate(EObject rootModel) {
-		System.out.println("in approve class");
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
-		assert session != null ;
+		assert session != null;
+		String className = rootModel.toString().split(" ", 2)[1];
+		if(className.contains(":")) {
+			className=className.split(":",0)[1].replaceAll(")", "");
+		}
+		System.out.println(className);
+		createClass(className, session);
+		deletetClassCondidate(className, session);
 
-		String className = rootModel.toString().split(" ", 2)[1]; 
-		System.out.println(className); 
-		createClass(className,  session); 
-		deletetClassCondidate(className,session); 
-		
-		
-		
 		return rootModel;
 	}
 

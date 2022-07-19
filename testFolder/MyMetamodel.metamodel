@@ -18,6 +18,7 @@
     <attributes name="nationality" type="String"/>
   </clazz>
   <clazz name="person" generalizes="//@clazz.2"/>
-  <clazzcondidate name="trip"/>
+  <clazz name="trip"/>
+  <clazzcondidate name="passenger"/>
   <clazzcondidate name="visa"/>
 </metamodel:Model>

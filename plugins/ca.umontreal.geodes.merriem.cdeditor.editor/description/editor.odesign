@@ -154,6 +154,14 @@
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.approveClassCondidate()"/>
             </initialOperation>
           </ownedTools>
+          <ownedTools xsi:type="tool_1:PopupMenu" name="Approve">
+            <menuItemDescription xsi:type="tool_1:OperationAction" name="Approve">
+              <view name="views"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.approveClassCondidate()"/>
+              </initialOperation>
+            </menuItemDescription>
+          </ownedTools>
         </toolSections>
       </defaultLayer>
     </ownedRepresentations>
