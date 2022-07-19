@@ -15,7 +15,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
@@ -27,14 +26,13 @@ import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.internal.EditorReference;
 import org.osgi.framework.ServiceException;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl;
@@ -48,6 +46,7 @@ public class Services {
 
 	private Properties config;
 	protected static final String SIRIUS_DIAGRAM_EDITOR_ID = "org.eclipse.sirius.diagram.ui.part.SiriusDiagramEditorID";
+	protected static final int Nan = 0;
 
 	public Services() {
 		this.config = new Properties();
@@ -114,7 +113,6 @@ public class Services {
 
 	public void createClass(String Name, Session session) {
 		try {
-
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
@@ -132,6 +130,51 @@ public class Services {
 					ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
 					newClazz.setName(Name);
 					model.getClazz().add(newClazz);
+
+					// refresh Model
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
+				}
+
+			};
+
+			stack.execute(cmd);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+
+	}
+	public void deletetClassCondidate(String classToRemove, Session session) {
+		try {
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
+
+			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+
+			CommandStack stack = domain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(domain) {
+
+				@Override
+				protected void doExecute() {
+					Model model = getModel();
+					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+					
+					List<ClazzCondidate> classesCondidate = model.getClazzcondidate();
+					int index=Nan; 
+					for (int i =0 ; i<classesCondidate.size();i++) {
+						if (classesCondidate.get(i).getName().replaceAll("\\s+", "").equals(classToRemove.replaceAll("\\s+", ""))) {
+							index=i; 
+							break; 
+						}
+				
+					}
+					model.getClazzcondidate().remove(index);
 
 					// refresh Model
 					DRepresentation represnt = null;
@@ -222,8 +265,6 @@ public class Services {
 								if (attributesName.get(j).getName().replaceAll("\\s+", "")
 										.equals(Name.replaceAll("\\s+", ""))) {
 									attributeExist = true;
-									System.out.println("found attribute skip !");
-									System.out.println(Name);
 									break;
 								}
 							}
@@ -406,13 +447,13 @@ public class Services {
 	 * above.
 	 */
 	public EObject getClassPrediction(EObject rootModel) {
-		assert rootModel instanceof Model;
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 		System.out.println(rootModel);
 		List<String> classNames = new ArrayList<String>();
 		String input = "";
 		if (rootModel instanceof Model) {
+			System.out.println("from one Canvas"); 
 
 			Model model = (Model) rootModel;
 
@@ -425,6 +466,7 @@ public class Services {
 				classNames.add(classes.get(i).getName());
 			}
 		} else if (rootModel instanceof Clazz) {
+			System.out.println("from one class"); 
 
 			Clazz inputClass = (Clazz) rootModel;
 			input = inputClass.getName();
@@ -433,46 +475,44 @@ public class Services {
 
 		System.out.println(input);
 		List<String> Concepts = new ArrayList<String>();
-		
 
 		Process p;
 
 		String scriptLocation = this.config.getProperty("scriptlocation");
 		String pythonCommand = this.config.getProperty("pythoncommand");
+		if (input != "") {
+			try {
+				Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictConcepts.py", input).start();
 
-		try {
-			Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictConcepts.py", input).start();
+				String line = "";
+				BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
+				BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
 
-			String line = "";
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
-			BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
-
-			String s;
-			while ((s = stdInput.readLine()) != null) {
-				if (!classNames.contains(s)) {
-					Concepts.add(s);
+				String s;
+				while ((s = stdInput.readLine()) != null) {
+					if (!classNames.contains(s)) {
+						Concepts.add(s);
+					}
 				}
 
+				while ((s = stdError.readLine()) != null) { // add logger !
+					System.out.println(s);
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 
-			while ((s = stdError.readLine()) != null) { // add logger !
-				System.out.println(s);
+			String[] arrayConcepts = Concepts.toArray(new String[0]);
+
+			// create class condidate
+			for (int i = 0; i < Concepts.size(); i++) {
+				System.out.println("recieved");
+				if (!classNames.contains(arrayConcepts[i])) {
+					createClassCondidate(arrayConcepts[i], session);
+					System.out.println(arrayConcepts[i]);
+				}
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
 		}
-
-		String[] arrayConcepts = Concepts.toArray(new String[0]);
-
-		// print recieved concepts from python script
-		for (int i = 0; i < Concepts.size(); i++) {
-			System.out.println("recieved");
-			if (! classNames.contains(arrayConcepts[i])) {
-				createClassCondidate(arrayConcepts[i], session);
-				System.out.println(arrayConcepts[i]);
-			}
-		}
-
 		// For prototype: window to select from
 
 		/*
@@ -487,6 +527,23 @@ public class Services {
 		// Create clazz (container) in editor if a concept is chosen.
 
 		return null;
+	}
+
+	
+	
+	public EObject approveClassCondidate(EObject rootModel) {
+		System.out.println("in approve class");
+		Session session = SessionManager.INSTANCE.getSession(rootModel);
+		assert session != null ;
+
+		String className = rootModel.toString().split(" ", 2)[1]; 
+		System.out.println(className); 
+		createClass(className,  session); 
+		deletetClassCondidate(className,session); 
+		
+		
+		
+		return rootModel;
 	}
 
 }

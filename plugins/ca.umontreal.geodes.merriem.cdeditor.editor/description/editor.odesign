@@ -44,7 +44,7 @@
             <labelBorderStyle href="environment:/viewpoint#//@labelBorderStyles/@labelBorderStyleDescriptions.1"/>
           </style>
         </containerMappings>
-        <containerMappings name="clazzCondidateContainer" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='predictConcepts']" domainClass="metamodel::ClazzCondidate" childrenPresentation="List">
+        <containerMappings name="clazzCondidateContainer" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='approveClass']" domainClass="metamodel::ClazzCondidate" childrenPresentation="List">
           <subNodeMappings name="CondidateAttributeNode" semanticCandidatesExpression="feature:eAllContents" domainClass="metamodel::AttributeCondidate">
             <style xsi:type="style:SquareDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
@@ -131,13 +131,6 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:DoubleClickDescription" name="predictConcepts" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzCondidateContainer']">
-            <element name="element"/>
-            <elementView name="elementView"/>
-            <initialOperation>
-              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getAttributePrediction()"/>
-            </initialOperation>
-          </ownedTools>
           <ownedTools xsi:type="tool_1:GroupMenu" name="RecommendationMenu" label="Recommendations" locationURI="menu:root">
             <itemDescriptions xsi:type="tool_1:PopupMenu" name="Recommend">
               <menuItemDescription xsi:type="tool_1:OperationAction" name="RecommendClass" label="Class">
@@ -153,6 +146,13 @@
                 </initialOperation>
               </menuItemDescription>
             </itemDescriptions>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DoubleClickDescription" name="approveClass" label="aapproveClass" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzCondidateContainer']">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.approveClassCondidate()"/>
+            </initialOperation>
           </ownedTools>
         </toolSections>
       </defaultLayer>
