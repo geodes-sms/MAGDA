@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -14,17 +15,31 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
+import org.eclipse.gmf.runtime.notation.Bounds;
 import org.eclipse.gmf.runtime.notation.Diagram;
+import org.eclipse.gmf.runtime.notation.LayoutConstraint;
+import org.eclipse.gmf.runtime.notation.View;
+import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
+import org.eclipse.jface.viewers.CellEditor.LayoutData;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
+import org.eclipse.sirius.business.api.query.EObjectQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
+import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramSpec;
+import org.eclipse.sirius.diagram.ui.business.api.view.SiriusGMFHelper;
+import org.eclipse.sirius.diagram.ui.business.api.view.SiriusLayoutDataManager;
+import org.eclipse.sirius.diagram.ui.business.internal.view.RootLayoutData;
 import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorReference;
@@ -58,6 +73,46 @@ public class Services {
 			e.printStackTrace();
 		}
 	};
+
+	/*private void setGraphicalHintsFromExistingNode(DDiagramElement existingNode) {
+		// Give hints about location and size
+		IGraphicalEditPart editPart = getEditPart(existingNode);
+		if (editPart instanceof ShapeEditPart) {
+			ShapeEditPart part = (ShapeEditPart) editPart;
+			SiriusLayoutDataManager.INSTANCE
+					.addData(new RootLayoutData(existingNode.eContainer(), part.getLocation(), part.getSize()));
+		}
+	}
+
+	/*private IGraphicalEditPart getEditPart(DDiagramElement diagramElement) {
+		IEditorPart editor = EclipseUIUtil.getActiveEditor();
+		if (editor instanceof DiagramEditor) {
+			Session session = new EObjectQuery(diagramElement).getSession();
+			View gmfView = SiriusGMFHelper.getGmfView(diagramElement, session);
+
+			IGraphicalEditPart result = null;
+			if (gmfView != null && editor instanceof DiagramEditor) {
+				final Map<?, ?> editPartRegistry = ((DiagramEditor) editor).getDiagramGraphicalViewer()
+						.getEditPartRegistry();
+				final Object editPart = editPartRegistry.get(gmfView);
+				if (editPart instanceof IGraphicalEditPart) {
+					result = (IGraphicalEditPart) editPart;
+					return result;
+				}
+			}
+		}
+		return null;
+	}*/
+
+	private void getCoorddinatesmodelObject(EObject modelObject) {
+		NodeImpl node = (NodeImpl) modelObject;
+		LayoutConstraint nodeLayoutConstraint = node.getLayoutConstraint();
+		if (nodeLayoutConstraint instanceof Bounds) {
+			Bounds bounds = (Bounds) nodeLayoutConstraint;
+			int x = bounds.getX();
+			int y = bounds.getY();
+		}
+	}
 
 	private boolean containsIgnoreCase(List<String> list, String soughtFor) {
 
@@ -127,6 +182,7 @@ public class Services {
 			DView dView = root.getOwnedViews().get(0);
 
 			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+			
 
 			CommandStack stack = domain.getCommandStack();
 
