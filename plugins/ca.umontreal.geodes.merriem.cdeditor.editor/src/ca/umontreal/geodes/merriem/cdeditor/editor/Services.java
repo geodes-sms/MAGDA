@@ -59,6 +59,16 @@ public class Services {
 		}
 	};
 
+	private boolean containsIgnoreCase(List<String> list, String soughtFor) {
+
+		for (String current : list) {
+			if (current.replaceAll("\\s+", "").equalsIgnoreCase(soughtFor.replaceAll("\\s+", ""))) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	protected Model getModel() {
 		IEditorReference[] editorReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.getEditorReferences();
@@ -362,9 +372,9 @@ public class Services {
 
 		Session session = SessionManager.INSTANCE.getSession(node);
 		assert session != null;
-		System.out.println(node.toString());
+
 		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
-		System.out.println(node.toString());
+
 		NodeName = NodeName.replaceAll("\\s+", "");
 		System.out.print("PredictAttibutes for :  ");
 		System.out.println(NodeName);
@@ -453,6 +463,8 @@ public class Services {
 		assert session != null;
 		System.out.println(rootModel);
 		List<String> classNames = new ArrayList<String>();
+		List<String> AllclassNames = new ArrayList<String>();
+
 		String input = "";
 		if (rootModel instanceof Model) {
 			System.out.println("from one Canvas");
@@ -473,13 +485,29 @@ public class Services {
 			Clazz inputClass = (Clazz) rootModel;
 			input = inputClass.getName();
 			classNames.add(inputClass.getName());
+
 		}
 
-		System.out.println(input);
 		List<String> Concepts = new ArrayList<String>();
+		Model model = getModel();
+		List<Clazz> classesInModel = model.getClazz();
 
+		List<ClazzCondidate> classeCondidateInModel = model.getClazzcondidate();
+
+		for (int i = 0; i < classesInModel.size(); i++) {
+			AllclassNames.add(classesInModel.get(i).getName());
+
+		}
+		for (int i = 0; i < classeCondidateInModel.size(); i++) {
+			AllclassNames.add(classeCondidateInModel.get(i).getName());
+
+		}
 		Process p;
 
+		for (int i = 0; i < AllclassNames.size(); i++) {
+			System.out.println(AllclassNames.get(i));
+
+		}
 		String scriptLocation = this.config.getProperty("scriptlocation");
 		String pythonCommand = this.config.getProperty("pythoncommand");
 		if (input != "") {
@@ -492,7 +520,7 @@ public class Services {
 
 				String s;
 				while ((s = stdInput.readLine()) != null) {
-					if (!classNames.contains(s)) {
+					if (!AllclassNames.contains(s)) {
 						Concepts.add(s);
 					}
 				}
@@ -508,10 +536,12 @@ public class Services {
 
 			// create class condidate
 			for (int i = 0; i < Concepts.size(); i++) {
-				System.out.println("recieved");
-				if (!classNames.contains(arrayConcepts[i])) {
-					createClassCondidate(arrayConcepts[i], session);
+
+				if (!containsIgnoreCase(AllclassNames, arrayConcepts[i].toLowerCase())) {
 					System.out.println(arrayConcepts[i]);
+
+					createClassCondidate(arrayConcepts[i], session);
+
 				}
 			}
 		}
@@ -535,10 +565,9 @@ public class Services {
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 		String className = rootModel.toString().split(" ", 2)[1];
-		if(className.contains(":")) {
-			className=className.split(":",0)[1].replaceAll(")", "");
+		if (className.contains(":")) {
+			className = className.split(":", 0)[1].replaceAll(")", "");
 		}
-		System.out.println(className);
 		createClass(className, session);
 		deletetClassCondidate(className, session);
 

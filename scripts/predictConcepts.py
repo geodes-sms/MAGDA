@@ -73,8 +73,8 @@ def predictFinalList(designList_):
 
 if __name__ == '__main__':
 
-    args=['plane']
-    #args = sys.argv[1:]
+
+    args = sys.argv[1:]
 
     concepts, res_ = predictFinalList(args)
     for i in concepts:
