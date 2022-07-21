@@ -36,7 +36,7 @@
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
             </style>
           </subNodeMappings>
-          <style xsi:type="style:FlatContainerStyleDescription" arcWidth="20" arcHeight="20" borderSizeComputationExpression="1" labelSize="12" roundedCorner="true" widthComputationExpression="13" heightComputationExpression="3">
+          <style xsi:type="style:FlatContainerStyleDescription" arcWidth="20" arcHeight="20" borderSizeComputationExpression="1" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png" roundedCorner="true" widthComputationExpression="13" heightComputationExpression="3">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
@@ -52,7 +52,7 @@
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
             </style>
           </subNodeMappings>
-          <style xsi:type="style:FlatContainerStyleDescription" arcWidth="20" arcHeight="20" borderSizeComputationExpression="1" labelSize="12" roundedCorner="true" widthComputationExpression="13" heightComputationExpression="3">
+          <style xsi:type="style:FlatContainerStyleDescription" arcWidth="20" arcHeight="20" borderSizeComputationExpression="1" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/interrogation.png" roundedCorner="true" widthComputationExpression="13" heightComputationExpression="3">
             <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>
@@ -133,17 +133,21 @@
           </ownedTools>
           <ownedTools xsi:type="tool_1:GroupMenu" name="RecommendationMenu" label="Recommendations" locationURI="menu:root">
             <itemDescriptions xsi:type="tool_1:PopupMenu" name="Recommend">
-              <menuItemDescription xsi:type="tool_1:OperationAction" name="RecommendClass" label="Class">
+              <menuItemDescription xsi:type="tool_1:OperationAction" name="RecommendClass" label="Class" icon="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png">
                 <view name="views"/>
                 <initialOperation>
                   <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getClassPrediction()"/>
                 </initialOperation>
               </menuItemDescription>
-              <menuItemDescription xsi:type="tool_1:OperationAction" name="RecommendAttribute" label="Attribute" precondition="aql:self.oclIsKindOf(metamodel::Clazz)">
+              <menuItemDescription xsi:type="tool_1:OperationAction" name="RecommendAttribute" label="Attribute" precondition="aql:self.oclIsKindOf(metamodel::Clazz)" icon="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/attribute.png">
                 <view name="views"/>
                 <initialOperation>
                   <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getAttributePrediction()"/>
                 </initialOperation>
+              </menuItemDescription>
+              <menuItemDescription xsi:type="tool_1:OperationAction" name="Association">
+                <view name="views"/>
+                <initialOperation/>
               </menuItemDescription>
             </itemDescriptions>
           </ownedTools>
@@ -154,13 +158,11 @@
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.approveClassCondidate()"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool_1:PopupMenu" name="Approve">
-            <menuItemDescription xsi:type="tool_1:OperationAction" name="Approve" precondition="aql:self.oclIsKindOf(metamodel::ClazzCondidate)">
-              <view name="views"/>
-              <initialOperation>
-                <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.approveClassCondidate()"/>
-              </initialOperation>
-            </menuItemDescription>
+          <ownedTools xsi:type="tool_1:OperationAction" name="Approve" precondition="aql:self.oclIsKindOf(metamodel::ClazzCondidate)" icon="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/check.png">
+            <view name="views"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.approveClassCondidate()"/>
+            </initialOperation>
           </ownedTools>
         </toolSections>
       </defaultLayer>

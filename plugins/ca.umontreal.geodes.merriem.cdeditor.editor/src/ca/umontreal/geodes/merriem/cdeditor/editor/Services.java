@@ -6,8 +6,8 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Properties;
+import java.util.Random;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.CommandStack;
@@ -15,31 +15,21 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
-import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeEditPart;
-import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.notation.Bounds;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.LayoutConstraint;
-import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
-import org.eclipse.jface.viewers.CellEditor.LayoutData;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
-import org.eclipse.sirius.business.api.query.EObjectQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramSpec;
-import org.eclipse.sirius.diagram.ui.business.api.view.SiriusGMFHelper;
-import org.eclipse.sirius.diagram.ui.business.api.view.SiriusLayoutDataManager;
-import org.eclipse.sirius.diagram.ui.business.internal.view.RootLayoutData;
 import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.ui.IEditorInput;
-import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.internal.EditorReference;
@@ -74,35 +64,28 @@ public class Services {
 		}
 	};
 
-	/*private void setGraphicalHintsFromExistingNode(DDiagramElement existingNode) {
-		// Give hints about location and size
-		IGraphicalEditPart editPart = getEditPart(existingNode);
-		if (editPart instanceof ShapeEditPart) {
-			ShapeEditPart part = (ShapeEditPart) editPart;
-			SiriusLayoutDataManager.INSTANCE
-					.addData(new RootLayoutData(existingNode.eContainer(), part.getLocation(), part.getSize()));
-		}
-	}
-
-	/*private IGraphicalEditPart getEditPart(DDiagramElement diagramElement) {
-		IEditorPart editor = EclipseUIUtil.getActiveEditor();
-		if (editor instanceof DiagramEditor) {
-			Session session = new EObjectQuery(diagramElement).getSession();
-			View gmfView = SiriusGMFHelper.getGmfView(diagramElement, session);
-
-			IGraphicalEditPart result = null;
-			if (gmfView != null && editor instanceof DiagramEditor) {
-				final Map<?, ?> editPartRegistry = ((DiagramEditor) editor).getDiagramGraphicalViewer()
-						.getEditPartRegistry();
-				final Object editPart = editPartRegistry.get(gmfView);
-				if (editPart instanceof IGraphicalEditPart) {
-					result = (IGraphicalEditPart) editPart;
-					return result;
-				}
-			}
-		}
-		return null;
-	}*/
+	/*
+	 * private void setGraphicalHintsFromExistingNode(DDiagramElement existingNode)
+	 * { // Give hints about location and size IGraphicalEditPart editPart =
+	 * getEditPart(existingNode); if (editPart instanceof ShapeEditPart) {
+	 * ShapeEditPart part = (ShapeEditPart) editPart;
+	 * SiriusLayoutDataManager.INSTANCE .addData(new
+	 * RootLayoutData(existingNode.eContainer(), part.getLocation(),
+	 * part.getSize())); } }
+	 * 
+	 * /*private IGraphicalEditPart getEditPart(DDiagramElement diagramElement) {
+	 * IEditorPart editor = EclipseUIUtil.getActiveEditor(); if (editor instanceof
+	 * DiagramEditor) { Session session = new
+	 * EObjectQuery(diagramElement).getSession(); View gmfView =
+	 * SiriusGMFHelper.getGmfView(diagramElement, session);
+	 * 
+	 * IGraphicalEditPart result = null; if (gmfView != null && editor instanceof
+	 * DiagramEditor) { final Map<?, ?> editPartRegistry = ((DiagramEditor)
+	 * editor).getDiagramGraphicalViewer() .getEditPartRegistry(); final Object
+	 * editPart = editPartRegistry.get(gmfView); if (editPart instanceof
+	 * IGraphicalEditPart) { result = (IGraphicalEditPart) editPart; return result;
+	 * } } } return null; }
+	 */
 
 	private void getCoorddinatesmodelObject(EObject modelObject) {
 		NodeImpl node = (NodeImpl) modelObject;
@@ -182,8 +165,6 @@ public class Services {
 			DView dView = root.getOwnedViews().get(0);
 
 			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-			
-
 			CommandStack stack = domain.getCommandStack();
 
 			RecordingCommand cmd = new RecordingCommand(domain) {
@@ -515,35 +496,14 @@ public class Services {
 	 * above.
 	 */
 	public EObject getClassPrediction(EObject rootModel) {
+		// Node theNode =
+		// org.eclipse.sirius.diagram.ui.business.api.view.SiriusGMFHelper.getGmfNode((DDiagramElement)
+		// rootModel) ;
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 		System.out.println(rootModel);
 		List<String> classNames = new ArrayList<String>();
 		List<String> AllclassNames = new ArrayList<String>();
-
-		String input = "";
-		if (rootModel instanceof Model) {
-			System.out.println("from one Canvas");
-
-			Model model = (Model) rootModel;
-
-			List<Clazz> classes = new ArrayList<Clazz>();
-			classes = model.getClazz();
-
-			for (int i = 0; i < classes.size(); i++) {
-
-				input = input.concat(",").concat(classes.get(i).getName());
-				classNames.add(classes.get(i).getName());
-			}
-		} else if (rootModel instanceof Clazz) {
-			System.out.println("from one class");
-
-			Clazz inputClass = (Clazz) rootModel;
-			input = inputClass.getName();
-			classNames.add(inputClass.getName());
-
-		}
-
 		List<String> Concepts = new ArrayList<String>();
 		Model model = getModel();
 		List<Clazz> classesInModel = model.getClazz();
@@ -558,6 +518,29 @@ public class Services {
 			AllclassNames.add(classeCondidateInModel.get(i).getName());
 
 		}
+		String input = "";
+		if (rootModel instanceof Model) {
+			System.out.println("from one Canvas");
+
+			for (int i = 0; i < classesInModel.size(); i++) {
+
+				input = input.concat(",").concat(classesInModel.get(i).getName());
+				classNames.add(classesInModel.get(i).getName());
+			}
+		} else if (rootModel instanceof Clazz) {
+			System.out.println("from one class");
+			Clazz inputClass = (Clazz) rootModel;
+			input = inputClass.getName();
+			classNames.add(inputClass.getName());
+			// heuristic: what to send to GPT3
+			Random rand = new Random();
+			String randomElement = AllclassNames.get(rand.nextInt(AllclassNames.size()));
+			System.out.print("randomElement: ");
+			System.out.println(randomElement);
+			input = input.concat(",").concat(randomElement);
+
+		}
+
 		Process p;
 
 		for (int i = 0; i < AllclassNames.size(); i++) {

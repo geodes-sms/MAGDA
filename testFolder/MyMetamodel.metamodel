@@ -19,6 +19,4 @@
   </clazz>
   <clazz name="person" generalizes="//@clazz.2"/>
   <clazz name="trip"/>
-  <clazzcondidate name="passenger"/>
-  <clazzcondidate name="visa"/>
 </metamodel:Model>
