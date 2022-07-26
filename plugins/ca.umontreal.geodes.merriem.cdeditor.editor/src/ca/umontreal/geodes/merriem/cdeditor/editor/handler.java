@@ -17,7 +17,9 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.gmf.runtime.diagram.ui.commands.CreateOrSelectElementCommand.LabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.window.Window;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
@@ -25,7 +27,10 @@ import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IWorkbenchWindow;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
+import org.eclipse.ui.dialogs.ListDialog;
 import org.eclipse.ui.handlers.HandlerUtil;
 import org.osgi.framework.ServiceException;
 
@@ -162,7 +167,6 @@ public class handler extends AbstractHandler {
 			input = input.concat(",").concat(classes.get(i).getName());
 			classNames.add(classes.get(i).getName());
 		}
-		System.out.println(input);
 		List<String> Concepts = new ArrayList<String>();
 		Concepts.add("Cancel");
 
@@ -171,7 +175,7 @@ public class handler extends AbstractHandler {
 		String scriptLocation = this.config.getProperty("scriptlocation");
 		String pythonCommand = this.config.getProperty("pythoncommand");
 		try {
-			Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictConcepts.py", input).start();
+			Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py", input).start();
 
 			String line = "";
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
@@ -182,7 +186,6 @@ public class handler extends AbstractHandler {
 				if (!classNames.contains(s)) {
 					Concepts.add(s);
 				}
-
 			}
 
 			while ((s = stdError.readLine()) != null) {
@@ -201,7 +204,7 @@ public class handler extends AbstractHandler {
 		}
 
 		// For prototype: window to select from
-		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+		/*IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 
 		MessageDialog dialog = new MessageDialog(window.getShell(), "Choose relevant class", null,
 				"Choose relevant class", MessageDialog.QUESTION, arrayConcepts, 0);
@@ -214,7 +217,24 @@ public class handler extends AbstractHandler {
 		if (arrayConcepts[result] != "Cancel") {
 
 			createInstance("class", inputSelected, null);
-		}
+		}*/
+		//IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+
+		ElementListSelectionDialog dialog =
+			    new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),new LabelProvider());
+		
+			dialog.setElements(new String[] { "Linux", "Mac", "Windows" });
+			dialog.setTitle("select appropriate attributes");
+			// user pressed cancel
+			dialog.setMultipleSelection(true);
+
+			if (dialog.open() != Window.OK) {
+			        return false;
+			}
+			Object[] result = dialog.getResult();
+			for(int i =0 ; i< result.length; i++) {
+				System.out.println(result[i]);
+			}
 
 		return null;
 	}

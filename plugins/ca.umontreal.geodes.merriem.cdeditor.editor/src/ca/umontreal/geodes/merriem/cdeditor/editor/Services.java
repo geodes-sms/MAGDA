@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
@@ -15,10 +16,12 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.gmf.runtime.diagram.ui.commands.CreateOrSelectElementCommand.LabelProvider;
 import org.eclipse.gmf.runtime.notation.Bounds;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.LayoutConstraint;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
+import org.eclipse.jface.window.Window;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
@@ -29,9 +32,13 @@ import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
+import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
+import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.internal.EditorReference;
 import org.osgi.framework.ServiceException;
 
@@ -439,10 +446,6 @@ public class Services {
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P1.getInputStream()));
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
 
-			/*
-			 * Runtime runtime = Runtime.getRuntime(); Process process =
-			 * runtime.exec("python 3");
-			 */
 
 			String s;
 
@@ -459,7 +462,10 @@ public class Services {
 			e.printStackTrace();
 		}
 		String[] arrayAttributes = Results.toArray(new String[0]);
-
+		HashMap<String, String> typeAttributes = new HashMap<String, String>();
+		
+	    // Add keys and values (Country, City)
+	  
 		// print recieved attributes from python script
 		for (int i = 0; i < arrayAttributes.length; i++) {
 			System.out.println(arrayAttributes[i]);
@@ -482,9 +488,37 @@ public class Services {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			createAttribute(arrayAttributes[i], Type, NodeName, session);
+			typeAttributes.put(arrayAttributes[i],Type );
+
+			//createAttribute(arrayAttributes[i], Type, NodeName, session);
 
 		}
+		List<String> ResultsTyped = new ArrayList<String>();
+
+		
+		for (int i =0 ; i<arrayAttributes.length; i++) {
+			ResultsTyped.add(arrayAttributes[i].concat(":").concat(typeAttributes.get(arrayAttributes[i])));
+		}
+		String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
+	
+		ElementListSelectionDialog dialog =
+			    new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),new LabelProvider());
+		
+			dialog.setElements(ArrayResultsTyped);
+			dialog.setTitle("select appropriate attributes, press ctrl for multiple selection");
+			// user pressed cancel
+			dialog.setMultipleSelection(true);
+
+			if (dialog.open() != Window.OK) {
+			        //return false;
+				System.out.println("not ok ");
+			}
+			Object[] result = dialog.getResult();
+			for(int i =0 ; i< result.length; i++) {
+				String res = (String) result[i];
+				res=res.split(":")[0]; 
+				createAttribute(res, typeAttributes.get(res), NodeName, session);
+			}
 
 		return node;
 	}
@@ -601,9 +635,23 @@ public class Services {
 	}
 
 	public EObject approveClassCondidate(EObject rootModel) {
+		System.out.println("here");
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
-		String className = rootModel.toString().split(" ", 2)[1];
+		String className = "";
+		System.out.println(rootModel);
+		if (rootModel instanceof ClazzCondidate) {
+			System.out.println("clazz ");
+			className = rootModel.toString().split(":", 0)[1].replaceAll(")","");
+			System.out.println(className);
+
+		} else {
+			System.out.println("clazz ");
+
+			className = rootModel.toString().split(" ", 2)[1];
+			System.out.println(className);
+
+		}
 		if (className.contains(":")) {
 			className = className.split(":", 0)[1].replaceAll(")", "");
 		}
