@@ -7,6 +7,8 @@ import nltk
 from nltk.corpus import wordnet
 from nltk.corpus import wordnet as wn
 import os
+import sys
+
 import openai
 from dotenv import load_dotenv
 
@@ -14,9 +16,7 @@ load_dotenv()
 
 openai.api_key = os.getenv("OPEN_AI")
 
-df=pd.read_csv('dataWithAssociation.csv')
-df
-df.dropna(inplace=True)
+
 
 
 def predictRelation(couples):
@@ -48,9 +48,10 @@ def predictTypeRelation(couples):
         presence_penalty=0
     )
     res = response.choices[0].text
-    print(str(couples) + "=> " + res)
     return res
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print('hello')
+    args = sys.argv[1:]
+    results = predictTypeRelation(args[0])
+    print(results)
 

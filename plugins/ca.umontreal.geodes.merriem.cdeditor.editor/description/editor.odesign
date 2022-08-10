@@ -145,9 +145,11 @@
                   <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getAttributePrediction()"/>
                 </initialOperation>
               </menuItemDescription>
-              <menuItemDescription xsi:type="tool_1:OperationAction" name="Association">
+              <menuItemDescription xsi:type="tool_1:OperationAction" name="Association" icon="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/association.png">
                 <view name="views"/>
-                <initialOperation/>
+                <initialOperation>
+                  <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getAssociationPrediction()"/>
+                </initialOperation>
               </menuItemDescription>
             </itemDescriptions>
           </ownedTools>

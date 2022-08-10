@@ -25,7 +25,6 @@ import org.eclipse.jface.window.Window;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
-import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramSpec;
 import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
 import org.eclipse.sirius.viewpoint.DAnalysis;
@@ -35,10 +34,8 @@ import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
-import org.eclipse.ui.IWorkbenchWindow;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.eclipse.ui.handlers.HandlerUtil;
 import org.eclipse.ui.internal.EditorReference;
 import org.osgi.framework.ServiceException;
 
@@ -70,29 +67,6 @@ public class Services {
 			e.printStackTrace();
 		}
 	};
-
-	/*
-	 * private void setGraphicalHintsFromExistingNode(DDiagramElement existingNode)
-	 * { // Give hints about location and size IGraphicalEditPart editPart =
-	 * getEditPart(existingNode); if (editPart instanceof ShapeEditPart) {
-	 * ShapeEditPart part = (ShapeEditPart) editPart;
-	 * SiriusLayoutDataManager.INSTANCE .addData(new
-	 * RootLayoutData(existingNode.eContainer(), part.getLocation(),
-	 * part.getSize())); } }
-	 * 
-	 * /*private IGraphicalEditPart getEditPart(DDiagramElement diagramElement) {
-	 * IEditorPart editor = EclipseUIUtil.getActiveEditor(); if (editor instanceof
-	 * DiagramEditor) { Session session = new
-	 * EObjectQuery(diagramElement).getSession(); View gmfView =
-	 * SiriusGMFHelper.getGmfView(diagramElement, session);
-	 * 
-	 * IGraphicalEditPart result = null; if (gmfView != null && editor instanceof
-	 * DiagramEditor) { final Map<?, ?> editPartRegistry = ((DiagramEditor)
-	 * editor).getDiagramGraphicalViewer() .getEditPartRegistry(); final Object
-	 * editPart = editPartRegistry.get(gmfView); if (editPart instanceof
-	 * IGraphicalEditPart) { result = (IGraphicalEditPart) editPart; return result;
-	 * } } } return null; }
-	 */
 
 	private void getCoorddinatesmodelObject(EObject modelObject) {
 		NodeImpl node = (NodeImpl) modelObject;
@@ -156,15 +130,6 @@ public class Services {
 
 		return (Model) model;
 	}
-
-	/**
-	 * Comment from Istvan: Use Session session =
-	 * SessionManager.INSTANCE.getSession(node) in the
-	 * {@link #getAttributePrediction(EObject)} method to get a reference to the
-	 * singleton Session object from the node, and then pass that session object to
-	 * this method as a parameter. This will allow you to get rid of the hard-coded
-	 * aird file location.
-	 */
 
 	public void createClass(String Name, Session session) {
 		try {
@@ -346,11 +311,6 @@ public class Services {
 		}
 	}
 
-	/**
-	 * Comment from Istvan: Similarly to the other comment above, pass a session
-	 * object to this method as a parameter to eliminate the hard-coded aird file
-	 * location.
-	 */
 	public void createAssociation(String AssociationName, String Type, String Target, String Source, Session session) {
 		try {
 
@@ -380,16 +340,22 @@ public class Services {
 							ClassTarget = classes.get(i);
 						}
 					}
+					System.out.print("type : ");
+
+					System.out.println(Type);
+
 					switch (Type) {
 					case "inheritance":
 						ClassSource.setSpecializes(ClassTarget);
+						System.out.println("inheritance");
 
 						break;
 					case "composition":
 						ClassSource.setIsMember(ClassTarget);
+						System.out.println("composition");
 
 						break;
-					case "simple":
+					case "association":
 						ClassSource.getAssociatedFrom().add(ClassTarget);
 						ClassTarget.getAssociatedTo().add(ClassSource);
 						break;
@@ -446,7 +412,6 @@ public class Services {
 			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P1.getInputStream()));
 			BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
 
-
 			String s;
 
 			while ((s = stdInput.readLine()) != null) {
@@ -463,9 +428,9 @@ public class Services {
 		}
 		String[] arrayAttributes = Results.toArray(new String[0]);
 		HashMap<String, String> typeAttributes = new HashMap<String, String>();
-		
-	    // Add keys and values (Country, City)
-	  
+
+		// Add keys and values (Country, City)
+
 		// print recieved attributes from python script
 		for (int i = 0; i < arrayAttributes.length; i++) {
 			System.out.println(arrayAttributes[i]);
@@ -488,54 +453,46 @@ public class Services {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			typeAttributes.put(arrayAttributes[i],Type );
+			typeAttributes.put(arrayAttributes[i], Type);
 
-			//createAttribute(arrayAttributes[i], Type, NodeName, session);
+			// createAttribute(arrayAttributes[i], Type, NodeName, session);
 
 		}
 		List<String> ResultsTyped = new ArrayList<String>();
 
-		
-		for (int i =0 ; i<arrayAttributes.length; i++) {
+		for (int i = 0; i < arrayAttributes.length; i++) {
 			ResultsTyped.add(arrayAttributes[i].concat(":").concat(typeAttributes.get(arrayAttributes[i])));
 		}
 		String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
-	
-		ElementListSelectionDialog dialog =
-			    new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),new LabelProvider());
-		
-			dialog.setElements(ArrayResultsTyped);
-			dialog.setTitle("select appropriate attributes, press ctrl for multiple selection");
-			// user pressed cancel
-			dialog.setMultipleSelection(true);
 
-			if (dialog.open() != Window.OK) {
-			        //return false;
-				System.out.println("not ok ");
-			}
-			Object[] result = dialog.getResult();
-			for(int i =0 ; i< result.length; i++) {
-				String res = (String) result[i];
-				res=res.split(":")[0]; 
-				createAttribute(res, typeAttributes.get(res), NodeName, session);
-			}
+		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
+				new LabelProvider());
+
+		dialog.setElements(ArrayResultsTyped);
+		dialog.setTitle("select appropriate attributes, press ctrl for multiple selection");
+		// user pressed cancel
+		dialog.setMultipleSelection(true);
+
+		if (dialog.open() != Window.OK) {
+			// return false;
+			System.out.println("not ok ");
+		}
+		Object[] result = dialog.getResult();
+		for (int i = 0; i < result.length; i++) {
+			String res = (String) result[i];
+			res = res.split(":")[0];
+			createAttribute(res, typeAttributes.get(res), NodeName, session);
+		}
 
 		return node;
 	}
 
-	/**
-	 * Comment from Istvan: Here, the assumption was that the class prediction menu
-	 * is shown when clicked on the canvas. This may or may not be the case. Change
-	 * the code accordingly. Acquire a reference to the session object as shown
-	 * above.
-	 */
 	public EObject getClassPrediction(EObject rootModel) {
 		// Node theNode =
 		// org.eclipse.sirius.diagram.ui.business.api.view.SiriusGMFHelper.getGmfNode((DDiagramElement)
 		// rootModel) ;
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
-		System.out.println(rootModel);
 		List<String> classNames = new ArrayList<String>();
 		List<String> AllclassNames = new ArrayList<String>();
 		List<String> Concepts = new ArrayList<String>();
@@ -569,8 +526,6 @@ public class Services {
 			// heuristic: what to send to GPT3
 			Random rand = new Random();
 			String randomElement = AllclassNames.get(rand.nextInt(AllclassNames.size()));
-			System.out.print("randomElement: ");
-			System.out.println(randomElement);
 			input = input.concat(",").concat(randomElement);
 
 		}
@@ -620,33 +575,119 @@ public class Services {
 		}
 		// For prototype: window to select from
 
-		/*
-		 * IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-		 * 
-		 * MessageDialog dialog = new MessageDialog(window.getShell(),
-		 * "Choose relevant class", null, "Choose relevant class",
-		 * MessageDialog.QUESTION, arrayConcepts, 0); int result = dialog.open();
-		 * System.out.println("chosen"); String inputSelected = arrayConcepts[result];
-		 */
-
 		// Create clazz (container) in editor if a concept is chosen.
 
 		return null;
 	}
 
+	public EObject getAssociationPrediction(EObject rootModel) {
+
+		Session session = SessionManager.INSTANCE.getSession(rootModel);
+		assert session != null;
+		String className;
+
+		Model model = getModel();
+		List<Clazz> classesInModel = model.getClazz();
+		String scriptLocation = this.config.getProperty("scriptlocation");
+		String pythonCommand = this.config.getProperty("pythoncommand");
+		if (rootModel instanceof Clazz) {
+
+			className = rootModel.toString().split(":")[1];
+
+			className = className.substring(1, className.length() - 1);
+			System.out.println(className);
+
+			List<String> classesAssociatedTo = new ArrayList<String>();
+			for (int i = 0; i < classesInModel.size(); i++) {
+				if (classesInModel.get(i).getName().equals(className)) {
+					System.out.println("found the class : ");
+				
+					
+					for (int j = 0; j < classesInModel.get(i).getAssociatedTo().size(); j++) {
+						System.out.println("is associated"); 
+
+						System.out.println(classesInModel.get(i).getAssociatedTo().get(j).getName());
+						classesAssociatedTo.add(classesInModel.get(i).getAssociatedTo().get(j).getName());
+					}
+
+
+					for (int j = 0; j < classesInModel.get(i).getAssociatedFrom().size(); j++) {
+						System.out.println("is associatedfrom"); 
+
+						classesAssociatedTo.add(classesInModel.get(i).getAssociatedFrom().get(j).getName());
+					}
+					if (classesInModel.get(i).getIsMember().getName() != null) {
+						System.out.println("is memebr"); 
+						System.out.println(classesInModel.get(i).getIsMember().getName());
+
+						classesAssociatedTo.add(classesInModel.get(i).getIsMember().getName());
+					}
+					/*if (classesInModel.get(i).getSpecializes().getName() != null) {
+						System.out.println("is special"); 
+
+						classesAssociatedTo.add(classesInModel.get(i).getSpecializes().getName());
+						System.out.println(classesInModel.get(i).getSpecializes().getName());
+					}*/
+
+				}
+			}
+			System.out.println("classesAssociatedTo");
+
+			System.out.println(classesAssociatedTo);
+			for (int i = 0; i < classesInModel.size(); i++) {
+				if (!className.replaceAll("\\s+", "").equals(classesInModel.get(i).getName())) {
+
+					if (!classesAssociatedTo.contains(classesInModel.get(i).getName().replaceAll("\\s+", ""))) {
+						System.out.println("found possibility");
+
+						System.out.println(classesInModel.get(i).getName());
+						System.out.println(className);
+
+						String input = classesInModel.get(i).getName().concat(" , ").concat(className);
+						try {
+							Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictAssociation.py",
+									input).start();
+
+							String line = "";
+							BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
+							BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
+
+							String s, res = null;
+							while ((s = stdInput.readLine()) != null) {
+
+								res = s;
+								System.out.println(res);
+							}
+
+							while ((s = stdError.readLine()) != null) { // add logger !
+								System.out.println(s);
+							}
+							if (res != null) {
+								createAssociation(res, res.replaceAll("\\s+", ""), classesInModel.get(i).getName(),
+										className, session);
+							}
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+
+					}
+				}
+			}
+
+		}
+
+		return null;
+	}
+
 	public EObject approveClassCondidate(EObject rootModel) {
-		System.out.println("here");
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 		String className = "";
-		System.out.println(rootModel);
 		if (rootModel instanceof ClazzCondidate) {
-			System.out.println("clazz ");
-			className = rootModel.toString().split(":", 0)[1].replaceAll(")","");
+			className = rootModel.toString().split(":", 0)[1].replaceAll(")", "");
 			System.out.println(className);
 
 		} else {
-			System.out.println("clazz ");
 
 			className = rootModel.toString().split(" ", 2)[1];
 			System.out.println(className);
