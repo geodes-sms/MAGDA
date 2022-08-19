@@ -4,7 +4,7 @@
     <semanticResources>MyMetamodel.metamodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_7eon0PI_EeyK8IF0Z56BzA">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="00511512-c55d-4aaa-ba79-55385360f84f">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="70a23041-f637-4286-b2a6-0782e3f4f865">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']"/>
         <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
       </ownedRepresentationDescriptors>
@@ -19,14 +19,6 @@
             <children xmi:type="notation:Node" xmi:id="_OxJXQAHLEe2KCfZ1_vPOEg" type="3010" element="_OxGT9gHLEe2KCfZ1_vPOEg">
               <styles xmi:type="notation:FontStyle" xmi:id="_OxJXQQHLEe2KCfZ1_vPOEg" fontName="Ubuntu" fontHeight="12"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_OxJXQgHLEe2KCfZ1_vPOEg"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_OxJXQwHLEe2KCfZ1_vPOEg" type="3010" element="_OxG7AAHLEe2KCfZ1_vPOEg">
-              <styles xmi:type="notation:FontStyle" xmi:id="_OxJXRAHLEe2KCfZ1_vPOEg" fontName="Ubuntu" fontHeight="12"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_OxJXRQHLEe2KCfZ1_vPOEg"/>
-            </children>
-            <children xmi:type="notation:Node" xmi:id="_OxJXRgHLEe2KCfZ1_vPOEg" type="3010" element="_OxG7AgHLEe2KCfZ1_vPOEg">
-              <styles xmi:type="notation:FontStyle" xmi:id="_OxJXRwHLEe2KCfZ1_vPOEg" fontName="Ubuntu" fontHeight="12"/>
-              <layoutConstraint xmi:type="notation:Location" xmi:id="_OxJXSAHLEe2KCfZ1_vPOEg"/>
             </children>
             <styles xmi:type="notation:SortingStyle" xmi:id="_Rcmj0fMYEeylCO_ftL8cBQ"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_Rcmj0vMYEeylCO_ftL8cBQ"/>
@@ -154,22 +146,6 @@
         <target xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.0/@attributes.0"/>
         <semanticElements xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.0/@attributes.0"/>
         <ownedStyle xmi:type="diagram:Square" uid="_OxGT9wHLEe2KCfZ1_vPOEg" labelSize="12" labelAlignment="LEFT" labelPosition="node" width="11" height="3" color="255,255,255">
-          <description xmi:type="style:SquareDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']/@style"/>
-        </ownedStyle>
-        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']"/>
-      </ownedElements>
-      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OxG7AAHLEe2KCfZ1_vPOEg" name="model :  String">
-        <target xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.0/@attributes.1"/>
-        <semanticElements xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.0/@attributes.1"/>
-        <ownedStyle xmi:type="diagram:Square" uid="_OxG7AQHLEe2KCfZ1_vPOEg" labelSize="12" labelAlignment="LEFT" labelPosition="node" width="11" height="3" color="255,255,255">
-          <description xmi:type="style:SquareDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']/@style"/>
-        </ownedStyle>
-        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']"/>
-      </ownedElements>
-      <ownedElements xmi:type="diagram:DNodeListElement" uid="_OxG7AgHLEe2KCfZ1_vPOEg" name="year :  int">
-        <target xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.0/@attributes.2"/>
-        <semanticElements xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.0/@attributes.2"/>
-        <ownedStyle xmi:type="diagram:Square" uid="_OxG7AwHLEe2KCfZ1_vPOEg" labelSize="12" labelAlignment="LEFT" labelPosition="node" width="11" height="3" color="255,255,255">
           <description xmi:type="style:SquareDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']/@style"/>
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']"/>

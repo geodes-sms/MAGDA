@@ -145,12 +145,18 @@
                   <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getAttributePrediction()"/>
                 </initialOperation>
               </menuItemDescription>
-              <menuItemDescription xsi:type="tool_1:OperationAction" name="Association" icon="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/association.png">
+              <menuItemDescription xsi:type="tool_1:OperationAction" name="Association" precondition="aql:self.oclIsKindOf(metamodel::Clazz)" icon="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/association.png">
                 <view name="views"/>
                 <initialOperation>
                   <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.getAssociationPrediction()"/>
                 </initialOperation>
               </menuItemDescription>
+            </itemDescriptions>
+            <itemDescriptions xsi:type="tool_1:OperationAction" name="prediction Mode" label="prediction Mode" icon="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/spark.png">
+              <view name="views"/>
+              <initialOperation>
+                <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.setPredictionMode()"/>
+              </initialOperation>
             </itemDescriptions>
           </ownedTools>
           <ownedTools xsi:type="tool:DoubleClickDescription" name="approveClass" label="aapproveClass" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzCondidateContainer']">

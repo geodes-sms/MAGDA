@@ -2,8 +2,6 @@
 <metamodel:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.umontreal.geodes/metamodel">
   <clazz name="plane" isMember="//@clazz.1">
     <attributes name="  id" type=" int"/>
-    <attributes name="model" type=" String"/>
-    <attributes name="year" type=" int"/>
   </clazz>
   <clazz name="airport" has="//@clazz.0">
     <attributes name="id" type=" int"/>

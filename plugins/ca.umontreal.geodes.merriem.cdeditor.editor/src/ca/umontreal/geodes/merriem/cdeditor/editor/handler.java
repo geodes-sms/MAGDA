@@ -48,8 +48,9 @@ public class handler extends AbstractHandler {
 
 	/**
 	 * The constructor.
+	 * @throws Exception 
 	 */
-	public handler() {
+	public handler() throws Exception {
 		this.services = new Services();
 
 		this.config = new Properties();

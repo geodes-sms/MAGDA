@@ -56,8 +56,9 @@ public class Services {
 	private Properties config;
 	protected static final String SIRIUS_DIAGRAM_EDITOR_ID = "org.eclipse.sirius.diagram.ui.part.SiriusDiagramEditorID";
 	protected static final int Nan = 0;
+	protected HashMap<String, HashMap<String, String>> classAttributes;
 
-	public Services() {
+	public Services() throws Exception {
 		this.config = new Properties();
 		try {
 			InputStream stream = Services.class.getClassLoader().getResourceAsStream("/config.properties");
@@ -66,8 +67,24 @@ public class Services {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
+
 	};
 
+	//call threads  for caching begining
+	public EObject setPredictionMode(EObject rootModel) throws InterruptedException {
+		System.out.println("in set predictionMode ....");
+
+		Model m = getModel();
+		cachingThread T = new cachingThread(m); // creating thread
+		T.start();
+		T.join();
+		this.classAttributes = T.classAttributes;
+		System.out.println("hello");
+		System.out.println(this.classAttributes);
+		return rootModel; 
+	}
+	
 	private void getCoorddinatesmodelObject(EObject modelObject) {
 		NodeImpl node = (NodeImpl) modelObject;
 		LayoutConstraint nodeLayoutConstraint = node.getLayoutConstraint();
@@ -388,64 +405,40 @@ public class Services {
 		NodeName = NodeName.replaceAll("\\s+", "");
 		System.out.print("PredictAttibutes for :  ");
 		System.out.println(NodeName);
-		List<String> attributes = new ArrayList<String>();
-		for (int i = 1; i < node.eContents().size(); i++) {
-			attributes.add(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
-		}
-		String input;
-		if (node.eContents().size() > 1) {
-			input = attributes.get(0);
-			for (int i = 1; i < attributes.size(); i++) {
-				input = input.concat(",").concat(attributes.get(i));
+		String[] arrayAttributes  ; 
+		HashMap<String, String> typeAttributes = new HashMap<String, String>();; 
+		if (!classAttributes.containsKey(NodeName)) {
+			List<String> attributes = new ArrayList<String>();
+			for (int i = 1; i < node.eContents().size(); i++) {
+				attributes.add(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
 			}
-		} else
-			input = "";
-		List<String> Results = new ArrayList<String>();
+			String input;
+			if (node.eContents().size() > 1) {
+				input = attributes.get(0);
+				for (int i = 1; i < attributes.size(); i++) {
+					input = input.concat(",").concat(attributes.get(i));
+				}
+			} else
+				input = "";
+			List<String> Results = new ArrayList<String>();
 
-		String scriptLocation = this.config.getProperty("scriptlocation");
-		String pythonCommand = this.config.getProperty("pythoncommand");
-
-		try {
-			Process P1 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py", NodeName, input,
-					"Attribute").start();
-
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P1.getInputStream()));
-			BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
-
-			String s;
-
-			while ((s = stdInput.readLine()) != null) {
-
-				Results.add(s);
-			}
-
-			while ((s = stdError.readLine()) != null) {
-				// add logger !
-				System.out.println(s);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		String[] arrayAttributes = Results.toArray(new String[0]);
-		HashMap<String, String> typeAttributes = new HashMap<String, String>();
-
-		// Add keys and values (Country, City)
-
-		// print recieved attributes from python script
-		for (int i = 0; i < arrayAttributes.length; i++) {
-			System.out.println(arrayAttributes[i]);
-			String Type = "";
+			String scriptLocation = this.config.getProperty("scriptlocation");
+			String pythonCommand = this.config.getProperty("pythoncommand");
 
 			try {
-				Process P2 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py",
-						arrayAttributes[i], input, "Type").start();
-				BufferedReader stdInput = new BufferedReader(new InputStreamReader(P2.getInputStream()));
-				BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
+				Process P1 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py", NodeName, input,
+						"Attribute").start();
+
+				BufferedReader stdInput = new BufferedReader(new InputStreamReader(P1.getInputStream()));
+				BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
+
 				String s;
+
 				while ((s = stdInput.readLine()) != null) {
 
-					Type = s;
+					Results.add(s);
 				}
+
 				while ((s = stdError.readLine()) != null) {
 					// add logger !
 					System.out.println(s);
@@ -453,16 +446,47 @@ public class Services {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			typeAttributes.put(arrayAttributes[i], Type);
+			arrayAttributes = Results.toArray(new String[0]);
+			
 
-			// createAttribute(arrayAttributes[i], Type, NodeName, session);
+			// print recieved attributes from python script
+			for (int i = 0; i < arrayAttributes.length; i++) {
+				String Type = "";
 
+				try {
+					Process P2 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py",
+							arrayAttributes[i], input, "Type").start();
+					BufferedReader stdInput = new BufferedReader(new InputStreamReader(P2.getInputStream()));
+					BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
+					String s;
+					while ((s = stdInput.readLine()) != null) {
+
+						Type = s;
+					}
+					while ((s = stdError.readLine()) != null) {
+						// add logger !
+						System.out.println(s);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				typeAttributes.put(arrayAttributes[i], Type);
+
+				// createAttribute(arrayAttributes[i], Type, NodeName, session);
+
+			}
+			
+		} else {
+			typeAttributes = classAttributes.get(NodeName); 
+			arrayAttributes = typeAttributes.keySet().toArray(new String[typeAttributes.keySet().size()]);; 					
+			
 		}
 		List<String> ResultsTyped = new ArrayList<String>();
 
 		for (int i = 0; i < arrayAttributes.length; i++) {
 			ResultsTyped.add(arrayAttributes[i].concat(":").concat(typeAttributes.get(arrayAttributes[i])));
 		}
+
 		String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
 
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
@@ -484,7 +508,7 @@ public class Services {
 			createAttribute(res, typeAttributes.get(res), NodeName, session);
 		}
 
-		return node;
+			return node;
 	}
 
 	public EObject getClassPrediction(EObject rootModel) {
@@ -601,33 +625,32 @@ public class Services {
 			for (int i = 0; i < classesInModel.size(); i++) {
 				if (classesInModel.get(i).getName().equals(className)) {
 					System.out.println("found the class : ");
-				
-					
+
 					for (int j = 0; j < classesInModel.get(i).getAssociatedTo().size(); j++) {
-						System.out.println("is associated"); 
+						System.out.println("is associated");
 
 						System.out.println(classesInModel.get(i).getAssociatedTo().get(j).getName());
 						classesAssociatedTo.add(classesInModel.get(i).getAssociatedTo().get(j).getName());
 					}
 
-
 					for (int j = 0; j < classesInModel.get(i).getAssociatedFrom().size(); j++) {
-						System.out.println("is associatedfrom"); 
+						System.out.println("is associatedfrom");
 
 						classesAssociatedTo.add(classesInModel.get(i).getAssociatedFrom().get(j).getName());
 					}
 					if (classesInModel.get(i).getIsMember().getName() != null) {
-						System.out.println("is memebr"); 
+						System.out.println("is memebr");
 						System.out.println(classesInModel.get(i).getIsMember().getName());
 
 						classesAssociatedTo.add(classesInModel.get(i).getIsMember().getName());
 					}
-					/*if (classesInModel.get(i).getSpecializes().getName() != null) {
-						System.out.println("is special"); 
-
-						classesAssociatedTo.add(classesInModel.get(i).getSpecializes().getName());
-						System.out.println(classesInModel.get(i).getSpecializes().getName());
-					}*/
+					/*
+					 * if (classesInModel.get(i).getSpecializes().getName() != null) {
+					 * System.out.println("is special");
+					 * 
+					 * classesAssociatedTo.add(classesInModel.get(i).getSpecializes().getName());
+					 * System.out.println(classesInModel.get(i).getSpecializes().getName()); }
+					 */
 
 				}
 			}
