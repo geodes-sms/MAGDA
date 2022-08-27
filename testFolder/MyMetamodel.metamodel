@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <metamodel:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.umontreal.geodes/metamodel">
-  <clazz name="plane" isMember="//@clazz.1">
-    <attributes name="  id" type=" int"/>
-  </clazz>
+  <clazz name="plane" isMember="//@clazz.1"/>
   <clazz name="airport" has="//@clazz.0">
     <attributes name="id" type=" int"/>
     <attributes name=" name" type=" String"/>
@@ -10,11 +8,9 @@
     <attributes name=" city" type=" String"/>
     <attributes name=" countr" type=" String"/>
   </clazz>
-  <clazz name="passenger" specializes="//@clazz.3">
+  <clazz name="passenger">
     <attributes name="name" type="String"/>
     <attributes name="passeportId" type="String"/>
     <attributes name="nationality" type="String"/>
   </clazz>
-  <clazz name="person" generalizes="//@clazz.2"/>
-  <clazz name="trip"/>
 </metamodel:Model>

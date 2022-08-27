@@ -57,6 +57,7 @@ public class Services {
 	protected static final String SIRIUS_DIAGRAM_EDITOR_ID = "org.eclipse.sirius.diagram.ui.part.SiriusDiagramEditorID";
 	protected static final int Nan = 0;
 	protected HashMap<String, HashMap<String, String>> classAttributes;
+	protected HashMap<String, List<String>> relatedClasses;
 
 	public Services() throws Exception {
 		this.config = new Properties();
@@ -67,24 +68,24 @@ public class Services {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	
 
 	};
 
-	//call threads  for caching begining
+	// call threads for caching begining
 	public EObject setPredictionMode(EObject rootModel) throws InterruptedException {
-		System.out.println("in set predictionMode ....");
+		System.out.println("in  predictionMode ....");
 
 		Model m = getModel();
-		cachingThread T = new cachingThread(m); // creating thread
+		cachingThread T = new cachingThread(m, null); // creating thread
 		T.start();
 		T.join();
 		this.classAttributes = T.classAttributes;
-		System.out.println("hello");
+		this.relatedClasses = T.relatedClasses;
+
 		System.out.println(this.classAttributes);
-		return rootModel; 
+		return rootModel;
 	}
-	
+
 	private void getCoorddinatesmodelObject(EObject modelObject) {
 		NodeImpl node = (NodeImpl) modelObject;
 		LayoutConstraint nodeLayoutConstraint = node.getLayoutConstraint();
@@ -171,7 +172,6 @@ public class Services {
 					DRepresentation represnt = null;
 					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
 						represnt = descrp.getRepresentation();
-
 					}
 					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
@@ -405,8 +405,9 @@ public class Services {
 		NodeName = NodeName.replaceAll("\\s+", "");
 		System.out.print("PredictAttibutes for :  ");
 		System.out.println(NodeName);
-		String[] arrayAttributes  ; 
-		HashMap<String, String> typeAttributes = new HashMap<String, String>();; 
+		String[] arrayAttributes;
+		HashMap<String, String> typeAttributes = new HashMap<String, String>();
+
 		if (!classAttributes.containsKey(NodeName)) {
 			List<String> attributes = new ArrayList<String>();
 			for (int i = 1; i < node.eContents().size(); i++) {
@@ -447,7 +448,6 @@ public class Services {
 				e.printStackTrace();
 			}
 			arrayAttributes = Results.toArray(new String[0]);
-			
 
 			// print recieved attributes from python script
 			for (int i = 0; i < arrayAttributes.length; i++) {
@@ -475,11 +475,11 @@ public class Services {
 				// createAttribute(arrayAttributes[i], Type, NodeName, session);
 
 			}
-			
+
 		} else {
-			typeAttributes = classAttributes.get(NodeName); 
-			arrayAttributes = typeAttributes.keySet().toArray(new String[typeAttributes.keySet().size()]);; 					
-			
+			typeAttributes = classAttributes.get(NodeName);
+			arrayAttributes = typeAttributes.keySet().toArray(new String[typeAttributes.keySet().size()]);
+
 		}
 		List<String> ResultsTyped = new ArrayList<String>();
 
@@ -499,7 +499,6 @@ public class Services {
 
 		if (dialog.open() != Window.OK) {
 			// return false;
-			System.out.println("not ok ");
 		}
 		Object[] result = dialog.getResult();
 		for (int i = 0; i < result.length; i++) {
@@ -508,7 +507,7 @@ public class Services {
 			createAttribute(res, typeAttributes.get(res), NodeName, session);
 		}
 
-			return node;
+		return node;
 	}
 
 	public EObject getClassPrediction(EObject rootModel) {
@@ -517,12 +516,14 @@ public class Services {
 		// rootModel) ;
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
+		String[] arrayConcepts = new String[50];
+		List<String> Concepts = new ArrayList<String>();
+
 		List<String> classNames = new ArrayList<String>();
 		List<String> AllclassNames = new ArrayList<String>();
-		List<String> Concepts = new ArrayList<String>();
 		Model model = getModel();
 		List<Clazz> classesInModel = model.getClazz();
-
+		String className = "";
 		List<ClazzCondidate> classeCondidateInModel = model.getClazzcondidate();
 
 		for (int i = 0; i < classesInModel.size(); i++) {
@@ -543,64 +544,65 @@ public class Services {
 				classNames.add(classesInModel.get(i).getName());
 			}
 		} else if (rootModel instanceof Clazz) {
-			System.out.println("from one class");
+			System.out.print("from one class");
 			Clazz inputClass = (Clazz) rootModel;
 			input = inputClass.getName();
+			className = input;
 			classNames.add(inputClass.getName());
 			// heuristic: what to send to GPT3
 			Random rand = new Random();
 			String randomElement = AllclassNames.get(rand.nextInt(AllclassNames.size()));
 			input = input.concat(",").concat(randomElement);
+			System.out.println(className);
 
 		}
+		if (!relatedClasses.containsKey(className)) {
+			System.out.println("not found in Cash! , start predicting ... ");
+			Process p;
 
-		Process p;
+			for (int i = 0; i < AllclassNames.size(); i++) {
+				System.out.println(AllclassNames.get(i));
 
-		for (int i = 0; i < AllclassNames.size(); i++) {
-			System.out.println(AllclassNames.get(i));
+			}
+			String scriptLocation = this.config.getProperty("scriptlocation");
+			String pythonCommand = this.config.getProperty("pythoncommand");
+			if (input != "") {
+				try {
+					Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictConcepts.py", input).start();
 
-		}
-		String scriptLocation = this.config.getProperty("scriptlocation");
-		String pythonCommand = this.config.getProperty("pythoncommand");
-		if (input != "") {
-			try {
-				Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictConcepts.py", input).start();
+					String line = "";
+					BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
+					BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
 
-				String line = "";
-				BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
-				BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
-
-				String s;
-				while ((s = stdInput.readLine()) != null) {
-					if (!AllclassNames.contains(s)) {
-						Concepts.add(s);
+					String s;
+					while ((s = stdInput.readLine()) != null) {
+						if (!AllclassNames.contains(s)) {
+							Concepts.add(s);
+						}
 					}
+
+					while ((s = stdError.readLine()) != null) { // add logger !
+						System.out.println(s);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
 
-				while ((s = stdError.readLine()) != null) { // add logger !
-					System.out.println(s);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+				arrayConcepts = Concepts.toArray(new String[0]);
 			}
+		} else {
+			System.out.println("already found in Cash! ");
+			arrayConcepts = relatedClasses.get(className).toArray(new String[0]);
+		}
+		// create class condidate
+		for (int i = 0; i < arrayConcepts.length; i++) {
 
-			String[] arrayConcepts = Concepts.toArray(new String[0]);
+			if (!containsIgnoreCase(AllclassNames, arrayConcepts[i].toLowerCase())) {
+				System.out.println(arrayConcepts[i]);
+				createClassCondidate(arrayConcepts[i], session);
 
-			// create class condidate
-			for (int i = 0; i < Concepts.size(); i++) {
-
-				if (!containsIgnoreCase(AllclassNames, arrayConcepts[i].toLowerCase())) {
-					System.out.println(arrayConcepts[i]);
-
-					createClassCondidate(arrayConcepts[i], session);
-
-				}
 			}
 		}
-		// For prototype: window to select from
-
-		// Create clazz (container) in editor if a concept is chosen.
-
 		return null;
 	}
 
@@ -702,7 +704,7 @@ public class Services {
 		return null;
 	}
 
-	public EObject approveClassCondidate(EObject rootModel) {
+	public EObject approveClassCondidate(EObject rootModel) throws InterruptedException {
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 		String className = "";
@@ -721,6 +723,11 @@ public class Services {
 		}
 		createClass(className, session);
 		deletetClassCondidate(className, session);
+		// run thread (caching system)
+		cachingThread T = new cachingThread(getModel(), className); // creating thread
+		T.start();
+		T.join();
+		this.classAttributes.putAll(T.classAttributes);
 
 		return rootModel;
 	}
