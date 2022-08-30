@@ -40,7 +40,7 @@ public class cachingThread extends Thread {
 	// called when a new concept is added to the model
 
 	public HashMap<String, String> updateAttributes(String className) {
-		
+
 		String scriptLocation = this.config.getProperty("scriptlocation");
 		String pythonCommand = this.config.getProperty("pythoncommand");
 		String input = "";
@@ -98,8 +98,9 @@ public class cachingThread extends Thread {
 
 	public void run() {
 		HashMap<String, String> typeAttributes = new HashMap<String, String>();
-		
-		//check what part of run should be executed (is a new concept added so just attributes will be predicted for that)
+
+		// check what part of run should be executed (is a new concept added so just
+		// attributes will be predicted for that)
 		if (this.newClassAdded == null) {
 			System.out.print("prediction is proceeding 1 ... ");
 
@@ -112,12 +113,10 @@ public class cachingThread extends Thread {
 
 			for (int i = 0; i < classeCondidateInModel.size(); i++) {
 				AllclassNames.add(classeCondidateInModel.get(i).getName());
-
 			}
 
 			for (int i = 0; i < classesInModel.size(); i++) {
 				AllclassNames.add(classesInModel.get(i).getName());
-
 			}
 			HashMap<String, HashMap<String, String>> classAttributes = new HashMap<String, HashMap<String, String>>();
 			HashMap<String, List<String>> relatedClasses = new HashMap<String, List<String>>();
@@ -140,7 +139,6 @@ public class cachingThread extends Thread {
 				Random rand = new Random();
 				String randomElement = AllclassNames.get(rand.nextInt(AllclassNames.size()));
 				input = input.concat(",").concat(randomElement);
-
 				try {
 					Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictConcepts.py", input).start();
 

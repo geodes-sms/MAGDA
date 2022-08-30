@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -21,6 +22,8 @@ import org.eclipse.gmf.runtime.notation.Bounds;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.LayoutConstraint;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
+import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
@@ -32,6 +35,7 @@ import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
@@ -61,6 +65,8 @@ public class Services {
 
 	public Services() throws Exception {
 		this.config = new Properties();
+		this.relatedClasses = new HashMap<String, List<String>>();
+		this.classAttributes = new HashMap<String, HashMap<String, String>>();
 		try {
 			InputStream stream = Services.class.getClassLoader().getResourceAsStream("/config.properties");
 			this.config.load(stream);
@@ -71,17 +77,23 @@ public class Services {
 
 	};
 
-	// call threads for caching begining
+	// call threads for caching beginning
 	public EObject setPredictionMode(EObject rootModel) throws InterruptedException {
 		System.out.println("in  predictionMode ....");
+		ProgressMonitorDialog progressDialog = new ProgressMonitorDialog(Display.getCurrent().getActiveShell());
 
 		Model m = getModel();
-		cachingThread T = new cachingThread(m, null); // creating thread
-		T.start();
-		T.join();
-		this.classAttributes = T.classAttributes;
-		this.relatedClasses = T.relatedClasses;
 
+		try {
+			cachingThread T = new cachingThread(m, null); // creating thread
+			T.start();
+			T.join();
+			this.classAttributes = T.classAttributes;
+			this.relatedClasses = T.relatedClasses;
+
+		} catch (InterruptedException ex) {
+			ex.printStackTrace();
+		}
 		System.out.println(this.classAttributes);
 		return rootModel;
 	}
@@ -357,10 +369,7 @@ public class Services {
 							ClassTarget = classes.get(i);
 						}
 					}
-					System.out.print("type : ");
-
-					System.out.println(Type);
-
+					
 					switch (Type) {
 					case "inheritance":
 						ClassSource.setSpecializes(ClassTarget);
@@ -399,7 +408,7 @@ public class Services {
 
 		Session session = SessionManager.INSTANCE.getSession(node);
 		assert session != null;
-
+		
 		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
 
 		NodeName = NodeName.replaceAll("\\s+", "");
@@ -407,8 +416,11 @@ public class Services {
 		System.out.println(NodeName);
 		String[] arrayAttributes;
 		HashMap<String, String> typeAttributes = new HashMap<String, String>();
+		if (classAttributes.containsKey(NodeName) && (!classAttributes.get(NodeName).isEmpty())) {
 
-		if (!classAttributes.containsKey(NodeName)) {
+			typeAttributes = classAttributes.get(NodeName);
+			arrayAttributes = typeAttributes.keySet().toArray(new String[typeAttributes.keySet().size()]);
+		} else {
 			List<String> attributes = new ArrayList<String>();
 			for (int i = 1; i < node.eContents().size(); i++) {
 				attributes.add(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
@@ -432,9 +444,7 @@ public class Services {
 
 				BufferedReader stdInput = new BufferedReader(new InputStreamReader(P1.getInputStream()));
 				BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
-
 				String s;
-
 				while ((s = stdInput.readLine()) != null) {
 
 					Results.add(s);
@@ -452,33 +462,30 @@ public class Services {
 			// print recieved attributes from python script
 			for (int i = 0; i < arrayAttributes.length; i++) {
 				String Type = "";
+				if (arrayAttributes[i] != "") {
+					try {
+						Process P2 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py",
+								arrayAttributes[i], input, "Type").start();
+						BufferedReader stdInput = new BufferedReader(new InputStreamReader(P2.getInputStream()));
+						BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
+						String s;
+						while ((s = stdInput.readLine()) != null) {
 
-				try {
-					Process P2 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py",
-							arrayAttributes[i], input, "Type").start();
-					BufferedReader stdInput = new BufferedReader(new InputStreamReader(P2.getInputStream()));
-					BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
-					String s;
-					while ((s = stdInput.readLine()) != null) {
-
-						Type = s;
+							Type = s;
+						}
+						while ((s = stdError.readLine()) != null) {
+							// add logger !
+							System.out.println(s);
+						}
+					} catch (IOException e) {
+						e.printStackTrace();
 					}
-					while ((s = stdError.readLine()) != null) {
-						// add logger !
-						System.out.println(s);
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
 				}
 				typeAttributes.put(arrayAttributes[i], Type);
 
 				// createAttribute(arrayAttributes[i], Type, NodeName, session);
 
 			}
-
-		} else {
-			typeAttributes = classAttributes.get(NodeName);
-			arrayAttributes = typeAttributes.keySet().toArray(new String[typeAttributes.keySet().size()]);
 
 		}
 		List<String> ResultsTyped = new ArrayList<String>();
@@ -506,14 +513,13 @@ public class Services {
 			res = res.split(":")[0];
 			createAttribute(res, typeAttributes.get(res), NodeName, session);
 		}
+		this.classAttributes.put(NodeName, typeAttributes);
 
 		return node;
 	}
 
 	public EObject getClassPrediction(EObject rootModel) {
-		// Node theNode =
-		// org.eclipse.sirius.diagram.ui.business.api.view.SiriusGMFHelper.getGmfNode((DDiagramElement)
-		// rootModel) ;
+
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 		String[] arrayConcepts = new String[50];
@@ -556,7 +562,10 @@ public class Services {
 			System.out.println(className);
 
 		}
-		if (!relatedClasses.containsKey(className)) {
+		if (relatedClasses.containsKey(className) && !relatedClasses.get(className).isEmpty()) {
+			System.out.println("already found in Cash! ");
+			arrayConcepts = relatedClasses.get(className).toArray(new String[0]);
+		} else {
 			System.out.println("not found in Cash! , start predicting ... ");
 			Process p;
 
@@ -590,9 +599,9 @@ public class Services {
 
 				arrayConcepts = Concepts.toArray(new String[0]);
 			}
-		} else {
-			System.out.println("already found in Cash! ");
-			arrayConcepts = relatedClasses.get(className).toArray(new String[0]);
+
+			// add to cach or not ?
+			relatedClasses.put(className, Concepts);
 		}
 		// create class condidate
 		for (int i = 0; i < arrayConcepts.length; i++) {
@@ -628,35 +637,33 @@ public class Services {
 				if (classesInModel.get(i).getName().equals(className)) {
 					System.out.println("found the class : ");
 
-					for (int j = 0; j < classesInModel.get(i).getAssociatedTo().size(); j++) {
-						System.out.println("is associated");
+					if (classesInModel.get(i).getAssociatedTo() != null) {
+						for (int j = 0; j < classesInModel.get(i).getAssociatedTo().size(); j++) {
+							System.out.println("is associated");
 
-						System.out.println(classesInModel.get(i).getAssociatedTo().get(j).getName());
-						classesAssociatedTo.add(classesInModel.get(i).getAssociatedTo().get(j).getName());
+							System.out.println(classesInModel.get(i).getAssociatedTo().get(j).getName());
+							classesAssociatedTo.add(classesInModel.get(i).getAssociatedTo().get(j).getName());
+						}
+					}
+					if (classesInModel.get(i).getAssociatedFrom() != null) {
+						for (int j = 0; j < classesInModel.get(i).getAssociatedFrom().size(); j++) {
+							System.out.println("is associatedfrom");
+							classesAssociatedTo.add(classesInModel.get(i).getAssociatedFrom().get(j).getName());
+						}
 					}
 
-					for (int j = 0; j < classesInModel.get(i).getAssociatedFrom().size(); j++) {
-						System.out.println("is associatedfrom");
-
-						classesAssociatedTo.add(classesInModel.get(i).getAssociatedFrom().get(j).getName());
-					}
-					if (classesInModel.get(i).getIsMember().getName() != null) {
+					if (classesInModel.get(i).getIsMember() != null) {
 						System.out.println("is memebr");
 						System.out.println(classesInModel.get(i).getIsMember().getName());
-
 						classesAssociatedTo.add(classesInModel.get(i).getIsMember().getName());
 					}
-					/*
-					 * if (classesInModel.get(i).getSpecializes().getName() != null) {
-					 * System.out.println("is special");
-					 * 
-					 * classesAssociatedTo.add(classesInModel.get(i).getSpecializes().getName());
-					 * System.out.println(classesInModel.get(i).getSpecializes().getName()); }
-					 */
-
+					if (classesInModel.get(i).getSpecializes() != null) {
+						System.out.println("is special");
+						classesAssociatedTo.add(classesInModel.get(i).getSpecializes().getName());
+						System.out.println(classesInModel.get(i).getSpecializes().getName());
+					}
 				}
 			}
-			System.out.println("classesAssociatedTo");
 
 			System.out.println(classesAssociatedTo);
 			for (int i = 0; i < classesInModel.size(); i++) {
@@ -709,26 +716,28 @@ public class Services {
 		assert session != null;
 		String className = "";
 		if (rootModel instanceof ClazzCondidate) {
-			className = rootModel.toString().split(":", 0)[1].replaceAll(")", "");
+			System.out.println(rootModel);
+			className = rootModel.toString().split(":", 2)[1];
+			System.out.println(className);
+
+			className=className.replace(")", " ");
 			System.out.println(className);
 
 		} else {
-
 			className = rootModel.toString().split(" ", 2)[1];
 			System.out.println(className);
 
 		}
 		if (className.contains(":")) {
-			className = className.split(":", 0)[1].replaceAll(")", "");
+			className = className.split(":", 0)[1].replace(")", "");
 		}
 		createClass(className, session);
 		deletetClassCondidate(className, session);
 		// run thread (caching system)
-		cachingThread T = new cachingThread(getModel(), className); // creating thread
-		T.start();
-		T.join();
-		this.classAttributes.putAll(T.classAttributes);
+		callableThread C = new callableThread(getModel(), className);
+		// creating thread
 
+		this.classAttributes.putAll(C.call());
 		return rootModel;
 	}
 

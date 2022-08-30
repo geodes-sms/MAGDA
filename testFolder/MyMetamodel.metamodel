@@ -12,5 +12,9 @@
     <attributes name="name" type="String"/>
     <attributes name="passeportId" type="String"/>
     <attributes name="nationality" type="String"/>
+    <attributes name=" flightNo" type=" String"/>
+    <attributes name="id" type=" int"/>
   </clazz>
+  <clazz name="trip"/>
+  <clazz name=" City "/>
 </metamodel:Model>

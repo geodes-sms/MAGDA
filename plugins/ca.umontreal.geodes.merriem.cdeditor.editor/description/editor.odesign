@@ -159,15 +159,15 @@
               </initialOperation>
             </itemDescriptions>
           </ownedTools>
-          <ownedTools xsi:type="tool:DoubleClickDescription" name="approveClass" label="aapproveClass" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzCondidateContainer']">
-            <element name="element"/>
-            <elementView name="elementView"/>
+          <ownedTools xsi:type="tool_1:OperationAction" name="Approve" precondition="aql:self.oclIsKindOf(metamodel::ClazzCondidate)" icon="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/check.png">
+            <view name="views"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.approveClassCondidate()"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool_1:OperationAction" name="Approve" precondition="aql:self.oclIsKindOf(metamodel::ClazzCondidate)" icon="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/check.png">
-            <view name="views"/>
+          <ownedTools xsi:type="tool:DoubleClickDescription" name="approveClass" label="aapproveClass" mappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzCondidateContainer']">
+            <element name="element"/>
+            <elementView name="elementView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.approveClassCondidate()"/>
             </initialOperation>

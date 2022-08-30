@@ -4,7 +4,7 @@
     <semanticResources>MyMetamodel.metamodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_7eon0PI_EeyK8IF0Z56BzA">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="461e8628-5322-400f-8dd2-b86099f4cb55">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="1f2e1622-b306-46f5-b30b-41022b4184f7">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']"/>
         <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
       </ownedRepresentationDescriptors>
@@ -66,11 +66,37 @@
               <styles xmi:type="notation:FontStyle" xmi:id="_z_tgofMaEeyKnpWk5zTXjQ" fontName="Ubuntu" fontHeight="12"/>
               <layoutConstraint xmi:type="notation:Location" xmi:id="_z_tgovMaEeyKnpWk5zTXjQ"/>
             </children>
+            <children xmi:type="notation:Node" xmi:id="_nfqfgCgXEe25rfk6Mrxm0A" type="3010" element="_nfjKxCgXEe25rfk6Mrxm0A">
+              <styles xmi:type="notation:FontStyle" xmi:id="_nfqfgSgXEe25rfk6Mrxm0A" fontName="Ubuntu" fontHeight="12"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_nfqfgigXEe25rfk6Mrxm0A"/>
+            </children>
+            <children xmi:type="notation:Node" xmi:id="_nfqfgygXEe25rfk6Mrxm0A" type="3010" element="_nfm1KSgXEe25rfk6Mrxm0A">
+              <styles xmi:type="notation:FontStyle" xmi:id="_nfqfhCgXEe25rfk6Mrxm0A" fontName="Ubuntu" fontHeight="12"/>
+              <layoutConstraint xmi:type="notation:Location" xmi:id="_nfqfhSgXEe25rfk6Mrxm0A"/>
+            </children>
             <styles xmi:type="notation:SortingStyle" xmi:id="_RcqOMfMYEeylCO_ftL8cBQ"/>
             <styles xmi:type="notation:FilteringStyle" xmi:id="_RcqOMvMYEeylCO_ftL8cBQ"/>
           </children>
           <styles xmi:type="notation:ShapeStyle" xmi:id="_RcpnJfMYEeylCO_ftL8cBQ" fontName="Ubuntu" fontHeight="12"/>
           <layoutConstraint xmi:type="notation:Bounds" xmi:id="_RcpnJvMYEeylCO_ftL8cBQ" x="492" y="60" width="219" height="135"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_oLr60CfREe2Rv-yzZpWDig" type="2003" element="_nloAZSfREe2Rv-yzZpWDig">
+          <children xmi:type="notation:Node" xmi:id="_oLsh4CfREe2Rv-yzZpWDig" type="5007"/>
+          <children xmi:type="notation:Node" xmi:id="_oLsh4SfREe2Rv-yzZpWDig" type="7004">
+            <styles xmi:type="notation:SortingStyle" xmi:id="_oLsh4ifREe2Rv-yzZpWDig"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_oLsh4yfREe2Rv-yzZpWDig"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_oLr60SfREe2Rv-yzZpWDig" fontName="Ubuntu" fontHeight="12"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_oLr60ifREe2Rv-yzZpWDig" x="372" y="252" width="130" height="30"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_wVgMQChuEe2elpeAx38arg" type="2003" element="_vXnAoihuEe2elpeAx38arg">
+          <children xmi:type="notation:Node" xmi:id="_wViogChuEe2elpeAx38arg" type="5007"/>
+          <children xmi:type="notation:Node" xmi:id="_wViogShuEe2elpeAx38arg" type="7004">
+            <styles xmi:type="notation:SortingStyle" xmi:id="_wViogihuEe2elpeAx38arg"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_wViogyhuEe2elpeAx38arg"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_wVgMQShuEe2elpeAx38arg" fontName="Ubuntu" fontHeight="12"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_wVgMQihuEe2elpeAx38arg" x="552" y="264" width="130" height="30"/>
         </children>
         <styles xmi:type="notation:DiagramStyle" xmi:id="_ANwCUvJAEeyK8IF0Z56BzA"/>
         <edges xmi:type="notation:Edge" xmi:id="_dp8VEvO1EeyWicayPfWQMg" type="4001" element="_dpkhoPO1EeyWicayPfWQMg" source="_RchrUPMYEeylCO_ftL8cBQ" target="_RcpAEPMYEeylCO_ftL8cBQ">
@@ -190,6 +216,22 @@
         </ownedStyle>
         <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']"/>
       </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_nfjKxCgXEe25rfk6Mrxm0A" name=" flightNo :  String">
+        <target xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.3"/>
+        <semanticElements xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.3"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_nfjKxSgXEe25rfk6Mrxm0A" labelSize="12" labelAlignment="LEFT" labelPosition="node" width="11" height="3" color="255,255,255">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']"/>
+      </ownedElements>
+      <ownedElements xmi:type="diagram:DNodeListElement" uid="_nfm1KSgXEe25rfk6Mrxm0A" name="id :  int">
+        <target xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.4"/>
+        <semanticElements xmi:type="metamodel:Attribute" href="MyMetamodel.metamodel#//@clazz.2/@attributes.4"/>
+        <ownedStyle xmi:type="diagram:Square" uid="_nfm1KigXEe25rfk6Mrxm0A" labelSize="12" labelAlignment="LEFT" labelPosition="node" width="11" height="3" color="255,255,255">
+          <description xmi:type="style:SquareDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']/@style"/>
+        </ownedStyle>
+        <actualMapping xmi:type="description_1:NodeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@subNodeMappings[name='AttributesNode']"/>
+      </ownedElements>
     </ownedDiagramElements>
     <ownedDiagramElements xmi:type="diagram:DEdge" uid="_dpkhoPO1EeyWicayPfWQMg" sourceNode="_RcRzsPMYEeylCO_ftL8cBQ" targetNode="_RcaWkfMYEeylCO_ftL8cBQ">
       <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.0"/>
@@ -198,6 +240,25 @@
         <centerLabelStyle xmi:type="diagram:CenterLabelStyle" uid="_dpkhovO1EeyWicayPfWQMg" labelSize="12"/>
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='composition']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_nloAZSfREe2Rv-yzZpWDig" name="trip" width="13" height="3">
+      <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.3"/>
+      <semanticElements xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.3"/>
+      <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+      <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+      <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_nloncCfREe2Rv-yzZpWDig" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png" borderSize="1" borderSizeComputationExpression="1">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_vXnAoihuEe2elpeAx38arg" name=" City " width="13" height="3">
+      <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.4"/>
+      <semanticElements xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.4"/>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_vXoOwChuEe2elpeAx38arg" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png" borderSize="1" borderSizeComputationExpression="1">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
     </ownedDiagramElements>
     <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']"/>
     <filterVariableHistory xmi:type="diagram:FilterVariableHistory" uid="_ANb5QPJAEeyK8IF0Z56BzA"/>
