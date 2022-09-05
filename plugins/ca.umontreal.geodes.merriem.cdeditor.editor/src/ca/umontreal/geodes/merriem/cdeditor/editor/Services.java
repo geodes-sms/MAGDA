@@ -6,37 +6,55 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.RecordingCommand;
+import org.eclipse.emf.transaction.ResourceSetListener;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.commands.CreateOrSelectElementCommand.LabelProvider;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeEditPart;
+import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.notation.Bounds;
 import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.LayoutConstraint;
+import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
+import org.eclipse.sirius.business.api.query.EObjectQuery;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
+import org.eclipse.sirius.common.ui.tools.api.util.EclipseUIUtil;
+import org.eclipse.sirius.diagram.DDiagramElement;
 import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramSpec;
+import org.eclipse.sirius.diagram.ui.business.api.view.SiriusGMFHelper;
+import org.eclipse.sirius.diagram.ui.business.api.view.SiriusLayoutDataManager;
+import org.eclipse.sirius.diagram.ui.business.internal.view.RootLayoutData;
 import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.sirius.viewpoint.DView;
+import org.eclipse.sirius.viewpoint.ViewpointPackage;
+import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.MessageBox;
 import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
+import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
@@ -74,6 +92,10 @@ public class Services {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		ResourceSetListener listener = new MyListener();
+		TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+
+		domain.addResourceSetListener(listener);
 
 	};
 
@@ -106,8 +128,48 @@ public class Services {
 			int x = bounds.getX();
 			int y = bounds.getY();
 		}
+		
 	}
+	private IGraphicalEditPart getEditPart(DDiagramElement diagramElement) {
+        IEditorPart editor = EclipseUIUtil.getActiveEditor();
+         if (editor instanceof DiagramEditor) {
+             Session session = new EObjectQuery(diagramElement).getSession();
+             View gmfView = SiriusGMFHelper.getGmfView(diagramElement, session);
+	
+             IGraphicalEditPart result = null;
+             if (gmfView != null && editor instanceof DiagramEditor) {
+                 final Map<?, ?> editPartRegistry = ((DiagramEditor) editor).getDiagramGraphicalViewer().getEditPartRegistry();
+                 final Object editPart = editPartRegistry.get(gmfView);
+                 if (editPart instanceof IGraphicalEditPart) {
+                     result = (IGraphicalEditPart) editPart;
+                     return result;
+                 }
+             }
+         }
+         return null;
+     }
+	private void setGraphicalHintsFromExistingNode(DDiagramElement existingNode) {
+		  // Give hints about location and size
+		  IGraphicalEditPart editPart = getEditPart(existingNode);
+		  if (editPart instanceof ShapeEditPart) {
+		    ShapeEditPart part = (ShapeEditPart)editPart;
+		    SiriusLayoutDataManager.INSTANCE.addData(new RootLayoutData(existingNode.eContainer(), part.getLocation(), part.getSize()));
+		  }
+		}
 
+	private void setGraphicalHintsNEAR_ExistingNode(DDiagramElement existingNode, int x ) {
+		  // Give hints about location and size
+		System.out.println("hello ? ");
+		  IGraphicalEditPart editPart = getEditPart(existingNode);
+		  if (editPart instanceof ShapeEditPart) {
+		    ShapeEditPart part = (ShapeEditPart)editPart;
+		    Point p =part.getLocation().getTranslated(x, 1);
+		    System.out.println(x);
+		    System.out.println(p.x);
+		    SiriusLayoutDataManager.INSTANCE.addData(new RootLayoutData(existingNode.eContainer(), p, part.getSize()));
+		  }
+		}
+	
 	private boolean containsIgnoreCase(List<String> list, String soughtFor) {
 
 		for (String current : list) {
@@ -369,7 +431,7 @@ public class Services {
 							ClassTarget = classes.get(i);
 						}
 					}
-					
+
 					switch (Type) {
 					case "inheritance":
 						ClassSource.setSpecializes(ClassTarget);
@@ -408,7 +470,7 @@ public class Services {
 
 		Session session = SessionManager.INSTANCE.getSession(node);
 		assert session != null;
-		
+
 		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
 
 		NodeName = NodeName.replaceAll("\\s+", "");
@@ -416,7 +478,7 @@ public class Services {
 		System.out.println(NodeName);
 		String[] arrayAttributes;
 		HashMap<String, String> typeAttributes = new HashMap<String, String>();
-		if (classAttributes.containsKey(NodeName) && (!classAttributes.get(NodeName).isEmpty())) {
+		if (classAttributes.containsKey(NodeName) && (!classAttributes.get(NodeName).isEmpty() )) {
 
 			typeAttributes = classAttributes.get(NodeName);
 			arrayAttributes = typeAttributes.keySet().toArray(new String[typeAttributes.keySet().size()]);
@@ -446,8 +508,8 @@ public class Services {
 				BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
 				String s;
 				while ((s = stdInput.readLine()) != null) {
-
-					Results.add(s);
+					if (s != "") {Results.add(s);}
+					
 				}
 
 				while ((s = stdError.readLine()) != null) {
@@ -459,7 +521,7 @@ public class Services {
 			}
 			arrayAttributes = Results.toArray(new String[0]);
 
-			// print recieved attributes from python script
+			// print received attributes from python script
 			for (int i = 0; i < arrayAttributes.length; i++) {
 				String Type = "";
 				if (arrayAttributes[i] != "") {
@@ -491,17 +553,20 @@ public class Services {
 		List<String> ResultsTyped = new ArrayList<String>();
 
 		for (int i = 0; i < arrayAttributes.length; i++) {
-			ResultsTyped.add(arrayAttributes[i].concat(":").concat(typeAttributes.get(arrayAttributes[i])));
+			if (arrayAttributes[i] != "" && typeAttributes.get(arrayAttributes[i]) != "") {
+				ResultsTyped.add(arrayAttributes[i].concat(":").concat(typeAttributes.get(arrayAttributes[i])));
+			}
+
 		}
 
 		String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
-
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
 				new LabelProvider());
 
 		dialog.setElements(ArrayResultsTyped);
 		dialog.setTitle("select appropriate attributes, press ctrl for multiple selection");
 		// user pressed cancel
+
 		dialog.setMultipleSelection(true);
 
 		if (dialog.open() != Window.OK) {
@@ -512,9 +577,10 @@ public class Services {
 			String res = (String) result[i];
 			res = res.split(":")[0];
 			createAttribute(res, typeAttributes.get(res), NodeName, session);
+			// don't show already selected attributes
+			typeAttributes.remove(res);
 		}
 		this.classAttributes.put(NodeName, typeAttributes);
-
 		return node;
 	}
 
@@ -538,7 +604,6 @@ public class Services {
 		}
 		for (int i = 0; i < classeCondidateInModel.size(); i++) {
 			AllclassNames.add(classeCondidateInModel.get(i).getName());
-
 		}
 		String input = "";
 		if (rootModel instanceof Model) {
@@ -568,10 +633,8 @@ public class Services {
 		} else {
 			System.out.println("not found in Cash! , start predicting ... ");
 			Process p;
-
 			for (int i = 0; i < AllclassNames.size(); i++) {
 				System.out.println(AllclassNames.get(i));
-
 			}
 			String scriptLocation = this.config.getProperty("scriptlocation");
 			String pythonCommand = this.config.getProperty("pythoncommand");
@@ -603,13 +666,35 @@ public class Services {
 			// add to cach or not ?
 			relatedClasses.put(className, Concepts);
 		}
+		
 		// create class condidate
+		Collection<EObject> objects;
+		Collection<DRepresentation> allRepresentations = DialectManager.INSTANCE.getAllRepresentations(session);
+		for(DRepresentation representation: allRepresentations) {
+			DialectManager.INSTANCE.refresh(representation, new NullProgressMonitor());
+		}
+		objects = new EObjectQuery(rootModel).getInverseReferences(ViewpointPackage.Literals.DSEMANTIC_DECORATOR__TARGET);
+		EObject eob = objects.iterator().next();
+		int x =0 ; 
 		for (int i = 0; i < arrayConcepts.length; i++) {
-
+			System.out.println("creaating a condidate"); 
+			
 			if (!containsIgnoreCase(AllclassNames, arrayConcepts[i].toLowerCase())) {
 				System.out.println(arrayConcepts[i]);
+			
+				x=x+1; 
+				setGraphicalHintsNEAR_ExistingNode(	(DDiagramElement) eob, (i+1)*80);
 				createClassCondidate(arrayConcepts[i], session);
+			}
+			if (x==0){
+				System.out.println("no further prediction ..."); 
+				MessageBox dialog =
+					    new MessageBox(Display.getCurrent().getActiveShell(),  SWT.OK);
+					dialog.setText("No further suggestions are available");
+					
 
+					int returnCode = dialog.open();
+				
 			}
 		}
 		return null;
@@ -626,12 +711,9 @@ public class Services {
 		String scriptLocation = this.config.getProperty("scriptlocation");
 		String pythonCommand = this.config.getProperty("pythoncommand");
 		if (rootModel instanceof Clazz) {
-
 			className = rootModel.toString().split(":")[1];
-
 			className = className.substring(1, className.length() - 1);
 			System.out.println(className);
-
 			List<String> classesAssociatedTo = new ArrayList<String>();
 			for (int i = 0; i < classesInModel.size(); i++) {
 				if (classesInModel.get(i).getName().equals(className)) {
@@ -665,7 +747,6 @@ public class Services {
 				}
 			}
 
-			System.out.println(classesAssociatedTo);
 			for (int i = 0; i < classesInModel.size(); i++) {
 				if (!className.replaceAll("\\s+", "").equals(classesInModel.get(i).getName())) {
 
@@ -700,12 +781,11 @@ public class Services {
 							}
 						} catch (IOException e) {
 							e.printStackTrace();
-						}
 
+						}
 					}
 				}
 			}
-
 		}
 
 		return null;
@@ -718,10 +798,7 @@ public class Services {
 		if (rootModel instanceof ClazzCondidate) {
 			System.out.println(rootModel);
 			className = rootModel.toString().split(":", 2)[1];
-			System.out.println(className);
-
-			className=className.replace(")", " ");
-			System.out.println(className);
+			className = className.replace(")", " ");
 
 		} else {
 			className = rootModel.toString().split(" ", 2)[1];
@@ -731,13 +808,41 @@ public class Services {
 		if (className.contains(":")) {
 			className = className.split(":", 0)[1].replace(")", "");
 		}
-		createClass(className, session);
+		Collection<EObject> objects;
+		Collection<DRepresentation> allRepresentations = DialectManager.INSTANCE.getAllRepresentations(session);
+		for(DRepresentation representation: allRepresentations) {
+			DialectManager.INSTANCE.refresh(representation, new NullProgressMonitor());
+		}
+		objects = new EObjectQuery(rootModel).getInverseReferences(ViewpointPackage.Literals.DSEMANTIC_DECORATOR__TARGET);
+		EObject eob = objects.iterator().next();
+		//the new class should should have the same coordinates as  the condidate class (
+		
+		setGraphicalHintsFromExistingNode((DDiagramElement) eob);		
+		createClass(className, session);		
 		deletetClassCondidate(className, session);
+		Model model = getModel();
+		
+		// !!!! remove comments   for caching !
 		// run thread (caching system)
-		callableThread C = new callableThread(getModel(), className);
+		
+		
+		/*callableThread C = new callableThread(model, className);
+		
+		
 		// creating thread
 
-		this.classAttributes.putAll(C.call());
+		this.classAttributes.putAll(C.call());*/
+
+		List<Clazz> classesInModel = model.getClazz();
+
+		/*for (int i = 0; i < classesInModel.size(); i++) {
+			if (!classAttributes.containsKey(classesInModel.get(i).getName())) {
+				callableThread C2 = new callableThread(model, classesInModel.get(i).getName());
+				// creating thread
+				this.classAttributes.putAll(C2.call());
+
+			}
+		}*/
 		return rootModel;
 	}
 

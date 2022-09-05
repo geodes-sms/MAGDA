@@ -66,38 +66,38 @@ public class callableThread implements Callable {
 
 		// print recieved attributes from python script
 		for (int j = 0; j < arrayAttributes.length; j++) {
-			String Type = "";
+			if (arrayAttributes[j] != "") {
+				String Type = "";
 
-			try {
-				Process P2 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py",
-						arrayAttributes[j], input, "Type").start();
-				BufferedReader stdInput = new BufferedReader(new InputStreamReader(P2.getInputStream()));
-				BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
-				String s;
-				while ((s = stdInput.readLine()) != null) {
-					Type = s;
+				try {
+					Process P2 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py",
+							arrayAttributes[j], input, "Type").start();
+					BufferedReader stdInput = new BufferedReader(new InputStreamReader(P2.getInputStream()));
+					BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
+					String s;
+					while ((s = stdInput.readLine()) != null) {
+						Type = s;
+					}
+					while ((s = stdError.readLine()) != null) {
+						// add logger !
+						System.out.println(s);
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-				while ((s = stdError.readLine()) != null) {
-					// add logger !
-					System.out.println(s);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
+				typeAttributes.put(arrayAttributes[j], Type);
 			}
-			typeAttributes.put(arrayAttributes[j], Type);
-
 		}
 		return typeAttributes;
 
 	}
 
-	public HashMap<String, HashMap<String, String>>  call() {
+	public HashMap<String, HashMap<String, String>> call() {
 		HashMap<String, String> typeAttributes = new HashMap<String, String>();
 
 		System.out.print("prediction in callable ... ");
 		typeAttributes = updateAttributes(newClassAdded);
 		HashMap<String, HashMap<String, String>> classAttributes = new HashMap<String, HashMap<String, String>>();
-
 		classAttributes.put(newClassAdded, typeAttributes);
 		System.out.print("finish in callable ... ");
 
