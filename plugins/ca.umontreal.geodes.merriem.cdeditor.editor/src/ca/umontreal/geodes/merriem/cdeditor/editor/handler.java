@@ -52,6 +52,7 @@ public class handler extends AbstractHandler {
 	 */
 	public handler() throws Exception {
 		this.services = new Services();
+		
 
 		this.config = new Properties();
 		try {
@@ -72,8 +73,6 @@ public class handler extends AbstractHandler {
 
 	public void createInstance(String instanceType, String Name, String containerName) {
 		try {
-			// URI sessionResourceURI =
-			// URI.createFileURI("/home/meriem/editorCD/class-diagram-editor/plugins/ca.umontreal.geodes.meriem.cdeditor.metamodel/model/metamodel.aird");
 			URI sessionResourceURI = URI
 					.createFileURI("/home/meriem//editorCD/class-diagram-editor/testFolder/representations.aird");
 
@@ -164,6 +163,7 @@ public class handler extends AbstractHandler {
 		classes = m.getClazz();
 		List<String> classNames = new ArrayList<String>();
 		String input = "";
+		
 		for (int i = 0; i < classes.size(); i++) {
 			input = input.concat(",").concat(classes.get(i).getName());
 			classNames.add(classes.get(i).getName());
@@ -205,7 +205,7 @@ public class handler extends AbstractHandler {
 		}
 
 		// For prototype: window to select from
-		/*IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
+		IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
 
 		MessageDialog dialog = new MessageDialog(window.getShell(), "Choose relevant class", null,
 				"Choose relevant class", MessageDialog.QUESTION, arrayConcepts, 0);
@@ -218,9 +218,8 @@ public class handler extends AbstractHandler {
 		if (arrayConcepts[result] != "Cancel") {
 
 			createInstance("class", inputSelected, null);
-		}*/
-		//IWorkbenchWindow window = HandlerUtil.getActiveWorkbenchWindowChecked(event);
-
+		}
+		
 		ElementListSelectionDialog dialog =
 			    new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),new LabelProvider());
 		

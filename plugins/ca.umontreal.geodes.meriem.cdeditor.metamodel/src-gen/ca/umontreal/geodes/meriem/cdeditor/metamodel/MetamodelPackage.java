@@ -112,13 +112,22 @@ public interface MetamodelPackage extends EPackage {
 	int MODEL__CLAZZCONDIDATE = 4;
 
 	/**
+	 * The feature id for the '<em><b>Association</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int MODEL__ASSOCIATION = 5;
+
+	/**
 	 * The number of structural features of the '<em>Model</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int MODEL_FEATURE_COUNT = 5;
+	int MODEL_FEATURE_COUNT = 6;
 
 	/**
 	 * The number of operations of the '<em>Model</em>' class.
@@ -278,31 +287,13 @@ public interface MetamodelPackage extends EPackage {
 	int CLAZZ__SPECIALIZES = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Associated From</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLAZZ__ASSOCIATED_FROM = NAMED_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
-	 * The feature id for the '<em><b>Associated To</b></em>' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLAZZ__ASSOCIATED_TO = NAMED_ELEMENT_FEATURE_COUNT + 3;
-
-	/**
 	 * The feature id for the '<em><b>Has</b></em>' reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLAZZ__HAS = NAMED_ELEMENT_FEATURE_COUNT + 4;
+	int CLAZZ__HAS = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Is Member</b></em>' reference.
@@ -311,7 +302,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLAZZ__IS_MEMBER = NAMED_ELEMENT_FEATURE_COUNT + 5;
+	int CLAZZ__IS_MEMBER = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Attributes</b></em>' containment reference list.
@@ -320,7 +311,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLAZZ__ATTRIBUTES = NAMED_ELEMENT_FEATURE_COUNT + 6;
+	int CLAZZ__ATTRIBUTES = NAMED_ELEMENT_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Clazz</em>' class.
@@ -329,7 +320,7 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int CLAZZ_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 7;
+	int CLAZZ_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>Clazz</em>' class.
@@ -470,6 +461,79 @@ public interface MetamodelPackage extends EPackage {
 	int ATTRIBUTE_CONDIDATE_OPERATION_COUNT = TYPED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
+	 * The meta object id for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationImpl <em>Association</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationImpl
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getAssociation()
+	 * @generated
+	 */
+	int ASSOCIATION = 8;
+
+	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATION__NAME = NAMED_ELEMENT__NAME;
+
+	/**
+	 * The feature id for the '<em><b>Lower Bound</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATION__LOWER_BOUND = NAMED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Source</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATION__SOURCE = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATION__TARGET = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Upper Bound</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATION__UPPER_BOUND = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of structural features of the '<em>Association</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 4;
+
+	/**
+	 * The number of operations of the '<em>Association</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ASSOCIATION_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+
+	/**
 	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model <em>Model</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -533,6 +597,17 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getModel_Clazzcondidate();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getAssociation <em>Association</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Association</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getAssociation()
+	 * @see #getModel()
+	 * @generated
+	 */
+	EReference getModel_Association();
 
 	/**
 	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.NamedElement <em>Named Element</em>}'.
@@ -619,28 +694,6 @@ public interface MetamodelPackage extends EPackage {
 	EReference getClazz_Specializes();
 
 	/**
-	 * Returns the meta object for the reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedFrom <em>Associated From</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Associated From</em>'.
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedFrom()
-	 * @see #getClazz()
-	 * @generated
-	 */
-	EReference getClazz_AssociatedFrom();
-
-	/**
-	 * Returns the meta object for the reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedTo <em>Associated To</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference list '<em>Associated To</em>'.
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedTo()
-	 * @see #getClazz()
-	 * @generated
-	 */
-	EReference getClazz_AssociatedTo();
-
-	/**
 	 * Returns the meta object for the reference list '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getHas <em>Has</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -713,6 +766,60 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 */
 	EClass getAttributeCondidate();
+
+	/**
+	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Association <em>Association</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Association</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Association
+	 * @generated
+	 */
+	EClass getAssociation();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Association#getLowerBound <em>Lower Bound</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Lower Bound</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Association#getLowerBound()
+	 * @see #getAssociation()
+	 * @generated
+	 */
+	EAttribute getAssociation_LowerBound();
+
+	/**
+	 * Returns the meta object for the reference '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Association#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Association#getSource()
+	 * @see #getAssociation()
+	 * @generated
+	 */
+	EReference getAssociation_Source();
+
+	/**
+	 * Returns the meta object for the reference '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Association#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Association#getTarget()
+	 * @see #getAssociation()
+	 * @generated
+	 */
+	EReference getAssociation_Target();
+
+	/**
+	 * Returns the meta object for the attribute '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Association#getUpperBound <em>Upper Bound</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Upper Bound</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Association#getUpperBound()
+	 * @see #getAssociation()
+	 * @generated
+	 */
+	EAttribute getAssociation_UpperBound();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -788,6 +895,14 @@ public interface MetamodelPackage extends EPackage {
 		EReference MODEL__CLAZZCONDIDATE = eINSTANCE.getModel_Clazzcondidate();
 
 		/**
+		 * The meta object literal for the '<em><b>Association</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference MODEL__ASSOCIATION = eINSTANCE.getModel_Association();
+
+		/**
 		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.NamedElementImpl <em>Named Element</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -860,22 +975,6 @@ public interface MetamodelPackage extends EPackage {
 		EReference CLAZZ__SPECIALIZES = eINSTANCE.getClazz_Specializes();
 
 		/**
-		 * The meta object literal for the '<em><b>Associated From</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CLAZZ__ASSOCIATED_FROM = eINSTANCE.getClazz_AssociatedFrom();
-
-		/**
-		 * The meta object literal for the '<em><b>Associated To</b></em>' reference list feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference CLAZZ__ASSOCIATED_TO = eINSTANCE.getClazz_AssociatedTo();
-
-		/**
 		 * The meta object literal for the '<em><b>Has</b></em>' reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
@@ -936,6 +1035,48 @@ public interface MetamodelPackage extends EPackage {
 		 * @generated
 		 */
 		EClass ATTRIBUTE_CONDIDATE = eINSTANCE.getAttributeCondidate();
+
+		/**
+		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationImpl <em>Association</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationImpl
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getAssociation()
+		 * @generated
+		 */
+		EClass ASSOCIATION = eINSTANCE.getAssociation();
+
+		/**
+		 * The meta object literal for the '<em><b>Lower Bound</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ASSOCIATION__LOWER_BOUND = eINSTANCE.getAssociation_LowerBound();
+
+		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSOCIATION__SOURCE = eINSTANCE.getAssociation_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ASSOCIATION__TARGET = eINSTANCE.getAssociation_Target();
+
+		/**
+		 * The meta object literal for the '<em><b>Upper Bound</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute ASSOCIATION__UPPER_BOUND = eINSTANCE.getAssociation_UpperBound();
 
 	}
 

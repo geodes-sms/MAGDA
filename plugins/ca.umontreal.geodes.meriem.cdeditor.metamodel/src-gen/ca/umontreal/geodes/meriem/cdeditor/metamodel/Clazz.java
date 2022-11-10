@@ -15,8 +15,6 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getGeneralizes <em>Generalizes</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getSpecializes <em>Specializes</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedFrom <em>Associated From</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedTo <em>Associated To</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getHas <em>Has</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getIsMember <em>Is Member</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAttributes <em>Attributes</em>}</li>
@@ -64,34 +62,6 @@ public interface Clazz extends NamedElement {
 	 * @generated
 	 */
 	void setSpecializes(Clazz value);
-
-	/**
-	 * Returns the value of the '<em><b>Associated From</b></em>' reference list.
-	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz}.
-	 * It is bidirectional and its opposite is '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedTo <em>Associated To</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Associated From</em>' reference list.
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getClazz_AssociatedFrom()
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedTo
-	 * @model opposite="associatedTo"
-	 * @generated
-	 */
-	EList<Clazz> getAssociatedFrom();
-
-	/**
-	 * Returns the value of the '<em><b>Associated To</b></em>' reference list.
-	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz}.
-	 * It is bidirectional and its opposite is '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedFrom <em>Associated From</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Associated To</em>' reference list.
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getClazz_AssociatedTo()
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz#getAssociatedFrom
-	 * @model opposite="associatedFrom"
-	 * @generated
-	 */
-	EList<Clazz> getAssociatedTo();
 
 	/**
 	 * Returns the value of the '<em><b>Has</b></em>' reference list.

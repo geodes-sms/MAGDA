@@ -12,6 +12,8 @@
         eType="#//AttributeCondidate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="clazzcondidate" upperBound="-1"
         eType="#//ClazzCondidate" containment="true"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="association" upperBound="-1"
+        eType="#//Association" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="NamedElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -25,10 +27,6 @@
         eType="#//Clazz" eOpposite="#//Clazz/specializes"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="specializes" eType="#//Clazz"
         eOpposite="#//Clazz/generalizes"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedFrom" upperBound="-1"
-        eType="#//Clazz" eOpposite="#//Clazz/associatedTo"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="associatedTo" upperBound="-1"
-        eType="#//Clazz" eOpposite="#//Clazz/associatedFrom"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="has" upperBound="-1" eType="#//Clazz"
         eOpposite="#//Clazz/isMember"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="isMember" eType="#//Clazz"
@@ -42,4 +40,12 @@
         eType="#//AttributeCondidate" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeCondidate" eSuperTypes="#//TypedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="Association" eSuperTypes="#//NamedElement">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="LowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
+        eType="#//Clazz"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
+        eType="#//Clazz"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="UpperBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+  </eClassifiers>
 </ecore:EPackage>

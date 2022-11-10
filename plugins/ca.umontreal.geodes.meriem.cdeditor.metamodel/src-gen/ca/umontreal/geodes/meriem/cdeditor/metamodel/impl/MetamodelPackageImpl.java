@@ -2,6 +2,7 @@
  */
 package ca.umontreal.geodes.meriem.cdeditor.metamodel.impl;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
@@ -82,6 +83,13 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * @generated
 	 */
 	private EClass attributeCondidateEClass = null;
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	private EClass associationEClass = null;
 
 	/**
 	 * Creates an instance of the model <b>Package</b>, registered with
@@ -206,6 +214,15 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getModel_Association() {
+		return (EReference) modelEClass.getEStructuralFeatures().get(5);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getNamedElement() {
 		return namedElementEClass;
 	}
@@ -278,7 +295,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClazz_AssociatedFrom() {
+	public EReference getClazz_Has() {
 		return (EReference) clazzEClass.getEStructuralFeatures().get(2);
 	}
 
@@ -287,7 +304,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClazz_AssociatedTo() {
+	public EReference getClazz_IsMember() {
 		return (EReference) clazzEClass.getEStructuralFeatures().get(3);
 	}
 
@@ -296,26 +313,8 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EReference getClazz_Has() {
-		return (EReference) clazzEClass.getEStructuralFeatures().get(4);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EReference getClazz_IsMember() {
-		return (EReference) clazzEClass.getEStructuralFeatures().get(5);
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EReference getClazz_Attributes() {
-		return (EReference) clazzEClass.getEStructuralFeatures().get(6);
+		return (EReference) clazzEClass.getEStructuralFeatures().get(4);
 	}
 
 	/**
@@ -359,6 +358,51 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EClass getAssociation() {
+		return associationEClass;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAssociation_LowerBound() {
+		return (EAttribute) associationEClass.getEStructuralFeatures().get(0);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAssociation_Source() {
+		return (EReference) associationEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getAssociation_Target() {
+		return (EReference) associationEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EAttribute getAssociation_UpperBound() {
+		return (EAttribute) associationEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public MetamodelFactory getMetamodelFactory() {
 		return (MetamodelFactory) getEFactoryInstance();
 	}
@@ -389,6 +433,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		createEReference(modelEClass, MODEL__ATTRIBUTE);
 		createEReference(modelEClass, MODEL__ATTRIBUTECONDIDATE);
 		createEReference(modelEClass, MODEL__CLAZZCONDIDATE);
+		createEReference(modelEClass, MODEL__ASSOCIATION);
 
 		namedElementEClass = createEClass(NAMED_ELEMENT);
 		createEAttribute(namedElementEClass, NAMED_ELEMENT__NAME);
@@ -401,8 +446,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		clazzEClass = createEClass(CLAZZ);
 		createEReference(clazzEClass, CLAZZ__GENERALIZES);
 		createEReference(clazzEClass, CLAZZ__SPECIALIZES);
-		createEReference(clazzEClass, CLAZZ__ASSOCIATED_FROM);
-		createEReference(clazzEClass, CLAZZ__ASSOCIATED_TO);
 		createEReference(clazzEClass, CLAZZ__HAS);
 		createEReference(clazzEClass, CLAZZ__IS_MEMBER);
 		createEReference(clazzEClass, CLAZZ__ATTRIBUTES);
@@ -413,6 +456,12 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		createEReference(clazzCondidateEClass, CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE);
 
 		attributeCondidateEClass = createEClass(ATTRIBUTE_CONDIDATE);
+
+		associationEClass = createEClass(ASSOCIATION);
+		createEAttribute(associationEClass, ASSOCIATION__LOWER_BOUND);
+		createEReference(associationEClass, ASSOCIATION__SOURCE);
+		createEReference(associationEClass, ASSOCIATION__TARGET);
+		createEAttribute(associationEClass, ASSOCIATION__UPPER_BOUND);
 	}
 
 	/**
@@ -450,6 +499,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		attributeEClass.getESuperTypes().add(this.getTypedElement());
 		clazzCondidateEClass.getESuperTypes().add(this.getNamedElement());
 		attributeCondidateEClass.getESuperTypes().add(this.getTypedElement());
+		associationEClass.getESuperTypes().add(this.getNamedElement());
 
 		// Initialize classes, features, and operations; add parameters
 		initEClass(modelEClass, Model.class, "Model", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
@@ -468,6 +518,9 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		initEReference(getModel_Clazzcondidate(), this.getClazzCondidate(), null, "clazzcondidate", null, 0, -1,
 				Model.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getModel_Association(), this.getAssociation(), null, "association", null, 0, -1, Model.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(namedElementEClass, NamedElement.class, "NamedElement", IS_ABSTRACT, !IS_INTERFACE,
 				IS_GENERATED_INSTANCE_CLASS);
@@ -488,12 +541,6 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClazz_Specializes(), this.getClazz(), this.getClazz_Generalizes(), "specializes", null, 0, 1,
 				Clazz.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getClazz_AssociatedFrom(), this.getClazz(), this.getClazz_AssociatedTo(), "associatedFrom", null,
-				0, -1, Clazz.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
-				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-		initEReference(getClazz_AssociatedTo(), this.getClazz(), this.getClazz_AssociatedFrom(), "associatedTo", null,
-				0, -1, Clazz.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
 				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getClazz_Has(), this.getClazz(), this.getClazz_IsMember(), "has", null, 0, -1, Clazz.class,
 				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
@@ -516,6 +563,19 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 
 		initEClass(attributeCondidateEClass, AttributeCondidate.class, "AttributeCondidate", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
+
+		initEClass(associationEClass, Association.class, "Association", !IS_ABSTRACT, !IS_INTERFACE,
+				IS_GENERATED_INSTANCE_CLASS);
+		initEAttribute(getAssociation_LowerBound(), ecorePackage.getEInt(), "LowerBound", null, 0, 1, Association.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAssociation_Source(), this.getClazz(), null, "source", null, 1, 1, Association.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getAssociation_Target(), this.getClazz(), null, "target", null, 1, 1, Association.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE,
+				IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEAttribute(getAssociation_UpperBound(), ecorePackage.getEInt(), "UpperBound", null, 0, 1, Association.class,
+				!IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Create resource
 		createResource(eNS_URI);

@@ -32,8 +32,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl#getGeneralizes <em>Generalizes</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl#getSpecializes <em>Specializes</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl#getAssociatedFrom <em>Associated From</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl#getAssociatedTo <em>Associated To</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl#getHas <em>Has</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl#getIsMember <em>Is Member</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl#getAttributes <em>Attributes</em>}</li>
@@ -61,26 +59,6 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 	 * @ordered
 	 */
 	protected Clazz specializes;
-
-	/**
-	 * The cached value of the '{@link #getAssociatedFrom() <em>Associated From</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAssociatedFrom()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Clazz> associatedFrom;
-
-	/**
-	 * The cached value of the '{@link #getAssociatedTo() <em>Associated To</em>}' reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getAssociatedTo()
-	 * @generated
-	 * @ordered
-	 */
-	protected EList<Clazz> associatedTo;
 
 	/**
 	 * The cached value of the '{@link #getHas() <em>Has</em>}' reference list.
@@ -217,32 +195,6 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Clazz> getAssociatedFrom() {
-		if (associatedFrom == null) {
-			associatedFrom = new EObjectWithInverseResolvingEList.ManyInverse<Clazz>(Clazz.class, this,
-					MetamodelPackage.CLAZZ__ASSOCIATED_FROM, MetamodelPackage.CLAZZ__ASSOCIATED_TO);
-		}
-		return associatedFrom;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public EList<Clazz> getAssociatedTo() {
-		if (associatedTo == null) {
-			associatedTo = new EObjectWithInverseResolvingEList.ManyInverse<Clazz>(Clazz.class, this,
-					MetamodelPackage.CLAZZ__ASSOCIATED_TO, MetamodelPackage.CLAZZ__ASSOCIATED_FROM);
-		}
-		return associatedTo;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
 	public EList<Clazz> getHas() {
 		if (has == null) {
 			has = new EObjectWithInverseResolvingEList<Clazz>(Clazz.class, this, MetamodelPackage.CLAZZ__HAS,
@@ -348,10 +300,6 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 				msgs = ((InternalEObject) specializes).eInverseRemove(this, MetamodelPackage.CLAZZ__GENERALIZES,
 						Clazz.class, msgs);
 			return basicSetSpecializes((Clazz) otherEnd, msgs);
-		case MetamodelPackage.CLAZZ__ASSOCIATED_FROM:
-			return ((InternalEList<InternalEObject>) (InternalEList<?>) getAssociatedFrom()).basicAdd(otherEnd, msgs);
-		case MetamodelPackage.CLAZZ__ASSOCIATED_TO:
-			return ((InternalEList<InternalEObject>) (InternalEList<?>) getAssociatedTo()).basicAdd(otherEnd, msgs);
 		case MetamodelPackage.CLAZZ__HAS:
 			return ((InternalEList<InternalEObject>) (InternalEList<?>) getHas()).basicAdd(otherEnd, msgs);
 		case MetamodelPackage.CLAZZ__IS_MEMBER:
@@ -375,10 +323,6 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 			return ((InternalEList<?>) getGeneralizes()).basicRemove(otherEnd, msgs);
 		case MetamodelPackage.CLAZZ__SPECIALIZES:
 			return basicSetSpecializes(null, msgs);
-		case MetamodelPackage.CLAZZ__ASSOCIATED_FROM:
-			return ((InternalEList<?>) getAssociatedFrom()).basicRemove(otherEnd, msgs);
-		case MetamodelPackage.CLAZZ__ASSOCIATED_TO:
-			return ((InternalEList<?>) getAssociatedTo()).basicRemove(otherEnd, msgs);
 		case MetamodelPackage.CLAZZ__HAS:
 			return ((InternalEList<?>) getHas()).basicRemove(otherEnd, msgs);
 		case MetamodelPackage.CLAZZ__IS_MEMBER:
@@ -403,10 +347,6 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 			if (resolve)
 				return getSpecializes();
 			return basicGetSpecializes();
-		case MetamodelPackage.CLAZZ__ASSOCIATED_FROM:
-			return getAssociatedFrom();
-		case MetamodelPackage.CLAZZ__ASSOCIATED_TO:
-			return getAssociatedTo();
 		case MetamodelPackage.CLAZZ__HAS:
 			return getHas();
 		case MetamodelPackage.CLAZZ__IS_MEMBER:
@@ -434,14 +374,6 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 			return;
 		case MetamodelPackage.CLAZZ__SPECIALIZES:
 			setSpecializes((Clazz) newValue);
-			return;
-		case MetamodelPackage.CLAZZ__ASSOCIATED_FROM:
-			getAssociatedFrom().clear();
-			getAssociatedFrom().addAll((Collection<? extends Clazz>) newValue);
-			return;
-		case MetamodelPackage.CLAZZ__ASSOCIATED_TO:
-			getAssociatedTo().clear();
-			getAssociatedTo().addAll((Collection<? extends Clazz>) newValue);
 			return;
 		case MetamodelPackage.CLAZZ__HAS:
 			getHas().clear();
@@ -472,12 +404,6 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 		case MetamodelPackage.CLAZZ__SPECIALIZES:
 			setSpecializes((Clazz) null);
 			return;
-		case MetamodelPackage.CLAZZ__ASSOCIATED_FROM:
-			getAssociatedFrom().clear();
-			return;
-		case MetamodelPackage.CLAZZ__ASSOCIATED_TO:
-			getAssociatedTo().clear();
-			return;
 		case MetamodelPackage.CLAZZ__HAS:
 			getHas().clear();
 			return;
@@ -503,10 +429,6 @@ public class ClazzImpl extends NamedElementImpl implements Clazz {
 			return generalizes != null && !generalizes.isEmpty();
 		case MetamodelPackage.CLAZZ__SPECIALIZES:
 			return specializes != null;
-		case MetamodelPackage.CLAZZ__ASSOCIATED_FROM:
-			return associatedFrom != null && !associatedFrom.isEmpty();
-		case MetamodelPackage.CLAZZ__ASSOCIATED_TO:
-			return associatedTo != null && !associatedTo.isEmpty();
 		case MetamodelPackage.CLAZZ__HAS:
 			return has != null && !has.isEmpty();
 		case MetamodelPackage.CLAZZ__IS_MEMBER:

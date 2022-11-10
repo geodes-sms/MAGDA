@@ -68,6 +68,8 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 			return createClazzCondidate();
 		case MetamodelPackage.ATTRIBUTE_CONDIDATE:
 			return createAttributeCondidate();
+		case MetamodelPackage.ASSOCIATION:
+			return createAssociation();
 		default:
 			throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -131,6 +133,16 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	public AttributeCondidate createAttributeCondidate() {
 		AttributeCondidateImpl attributeCondidate = new AttributeCondidateImpl();
 		return attributeCondidate;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public Association createAssociation() {
+		AssociationImpl association = new AssociationImpl();
+		return association;
 	}
 
 	/**

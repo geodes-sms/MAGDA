@@ -2,6 +2,7 @@
  */
 package ca.umontreal.geodes.meriem.cdeditor.metamodel.impl;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
@@ -37,6 +38,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl#getAttribute <em>Attribute</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl#getAttributecondidate <em>Attributecondidate</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl#getClazzcondidate <em>Clazzcondidate</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ModelImpl#getAssociation <em>Association</em>}</li>
  * </ul>
  *
  * @generated
@@ -91,6 +93,16 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * @ordered
 	 */
 	protected EList<ClazzCondidate> clazzcondidate;
+
+	/**
+	 * The cached value of the '{@link #getAssociation() <em>Association</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getAssociation()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<Association> association;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -180,6 +192,19 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EList<Association> getAssociation() {
+		if (association == null) {
+			association = new EObjectContainmentEList<Association>(Association.class, this,
+					MetamodelPackage.MODEL__ASSOCIATION);
+		}
+		return association;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -193,6 +218,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			return ((InternalEList<?>) getAttributecondidate()).basicRemove(otherEnd, msgs);
 		case MetamodelPackage.MODEL__CLAZZCONDIDATE:
 			return ((InternalEList<?>) getClazzcondidate()).basicRemove(otherEnd, msgs);
+		case MetamodelPackage.MODEL__ASSOCIATION:
+			return ((InternalEList<?>) getAssociation()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
@@ -215,6 +242,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			return getAttributecondidate();
 		case MetamodelPackage.MODEL__CLAZZCONDIDATE:
 			return getClazzcondidate();
+		case MetamodelPackage.MODEL__ASSOCIATION:
+			return getAssociation();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -248,6 +277,10 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			getClazzcondidate().clear();
 			getClazzcondidate().addAll((Collection<? extends ClazzCondidate>) newValue);
 			return;
+		case MetamodelPackage.MODEL__ASSOCIATION:
+			getAssociation().clear();
+			getAssociation().addAll((Collection<? extends Association>) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -275,6 +308,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		case MetamodelPackage.MODEL__CLAZZCONDIDATE:
 			getClazzcondidate().clear();
 			return;
+		case MetamodelPackage.MODEL__ASSOCIATION:
+			getAssociation().clear();
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -297,6 +333,8 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			return attributecondidate != null && !attributecondidate.isEmpty();
 		case MetamodelPackage.MODEL__CLAZZCONDIDATE:
 			return clazzcondidate != null && !clazzcondidate.isEmpty();
+		case MetamodelPackage.MODEL__ASSOCIATION:
+			return association != null && !association.isEmpty();
 		}
 		return super.eIsSet(featureID);
 	}

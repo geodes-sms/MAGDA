@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getAttribute <em>Attribute</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getAttributecondidate <em>Attributecondidate</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getClazzcondidate <em>Clazzcondidate</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Model#getAssociation <em>Association</em>}</li>
  * </ul>
  *
  * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getModel()
@@ -86,5 +87,17 @@ public interface Model extends EObject {
 	 * @generated
 	 */
 	EList<ClazzCondidate> getClazzcondidate();
+
+	/**
+	 * Returns the value of the '<em><b>Association</b></em>' containment reference list.
+	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Association}.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Association</em>' containment reference list.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getModel_Association()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<Association> getAssociation();
 
 } // Model

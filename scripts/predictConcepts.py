@@ -26,7 +26,6 @@ def interceptList(EdConcepts):
 
 def removeLetter(TheList):
     for ind, j in enumerate(TheList):
-
         if len(j) == 1:
             TheList.remove(j)
     return TheList
@@ -41,6 +40,7 @@ def removeDuplicated(TheList):
 
 
 def retrieveConcepts(res):
+
     S = re.sub(r'\W+', ' ', res)
     FirstSet = S.split(' ')
     NewConcepts = wordninja.split(S)
@@ -60,7 +60,7 @@ def predictFinalList(designList_):
         engine="text-davinci-002",
         prompt=Prompt,
         temperature=0.7,
-        max_tokens=15,
+        max_tokens=20,
         top_p=1,
         frequency_penalty=0,
         presence_penalty=0
@@ -73,7 +73,7 @@ def predictFinalList(designList_):
 
 if __name__ == '__main__':
 
-
+    #print(data)
     args = sys.argv[1:]
 
     concepts, res_ = predictFinalList(args)
