@@ -3,11 +3,8 @@
   <clazz name="plane"/>
   <clazz name="airport"/>
   <clazz name=" passenger "/>
-  <clazz name=" trip "/>
   <clazz name="person"/>
+  <clazz name=" highway "/>
   <association name=" carries" source="//@clazz.2" target="//@clazz.0"/>
-  <association name=" " source="//@clazz.2" target="//@clazz.1"/>
-  <association name=" " source="//@clazz.2" target="//@clazz.3"/>
-  <association name=" " source="//@clazz.2" target="//@clazz.2"/>
-  <association name=" is" source="//@clazz.2" target="//@clazz.4"/>
+  <association name=" " source="//@clazz.2"/>
 </metamodel:Model>

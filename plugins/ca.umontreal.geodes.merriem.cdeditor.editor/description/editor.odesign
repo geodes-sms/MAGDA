@@ -23,7 +23,7 @@
         <edgeMappings name="Association" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="metamodel::Association" useDomainElement="true">
           <style sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
-            <centerLabelStyleDescription labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/association.png">
+            <centerLabelStyleDescription labelSize="12" labelExpression="feature:name" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/association.png">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
           </style>
@@ -46,7 +46,7 @@
         </containerMappings>
         <containerMappings name="clazzCondidateContainer" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='approveClass']" domainClass="metamodel::ClazzCondidate" childrenPresentation="List">
           <subNodeMappings name="CondidateAttributeNode" semanticCandidatesExpression="feature:eAllContents" domainClass="metamodel::AttributeCondidate">
-            <style xsi:type="style:SquareDescription" labelSize="12" labelPosition="node" resizeKind="NSEW">
+            <style xsi:type="style:SquareDescription" labelSize="12" labelExpression="aql:self.name.concat(' : ').concat(self.type)" labelPosition="node" resizeKind="NSEW">
               <borderColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
               <color xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='white']"/>

@@ -131,6 +131,8 @@ public class MetamodelSwitch<T> extends Switch<T> {
 			if (result == null)
 				result = caseTypedElement(attributeCondidate);
 			if (result == null)
+				result = caseNamedElement(attributeCondidate);
+			if (result == null)
 				result = defaultCase(theEObject);
 			return result;
 		}

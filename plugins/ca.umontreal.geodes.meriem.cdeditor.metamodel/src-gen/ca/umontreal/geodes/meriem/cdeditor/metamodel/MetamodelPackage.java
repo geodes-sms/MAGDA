@@ -443,13 +443,22 @@ public interface MetamodelPackage extends EPackage {
 	int ATTRIBUTE_CONDIDATE__TYPE = TYPED_ELEMENT__TYPE;
 
 	/**
+	 * The feature id for the '<em><b>Name</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ATTRIBUTE_CONDIDATE__NAME = TYPED_ELEMENT_FEATURE_COUNT + 0;
+
+	/**
 	 * The number of structural features of the '<em>Attribute Condidate</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ATTRIBUTE_CONDIDATE_FEATURE_COUNT = TYPED_ELEMENT_FEATURE_COUNT + 0;
+	int ATTRIBUTE_CONDIDATE_FEATURE_COUNT = TYPED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
 	 * The number of operations of the '<em>Attribute Condidate</em>' class.

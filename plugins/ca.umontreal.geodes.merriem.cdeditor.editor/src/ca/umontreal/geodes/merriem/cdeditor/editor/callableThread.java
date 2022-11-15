@@ -95,11 +95,9 @@ public class callableThread implements Callable {
 	public HashMap<String, HashMap<String, String>> call() {
 		HashMap<String, String> typeAttributes = new HashMap<String, String>();
 
-		System.out.print("prediction in callable ... ");
 		typeAttributes = updateAttributes(newClassAdded);
 		HashMap<String, HashMap<String, String>> classAttributes = new HashMap<String, HashMap<String, String>>();
 		classAttributes.put(newClassAdded, typeAttributes);
-		System.out.print("finish in callable ... ");
 
 		return classAttributes;
 	}

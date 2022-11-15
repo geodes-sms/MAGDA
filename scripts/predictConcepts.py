@@ -73,7 +73,7 @@ def predictFinalList(designList_):
 
 if __name__ == '__main__':
 
-    #print(data)
+
     args = sys.argv[1:]
 
     concepts, res_ = predictFinalList(args)

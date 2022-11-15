@@ -39,7 +39,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributecondidate" upperBound="-1"
         eType="#//AttributeCondidate" containment="true"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AttributeCondidate" eSuperTypes="#//TypedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeCondidate" eSuperTypes="#//TypedElement #//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Association" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="LowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"

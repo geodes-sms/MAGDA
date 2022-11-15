@@ -12,5 +12,5 @@ package ca.umontreal.geodes.meriem.cdeditor.metamodel;
  * @model
  * @generated
  */
-public interface AttributeCondidate extends TypedElement {
+public interface AttributeCondidate extends TypedElement, NamedElement {
 } // AttributeCondidate

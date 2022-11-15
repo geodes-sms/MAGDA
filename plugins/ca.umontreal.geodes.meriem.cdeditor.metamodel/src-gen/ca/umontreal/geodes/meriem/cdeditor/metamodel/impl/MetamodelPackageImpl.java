@@ -499,6 +499,7 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		attributeEClass.getESuperTypes().add(this.getTypedElement());
 		clazzCondidateEClass.getESuperTypes().add(this.getNamedElement());
 		attributeCondidateEClass.getESuperTypes().add(this.getTypedElement());
+		attributeCondidateEClass.getESuperTypes().add(this.getNamedElement());
 		associationEClass.getESuperTypes().add(this.getNamedElement());
 
 		// Initialize classes, features, and operations; add parameters
