@@ -28,6 +28,7 @@ def intercept(args):
 
 def predictAttributes( className , args =""):
     prompt= "generate attributes for class names: \n " + data_attributes + '\n' + className +': [ '+ args + ','
+    print(prompt)
     response = openai.Completion.create(
       engine="text-davinci-002",
       prompt=prompt,
@@ -87,6 +88,8 @@ def predictAttributeType(attribute):
 
 
 if __name__ == '__main__':
+    prompt= "generate attributes for class names: \n " + data_attributes
+    print(prompt)
     args = sys.argv[1:]
     ClassName, attributes= intercept(args)
 

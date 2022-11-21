@@ -16,20 +16,18 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
-public class AssociationPredictionImpl implements AssociationPrediction {
+public class AssociationsPrediction implements IAssociationsPrediction {
 
 	@Override
-	public List<HashMap<String, String>> run(EObject rootModel, Model model, Properties config) {
+	public List<HashMap<String, String>> run(EObject rootModel, Model model) {
 		List<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
 		String className;
-		String res = "";
 
 		List<Clazz> classesInModel = model.getClazz();
 		for (int j = 0; j < classesInModel.size(); j++) {
 			System.out.println(classesInModel.get(j).getName());
 		}
-		String scriptLocation = config.getProperty("scriptlocation");
-		String pythonCommand = config.getProperty("pythoncommand");
+
 		if (rootModel instanceof Clazz) {
 			className = rootModel.toString().split(":")[1];
 			className = className.substring(1, className.length() - 1);
@@ -50,7 +48,6 @@ public class AssociationPredictionImpl implements AssociationPrediction {
 			for (int j = 0; j < Associations.size(); j++) {
 				if (Associations.get(j).getSource() != null) {
 					if (Associations.get(j).getSource().getName().equals(className)) {
-
 						classesAssociatedTo.add(Associations.get(j).getTarget().getName().replaceAll("\\s+", ""));
 					}
 				}
@@ -65,36 +62,26 @@ public class AssociationPredictionImpl implements AssociationPrediction {
 			for (int i = 0; i < classesInModel.size(); i++) {
 
 				if (!className.replaceAll("\\s+", "").equals(classesInModel.get(i).getName())) {
+
 					HashMap<String, String> itemAssociation = new HashMap<String, String>();
-
 					if (!classesAssociatedTo.contains(classesInModel.get(i).getName().replaceAll("\\s+", ""))) {
-
 						String input = classesInModel.get(i).getName().concat(" , ").concat(className);
-						try {
-							Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictAssociation.py",
-									input).start();
 
-							BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
-							BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
+						Prompt associtaionsNamePrompt = new AssociationNamePrompt(input, "\n", "=>");
+						associtaionsNamePrompt.setPrompt();
+						String[] arrayAssociationName = associtaionsNamePrompt.run(1, 0.7, "davinci");
+						
+						
+						Prompt associtaionsTypePrompt = new AssociationTypePrompt(input, "\n", "=>");
+						associtaionsNamePrompt.setPrompt();
+						String[] arrayAssociationType = associtaionsTypePrompt.run(1, 0.7, "davinci");
+						
+						itemAssociation.put("Name", arrayAssociationName[0].replaceAll("\\s+", ""));
+						itemAssociation.put("Type", arrayAssociationType[0].replaceAll("\\s+", ""));
+						itemAssociation.put("Target", classesInModel.get(i).getName());
+						itemAssociation.put("Source", className);
+						results.add(itemAssociation);
 
-							String s;
-
-							while ((s = stdInput.readLine()) != null) {
-
-								res = s;
-								itemAssociation.put("Type", res.replaceAll("\\s+", ""));
-							}
-
-							while ((s = stdError.readLine()) != null) { // add logger !
-								System.out.println(s);
-							}
-							itemAssociation.put("Target", classesInModel.get(i).getName());
-							itemAssociation.put("Source", className);
-							results.add(itemAssociation);
-						} catch (IOException e) {
-							e.printStackTrace();
-
-						}
 					}
 				}
 

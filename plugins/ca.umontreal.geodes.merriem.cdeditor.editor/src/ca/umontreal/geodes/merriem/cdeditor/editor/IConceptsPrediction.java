@@ -8,8 +8,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
-public interface AssociationPrediction {
-	
+public interface IConceptsPrediction {
+	List<HashMap<String, String>> run(EObject rootModel, Model model);
 
-	List< HashMap<String,String>> run(EObject rootModel, Model model, Properties config);
 }

@@ -4,7 +4,7 @@
     <semanticResources>MyMetamodel.metamodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_7eon0PI_EeyK8IF0Z56BzA">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="213d970c-c2c9-4b99-9d37-5974c0d302fa">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="ae7d3f07-23a8-4487-b3eb-d32998aad40e">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']"/>
         <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
       </ownedRepresentationDescriptors>
@@ -121,7 +121,7 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_MreeIGCoEe23qIsWpcQa7w" sourceNode="_UNmBBGCCEe2Hs41qEPhIGw" targetNode="_skeZ4D0jEe2eXoq6PLTK6A">
+    <ownedDiagramElements xmi:type="diagram:DEdge" uid="_MreeIGCoEe23qIsWpcQa7w" name=" carries" sourceNode="_UNmBBGCCEe2Hs41qEPhIGw" targetNode="_skeZ4D0jEe2eXoq6PLTK6A">
       <target xmi:type="metamodel:Association" href="MyMetamodel.metamodel#//@association.0"/>
       <semanticElements xmi:type="metamodel:Association" href="MyMetamodel.metamodel#//@association.0"/>
       <ownedStyle xmi:type="diagram:EdgeStyle" uid="_MreeIWCoEe23qIsWpcQa7w" size="2">

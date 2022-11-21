@@ -6,5 +6,4 @@
   <clazz name="person"/>
   <clazz name=" highway "/>
   <association name=" carries" source="//@clazz.2" target="//@clazz.0"/>
-  <association name=" " source="//@clazz.2"/>
 </metamodel:Model>

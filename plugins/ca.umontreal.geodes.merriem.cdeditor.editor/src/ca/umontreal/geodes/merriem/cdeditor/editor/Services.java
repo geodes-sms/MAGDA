@@ -294,7 +294,6 @@ public class Services {
 	}
 
 	public void deletetClassCondidate(String classToRemove, Session session) {
-		ClazzCondidate removedClazz = null;
 
 		try {
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -439,7 +438,7 @@ public class Services {
 		}
 	}
 
-	public void createAssociation(String Type, String Target, String Source, Session session) {
+	public void createAssociation(String Type, String Name ,String Target, String Source, Session session) {
 		String scriptLocation = this.config.getProperty("scriptlocation");
 		String pythonCommand = this.config.getProperty("pythoncommand");
 		try {
@@ -508,9 +507,7 @@ public class Services {
 
 							while ((s = stdInput.readLine()) != null) {
 								if (s != "") {
-
 									Name = s;
-
 								}
 
 							}
@@ -537,9 +534,8 @@ public class Services {
 					default:
 						System.out.println("nvm");
 						break;
-					// code block
-					}
 
+					}
 					// refresh Model
 					DRepresentation represnt = null;
 					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
@@ -555,251 +551,23 @@ public class Services {
 		}
 	}
 
-	// Global prediction:
-
-	public EObject setPredictionMode(EObject rootModel) {
-		Session session = SessionManager.INSTANCE.getSession(rootModel);
-		assert session != null;
-
-		Model m = getModel();
-		List<Clazz> classes = new ArrayList<Clazz>();
-		classes = m.getClazz();
-		List<String> classNames = new ArrayList<String>();
-		String input = "";
-
-		for (int i = 0; i < classes.size(); i++) {
-			input = input.concat(",").concat(classes.get(i).getName());
-			classNames.add(classes.get(i).getName().toLowerCase());
-		}
-		List<String> Concepts = new ArrayList<String>();
-
-		String scriptLocation = config.getProperty("scriptlocation");
-		String pythonCommand = config.getProperty("pythoncommand");
-
-		// **********************"predicting concepts condidates"********************//
-		// ****************************************************************************//
-		try {
-			Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictConcepts.py", input).start();
-
-			BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
-			BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
-
-			String s;
-			while ((s = stdInput.readLine()) != null) {
-				if (!classNames.contains(s)) {
-					Concepts.add(s);
-				}
-			}
-
-			while ((s = stdError.readLine()) != null) {
-				// add logger !
-				System.out.println(s);
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
-		String[] arrayConcepts = Concepts.toArray(new String[0]);
-
-		// print recieved concepts from python script
-		for (int i = 0; i < Concepts.size(); i++) {
-			System.out.println(arrayConcepts[i]);
-		}
-
-		for (int i = 0; i < arrayConcepts.length; i++) {
-
-			// ***************"creaating class condidate"**************//
-
-			if (!containsIgnoreCase(classNames, arrayConcepts[i].toLowerCase())) {
-
-				// **********************"predicting attributes condidates for
-				// arrayConcepts[i]********************//
-				// ***********************************************************************************************//
-
-				String[] arrayAttributes;
-				HashMap<String, String> typeAttributes = new HashMap<String, String>();
-				input = "";
-				List<String> Results = new ArrayList<String>();
-
-				try {
-					Process P1 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py",
-							arrayConcepts[i], input, "Attribute").start();
-
-					BufferedReader stdInput = new BufferedReader(new InputStreamReader(P1.getInputStream()));
-					BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
-					String s;
-					while ((s = stdInput.readLine()) != null) {
-						if (s != "") {
-							Results.add(s);
-						}
-					}
-
-					while ((s = stdError.readLine()) != null) {
-						// add logger !
-						System.out.println(s);
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-				arrayAttributes = Results.toArray(new String[0]);
-
-				// print received attributes from python script
-				for (int k = 0; k < arrayAttributes.length; k++) {
-					String Type = "";
-					if (arrayAttributes[k] != "") {
-						try {
-							Process P2 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py",
-									arrayAttributes[k], input, "Type").start();
-							BufferedReader stdInput = new BufferedReader(new InputStreamReader(P2.getInputStream()));
-							BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
-							String s;
-							while ((s = stdInput.readLine()) != null) {
-
-								Type = s;
-							}
-							while ((s = stdError.readLine()) != null) {
-								// add logger !
-								System.out.println(s);
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
-					}
-					typeAttributes.put(arrayAttributes[k], Type);
-
-				}
-
-				List<String> ResultsTyped = new ArrayList<String>();
-
-				// ***********************create clazz condidate **************************//
-				MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
-				ClazzCondidateImpl newClazzCondidate = (ClazzCondidateImpl) metamodelFactory.createClazzCondidate();
-				newClazzCondidate.setName(arrayConcepts[i]);
-				m.getClazzcondidate().add(newClazzCondidate);
-				classNames.add(arrayConcepts[i]);
-				// refresh Model
-				DRepresentation represnt = null;
-				DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
-				DView dView = root.getOwnedViews().get(0);
-				for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-					represnt = descrp.getRepresentation();
-
-				}
-				DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-
-				// ***************cancate results from both predictions***********//
-
-				for (int j = 0; j < arrayAttributes.length; j++) {
-					if (arrayAttributes[j] != "" && typeAttributes.get(arrayAttributes[j]) != "") {
-						ResultsTyped.add(arrayAttributes[j].concat(":").concat(typeAttributes.get(arrayAttributes[j])));
-						MetamodelFactory metamodelFactory_i = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
-
-						AttributeCondidateImpl newAttribute = (AttributeCondidateImpl) metamodelFactory_i
-								.createAttributeCondidate();
-						newAttribute.setName(arrayAttributes[j]);
-						newAttribute.setType(typeAttributes.get(arrayAttributes[j]));
-						newClazzCondidate.getAttributecondidate().add(newAttribute);
-						// refresh Model
-						for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-							represnt = descrp.getRepresentation();
-						}
-						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-					}
-				}
-			}
-		}
-
-		return rootModel;
-	}
-
 	public EObject getAttributePrediction(EObject node) {
 
 		Session session = SessionManager.INSTANCE.getSession(node);
 		assert session != null;
 		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
 		NodeName = NodeName.replaceAll("\\s+", "");
-		String[] arrayAttributes;
-		HashMap<String, String> typeAttributes = new HashMap<String, String>();
-		if (classAttributes.containsKey(NodeName) && (!classAttributes.get(NodeName).isEmpty())) {
-
-			typeAttributes = classAttributes.get(NodeName);
-			arrayAttributes = typeAttributes.keySet().toArray(new String[typeAttributes.keySet().size()]);
-		} else {
-			List<String> attributes = new ArrayList<String>();
-			for (int i = 1; i < node.eContents().size(); i++) {
-				attributes.add(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
-			}
-			String input;
-			if (node.eContents().size() > 1) {
-				input = attributes.get(0);
-				for (int i = 1; i < attributes.size(); i++) {
-					input = input.concat(",").concat(attributes.get(i));
-				}
-			} else
-				input = "";
-			List<String> Results = new ArrayList<String>();
-
-			String scriptLocation = this.config.getProperty("scriptlocation");
-			String pythonCommand = this.config.getProperty("pythoncommand");
-
-			try {
-				Process P1 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py", NodeName, input,
-						"Attribute").start();
-
-				BufferedReader stdInput = new BufferedReader(new InputStreamReader(P1.getInputStream()));
-				BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
-				String s;
-				while ((s = stdInput.readLine()) != null) {
-					if (s != "") {
-						Results.add(s);
-					}
-				}
-
-				while ((s = stdError.readLine()) != null) {
-					// add logger !
-					System.out.println(s);
-				}
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			arrayAttributes = Results.toArray(new String[0]);
-
-			// print received attributes from python script
-			for (int i = 0; i < arrayAttributes.length; i++) {
-				String Type = "";
-				if (arrayAttributes[i] != "") {
-					try {
-						Process P2 = new ProcessBuilder(pythonCommand, scriptLocation + "predictAttributes.py",
-								arrayAttributes[i], input, "Type").start();
-						BufferedReader stdInput = new BufferedReader(new InputStreamReader(P2.getInputStream()));
-						BufferedReader stdError = new BufferedReader(new InputStreamReader(P2.getErrorStream()));
-						String s;
-						while ((s = stdInput.readLine()) != null) {
-
-							Type = s;
-						}
-						while ((s = stdError.readLine()) != null) {
-							// add logger !
-							System.out.println(s);
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-				typeAttributes.put(arrayAttributes[i], Type);
-
-			}
-
-		}
 		List<String> ResultsTyped = new ArrayList<String>();
+		HashMap<String, String> typeAttributes;
 
-		for (int i = 0; i < arrayAttributes.length; i++) {
-			if (arrayAttributes[i] != "" && typeAttributes.get(arrayAttributes[i]) != "") {
-				ResultsTyped.add(arrayAttributes[i].concat(":").concat(typeAttributes.get(arrayAttributes[i])));
-				System.out.println(arrayAttributes[i].concat(":").concat(typeAttributes.get(arrayAttributes[i])));
-
+		if (classAttributes.containsKey(NodeName) && !classAttributes.get(NodeName).isEmpty()) {
+			typeAttributes = classAttributes.get(NodeName);
+		} else {
+			IAttributesPrediction attributesPredcition = new AttributesPrediction();
+			typeAttributes = attributesPredcition.run(node, getModel(), config);
+			for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
+				ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
 			}
-
 		}
 
 		String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
@@ -808,8 +576,6 @@ public class Services {
 
 		dialog.setElements(ArrayResultsTyped);
 		dialog.setTitle("select appropriate attributes, press ctrl for multiple selection");
-		// user pressed cancel
-
 		dialog.setMultipleSelection(true);
 
 		if (dialog.open() != Window.OK) {
@@ -818,10 +584,8 @@ public class Services {
 		Object[] result = dialog.getResult();
 		for (int i = 0; i < result.length; i++) {
 			String res = (String) result[i];
-
 			res = res.split(":")[0];
 			createAttribute(res, typeAttributes.get(res), NodeName, session);
-			// don't show already selected attributes
 			typeAttributes.remove(res);
 		}
 		this.classAttributes.put(NodeName, typeAttributes);
@@ -833,7 +597,6 @@ public class Services {
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 		String[] arrayConcepts = new String[50];
-		List<String> Concepts = new ArrayList<String>();
 
 		List<String> classNames = new ArrayList<String>();
 		List<String> AllclassNames = new ArrayList<String>();
@@ -844,7 +607,6 @@ public class Services {
 
 		for (int i = 0; i < classesInModel.size(); i++) {
 			AllclassNames.add(classesInModel.get(i).getName());
-
 		}
 		for (int i = 0; i < classeCondidateInModel.size(); i++) {
 			AllclassNames.add(classeCondidateInModel.get(i).getName());
@@ -875,35 +637,20 @@ public class Services {
 			arrayConcepts = relatedClasses.get(className).toArray(new String[0]);
 		} else {
 			System.out.println("not found in Cash! , start predicting ... ");
-			Process p;
-
-			String scriptLocation = this.config.getProperty("scriptlocation");
-			String pythonCommand = this.config.getProperty("pythoncommand");
-			if (input != "") {
-				try {
-					Process P = new ProcessBuilder(pythonCommand, scriptLocation + "predictConcepts.py", input).start();
-					BufferedReader stdInput = new BufferedReader(new InputStreamReader(P.getInputStream()));
-					BufferedReader stdError = new BufferedReader(new InputStreamReader(P.getErrorStream()));
-
-					String s;
-					while ((s = stdInput.readLine()) != null) {
-						if (!AllclassNames.contains(s)) {
-							Concepts.add(s);
-						}
-					}
-
-					while ((s = stdError.readLine()) != null) { // add logger !
-						System.out.println(s);
-					}
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-
-				arrayConcepts = Concepts.toArray(new String[0]);
+			
+			
+			IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
+			List<HashMap<String, String>> Concepts = conceptsPrediction.run(rootModel, getModel());
+			
+			for (String key: Concepts.get(0).keySet()) {
+			    
+				arrayConcepts[arrayConcepts.length]=Concepts.get(0).get(key);
+			}
+			
 			}
 			// add to cache
-			relatedClasses.put(className, Concepts);
-		}
+			//relatedClasses.put(className, Concepts);
+		
 
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
 				new LabelProvider());
@@ -921,12 +668,12 @@ public class Services {
 		for (int i = 0; i < result.length; i++) {
 			String res = (String) result[i];
 			relatedClasses.remove(className);
-			//update cache
-			for(int k =0 ; k<Concepts.size(); k++) {
-				if(Concepts.get(k).equals(result[i]))
+			// update cache
+			for (int k = 0; k < Concepts.size(); k++) {
+				if (Concepts.get(k).equals(result[i]))
 					Concepts.remove(k);
 			}
-			relatedClasses.put(className, Concepts);
+			relatedClasses.put(className, Concepts.get(0));
 			createClass(res, session);
 		}
 		int x = 0;
@@ -942,22 +689,21 @@ public class Services {
 		}
 		return null;
 	}
+
 	
 	
 	
 
-	// predict type of association (called in odesign)
 	public EObject getAssociationPrediction(EObject rootModel) {
 
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
-		// AssociationPrediction associationPrediction = new
-		// AssociationPredictionImpl();
-		AssociationPrediction associationPrediction = new AssociationPredictionTestImpl();
-		List<HashMap<String, String>> res = associationPrediction.run(rootModel, getModel(), this.config);
+		// AssociationsPrediction(); AssociationsPredictionDummy()
+		IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
+		List<HashMap<String, String>> res = associationsPrediction.run(rootModel, getModel());
 		for (int j = 0; j < res.size(); j++) {
-			System.out.println(res);
-			createAssociation(res.get(j).get("Type"), res.get(j).get("Target"), res.get(j).get("Source"), session);
+			//System.out.println(res);
+			createAssociation(res.get(j).get("Type"),res.get(j).get("Name"), res.get(j).get("Target"), res.get(j).get("Source"), session);
 		}
 
 		return null;
