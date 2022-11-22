@@ -22,7 +22,7 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 public class AttributesPrediction implements IAttributesPrediction {
 
 	@Override
-	public HashMap<String, String> run(EObject node, Model model, Properties config) {
+	public HashMap<String, String> run(EObject node, Model model) {
 
 		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
 		NodeName = NodeName.replaceAll("\\s+", "");
@@ -40,17 +40,18 @@ public class AttributesPrediction implements IAttributesPrediction {
 			}
 		} else
 			input = "";
-		Prompt attributesNamePrompt = new AttributesNamePrompt(NodeName.concat(input), "\n", ": [ ");
+		Prompt attributesNamePrompt = new AttributesNamePrompt(NodeName.concat(input), "\n", " : [ ");
 		attributesNamePrompt.setPrompt();
 		System.out.println("predicting attributes...");
 
-		String[] arrayAttributes = attributesNamePrompt.run(20,0.5, "davinci");
-	
+		String[] arrayAttributes = attributesNamePrompt.run(20,0.7, "text-davinci-002");
+		
 		// type of predicted attribute
 		for (int i = 0; i < arrayAttributes.length; i++) {
-			Prompt attributesTypePrompt = new AttributesTypePrompt(arrayAttributes[i], "\n", "=>");
+			Prompt attributesTypePrompt = new AttributesTypePrompt(arrayAttributes[i], "\n", " => ");
 			attributesTypePrompt.setPrompt();
-			String[] Type = attributesTypePrompt.run(1, 0.7, arrayAttributes[i]);
+			String[] Type = attributesTypePrompt.run(1, 0.7, "text-davinci-002");
+			System.out.println(arrayAttributes[i] +"::::"+ Type[0]);
 			typeAttributes.put(arrayAttributes[i], Type[0]);
 
 		}

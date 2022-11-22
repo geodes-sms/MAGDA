@@ -10,7 +10,7 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 public class AttributesPredictionDummy implements IAttributesPrediction {
 
 	@Override
-	public HashMap<String, String> run(EObject rootModel, Model model, Properties config) {
+	public HashMap<String, String> run(EObject rootModel, Model model) {
 		// TODO Auto-generated method stub
 		return null;
 	}

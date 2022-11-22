@@ -68,10 +68,6 @@ import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.internal.EditorReference;
 import org.osgi.framework.ServiceException;
-
-import com.theokanning.openai.completion.CompletionRequest;
-import com.theokanning.openai.OpenAiService;
-
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate;
@@ -113,28 +109,6 @@ public class Services {
 		domain.addResourceSetListener(listener);
 
 	};
-
-	// call threads for caching beginning __ later
-	public EObject setCachingMode(EObject rootModel) throws InterruptedException {
-
-		// ProgressMonitorDialog progressDialog = new
-		// ProgressMonitorDialog(Display.getCurrent().getActiveShell());
-
-		Model m = getModel();
-
-		try {
-			cachingThread T = new cachingThread(m, null); // creating thread
-			T.start();
-			T.join();
-			this.classAttributes = T.classAttributes;
-			this.relatedClasses = T.relatedClasses;
-
-		} catch (InterruptedException ex) {
-			ex.printStackTrace();
-		}
-		System.out.println(this.classAttributes);
-		return rootModel;
-	}
 
 	private IGraphicalEditPart getEditPart(DDiagramElement diagramElement) {
 		IEditorPart editor = EclipseUIUtil.getActiveEditor();
@@ -438,9 +412,8 @@ public class Services {
 		}
 	}
 
-	public void createAssociation(String Type, String Name ,String Target, String Source, Session session) {
-		String scriptLocation = this.config.getProperty("scriptlocation");
-		String pythonCommand = this.config.getProperty("pythoncommand");
+	public void createAssociation(String Type, String Name, String Target, String Source, Session session) {
+
 		try {
 
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -485,40 +458,7 @@ public class Services {
 
 						break;
 					case "association":
-						System.out.println("it's an association! ");
-						String Name = "";
-						try {
-							String couple = ClassTarget.getName() + "," + ClassSource.getName();
-							String seq = "";
-							for (int i = 0; i < model.getAssociation().size(); i++) {
-								seq = seq + " [" + model.getAssociation().get(i).getTarget().getName() + ","
-										+ model.getAssociation().get(i).getSource().getName() + "]" + "=> "
-										+ model.getAssociation().get(i).getName() + ",";
-							}
-							System.out.println("couple sent  :" + couple);
-							System.out.println("seq  sent  :" + seq);
 
-							Process P1 = new ProcessBuilder(pythonCommand,
-									scriptLocation + "predictAssociationNames.py", seq, couple).start();
-
-							BufferedReader stdInput = new BufferedReader(new InputStreamReader(P1.getInputStream()));
-							BufferedReader stdError = new BufferedReader(new InputStreamReader(P1.getErrorStream()));
-							String s;
-
-							while ((s = stdInput.readLine()) != null) {
-								if (s != "") {
-									Name = s;
-								}
-
-							}
-
-							while ((s = stdError.readLine()) != null) {
-								// add logger !
-								System.out.println(s);
-							}
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
 						if (Name.equals("is")) {
 							ClassSource.setSpecializes(ClassTarget);
 
@@ -532,7 +472,6 @@ public class Services {
 
 						break;
 					default:
-						System.out.println("nvm");
 						break;
 
 					}
@@ -560,14 +499,16 @@ public class Services {
 		List<String> ResultsTyped = new ArrayList<String>();
 		HashMap<String, String> typeAttributes;
 
-		if (classAttributes.containsKey(NodeName) && !classAttributes.get(NodeName).isEmpty()) {
-			typeAttributes = classAttributes.get(NodeName);
+		if (this.classAttributes.containsKey(NodeName) && !this.classAttributes.get(NodeName).isEmpty()) {
+			typeAttributes = this.classAttributes.get(NodeName);
 		} else {
 			IAttributesPrediction attributesPredcition = new AttributesPrediction();
-			typeAttributes = attributesPredcition.run(node, getModel(), config);
+			typeAttributes = attributesPredcition.run(node, getModel());
 			for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
+				System.out.println(set.getKey().concat(":").concat(set.getValue()));
 				ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
 			}
+		
 		}
 
 		String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
@@ -616,7 +557,6 @@ public class Services {
 			System.out.println("from one Canvas");
 
 			for (int i = 0; i < classesInModel.size(); i++) {
-
 				input = input.concat(",").concat(classesInModel.get(i).getName());
 				classNames.add(classesInModel.get(i).getName());
 			}
@@ -637,62 +577,19 @@ public class Services {
 			arrayConcepts = relatedClasses.get(className).toArray(new String[0]);
 		} else {
 			System.out.println("not found in Cash! , start predicting ... ");
-			
-			
+
 			IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
 			List<HashMap<String, String>> Concepts = conceptsPrediction.run(rootModel, getModel());
-			
-			for (String key: Concepts.get(0).keySet()) {
-			    
-				arrayConcepts[arrayConcepts.length]=Concepts.get(0).get(key);
-			}
-			
-			}
-			// add to cache
-			//relatedClasses.put(className, Concepts);
-		
 
-		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
-				new LabelProvider());
+			for (String key : Concepts.get(0).keySet()) {
 
-		dialog.setElements(arrayConcepts);
-		dialog.setTitle("select appropriate class, press ctrl for multiple selection");
-		// user pressed cancel
-
-		dialog.setMultipleSelection(true);
-
-		if (dialog.open() != Window.OK) {
-			// return false;
-		}
-		Object[] result = dialog.getResult();
-		for (int i = 0; i < result.length; i++) {
-			String res = (String) result[i];
-			relatedClasses.remove(className);
-			// update cache
-			for (int k = 0; k < Concepts.size(); k++) {
-				if (Concepts.get(k).equals(result[i]))
-					Concepts.remove(k);
+				arrayConcepts[arrayConcepts.length] = Concepts.get(0).get(key);
 			}
-			relatedClasses.put(className, Concepts.get(0));
-			createClass(res, session);
+
 		}
-		int x = 0;
-		for (int i = 0; i < arrayConcepts.length; i++) {
-			if (!containsIgnoreCase(AllclassNames, arrayConcepts[i].toLowerCase())) {
-				x = x + 1;
-			}
-		}
-		if (x == 0) {
-			MessageBox dialogText = new MessageBox(Display.getCurrent().getActiveShell(), SWT.OK);
-			dialogText.setText("No further suggestions are available");
-			dialogText.open();
-		}
+
 		return null;
 	}
-
-	
-	
-	
 
 	public EObject getAssociationPrediction(EObject rootModel) {
 
@@ -702,8 +599,9 @@ public class Services {
 		IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
 		List<HashMap<String, String>> res = associationsPrediction.run(rootModel, getModel());
 		for (int j = 0; j < res.size(); j++) {
-			//System.out.println(res);
-			createAssociation(res.get(j).get("Type"),res.get(j).get("Name"), res.get(j).get("Target"), res.get(j).get("Source"), session);
+			System.out.println(res.get(j).get("Type"));
+			createAssociation(res.get(j).get("Type"), res.get(j).get("Name"), res.get(j).get("Target"),
+					res.get(j).get("Source"), session);
 		}
 
 		return null;
@@ -733,28 +631,11 @@ public class Services {
 		objects = new EObjectQuery(rootModel)
 				.getInverseReferences(ViewpointPackage.Literals.DSEMANTIC_DECORATOR__TARGET);
 		EObject eob = objects.iterator().next();
-		// the new class should should have the same coordinates as the condidate class
+		// the new class should should have the same coordinates as the candidate class
 
 		setGraphicalHintsFromExistingNode((DDiagramElement) eob);
 		createClass(className, session);
 		deletetClassCondidate(className, session);
-		// ClazzCondidate removedClazz= deletetClassCondidate(className, session);
-		Model model = getModel();
-
-		// ***************caching system*******************************//
-		// run thread
-
-		callableThread C = new callableThread(model, className);
-		this.classAttributes.putAll(C.call());
-		List<Clazz> classesInModel = model.getClazz();
-
-		for (int i = 0; i < classesInModel.size(); i++) {
-			if (!classAttributes.containsKey(classesInModel.get(i).getName())) {
-				callableThread C2 = new callableThread(model, classesInModel.get(i).getName()); // creating thread
-				this.classAttributes.putAll(C2.call());
-
-			}
-		}
 
 		return rootModel;
 	}

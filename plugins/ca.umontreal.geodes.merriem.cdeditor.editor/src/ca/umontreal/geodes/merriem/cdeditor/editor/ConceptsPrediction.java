@@ -46,6 +46,10 @@ public class ConceptsPrediction implements IConceptsPrediction{
 			input = input.concat(",").concat(randomElement);
 
 		}
+		
+		Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
+		concpetsPrompt.setPrompt();
+		String[] arrayAssociationName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
 		return null;
 		
 	}

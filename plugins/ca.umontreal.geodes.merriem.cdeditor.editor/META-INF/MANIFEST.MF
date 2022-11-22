@@ -21,7 +21,7 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.sirius.ui.properties;bundle-version="7.0.0",
  org.eclipse.gmf.runtime.diagram.ui;bundle-version="1.9.0",
  org.eclipse.sirius.common.ui;bundle-version="7.0.0",
- com.theokanning.openai.gpt3.java;bundle-version="1.0.0"
+ com.theokanning.openai.gpt3.dependencies.java;bundle-version="1.0.0"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: %providerName

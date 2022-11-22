@@ -10,6 +10,6 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
 public interface IAttributesPrediction {
 
-	HashMap<String, String> run(EObject rootModel, Model model, Properties config);
+	HashMap<String, String> run(EObject rootModel, Model model);
 
 }

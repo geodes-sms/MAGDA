@@ -69,15 +69,19 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 
 						Prompt associtaionsNamePrompt = new AssociationNamePrompt(input, "\n", "=>");
 						associtaionsNamePrompt.setPrompt();
-						String[] arrayAssociationName = associtaionsNamePrompt.run(1, 0.7, "davinci");
-						
-						
-						Prompt associtaionsTypePrompt = new AssociationTypePrompt(input, "\n", "=>");
-						associtaionsNamePrompt.setPrompt();
-						String[] arrayAssociationType = associtaionsTypePrompt.run(1, 0.7, "davinci");
-						
+						String[] arrayAssociationName = associtaionsNamePrompt.run(1, 0.7, "text-davinci-002");
+						String Type="";
+						if(arrayAssociationName[0].replaceAll("\\s+", "").toLowerCase().equals("association")) {
+							Prompt associtaionsTypePrompt = new AssociationTypePrompt(input, "\n", "=>");
+							associtaionsNamePrompt.setPrompt();
+							String[] arrayAssociationType = associtaionsTypePrompt.run(1, 0.7, "text-davinci-002");
+							Type=arrayAssociationType[0]; 
+							System.out.println(Type);
+							
+						}
+
 						itemAssociation.put("Name", arrayAssociationName[0].replaceAll("\\s+", ""));
-						itemAssociation.put("Type", arrayAssociationType[0].replaceAll("\\s+", ""));
+						itemAssociation.put("Type", Type.replaceAll("\\s+", ""));
 						itemAssociation.put("Target", classesInModel.get(i).getName());
 						itemAssociation.put("Source", className);
 						results.add(itemAssociation);
