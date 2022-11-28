@@ -26,6 +26,7 @@ public abstract class Prompt {
 	public String[] run(int maxTokens, Double temperature, String engine) {
 		setPrompt();
 		String Results = "";
+		String[] GeneratedList = new String[25] ; 
 		// To do set env variables
 		String token = "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";
 		try {
@@ -37,10 +38,17 @@ public abstract class Prompt {
 
 			Results = theService.createCompletion(engine, completionRequest).getChoices().get(0).getText();
 			System.out.println("genrated : " + Results);
+			
+			GeneratedList = interceptResults(Results);
+			System.out.println("after processing: ");
+
+			for(int j = 0 ; j< GeneratedList.length; j++) {
+				System.out.println(GeneratedList[j]);
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return interceptResults(Results);
+		return GeneratedList ;
  
 	}
 }

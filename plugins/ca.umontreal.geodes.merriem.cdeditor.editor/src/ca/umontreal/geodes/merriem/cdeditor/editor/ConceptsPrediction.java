@@ -1,6 +1,7 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
@@ -12,10 +13,12 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
-public class ConceptsPrediction implements IConceptsPrediction{
+public class ConceptsPrediction implements IConceptsPrediction {
 
 	@Override
-	public List<HashMap<String, String>> run (EObject rootModel, Model model) {
+	public List<HashMap<String, String>> run(EObject rootModel, Model model) {
+		List<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
+
 		List<String> classNames = new ArrayList<String>();
 		List<String> AllclassNames = new ArrayList<String>();
 		List<Clazz> classesInModel = model.getClazz();
@@ -35,7 +38,7 @@ public class ConceptsPrediction implements IConceptsPrediction{
 				classNames.add(classesInModel.get(i).getName());
 			}
 		} else if (rootModel instanceof Clazz) {
-			System.out.print("from one class");
+			System.out.print("from one class" + ""); 
 			Clazz inputClass = (Clazz) rootModel;
 			input = inputClass.getName();
 			className = input;
@@ -46,12 +49,20 @@ public class ConceptsPrediction implements IConceptsPrediction{
 			input = input.concat(",").concat(randomElement);
 
 		}
-		
+
 		Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
 		concpetsPrompt.setPrompt();
 		String[] arrayAssociationName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
-		return null;
-		
+		HashMap<String, String> item = new HashMap<String,String>();
+		results.add(item);
+		for (int i = 0; i < arrayAssociationName.length; i++) {
+	
+			// key = value (because it's interface ...)
+			results.get(0).put(arrayAssociationName[i], arrayAssociationName[i]);
+
+		}
+		return results;
+
 	}
 
 }

@@ -508,7 +508,7 @@ public class Services {
 				System.out.println(set.getKey().concat(":").concat(set.getValue()));
 				ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
 			}
-		
+
 		}
 
 		String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
@@ -537,7 +537,6 @@ public class Services {
 
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
-		String[] arrayConcepts = new String[50];
 
 		List<String> classNames = new ArrayList<String>();
 		List<String> AllclassNames = new ArrayList<String>();
@@ -545,7 +544,7 @@ public class Services {
 		List<Clazz> classesInModel = model.getClazz();
 		String className = "";
 		List<ClazzCondidate> classeCondidateInModel = model.getClazzcondidate();
-
+		List<String> Results = new ArrayList<String>();
 		for (int i = 0; i < classesInModel.size(); i++) {
 			AllclassNames.add(classesInModel.get(i).getName());
 		}
@@ -574,21 +573,39 @@ public class Services {
 
 		}
 		if (relatedClasses.containsKey(className) && !relatedClasses.get(className).isEmpty()) {
-			arrayConcepts = relatedClasses.get(className).toArray(new String[0]);
+			Results = relatedClasses.get(className);
 		} else {
-			System.out.println("not found in Cash! , start predicting ... ");
 
 			IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
 			List<HashMap<String, String>> Concepts = conceptsPrediction.run(rootModel, getModel());
-
+			
 			for (String key : Concepts.get(0).keySet()) {
-
-				arrayConcepts[arrayConcepts.length] = Concepts.get(0).get(key);
+				Results.add( Concepts.get(0).get(key));
+				
 			}
 
 		}
+		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
+				new LabelProvider());
+		String[] arrayConcepts = Results.toArray(new String[0]);
+		dialog.setElements(arrayConcepts);
+		dialog.setTitle("select appropriate concepts, press ctrl for multiple selection");
+		dialog.setMultipleSelection(true);
 
-		return null;
+		if (dialog.open() != Window.OK) {
+			// return false;
+		}
+		Object[] result = dialog.getResult();
+		for (int i = 0; i < result.length; i++) {
+			createClass((String) result[i], session);
+
+		}
+		if (!className.equals("")) {
+			List<String> wordList = Arrays.asList(arrayConcepts);
+			this.relatedClasses.put(className, wordList);
+		}
+
+		return rootModel;
 	}
 
 	public EObject getAssociationPrediction(EObject rootModel) {
