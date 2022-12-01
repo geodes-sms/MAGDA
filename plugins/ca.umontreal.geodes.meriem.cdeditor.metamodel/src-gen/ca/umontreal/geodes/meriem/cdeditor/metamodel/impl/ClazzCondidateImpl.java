@@ -7,10 +7,12 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
 
 import java.util.Collection;
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -23,6 +25,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * </p>
  * <ul>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl#getAttributecondidate <em>Attributecondidate</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl#getConfidence <em>Confidence</em>}</li>
  * </ul>
  *
  * @generated
@@ -37,6 +40,25 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	 * @ordered
 	 */
 	protected EList<AttributeCondidate> attributecondidate;
+
+	/**
+	 * The default value of the '{@link #getConfidence() <em>Confidence</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConfidence()
+	 * @generated
+	 * @ordered
+	 */
+	protected static final int CONFIDENCE_EDEFAULT = 0;
+	/**
+	 * The cached value of the '{@link #getConfidence() <em>Confidence</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getConfidence()
+	 * @generated
+	 * @ordered
+	 */
+	protected int confidence = CONFIDENCE_EDEFAULT;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -75,6 +97,28 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public int getConfidence() {
+		return confidence;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setConfidence(int newConfidence) {
+		int oldConfidence = confidence;
+		confidence = newConfidence;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE,
+					oldConfidence, confidence));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -94,6 +138,8 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 		switch (featureID) {
 		case MetamodelPackage.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE:
 			return getAttributecondidate();
+		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
+			return getConfidence();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -111,6 +157,9 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 			getAttributecondidate().clear();
 			getAttributecondidate().addAll((Collection<? extends AttributeCondidate>) newValue);
 			return;
+		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
+			setConfidence((Integer) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -126,6 +175,9 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 		case MetamodelPackage.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE:
 			getAttributecondidate().clear();
 			return;
+		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
+			setConfidence(CONFIDENCE_EDEFAULT);
+			return;
 		}
 		super.eUnset(featureID);
 	}
@@ -140,8 +192,27 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 		switch (featureID) {
 		case MetamodelPackage.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE:
 			return attributecondidate != null && !attributecondidate.isEmpty();
+		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
+			return confidence != CONFIDENCE_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	@Override
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
+
+		StringBuilder result = new StringBuilder(super.toString());
+		result.append(" (confidence: ");
+		result.append(confidence);
+		result.append(')');
+		return result.toString();
 	}
 
 } //ClazzCondidateImpl

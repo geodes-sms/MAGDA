@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.ecore.EObject;
 
@@ -18,7 +21,7 @@ public class ConceptsPrediction implements IConceptsPrediction {
 	@Override
 	public List<HashMap<String, String>> run(EObject rootModel, Model model) {
 		List<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
-
+		List<String[]> predictionLists = new ArrayList<String[]>();
 		List<String> classNames = new ArrayList<String>();
 		List<String> AllclassNames = new ArrayList<String>();
 		List<Clazz> classesInModel = model.getClazz();
@@ -38,30 +41,57 @@ public class ConceptsPrediction implements IConceptsPrediction {
 				classNames.add(classesInModel.get(i).getName());
 			}
 		} else if (rootModel instanceof Clazz) {
-			System.out.print("from one class" + ""); 
 			Clazz inputClass = (Clazz) rootModel;
 			input = inputClass.getName();
 			className = input;
 			classNames.add(inputClass.getName());
-			// heuristic: what to send to GPT3
-			Random rand = new Random();
-			String randomElement = AllclassNames.get(rand.nextInt(AllclassNames.size()));
-			input = input.concat(",").concat(randomElement);
+			/** heuristic/strategy : what to send to GPT3, use random , TO DO: update use loop **/
+
+			for (int z = 0; z < classesInModel.size(); z++) {
+				input = className;
+				if (!classesInModel.get(z).getName().equals(className)) {
+					if (input != "") {
+						input = input.concat(",").concat(classesInModel.get(z).getName());
+
+					}
+				}
+			}
+		
+			Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
+			concpetsPrompt.setPrompt();
+			String[] arrayAssociationName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
+			HashMap<String, String> item = new HashMap<String, String>();
+			results.add(item);
+			for (int i = 0; i < arrayAssociationName.length; i++) {
+
+				// key = value (because it's interface ...)
+				results.get(0).put(arrayAssociationName[i], arrayAssociationName[i]);
+				System.out.println("genrated : " + arrayAssociationName[i]);
+
+			}
+
+			Map<String, Integer> result = new HashMap<String, Integer>();
+			predictionLists.add(arrayAssociationName);
 
 		}
 
-		Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
-		concpetsPrompt.setPrompt();
-		String[] arrayAssociationName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
-		HashMap<String, String> item = new HashMap<String,String>();
-		results.add(item);
-		for (int i = 0; i < arrayAssociationName.length; i++) {
-	
-			// key = value (because it's interface ...)
-			results.get(0).put(arrayAssociationName[i], arrayAssociationName[i]);
-
+		// add a loop concat with all the rest of classes in canvas !
+		Map<String, Integer> result = new HashMap<String, Integer>();
+		for (int i = 0; i < predictionLists.size(); i++) {
+			for (int j = 0; j < predictionLists.get(i).length; j++) {
+				if (!result.keySet().contains(predictionLists.get(i)[j])) {
+					result.put(predictionLists.get(i)[j], 0);
+				}
+				result.merge(predictionLists.get(i)[j], 1, Integer::sum);
+			}
 		}
-		return results;
+		List<HashMap<String, String>> convertedResults = new ArrayList<HashMap<String, String>>();
+		
+		Map copy = result.entrySet().stream().sorted(Map.Entry.comparingByValue()).collect(Collectors.toMap(e->e.getKey(),e->e.getValue().toString()));
+		HashMap<String, String> temp = new HashMap<String, String>(copy);
+		convertedResults.add(temp);
+
+		return convertedResults;
 
 	}
 

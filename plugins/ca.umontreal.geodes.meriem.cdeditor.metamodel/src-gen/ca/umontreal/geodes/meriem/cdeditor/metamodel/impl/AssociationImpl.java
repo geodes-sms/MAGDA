@@ -336,9 +336,9 @@ public class AssociationImpl extends NamedElementImpl implements Association {
 			return super.toString();
 
 		StringBuilder result = new StringBuilder(super.toString());
-		result.append(" (LowerBound: ");
+		result.append(" (lowerBound: ");
 		result.append(lowerBound);
-		result.append(", UpperBound: ");
+		result.append(", upperBound: ");
 		result.append(upperBound);
 		result.append(')');
 		return result.toString();

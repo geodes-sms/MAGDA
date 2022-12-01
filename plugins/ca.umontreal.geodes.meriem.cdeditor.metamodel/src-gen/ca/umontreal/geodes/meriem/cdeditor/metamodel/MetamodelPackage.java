@@ -406,13 +406,22 @@ public interface MetamodelPackage extends EPackage {
 	int CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Confidence</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ_CONDIDATE__CONFIDENCE = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
 	 * The number of structural features of the '<em>Clazz Condidate</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLAZZ_CONDIDATE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 1;
+	int CLAZZ_CONDIDATE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 2;
 
 	/**
 	 * The number of operations of the '<em>Clazz Condidate</em>' class.
@@ -767,6 +776,17 @@ public interface MetamodelPackage extends EPackage {
 	EReference getClazzCondidate_Attributecondidate();
 
 	/**
+	 * Returns the meta object for the attribute '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#getConfidence <em>Confidence</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the attribute '<em>Confidence</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#getConfidence()
+	 * @see #getClazzCondidate()
+	 * @generated
+	 */
+	EAttribute getClazzCondidate_Confidence();
+
+	/**
 	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate <em>Attribute Condidate</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -1034,6 +1054,14 @@ public interface MetamodelPackage extends EPackage {
 		 * @generated
 		 */
 		EReference CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE = eINSTANCE.getClazzCondidate_Attributecondidate();
+
+		/**
+		 * The meta object literal for the '<em><b>Confidence</b></em>' attribute feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EAttribute CLAZZ_CONDIDATE__CONFIDENCE = eINSTANCE.getClazzCondidate_Confidence();
 
 		/**
 		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeCondidateImpl <em>Attribute Condidate</em>}' class.

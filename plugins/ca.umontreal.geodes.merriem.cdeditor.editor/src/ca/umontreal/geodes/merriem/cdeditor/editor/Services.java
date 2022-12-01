@@ -248,6 +248,7 @@ public class Services {
 					ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
 					newClazz.setName(Name);
 					model.getClazz().add(newClazz);
+			
 
 					// refresh Model
 					DRepresentation represnt = null;
@@ -318,7 +319,8 @@ public class Services {
 		// return removedClazz;
 	}
 
-	public void createClassCondidate(String Name, Session session) {
+	public void createClassCondidate(String Name, String confidence, Session session) {
+
 		try {
 
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -336,6 +338,9 @@ public class Services {
 					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 					ClazzCondidateImpl newClazzCondidate = (ClazzCondidateImpl) metamodelFactory.createClazzCondidate();
 					newClazzCondidate.setName(Name);
+
+					newClazzCondidate.setConfidence(Integer.parseInt(confidence));
+
 					model.getClazzcondidate().add(newClazzCondidate);
 
 					// refresh Model
@@ -540,6 +545,8 @@ public class Services {
 
 		List<String> classNames = new ArrayList<String>();
 		List<String> AllclassNames = new ArrayList<String>();
+		List<String> suggestedConcepts = new ArrayList<String>();
+
 		Model model = getModel();
 		List<Clazz> classesInModel = model.getClazz();
 		String className = "";
@@ -550,6 +557,9 @@ public class Services {
 		}
 		for (int i = 0; i < classeCondidateInModel.size(); i++) {
 			AllclassNames.add(classeCondidateInModel.get(i).getName());
+		}
+		for (int i = 0; i < classeCondidateInModel.size(); i++) {
+			suggestedConcepts.add(classeCondidateInModel.get(i).getName());
 		}
 		String input = "";
 		if (rootModel instanceof Model) {
@@ -572,33 +582,47 @@ public class Services {
 			System.out.println(className);
 
 		}
-		if (relatedClasses.containsKey(className) && !relatedClasses.get(className).isEmpty()) {
-			Results = relatedClasses.get(className);
+		if (relatedClasses.containsKey(className)) {
+			if (!relatedClasses.get(className).isEmpty()) {
+				Results = relatedClasses.get(className);
+			}
 		} else {
 
 			IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
 			List<HashMap<String, String>> Concepts = conceptsPrediction.run(rootModel, getModel());
-			
 			for (String key : Concepts.get(0).keySet()) {
-				Results.add( Concepts.get(0).get(key));
-				
+				Results.add(key);
+				if (!containsIgnoreCase(suggestedConcepts, key)) {
+					createClassCondidate((String) key, Concepts.get(0).get(key), session);
+				} else {
+					System.out.println(key); 
+					System.out.println("already there , updating ..."); 
+					updateConfidenceCondidate((String) key, session, model, 1);
+				}
 			}
 
 		}
+
+		String[] arrayConcepts = Results.toArray(new String[0]);
+
+		// To do: factorise this ...
 		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
 				new LabelProvider());
-		String[] arrayConcepts = Results.toArray(new String[0]);
 		dialog.setElements(arrayConcepts);
 		dialog.setTitle("select appropriate concepts, press ctrl for multiple selection");
 		dialog.setMultipleSelection(true);
-
 		if (dialog.open() != Window.OK) {
 			// return false;
 		}
 		Object[] result = dialog.getResult();
 		for (int i = 0; i < result.length; i++) {
-			createClass((String) result[i], session);
+			if (!containsIgnoreCase(AllclassNames, (String) result[i])) {
+				createClass((String) result[i], session);
 
+			}
+		}
+		for (int l = 0; l < arrayConcepts.length; l++) {
+			System.out.println(arrayConcepts[l]);
 		}
 		if (!className.equals("")) {
 			List<String> wordList = Arrays.asList(arrayConcepts);
@@ -606,6 +630,48 @@ public class Services {
 		}
 
 		return rootModel;
+	}
+
+	private void updateConfidenceCondidate(String key, Session session, Model model, int value) {
+		try {
+
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
+
+			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+
+			CommandStack stack = domain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(domain) {
+
+				@Override
+				protected void doExecute() {
+					Model model = getModel();
+					List<ClazzCondidate> listSuggestions = model.getClazzcondidate();
+					for (int j = 0; j < listSuggestions.size(); j++) {
+						if (listSuggestions.get(j).getName().equalsIgnoreCase(key.replaceAll("\\s+", ""))) {
+							int previousConfidence = listSuggestions.get(j).getConfidence();
+							listSuggestions.get(j).setConfidence(previousConfidence + value);
+							break; 
+						}
+					}
+
+					// refresh Model
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+				}
+
+			};
+
+			stack.execute(cmd);
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 	public EObject getAssociationPrediction(EObject rootModel) {
@@ -616,7 +682,6 @@ public class Services {
 		IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
 		List<HashMap<String, String>> res = associationsPrediction.run(rootModel, getModel());
 		for (int j = 0; j < res.size(); j++) {
-			System.out.println(res.get(j).get("Type"));
 			createAssociation(res.get(j).get("Type"), res.get(j).get("Name"), res.get(j).get("Target"),
 					res.get(j).get("Source"), session);
 		}

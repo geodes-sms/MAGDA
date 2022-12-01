@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:metamodel="http://www.umontreal.geodes/metamodel" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/style/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/style">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:description_2="http://www.eclipse.org/sirius/table/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:metamodel="http://www.umontreal.geodes/metamodel" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:table="http://www.eclipse.org/sirius/table/1.1.0" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description http://www.eclipse.org/sirius/table/description/1.1.0 http://www.eclipse.org/sirius/table/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/style/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description/style">
   <viewpoint:DAnalysis uid="_c5nVYPI2EeysRNPmtolwsg" selectedViews="_7eon0PI_EeyK8IF0Z56BzA" version="15.0.0.202201261500">
     <semanticResources>MyMetamodel.metamodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_7eon0PI_EeyK8IF0Z56BzA">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="ae7d3f07-23a8-4487-b3eb-d32998aad40e">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="34b1828d-aae6-41cf-9d32-2fc7e9895863">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']"/>
+        <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
+      </ownedRepresentationDescriptors>
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_I5ciUnGQEe2-JdQsb1le-g" name="suggestions" repPath="#_I5XCwHGQEe2-JdQsb1le-g" changeId="ca60afe2-16f8-4aa3-b31d-833163f69e7d">
+        <description xmi:type="description_2:EditionTableDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']"/>
         <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
       </ownedRepresentationDescriptors>
     </ownedViews>
@@ -57,6 +61,42 @@
           </children>
           <styles xmi:type="notation:ShapeStyle" xmi:id="_TwS1kWF1Ee2lU-xN1UNe9g" fontName="Ubuntu" fontHeight="12"/>
           <layoutConstraint xmi:type="notation:Bounds" xmi:id="_TwS1kmF1Ee2lU-xN1UNe9g" x="300" y="72" width="130" height="43"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_tmLQoHAqEe2t67OniWAiFg" type="2003" element="_tmARgHAqEe2t67OniWAiFg">
+          <children xmi:type="notation:Node" xmi:id="_tmOT8HAqEe2t67OniWAiFg" type="5007"/>
+          <children xmi:type="notation:Node" xmi:id="_tmO7AHAqEe2t67OniWAiFg" type="7004">
+            <styles xmi:type="notation:SortingStyle" xmi:id="_tmO7AXAqEe2t67OniWAiFg"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_tmO7AnAqEe2t67OniWAiFg"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_tmLQoXAqEe2t67OniWAiFg" fontName="Ubuntu" fontHeight="12"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tmLQonAqEe2t67OniWAiFg" x="552" y="252" width="130" height="30"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_NMwKkHGQEe2-JdQsb1le-g" type="2003" element="_NMnnsHGQEe2-JdQsb1le-g">
+          <children xmi:type="notation:Node" xmi:id="_NM0cAHGQEe2-JdQsb1le-g" type="5007"/>
+          <children xmi:type="notation:Node" xmi:id="_NM0cAXGQEe2-JdQsb1le-g" type="7004">
+            <styles xmi:type="notation:SortingStyle" xmi:id="_NM0cAnGQEe2-JdQsb1le-g"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_NM0cA3GQEe2-JdQsb1le-g"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_NMwKkXGQEe2-JdQsb1le-g" fontName="Ubuntu" fontHeight="12"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_NMwKknGQEe2-JdQsb1le-g" x="552" y="252" width="130" height="30"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_SlaNIHGXEe2yguFbR3WJww" type="2003" element="_SlPOBXGXEe2yguFbR3WJww">
+          <children xmi:type="notation:Node" xmi:id="_SliI8HGXEe2yguFbR3WJww" type="5007"/>
+          <children xmi:type="notation:Node" xmi:id="_SliwAHGXEe2yguFbR3WJww" type="7004">
+            <styles xmi:type="notation:SortingStyle" xmi:id="_SliwAXGXEe2yguFbR3WJww"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_SliwAnGXEe2yguFbR3WJww"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_SlaNIXGXEe2yguFbR3WJww" fontName="Ubuntu" fontHeight="12"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_SlaNInGXEe2yguFbR3WJww" x="552" y="252" width="130" height="30"/>
+        </children>
+        <children xmi:type="notation:Node" xmi:id="_0GeJAHGXEe2L5L2hITD1EQ" type="2003" element="_0GSi0HGXEe2L5L2hITD1EQ">
+          <children xmi:type="notation:Node" xmi:id="_0GjBgHGXEe2L5L2hITD1EQ" type="5007"/>
+          <children xmi:type="notation:Node" xmi:id="_0GjokHGXEe2L5L2hITD1EQ" type="7004">
+            <styles xmi:type="notation:SortingStyle" xmi:id="_0GjokXGXEe2L5L2hITD1EQ"/>
+            <styles xmi:type="notation:FilteringStyle" xmi:id="_0GjoknGXEe2L5L2hITD1EQ"/>
+          </children>
+          <styles xmi:type="notation:ShapeStyle" xmi:id="_0GeJAXGXEe2L5L2hITD1EQ" fontName="Ubuntu" fontHeight="12"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0GeJAnGXEe2L5L2hITD1EQ" x="552" y="252" width="130" height="30"/>
         </children>
         <styles xmi:type="notation:DiagramStyle" xmi:id="_ANwCUvJAEeyK8IF0Z56BzA"/>
         <edges xmi:type="notation:Edge" xmi:id="_PT__mGCoEe23qIsWpcQa7w" type="4001" element="_MreeIGCoEe23qIsWpcQa7w" source="_UNsHoGCCEe2Hs41qEPhIGw" target="_skfoAj0jEe2eXoq6PLTK6A">
@@ -141,9 +181,51 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
     </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_tmARgHAqEe2t67OniWAiFg" name="cityperson" width="13" height="3">
+      <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.5"/>
+      <semanticElements xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.5"/>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_tmA4kHAqEe2t67OniWAiFg" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png" borderSize="1" borderSizeComputationExpression="1">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_NMnnsHGQEe2-JdQsb1le-g" name="vis" width="13" height="3">
+      <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.6"/>
+      <semanticElements xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.6"/>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_NMoOwHGQEe2-JdQsb1le-g" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png" borderSize="1" borderSizeComputationExpression="1">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_SlPOBXGXEe2yguFbR3WJww" name="student" width="13" height="3">
+      <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.7"/>
+      <semanticElements xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.7"/>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_SlQcIHGXEe2yguFbR3WJww" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png" borderSize="1" borderSizeComputationExpression="1">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
+    </ownedDiagramElements>
+    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_0GSi0HGXEe2L5L2hITD1EQ" name="company" width="13" height="3">
+      <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.8"/>
+      <semanticElements xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.8"/>
+      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_0GTJ4HGXEe2L5L2hITD1EQ" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png" borderSize="1" borderSizeComputationExpression="1">
+        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@style"/>
+      </ownedStyle>
+      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
+    </ownedDiagramElements>
     <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']"/>
     <filterVariableHistory xmi:type="diagram:FilterVariableHistory" uid="_ANb5QPJAEeyK8IF0Z56BzA"/>
     <activatedLayers xmi:type="description_1:Layer" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer"/>
     <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
   </diagram:DSemanticDiagram>
+  <table:DTable uid="_I5XCwHGQEe2-JdQsb1le-g" headerColumnWidth="237">
+    <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
+    <columns xmi:type="table:DFeatureColumn" uid="_I5b7QHGQEe2-JdQsb1le-g" label="Name" width="237" featureName="name">
+      <originMapping xmi:type="description_2:FeatureColumnMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedColumnMappings[name='Name']"/>
+    </columns>
+    <columns xmi:type="table:DFeatureColumn" uid="_I5ciUHGQEe2-JdQsb1le-g" label="Score" featureName="confidence">
+      <originMapping xmi:type="description_2:FeatureColumnMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedColumnMappings[name='Confidence']"/>
+    </columns>
+    <description xmi:type="description_2:EditionTableDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']"/>
+  </table:DTable>
 </xmi:XMI>

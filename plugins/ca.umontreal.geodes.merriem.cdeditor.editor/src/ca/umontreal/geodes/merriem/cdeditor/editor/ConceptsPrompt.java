@@ -39,11 +39,11 @@ public class ConceptsPrompt extends Prompt {
 	public String[] interceptResults(String Results) {
 		ArrayList<String> concepts;
 		
-		String[] second = Results.split(",");
-		String[] words = Results.split(" ");
-		ArrayList<String> both = new ArrayList<String>(words.length + second.length);
+		String[] words = Results.split(",");
+		//String[] words = Results.split(" "); //that's why we have a very long word at the beginning .. remove ? 
+		ArrayList<String> both = new ArrayList<String>(words.length );
 		Collections.addAll(both, words);
-		Collections.addAll(both, second);
+		//Collections.addAll(both, second);
 		// concepts = removeLetter(concepts)
 		both = (ArrayList<String>) removeSymbols(both);
 		

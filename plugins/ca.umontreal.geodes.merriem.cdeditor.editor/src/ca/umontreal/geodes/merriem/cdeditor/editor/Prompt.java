@@ -32,12 +32,12 @@ public abstract class Prompt {
 		try {
 
 			OpenAiService theService = new OpenAiService(token);
-			System.out.println("  Creating completion..." );
 			CompletionRequest completionRequest = CompletionRequest.builder().prompt(this.prompt).maxTokens(maxTokens)
 					.temperature(temperature).build();
 
 			Results = theService.createCompletion(engine, completionRequest).getChoices().get(0).getText();
-			System.out.println("genrated : " + Results);
+			// log this : 
+			System.out.println("results combined genrated : " + Results);
 			
 			GeneratedList = interceptResults(Results);
 			System.out.println("after processing: ");

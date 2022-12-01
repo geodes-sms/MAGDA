@@ -61,8 +61,8 @@ public class AssociationItemProvider extends NamedElementItemProvider {
 	protected void addLowerBoundPropertyDescriptor(Object object) {
 		itemPropertyDescriptors
 				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-						getResourceLocator(), getString("_UI_Association_LowerBound_feature"),
-						getString("_UI_PropertyDescriptor_description", "_UI_Association_LowerBound_feature",
+						getResourceLocator(), getString("_UI_Association_lowerBound_feature"),
+						getString("_UI_PropertyDescriptor_description", "_UI_Association_lowerBound_feature",
 								"_UI_Association_type"),
 						MetamodelPackage.Literals.ASSOCIATION__LOWER_BOUND, true, false, false,
 						ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));
@@ -107,8 +107,8 @@ public class AssociationItemProvider extends NamedElementItemProvider {
 	protected void addUpperBoundPropertyDescriptor(Object object) {
 		itemPropertyDescriptors
 				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-						getResourceLocator(), getString("_UI_Association_UpperBound_feature"),
-						getString("_UI_PropertyDescriptor_description", "_UI_Association_UpperBound_feature",
+						getResourceLocator(), getString("_UI_Association_upperBound_feature"),
+						getString("_UI_PropertyDescriptor_description", "_UI_Association_upperBound_feature",
 								"_UI_Association_type"),
 						MetamodelPackage.Literals.ASSOCIATION__UPPER_BOUND, true, false, false,
 						ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));

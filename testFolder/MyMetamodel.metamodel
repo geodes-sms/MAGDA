@@ -5,5 +5,9 @@
   <clazz name=" passenger "/>
   <clazz name="person"/>
   <clazz name=" highway "/>
+  <clazz name="cityperson"/>
+  <clazz name="vis"/>
+  <clazz name="student"/>
+  <clazz name="company"/>
   <association name=" carries" source="//@clazz.2" target="//@clazz.0"/>
 </metamodel:Model>

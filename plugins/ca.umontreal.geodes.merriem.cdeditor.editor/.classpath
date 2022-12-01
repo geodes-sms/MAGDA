@@ -8,27 +8,5 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/rxjava-2.0.0.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/retrofit-2.9.0.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/reactive-streams-1.0.3.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/okio-1.17.2.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/okhttp-3.14.9.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/adapter-rxjava2-2.9.0.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/jackson-databind-2.10.5.1.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/jackson-core-2.10.5.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/jackson-annotations-2.10.5.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/converter-jackson-2.10.6.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/retrofit-2.10.6.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/gson-2.8.5.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/converter-gson-2.10.6.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/okio-jvm-3.2.0.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/okhttp-jvm-5.0.0-alpha.10.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/okhttp-5.0.0-alpha.10.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/kotlin-stdlib-jdk8-1.6.20.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/kotlin-stdlib-jdk7-1.6.20.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/kotlin-stdlib-common-1.6.21.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/kotlin-stdlib-1.6.21.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/annotations-13.0.jar"/>
-	<classpathentry kind="lib" path="/home/meriem/Desktop/editorCD/class-diagram-editor/external_Jars/client-0.3.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
