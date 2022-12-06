@@ -3,6 +3,9 @@ package ca.umontreal.geodes.merriem.cdeditor.editor;
 import java.util.List;
 
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.events.MouseEvent;
+import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -37,7 +40,7 @@ public class ViewSuggestions extends ViewPart {
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.heightHint = 200;
 		table.setLayoutData(data);
-		String[] titles = { "Suggestion", "score", "accept" };
+		String[] titles = { "Suggestion", "score", "Add to Canvas?" };
 		for (String title : titles) {
 			TableColumn column = new TableColumn(table, SWT.CHECK);
 			column.setText(title);
@@ -46,18 +49,57 @@ public class ViewSuggestions extends ViewPart {
 			TableItem item = new TableItem(table, SWT.CHECK);
 			item.setText(0, classeCondidateInModel.get(i).getName());
 			item.setText(1, Integer.toString(classeCondidateInModel.get(i).getConfidence()));
-			Button acceptButton = new Button(table, SWT.PUSH);
-			
-			acceptButton.setText ("Accept");
-		
-			acceptButton.pack();
-			///acceptButton.addSelectionListener(widgetSelectedAdapter(e -> System.out.println("OK")));
-			//item.setChecked(true);
-			//item.
-		
+
 		}
 		for (int i = 0; i < titles.length; i++) {
 			table.getColumn(i).pack();
+		}
+
+		TableItem[] items = table.getItems();
+
+		for (int i = 0; i < items.length; i++) {
+			int indexItem = i ; 
+			TableEditor editor = new TableEditor(table);
+
+			TableItem item = items[i];
+
+			Button button = new Button(table, SWT.PUSH);
+
+			button.setText("Accept");
+
+			button.setSize(80, 16);
+			button.pack();
+
+			editor.minimumWidth = button.getSize().x;
+
+			editor.horizontalAlignment = SWT.LEFT;
+
+			editor.setEditor(button, item, 2);
+			button.addMouseListener(new MouseListener() {
+
+				@Override
+				public void mouseDoubleClick(MouseEvent e) {
+					//System.out.println("accepted clicked");
+
+				}
+
+				@Override
+				public void mouseDown(MouseEvent e) {
+					table.remove(indexItem);
+
+				}
+
+				@Override
+				public void mouseUp(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+
+			// button.setToolTipText("Fix this session");
+
+		
+
 		}
 
 	}
