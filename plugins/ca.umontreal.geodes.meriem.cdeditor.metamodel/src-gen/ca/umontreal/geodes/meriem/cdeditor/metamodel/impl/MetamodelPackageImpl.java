@@ -358,6 +358,24 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EAttribute getClazzCondidate_Accept() {
+		return (EAttribute) clazzCondidateEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getClazzCondidate_RelatedTo() {
+		return (EReference) clazzCondidateEClass.getEStructuralFeatures().get(3);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getAttributeCondidate() {
 		return attributeCondidateEClass;
 	}
@@ -464,6 +482,8 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		clazzCondidateEClass = createEClass(CLAZZ_CONDIDATE);
 		createEReference(clazzCondidateEClass, CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE);
 		createEAttribute(clazzCondidateEClass, CLAZZ_CONDIDATE__CONFIDENCE);
+		createEAttribute(clazzCondidateEClass, CLAZZ_CONDIDATE__ACCEPT);
+		createEReference(clazzCondidateEClass, CLAZZ_CONDIDATE__RELATED_TO);
 
 		attributeCondidateEClass = createEClass(ATTRIBUTE_CONDIDATE);
 
@@ -574,6 +594,12 @@ public class MetamodelPackageImpl extends EPackageImpl implements MetamodelPacka
 		initEAttribute(getClazzCondidate_Confidence(), ecorePackage.getEInt(), "confidence", null, 0, 1,
 				ClazzCondidate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
 				!IS_DERIVED, IS_ORDERED);
+		initEAttribute(getClazzCondidate_Accept(), ecorePackage.getEBoolean(), "Accept", null, 0, 1,
+				ClazzCondidate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE,
+				!IS_DERIVED, IS_ORDERED);
+		initEReference(getClazzCondidate_RelatedTo(), this.getClazz(), null, "relatedTo", null, 0, 1,
+				ClazzCondidate.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES,
+				!IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(attributeCondidateEClass, AttributeCondidate.class, "AttributeCondidate", !IS_ABSTRACT,
 				!IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);

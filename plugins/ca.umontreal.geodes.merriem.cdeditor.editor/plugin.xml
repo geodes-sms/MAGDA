@@ -36,4 +36,28 @@
            commandId="ca.umontreal.geodes.merriem.cdeditor.editor.command.1">
      </handler>
   </extension>
+  <extension
+        point="org.eclipse.ui.commands">
+  </extension>
+  <extension
+        point="org.eclipse.ui.views">
+     <view
+           class="ca.umontreal.geodes.merriem.cdeditor.editor.ViewSuggestions"
+           id="ca.umontreal.geodes.merriem.cdeditor.editor.view3"
+           name="Suggestions"
+           restorable="true">
+     </view>
+  </extension>
+  <extension
+        point="org.eclipse.ui.perspectiveExtensions">
+     <perspectiveExtension
+           targetID="*">
+        <view
+              id="ca.umontreal.geodes.merriem.cdeditor.editor.view3"
+              minimized="false"
+              ratio="0.95f"
+              relationship="fast">
+        </view>
+     </perspectiveExtension>
+  </extension>
 </plugin>

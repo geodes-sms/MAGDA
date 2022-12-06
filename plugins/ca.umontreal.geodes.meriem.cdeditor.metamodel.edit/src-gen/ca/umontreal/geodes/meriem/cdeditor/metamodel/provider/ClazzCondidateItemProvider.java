@@ -47,6 +47,8 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 			super.getPropertyDescriptors(object);
 
 			addConfidencePropertyDescriptor(object);
+			addAcceptPropertyDescriptor(object);
+			addRelatedToPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -65,6 +67,37 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 								"_UI_ClazzCondidate_type"),
 						MetamodelPackage.Literals.CLAZZ_CONDIDATE__CONFIDENCE, true, false, false,
 						ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Accept feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addAcceptPropertyDescriptor(Object object) {
+		itemPropertyDescriptors
+				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+						getResourceLocator(), getString("_UI_ClazzCondidate_Accept_feature"),
+						getString("_UI_PropertyDescriptor_description", "_UI_ClazzCondidate_Accept_feature",
+								"_UI_ClazzCondidate_type"),
+						MetamodelPackage.Literals.CLAZZ_CONDIDATE__ACCEPT, true, false, false,
+						ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Related To feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addRelatedToPropertyDescriptor(Object object) {
+		itemPropertyDescriptors
+				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
+						getResourceLocator(), getString("_UI_ClazzCondidate_relatedTo_feature"),
+						getString("_UI_PropertyDescriptor_description", "_UI_ClazzCondidate_relatedTo_feature",
+								"_UI_ClazzCondidate_type"),
+						MetamodelPackage.Literals.CLAZZ_CONDIDATE__RELATED_TO, true, false, true, null, null, null));
 	}
 
 	/**
@@ -144,6 +177,7 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 
 		switch (notification.getFeatureID(ClazzCondidate.class)) {
 		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
+		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
 		case MetamodelPackage.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE:

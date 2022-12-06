@@ -39,6 +39,8 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributecondidate" upperBound="-1"
         eType="#//AttributeCondidate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="confidence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Accept" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="relatedTo" eType="#//Clazz"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeCondidate" eSuperTypes="#//TypedElement #//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Association" eSuperTypes="#//NamedElement">

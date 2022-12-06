@@ -164,8 +164,14 @@
     </ownedRepresentations>
     <ownedRepresentations xsi:type="description_2:EditionTableDescription" name="Suggestions" initialisation="true" showOnStartup="true" domainClass="metamodel::Model">
       <ownedLineMappings domainClass="metamodel::ClazzCondidate"/>
-      <ownedColumnMappings name="Name" label="Name" headerLabelExpression="Name" featureName="name"/>
-      <ownedColumnMappings name="Confidence" label="score" headerLabelExpression="Score" featureName="confidence"/>
+      <ownedColumnMappings name="Name" label="Name" headerLabelExpression="Name" initialWidth="3" canEdit="aql:false" featureName="name"/>
+      <ownedColumnMappings name="Confidence" label="score" headerLabelExpression="Score" canEdit="aql:false" featureName="confidence">
+        <defaultBackground>
+          <backgroundColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='light_green']"/>
+        </defaultBackground>
+      </ownedColumnMappings>
+      <ownedColumnMappings name="Accept" label="Accept suggestion" headerLabelExpression="Accept suggestion" featureName="Accept"/>
+      <ownedColumnMappings name="relatedClass" label="relatedClassrelatedClass" headerLabelExpression="relatedClass" featureName="relatedTo"/>
     </ownedRepresentations>
     <ownedJavaExtensions qualifiedClassName="ca.umontreal.geodes.merriem.cdeditor.editor.Services"/>
   </ownedViewpoints>

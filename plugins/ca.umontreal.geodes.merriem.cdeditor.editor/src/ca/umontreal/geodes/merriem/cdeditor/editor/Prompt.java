@@ -37,7 +37,7 @@ public abstract class Prompt {
 
 			Results = theService.createCompletion(engine, completionRequest).getChoices().get(0).getText();
 			// log this : 
-			System.out.println("results combined genrated : " + Results);
+		
 			
 			GeneratedList = interceptResults(Results);
 			System.out.println("after processing: ");

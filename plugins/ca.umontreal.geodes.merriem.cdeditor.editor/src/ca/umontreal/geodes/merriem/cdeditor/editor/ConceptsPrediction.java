@@ -45,7 +45,10 @@ public class ConceptsPrediction implements IConceptsPrediction {
 			input = inputClass.getName();
 			className = input;
 			classNames.add(inputClass.getName());
-			/** heuristic/strategy : what to send to GPT3, use random , TO DO: update use loop **/
+			/**
+			 * heuristic/strategy : what to send to GPT3, use random , TO DO: update use
+			 * loop
+			 **/
 
 			for (int z = 0; z < classesInModel.size(); z++) {
 				input = className;
@@ -55,23 +58,22 @@ public class ConceptsPrediction implements IConceptsPrediction {
 
 					}
 				}
+				Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
+				concpetsPrompt.setPrompt();
+				String[] arrayAssociationName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
+				// HashMap<String, String> item = new HashMap<String, String>();
+				results.add(new HashMap<String, String>());
+				for (int i = 0; i < arrayAssociationName.length; i++) {
+
+					// key = value (because it's interface ...)
+					results.get(0).put(arrayAssociationName[i], arrayAssociationName[i]);
+					System.out.print(arrayAssociationName[i]);
+
+				}
+				System.out.println("--------");
+				predictionLists.add(arrayAssociationName);
+
 			}
-		
-			Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
-			concpetsPrompt.setPrompt();
-			String[] arrayAssociationName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
-			HashMap<String, String> item = new HashMap<String, String>();
-			results.add(item);
-			for (int i = 0; i < arrayAssociationName.length; i++) {
-
-				// key = value (because it's interface ...)
-				results.get(0).put(arrayAssociationName[i], arrayAssociationName[i]);
-				System.out.println("genrated : " + arrayAssociationName[i]);
-
-			}
-
-			Map<String, Integer> result = new HashMap<String, Integer>();
-			predictionLists.add(arrayAssociationName);
 
 		}
 
@@ -86,8 +88,9 @@ public class ConceptsPrediction implements IConceptsPrediction {
 			}
 		}
 		List<HashMap<String, String>> convertedResults = new ArrayList<HashMap<String, String>>();
-		
-		Map copy = result.entrySet().stream().sorted(Map.Entry.comparingByValue()).collect(Collectors.toMap(e->e.getKey(),e->e.getValue().toString()));
+
+		Map copy = result.entrySet().stream().sorted(Map.Entry.comparingByValue())
+				.collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue().toString()));
 		HashMap<String, String> temp = new HashMap<String, String>(copy);
 		convertedResults.add(temp);
 

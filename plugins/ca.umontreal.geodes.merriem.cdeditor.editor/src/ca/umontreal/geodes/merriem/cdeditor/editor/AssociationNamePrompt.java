@@ -10,7 +10,7 @@ public class AssociationNamePrompt extends Prompt {
 
 	@Override
 	public String[] interceptResults(String Results) {
-		String[] results = new String[50];
+		String[] results = new String[10];
 		results[0] = Results;
 		return results;
 	}

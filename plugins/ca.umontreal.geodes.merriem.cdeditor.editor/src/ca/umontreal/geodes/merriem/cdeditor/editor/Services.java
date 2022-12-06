@@ -595,8 +595,7 @@ public class Services {
 				if (!containsIgnoreCase(suggestedConcepts, key)) {
 					createClassCondidate((String) key, Concepts.get(0).get(key), session);
 				} else {
-					System.out.println(key); 
-					System.out.println("already there , updating ..."); 
+
 					updateConfidenceCondidate((String) key, session, model, 1);
 				}
 			}

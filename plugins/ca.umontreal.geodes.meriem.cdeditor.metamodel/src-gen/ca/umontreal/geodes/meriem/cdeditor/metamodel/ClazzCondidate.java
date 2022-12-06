@@ -15,6 +15,8 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#getAttributecondidate <em>Attributecondidate</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#getConfidence <em>Confidence</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#isAccept <em>Accept</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#getRelatedTo <em>Related To</em>}</li>
  * </ul>
  *
  * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getClazzCondidate()
@@ -56,4 +58,48 @@ public interface ClazzCondidate extends NamedElement {
 	 * @generated
 	 */
 	void setConfidence(int value);
+
+	/**
+	 * Returns the value of the '<em><b>Accept</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Accept</em>' attribute.
+	 * @see #setAccept(boolean)
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getClazzCondidate_Accept()
+	 * @model
+	 * @generated
+	 */
+	boolean isAccept();
+
+	/**
+	 * Sets the value of the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#isAccept <em>Accept</em>}' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Accept</em>' attribute.
+	 * @see #isAccept()
+	 * @generated
+	 */
+	void setAccept(boolean value);
+
+	/**
+	 * Returns the value of the '<em><b>Related To</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Related To</em>' reference.
+	 * @see #setRelatedTo(Clazz)
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getClazzCondidate_RelatedTo()
+	 * @model
+	 * @generated
+	 */
+	Clazz getRelatedTo();
+
+	/**
+	 * Sets the value of the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#getRelatedTo <em>Related To</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Related To</em>' reference.
+	 * @see #getRelatedTo()
+	 * @generated
+	 */
+	void setRelatedTo(Clazz value);
 } // ClazzCondidate
