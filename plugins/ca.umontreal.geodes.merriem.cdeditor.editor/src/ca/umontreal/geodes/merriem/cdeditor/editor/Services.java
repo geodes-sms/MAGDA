@@ -64,9 +64,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
+import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.internal.EditorReference;
+import org.eclipse.ui.part.IPage;
 import org.osgi.framework.ServiceException;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
@@ -91,7 +93,6 @@ public class Services {
 	protected static final int Nan = 0;
 	protected HashMap<String, HashMap<String, String>> classAttributes;
 	protected HashMap<String, List<String>> relatedClasses;
-
 	public Services() throws Exception {
 		this.config = new Properties();
 		this.relatedClasses = new HashMap<String, List<String>>();
@@ -110,6 +111,26 @@ public class Services {
 
 	};
 
+	
+	public   void refreshSuggestionsView() {
+		//String id = "org.eclipse.ui.views.PropertySheet";
+		String id = "ca.umontreal.geodes.merriem.cdeditor.editor.view3";
+		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(id);
+		if (view instanceof ViewSuggestions) {
+			
+			ViewSuggestions viewSuggestions = (ViewSuggestions) view;
+			{	
+				//viewSuggestions.parent.redraw();
+
+				viewSuggestions.createContents();
+
+				
+			}
+			
+		}
+	}
+	
+	
 	private IGraphicalEditPart getEditPart(DDiagramElement diagramElement) {
 		IEditorPart editor = EclipseUIUtil.getActiveEditor();
 		if (editor instanceof DiagramEditor) {
@@ -177,16 +198,19 @@ public class Services {
 	}
 	// }
 
+	@SuppressWarnings("restriction")
 	public boolean containsIgnoreCase(List<String> list, String soughtFor) {
 
 		for (String current : list) {
 			if (current.replaceAll("\\s+", "").equalsIgnoreCase(soughtFor.replaceAll("\\s+", ""))) {
+			
 				return true;
 			}
 		}
 		return false;
 	}
 
+	@SuppressWarnings("restriction")
 	protected Model getModel() {
 		IEditorReference[] editorReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.getEditorReferences();
@@ -232,6 +256,8 @@ public class Services {
 
 	public void createClass(String Name, Session session) {
 		try {
+
+			System.out.println("creating class");
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
@@ -248,14 +274,13 @@ public class Services {
 					ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
 					newClazz.setName(Name);
 					model.getClazz().add(newClazz);
-			
 
-					// refresh Model
 					DRepresentation represnt = null;
 					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
 						represnt = descrp.getRepresentation();
+						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
 					}
-					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
 				}
 
@@ -282,8 +307,7 @@ public class Services {
 				@Override
 				protected void doExecute() {
 					Model model = getModel();
-					// MetamodelFactory metamodelFactory =
-					// ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+					// MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 
 					List<ClazzCondidate> classesCondidate = model.getClazzcondidate();
 					int index = Nan;
@@ -432,7 +456,7 @@ public class Services {
 
 				@Override
 				protected void doExecute() {
-					System.out.println("the type: " + Type);
+	
 					Model model = getModel();
 					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 					List<Clazz> classes = new ArrayList<Clazz>();
@@ -510,7 +534,6 @@ public class Services {
 			IAttributesPrediction attributesPredcition = new AttributesPrediction();
 			typeAttributes = attributesPredcition.run(node, getModel());
 			for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
-				System.out.println(set.getKey().concat(":").concat(set.getValue()));
 				ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
 			}
 
@@ -537,6 +560,9 @@ public class Services {
 		this.classAttributes.put(NodeName, typeAttributes);
 		return node;
 	}
+	public Session getSession( ) {
+		return SessionManager.INSTANCE.getSession(getModel());
+	}
 
 	public EObject getClassPrediction(EObject rootModel) {
 
@@ -554,6 +580,8 @@ public class Services {
 		List<String> Results = new ArrayList<String>();
 		for (int i = 0; i < classesInModel.size(); i++) {
 			AllclassNames.add(classesInModel.get(i).getName());
+			classNames.add(classesInModel.get(i).getName());
+
 		}
 		for (int i = 0; i < classeCondidateInModel.size(); i++) {
 			AllclassNames.add(classeCondidateInModel.get(i).getName());
@@ -574,12 +602,10 @@ public class Services {
 			Clazz inputClass = (Clazz) rootModel;
 			input = inputClass.getName();
 			className = input;
-			classNames.add(inputClass.getName());
 			// heuristic: what to send to GPT3
 			Random rand = new Random();
 			String randomElement = AllclassNames.get(rand.nextInt(AllclassNames.size()));
 			input = input.concat(",").concat(randomElement);
-			System.out.println(className);
 
 		}
 		if (relatedClasses.containsKey(className)) {
@@ -594,11 +620,14 @@ public class Services {
 				Results.add(key);
 				if (!containsIgnoreCase(suggestedConcepts, key)) {
 					createClassCondidate((String) key, Concepts.get(0).get(key), session);
+					refreshSuggestionsView();
+
 				} else {
 
 					updateConfidenceCondidate((String) key, session, model, 1);
 				}
 			}
+
 
 		}
 
@@ -615,14 +644,12 @@ public class Services {
 		}
 		Object[] result = dialog.getResult();
 		for (int i = 0; i < result.length; i++) {
-			if (!containsIgnoreCase(AllclassNames, (String) result[i])) {
+			if (!containsIgnoreCase(classNames, (String) result[i])) {
 				createClass((String) result[i], session);
 
 			}
 		}
-		for (int l = 0; l < arrayConcepts.length; l++) {
-			System.out.println(arrayConcepts[l]);
-		}
+
 		if (!className.equals("")) {
 			List<String> wordList = Arrays.asList(arrayConcepts);
 			this.relatedClasses.put(className, wordList);
@@ -698,7 +725,6 @@ public class Services {
 
 		} else {
 			className = rootModel.toString().split(" ", 2)[1];
-			System.out.println(className);
 
 		}
 		if (className.contains(":")) {

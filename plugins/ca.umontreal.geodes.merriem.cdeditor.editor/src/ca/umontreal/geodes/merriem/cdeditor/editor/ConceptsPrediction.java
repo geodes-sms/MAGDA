@@ -67,10 +67,9 @@ public class ConceptsPrediction implements IConceptsPrediction {
 
 					// key = value (because it's interface ...)
 					results.get(0).put(arrayAssociationName[i], arrayAssociationName[i]);
-					System.out.print(arrayAssociationName[i]);
 
 				}
-				System.out.println("--------");
+			
 				predictionLists.add(arrayAssociationName);
 
 			}

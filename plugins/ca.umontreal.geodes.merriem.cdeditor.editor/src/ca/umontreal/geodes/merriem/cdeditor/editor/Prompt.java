@@ -40,11 +40,7 @@ public abstract class Prompt {
 		
 			
 			GeneratedList = interceptResults(Results);
-			System.out.println("after processing: ");
-
-			for(int j = 0 ; j< GeneratedList.length; j++) {
-				System.out.println(GeneratedList[j]);
-			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

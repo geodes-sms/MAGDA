@@ -4,11 +4,11 @@
     <semanticResources>MyMetamodel.metamodel</semanticResources>
     <ownedViews xmi:type="viewpoint:DView" uid="_7eon0PI_EeyK8IF0Z56BzA">
       <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']"/>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="8b62ec9c-a0c3-4aa4-8350-e9020cf18cca">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_ANhY0PJAEeyK8IF0Z56BzA" name="test" repPath="#_ANXAwPJAEeyK8IF0Z56BzA" changeId="70ccdb95-42fc-4eaf-9654-be037204a99d">
         <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']"/>
         <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
       </ownedRepresentationDescriptors>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_I5ciUnGQEe2-JdQsb1le-g" name="suggestions" repPath="#_I5XCwHGQEe2-JdQsb1le-g" changeId="8362dc7d-3e0c-456d-9d15-69d6c91ea736">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_I5ciUnGQEe2-JdQsb1le-g" name="suggestions" repPath="#_I5XCwHGQEe2-JdQsb1le-g" changeId="4cfe3a64-6b3a-42c7-851b-9b7c2550ab36">
         <description xmi:type="description_2:EditionTableDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']"/>
         <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
       </ownedRepresentationDescriptors>
@@ -24,7 +24,7 @@
             <styles xmi:type="notation:FilteringStyle" xmi:id="_skfoCD0jEe2eXoq6PLTK6A"/>
           </children>
           <styles xmi:type="notation:ShapeStyle" xmi:id="_skfoAz0jEe2eXoq6PLTK6A" fontName="Ubuntu" fontHeight="12"/>
-          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_skfoBD0jEe2eXoq6PLTK6A" x="204" y="216" width="294" height="183"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_skfoBD0jEe2eXoq6PLTK6A" x="156" y="216" width="294" height="183"/>
         </children>
         <children xmi:type="notation:Node" xmi:id="_xu0KIF6IEe2d8oGyA8ZxNQ" type="2003" element="_xuxG0l6IEe2d8oGyA8ZxNQ">
           <children xmi:type="notation:Node" xmi:id="_xu0KI16IEe2d8oGyA8ZxNQ" type="5007"/>
@@ -44,33 +44,6 @@
           <styles xmi:type="notation:ShapeStyle" xmi:id="_UNsHoWCCEe2Hs41qEPhIGw" fontName="Ubuntu" fontHeight="12"/>
           <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UNsHomCCEe2Hs41qEPhIGw" x="852" y="324" width="207" height="87"/>
         </children>
-        <children xmi:type="notation:Node" xmi:id="_tmLQoHAqEe2t67OniWAiFg" type="2003" element="_tmARgHAqEe2t67OniWAiFg">
-          <children xmi:type="notation:Node" xmi:id="_tmOT8HAqEe2t67OniWAiFg" type="5007"/>
-          <children xmi:type="notation:Node" xmi:id="_tmO7AHAqEe2t67OniWAiFg" type="7004">
-            <styles xmi:type="notation:SortingStyle" xmi:id="_tmO7AXAqEe2t67OniWAiFg"/>
-            <styles xmi:type="notation:FilteringStyle" xmi:id="_tmO7AnAqEe2t67OniWAiFg"/>
-          </children>
-          <styles xmi:type="notation:ShapeStyle" xmi:id="_tmLQoXAqEe2t67OniWAiFg" fontName="Ubuntu" fontHeight="12"/>
-          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tmLQonAqEe2t67OniWAiFg" x="552" y="252" width="130" height="30"/>
-        </children>
-        <children xmi:type="notation:Node" xmi:id="_NMwKkHGQEe2-JdQsb1le-g" type="2003" element="_NMnnsHGQEe2-JdQsb1le-g">
-          <children xmi:type="notation:Node" xmi:id="_NM0cAHGQEe2-JdQsb1le-g" type="5007"/>
-          <children xmi:type="notation:Node" xmi:id="_NM0cAXGQEe2-JdQsb1le-g" type="7004">
-            <styles xmi:type="notation:SortingStyle" xmi:id="_NM0cAnGQEe2-JdQsb1le-g"/>
-            <styles xmi:type="notation:FilteringStyle" xmi:id="_NM0cA3GQEe2-JdQsb1le-g"/>
-          </children>
-          <styles xmi:type="notation:ShapeStyle" xmi:id="_NMwKkXGQEe2-JdQsb1le-g" fontName="Ubuntu" fontHeight="12"/>
-          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_NMwKknGQEe2-JdQsb1le-g" x="552" y="252" width="130" height="30"/>
-        </children>
-        <children xmi:type="notation:Node" xmi:id="_SlaNIHGXEe2yguFbR3WJww" type="2003" element="_SlPOBXGXEe2yguFbR3WJww">
-          <children xmi:type="notation:Node" xmi:id="_SliI8HGXEe2yguFbR3WJww" type="5007"/>
-          <children xmi:type="notation:Node" xmi:id="_SliwAHGXEe2yguFbR3WJww" type="7004">
-            <styles xmi:type="notation:SortingStyle" xmi:id="_SliwAXGXEe2yguFbR3WJww"/>
-            <styles xmi:type="notation:FilteringStyle" xmi:id="_SliwAnGXEe2yguFbR3WJww"/>
-          </children>
-          <styles xmi:type="notation:ShapeStyle" xmi:id="_SlaNIXGXEe2yguFbR3WJww" fontName="Ubuntu" fontHeight="12"/>
-          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_SlaNInGXEe2yguFbR3WJww" x="552" y="252" width="130" height="30"/>
-        </children>
         <children xmi:type="notation:Node" xmi:id="_0GeJAHGXEe2L5L2hITD1EQ" type="2003" element="_0GSi0HGXEe2L5L2hITD1EQ">
           <children xmi:type="notation:Node" xmi:id="_0GjBgHGXEe2L5L2hITD1EQ" type="5007"/>
           <children xmi:type="notation:Node" xmi:id="_0GjokHGXEe2L5L2hITD1EQ" type="7004">
@@ -78,22 +51,22 @@
             <styles xmi:type="notation:FilteringStyle" xmi:id="_0GjoknGXEe2L5L2hITD1EQ"/>
           </children>
           <styles xmi:type="notation:ShapeStyle" xmi:id="_0GeJAXGXEe2L5L2hITD1EQ" fontName="Ubuntu" fontHeight="12"/>
-          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0GeJAnGXEe2L5L2hITD1EQ" x="552" y="252" width="130" height="30"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_0GeJAnGXEe2L5L2hITD1EQ" x="360" y="108" width="130" height="30"/>
         </children>
         <styles xmi:type="notation:DiagramStyle" xmi:id="_ANwCUvJAEeyK8IF0Z56BzA"/>
         <edges xmi:type="notation:Edge" xmi:id="_PT__mGCoEe23qIsWpcQa7w" type="4001" element="_MreeIGCoEe23qIsWpcQa7w" source="_UNsHoGCCEe2Hs41qEPhIGw" target="_skfoAj0jEe2eXoq6PLTK6A">
           <children xmi:type="notation:Node" xmi:id="_PT__nGCoEe23qIsWpcQa7w" type="6001">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PT__nWCoEe23qIsWpcQa7w" x="2" y="-9"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PT__nWCoEe23qIsWpcQa7w" x="3" y="-8"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_PT__nmCoEe23qIsWpcQa7w" type="6002">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PT__n2CoEe23qIsWpcQa7w" y="11"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PT__n2CoEe23qIsWpcQa7w" x="1" y="12"/>
           </children>
           <children xmi:type="notation:Node" xmi:id="_PT__oGCoEe23qIsWpcQa7w" type="6003">
-            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PT__oWCoEe23qIsWpcQa7w" x="-2" y="10"/>
+            <layoutConstraint xmi:type="notation:Bounds" xmi:id="_PT__oWCoEe23qIsWpcQa7w" x="-3" y="11"/>
           </children>
           <styles xmi:type="notation:ConnectorStyle" xmi:id="_PT__mWCoEe23qIsWpcQa7w"/>
           <styles xmi:type="notation:FontStyle" xmi:id="_PT__mmCoEe23qIsWpcQa7w" fontName="Ubuntu" fontHeight="12"/>
-          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_PT__m2CoEe23qIsWpcQa7w" points="[-102, -11, 502, 49]$[-458, -46, 146, 14]"/>
+          <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_PT__m2CoEe23qIsWpcQa7w" points="[-102, -10, 550, 50]$[-506, -47, 146, 13]"/>
           <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_PUAmoGCoEe23qIsWpcQa7w" id="(0.5,0.5)"/>
           <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_PUAmoWCoEe23qIsWpcQa7w" id="(0.5,0.5)"/>
         </edges>
@@ -144,33 +117,12 @@
       </ownedStyle>
       <actualMapping xmi:type="description_1:EdgeMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='Association']"/>
     </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_tmARgHAqEe2t67OniWAiFg" name="cityperson" width="13" height="3">
+    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_0GSi0HGXEe2L5L2hITD1EQ" name="company" width="13" height="3">
       <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.3"/>
       <semanticElements xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.3"/>
-      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_tmA4kHAqEe2t67OniWAiFg" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png" borderSize="1" borderSizeComputationExpression="1">
-        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@style"/>
-      </ownedStyle>
-      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
-    </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_NMnnsHGQEe2-JdQsb1le-g" name="vis" width="13" height="3">
-      <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.4"/>
-      <semanticElements xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.4"/>
-      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_NMoOwHGQEe2-JdQsb1le-g" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png" borderSize="1" borderSizeComputationExpression="1">
-        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@style"/>
-      </ownedStyle>
-      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
-    </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_SlPOBXGXEe2yguFbR3WJww" name="student" width="13" height="3">
-      <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.5"/>
-      <semanticElements xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.5"/>
-      <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_SlQcIHGXEe2yguFbR3WJww" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png" borderSize="1" borderSizeComputationExpression="1">
-        <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@style"/>
-      </ownedStyle>
-      <actualMapping xmi:type="description_1:ContainerMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']"/>
-    </ownedDiagramElements>
-    <ownedDiagramElements xmi:type="diagram:DNodeList" uid="_0GSi0HGXEe2L5L2hITD1EQ" name="company" width="13" height="3">
-      <target xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.6"/>
-      <semanticElements xmi:type="metamodel:Clazz" href="MyMetamodel.metamodel#//@clazz.6"/>
+      <arrangeConstraints>KEEP_LOCATION</arrangeConstraints>
+      <arrangeConstraints>KEEP_SIZE</arrangeConstraints>
+      <arrangeConstraints>KEEP_RATIO</arrangeConstraints>
       <ownedStyle xmi:type="diagram:FlatContainerStyle" uid="_0GTJ4HGXEe2L5L2hITD1EQ" labelSize="12" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/class.png" borderSize="1" borderSizeComputationExpression="1">
         <description xmi:type="style:FlatContainerStyleDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']/@style"/>
       </ownedStyle>
@@ -183,1025 +135,122 @@
   </diagram:DSemanticDiagram>
   <table:DTable uid="_I5XCwHGQEe2-JdQsb1le-g" headerColumnWidth="1">
     <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
-    <lines xmi:type="table:DLine" uid="_D-mZ4XJJEe2pmoz9rxephA" label="Clazz Condidate flight">
+    <lines xmi:type="table:DLine" uid="_LcQC4XZdEe2RzPxerLhtXQ" label="Clazz Condidate generalFlight">
       <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.0"/>
       <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.0"/>
       <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-mZ5nJJEe2pmoz9rxephA" label="flight" column="_I5b7QHGQEe2-JdQsb1le-g">
+      <cells xmi:type="table:DCell" uid="_LcYlv3ZdEe2RzPxerLhtXQ" label="generalFlight" column="_I5b7QHGQEe2-JdQsb1le-g">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.0"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.0"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_D-nA8XJJEe2pmoz9rxephA" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
+      <cells xmi:type="table:DCell" uid="_LcYlwXZdEe2RzPxerLhtXQ" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.0"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.0"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_Q6vqwHJKEe2TUqQP_vxSNw" label="true" column="_Q6vDsXJKEe2TUqQP_vxSNw">
+      <cells xmi:type="table:DCell" uid="_LcYlw3ZdEe2RzPxerLhtXQ" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.0"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.0"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_Znsag3JPEe2aY8BniEDCsA" label="Clazz plane" column="_ZnsagXJPEe2aY8BniEDCsA">
+      <cells xmi:type="table:DCell" uid="_LcYlxXZdEe2RzPxerLhtXQ" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.0"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.0"/>
       </cells>
     </lines>
-    <lines xmi:type="table:DLine" uid="_D-oPE3JJEe2pmoz9rxephA" label="Clazz Condidate addon">
+    <lines xmi:type="table:DLine" uid="_YX6aNnccEe2h99q4_bM_Ng" label="Clazz Condidate employee">
       <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.1"/>
       <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.1"/>
       <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-oPHHJJEe2pmoz9rxephA" label="addon" column="_I5b7QHGQEe2-JdQsb1le-g">
+      <cells xmi:type="table:DCell" uid="_YX7BWHccEe2h99q4_bM_Ng" label="employee" column="_I5b7QHGQEe2-JdQsb1le-g">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.1"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.1"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_D-oPHnJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
+      <cells xmi:type="table:DCell" uid="_YX7BWnccEe2h99q4_bM_Ng" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.1"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.1"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_Q6wR03JKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
+      <cells xmi:type="table:DCell" uid="_YX7BXHccEe2h99q4_bM_Ng" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.1"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.1"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_ZntBlHJPEe2aY8BniEDCsA" label="Clazz plane" column="_ZnsagXJPEe2aY8BniEDCsA">
+      <cells xmi:type="table:DCell" uid="_YX7oUHccEe2h99q4_bM_Ng" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.1"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.1"/>
       </cells>
     </lines>
-    <lines xmi:type="table:DLine" uid="_D-o2JHJJEe2pmoz9rxephA" label="Clazz Condidate city">
+    <lines xmi:type="table:DLine" uid="_YYS0unccEe2h99q4_bM_Ng" label="Clazz Condidate trippassenger">
       <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.2"/>
       <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.2"/>
       <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-pdOnJJEe2pmoz9rxephA" label="city" column="_I5b7QHGQEe2-JdQsb1le-g">
+      <cells xmi:type="table:DCell" uid="_YYTb6HccEe2h99q4_bM_Ng" label="trippassenger" column="_I5b7QHGQEe2-JdQsb1le-g">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.2"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.2"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_D-pdPHJJEe2pmoz9rxephA" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
+      <cells xmi:type="table:DCell" uid="_YYUC0HccEe2h99q4_bM_Ng" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.2"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.2"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_Q6wR13JKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
+      <cells xmi:type="table:DCell" uid="_YYUC0nccEe2h99q4_bM_Ng" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.2"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.2"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_ZntBmXJPEe2aY8BniEDCsA" label="Clazz airport" column="_ZnsagXJPEe2aY8BniEDCsA">
+      <cells xmi:type="table:DCell" uid="_YYUC1HccEe2h99q4_bM_Ng" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.2"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.2"/>
       </cells>
     </lines>
-    <lines xmi:type="table:DLine" uid="_D-sgh3JJEe2pmoz9rxephA" label="Clazz Condidate School">
+    <lines xmi:type="table:DLine" uid="_YYyj-3ccEe2h99q4_bM_Ng" label="Clazz Condidate airport">
       <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.3"/>
       <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.3"/>
       <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-tHkHJJEe2pmoz9rxephA" label="School" column="_I5b7QHGQEe2-JdQsb1le-g">
+      <cells xmi:type="table:DCell" uid="_YYzyEHccEe2h99q4_bM_Ng" label="airport" column="_I5b7QHGQEe2-JdQsb1le-g">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.3"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.3"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_D-tHknJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
+      <cells xmi:type="table:DCell" uid="_YYzyEnccEe2h99q4_bM_Ng" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.3"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.3"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_Q6wR23JKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
+      <cells xmi:type="table:DCell" uid="_YYzyFHccEe2h99q4_bM_Ng" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.3"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.3"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_ZntopHJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
+      <cells xmi:type="table:DCell" uid="_YYzyFnccEe2h99q4_bM_Ng" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.3"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.3"/>
       </cells>
     </lines>
-    <lines xmi:type="table:DLine" uid="_D-tup3JJEe2pmoz9rxephA" label="Clazz Condidate costable">
+    <lines xmi:type="table:DLine" uid="_YasodnccEe2h99q4_bM_Ng" label="Clazz Condidate trip">
       <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.4"/>
       <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.4"/>
       <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-tuunJJEe2pmoz9rxephA" label="costable" column="_I5b7QHGQEe2-JdQsb1le-g">
+      <cells xmi:type="table:DCell" uid="_YatPqHccEe2h99q4_bM_Ng" label="trip" column="_I5b7QHGQEe2-JdQsb1le-g">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.4"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.4"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_D-uVsXJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
+      <cells xmi:type="table:DCell" uid="_YatPqnccEe2h99q4_bM_Ng" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.4"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.4"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_Q6w44nJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
+      <cells xmi:type="table:DCell" uid="_Yat2kXccEe2h99q4_bM_Ng" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.4"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.4"/>
       </cells>
-      <cells xmi:type="table:DCell" uid="_ZntoqXJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
+      <cells xmi:type="table:DCell" uid="_Yat2k3ccEe2h99q4_bM_Ng" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
         <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.4"/>
         <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.4"/>
       </cells>
     </lines>
-    <lines xmi:type="table:DLine" uid="_D-u8x3JJEe2pmoz9rxephA" label="Clazz Condidate library">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.5"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.5"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-u83HJJEe2pmoz9rxephA" label="library" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.5"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.5"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D-vj0HJJEe2pmoz9rxephA" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.5"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.5"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6w45nJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.5"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.5"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_ZntornJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.5"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.5"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D-wK4nJJEe2pmoz9rxephA" label="Clazz Condidate trip">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.6"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.6"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-wK-XJJEe2pmoz9rxephA" label="trip" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.6"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.6"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D-wx8XJJEe2pmoz9rxephA" label="3" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.6"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.6"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6w46nJKEe2TUqQP_vxSNw" label="true" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.6"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.6"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Zntos3JPEe2aY8BniEDCsA" label="Clazz plane" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.6"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.6"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D-xZB3JJEe2pmoz9rxephA" label="Clazz Condidate contact">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.7"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.7"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-yAEXJJEe2pmoz9rxephA" label="contact" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.7"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.7"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D-yAE3JJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.7"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.7"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6w47nJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.7"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.7"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_ZnuPtHJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.7"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.7"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D-ynLHJJEe2pmoz9rxephA" label="Clazz Condidate un">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.8"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.8"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-zOPXJJEe2pmoz9rxephA" label="un" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.8"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.8"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D-zOP3JJEe2pmoz9rxephA" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.8"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.8"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6w48nJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.8"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.8"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_ZnuPuXJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.8"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.8"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D-1DbnJJEe2pmoz9rxephA" label="Clazz Condidate organizationcustomer">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.9"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.9"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-1qjHJJEe2pmoz9rxephA" label="organizationcustomer" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.9"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.9"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D-1qjnJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.9"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.9"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6xf83JKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.9"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.9"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_ZnuPvnJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.9"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.9"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D-24nHJJEe2pmoz9rxephA" label="Clazz Condidate Course">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.10"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.10"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-3frHJJEe2pmoz9rxephA" label="Course" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.10"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.10"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D-3frnJJEe2pmoz9rxephA" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.10"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.10"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6xf93JKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.10"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.10"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_ZnuPw3JPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.10"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.10"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D-4txXJJEe2pmoz9rxephA" label="Clazz Condidate female">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.11"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.11"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-5U3HJJEe2pmoz9rxephA" label="female" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.11"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.11"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D-5U3nJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.11"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.11"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6xf-3JKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.11"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.11"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Znu2xHJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.11"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.11"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D-578XJJEe2pmoz9rxephA" label="Clazz Condidate department">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.12"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.12"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-6jFHJJEe2pmoz9rxephA" label="department" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.12"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.12"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D-7KAXJJEe2pmoz9rxephA" label="3" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.12"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.12"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6xf_3JKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.12"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.12"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Znu2yXJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.12"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.12"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D-8YJnJJEe2pmoz9rxephA" label="Clazz Condidate tripCourse">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.13"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.13"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D-8_QHJJEe2pmoz9rxephA" label="tripCourse" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.13"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.13"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D-8_QnJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.13"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.13"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6yHA3JKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.13"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.13"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Znu2znJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.13"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.13"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D-9mU3JJEe2pmoz9rxephA" label="Clazz Condidate familyregister">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.14"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.14"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D--0YHJJEe2pmoz9rxephA" label="familyregister" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.14"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.14"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D--0YnJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.14"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.14"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6yHB3JKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.14"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.14"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Znu203JPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.14"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.14"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D_B3v3JJEe2pmoz9rxephA" label="Clazz Condidate personclient">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.15"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.15"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D_Ce3nJJEe2pmoz9rxephA" label="personclient" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.15"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.15"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D_Ce4HJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.15"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.15"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6yHC3JKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.15"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.15"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Znvd0nJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.15"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.15"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D_Ds73JJEe2pmoz9rxephA" label="Clazz Condidate familymember">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.16"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.16"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D_EUDXJJEe2pmoz9rxephA" label="familymember" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.16"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.16"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D_EUD3JJEe2pmoz9rxephA" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.16"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.16"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6yHD3JKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.16"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.16"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Znvd13JPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.16"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.16"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D_FiEnJJEe2pmoz9rxephA" label="Clazz Condidate borrower">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.17"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.17"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D_GJLHJJEe2pmoz9rxephA" label="borrower" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.17"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.17"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D_GJLnJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.17"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.17"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6yuEXJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.17"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.17"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Znvd3HJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.17"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.17"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D_HXQ3JJEe2pmoz9rxephA" label="Clazz Condidate seat">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.18"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.18"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D_H-YHJJEe2pmoz9rxephA" label="seat" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.18"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.18"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D_H-YnJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.18"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.18"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6yuFXJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.18"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.18"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Znvd4XJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.18"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.18"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D_JMdXJJEe2pmoz9rxephA" label="Clazz Condidate addresstransaction">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.19"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.19"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D_JzlHJJEe2pmoz9rxephA" label="addresstransaction" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.19"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.19"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D_JzlnJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.19"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.19"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6yuGXJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.19"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.19"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Znvd5nJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.19"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.19"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D_LBo3JJEe2pmoz9rxephA" label="Clazz Condidate professor">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.20"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.20"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D_Lo3HJJEe2pmoz9rxephA" label="professor" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.20"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.20"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D_Lo3nJJEe2pmoz9rxephA" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.20"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.20"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6yuHXJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.20"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.20"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_ZnwE5HJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.20"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.20"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D_OFDHJJEe2pmoz9rxephA" label="Clazz Condidate family">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.21"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.21"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D_PTEHJJEe2pmoz9rxephA" label="family" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.21"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.21"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D_PTEnJJEe2pmoz9rxephA" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.21"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.21"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6zVInJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.21"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.21"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_ZnwE7nJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.21"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.21"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D_P6PXJJEe2pmoz9rxephA" label="Clazz Condidate visitor">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.22"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.22"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D_QhbHJJEe2pmoz9rxephA" label="visitor" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.22"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.22"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D_RIQXJJEe2pmoz9rxephA" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.22"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.22"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6zVJnJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.22"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.22"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_ZnwE83JPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.22"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.22"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D_TkiXJJEe2pmoz9rxephA" label="Clazz Condidate party">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.23"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.23"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D_TkynJJEe2pmoz9rxephA" label="party" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.23"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.23"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D_ULkXJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.23"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.23"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6zVKnJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.23"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.23"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Znwr83JPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.23"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.23"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_D_UytHJJEe2pmoz9rxephA" label="Clazz Condidate male">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.24"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.24"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_D_VZ2nJJEe2pmoz9rxephA" label="male" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.24"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.24"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_D_VZ3HJJEe2pmoz9rxephA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.24"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.24"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Q6zVLnJKEe2TUqQP_vxSNw" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.24"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.24"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_Znwr-HJPEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.24"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.24"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bG5cH3JSEe2aY8BniEDCsA" label="Clazz Condidate AirplaneTemperature">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.25"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.25"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bG6qQXJSEe2aY8BniEDCsA" label="AirplaneTemperature" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.25"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.25"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bG6qQ3JSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.25"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.25"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bG6qRXJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.25"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.25"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bG6qR3JSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.25"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.25"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bG9GfnJSEe2aY8BniEDCsA" label="Clazz Condidate loan">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.26"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.26"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bG9tvXJSEe2aY8BniEDCsA" label="loan" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.26"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.26"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bG9tv3JSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.26"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.26"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bG9twXJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.26"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.26"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bG9tw3JSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.26"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.26"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bG-Uq3JSEe2aY8BniEDCsA" label="Clazz Condidate student">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.27"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.27"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bG-8D3JSEe2aY8BniEDCsA" label="student" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.27"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.27"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bG_isXJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.27"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.27"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bG_is3JSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.27"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.27"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bG_itXJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.27"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.27"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHAJzXJSEe2aY8BniEDCsA" label="Clazz Condidate catalog">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.28"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.28"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHAw2HJSEe2aY8BniEDCsA" label="catalog" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.28"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.28"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHAw2nJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.28"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.28"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHAw3HJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.28"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.28"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHAw3nJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.28"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.28"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHBX-XJSEe2aY8BniEDCsA" label="Clazz Condidate university">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.29"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.29"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHB_M3JSEe2aY8BniEDCsA" label="university" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.29"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.29"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHB_NXJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.29"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.29"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHB_N3JSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.29"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.29"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHB_OXJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.29"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.29"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHCmHnJSEe2aY8BniEDCsA" label="Clazz Condidate cmp">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.30"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.30"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHDNiHJSEe2aY8BniEDCsA" label="cmp" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.30"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.30"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHDNinJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.30"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.30"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHD0IXJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.30"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.30"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHD0I3JSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.30"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.30"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHEbT3JSEe2aY8BniEDCsA" label="Clazz Condidate emp">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.31"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.31"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHFCvnJSEe2aY8BniEDCsA" label="emp" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.31"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.31"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHFpUXJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.31"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.31"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHFpU3JSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.31"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.31"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHFpVXJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.31"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.31"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHGQb3JSEe2aY8BniEDCsA" label="Clazz Condidate managermanager">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.32"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.32"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHG3sXJSEe2aY8BniEDCsA" label="managermanager" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.32"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.32"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHG3s3JSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.32"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.32"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHG3tXJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.32"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.32"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHG3t3JSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.32"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.32"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHHeoXJSEe2aY8BniEDCsA" label="Clazz Condidate employee">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.33"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.33"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHIsoHJSEe2aY8BniEDCsA" label="employee" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.33"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.33"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHIsonJSEe2aY8BniEDCsA" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.33"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.33"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHIspHJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.33"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.33"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHIspnJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.33"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.33"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHJT0nJSEe2aY8BniEDCsA" label="Clazz Condidate dep">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.34"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.34"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHJ7CHJSEe2aY8BniEDCsA" label="dep" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.34"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.34"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHJ7CnJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.34"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.34"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHJ7DHJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.34"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.34"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHJ7DnJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.34"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.34"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHLwDXJSEe2aY8BniEDCsA" label="Clazz Condidate departmentemployeecity">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.35"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.35"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHMXNHJSEe2aY8BniEDCsA" label="departmentemployeecity" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.35"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.35"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHMXNnJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.35"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.35"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHMXOHJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.35"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.35"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHMXOnJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.35"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.35"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHQolHJSEe2aY8BniEDCsA" label="Clazz Condidate vis">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.36"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.36"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHRQBXJSEe2aY8BniEDCsA" label="vis" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.36"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.36"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHRQB3JSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.36"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.36"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHRQCXJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.36"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.36"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHRQC3JSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.36"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.36"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHR2tXJSEe2aY8BniEDCsA" label="Clazz Condidate item">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.37"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.37"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHSeN3JSEe2aY8BniEDCsA" label="item" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.37"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.37"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHSeOXJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.37"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.37"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHSeO3JSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.37"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.37"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHTEsXJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.37"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.37"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHTE2XJSEe2aY8BniEDCsA" label="Clazz Condidate universitystudentdepartment">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.38"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.38"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHTsXHJSEe2aY8BniEDCsA" label="universitystudentdepartment" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.38"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.38"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHUS0XJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.38"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.38"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHUS03JSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.38"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.38"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHUS1XJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.38"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.38"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHU55XJSEe2aY8BniEDCsA" label="Clazz Condidate universitycompany">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.39"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.39"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHVhD3JSEe2aY8BniEDCsA" label="universitycompany" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.39"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.39"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHVhEXJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.39"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.39"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHVhE3JSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.39"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.39"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHVhFXJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.39"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.39"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHXWSHJSEe2aY8BniEDCsA" label="Clazz Condidate dept">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.40"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.40"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHX9nHJSEe2aY8BniEDCsA" label="dept" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.40"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.40"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHX9nnJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.40"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.40"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHX9oHJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.40"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.40"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHX9onJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.40"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.40"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHYkaXJSEe2aY8BniEDCsA" label="Clazz Condidate home">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.41"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.41"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHZLyHJSEe2aY8BniEDCsA" label="home" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.41"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.41"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHZLynJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.41"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.41"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHZLzHJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.41"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.41"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHZLznJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.41"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.41"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHZyinJSEe2aY8BniEDCsA" label="Clazz Condidate Weather">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.42"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.42"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHaaG3JSEe2aY8BniEDCsA" label="Weather" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.42"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.42"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHbAgHJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.42"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.42"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHbAgnJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.42"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.42"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHbAhHJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.42"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.42"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHc1xXJSEe2aY8BniEDCsA" label="Clazz Condidate person">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.43"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.43"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHdc9XJSEe2aY8BniEDCsA" label="person" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.43"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.43"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHdc93JSEe2aY8BniEDCsA" label="2" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.43"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.43"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHdc-XJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.43"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.43"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHdc-3JSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.43"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.43"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHeD_HJSEe2aY8BniEDCsA" label="Clazz Condidate generalFlight">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.44"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.44"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHerQHJSEe2aY8BniEDCsA" label="generalFlight" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.44"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.44"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHerQnJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.44"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.44"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHerRHJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.44"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.44"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHerRnJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.44"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.44"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHfSHXJSEe2aY8BniEDCsA" label="Clazz Condidate AddressSpecificFlight">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.45"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.45"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHf5iHJSEe2aY8BniEDCsA" label="AddressSpecificFlight" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.45"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.45"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHf5inJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.45"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.45"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHf5jHJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.45"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.45"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHf5jnJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.45"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.45"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHiVT3JSEe2aY8BniEDCsA" label="Clazz Condidate bankPerson">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.46"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.46"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHi8p3JSEe2aY8BniEDCsA" label="bankPerson" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.46"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.46"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHi8qXJSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.46"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.46"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHi8q3JSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.46"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.46"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHi8rXJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.46"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.46"/>
-      </cells>
-    </lines>
-    <lines xmi:type="table:DLine" uid="_bHjjj3JSEe2aY8BniEDCsA" label="Clazz Condidate customer">
-      <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.47"/>
-      <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.47"/>
-      <originMapping xmi:type="description_2:LineMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedLineMappings[name='']"/>
-      <cells xmi:type="table:DCell" uid="_bHkLFXJSEe2aY8BniEDCsA" label="customer" column="_I5b7QHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.47"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.47"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHkLF3JSEe2aY8BniEDCsA" label="1" column="_I5ciUHGQEe2-JdQsb1le-g">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.47"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.47"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHkLGXJSEe2aY8BniEDCsA" label="false" column="_Q6vDsXJKEe2TUqQP_vxSNw">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.47"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.47"/>
-      </cells>
-      <cells xmi:type="table:DCell" uid="_bHkxgXJSEe2aY8BniEDCsA" label="" column="_ZnsagXJPEe2aY8BniEDCsA">
-        <target xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.47"/>
-        <semanticElements xmi:type="metamodel:ClazzCondidate" href="MyMetamodel.metamodel#//@clazzcondidate.47"/>
-      </cells>
-    </lines>
-    <columns xmi:type="table:DFeatureColumn" uid="_I5b7QHGQEe2-JdQsb1le-g" label="Name" cells="_D-mZ5nJJEe2pmoz9rxephA _D-oPHHJJEe2pmoz9rxephA _D-pdOnJJEe2pmoz9rxephA _D-tHkHJJEe2pmoz9rxephA _D-tuunJJEe2pmoz9rxephA _D-u83HJJEe2pmoz9rxephA _D-wK-XJJEe2pmoz9rxephA _D-yAEXJJEe2pmoz9rxephA _D-zOPXJJEe2pmoz9rxephA _D-1qjHJJEe2pmoz9rxephA _D-3frHJJEe2pmoz9rxephA _D-5U3HJJEe2pmoz9rxephA _D-6jFHJJEe2pmoz9rxephA _D-8_QHJJEe2pmoz9rxephA _D--0YHJJEe2pmoz9rxephA _D_Ce3nJJEe2pmoz9rxephA _D_EUDXJJEe2pmoz9rxephA _D_GJLHJJEe2pmoz9rxephA _D_H-YHJJEe2pmoz9rxephA _D_JzlHJJEe2pmoz9rxephA _D_Lo3HJJEe2pmoz9rxephA _D_PTEHJJEe2pmoz9rxephA _D_QhbHJJEe2pmoz9rxephA _D_TkynJJEe2pmoz9rxephA _D_VZ2nJJEe2pmoz9rxephA _bG6qQXJSEe2aY8BniEDCsA _bG9tvXJSEe2aY8BniEDCsA _bG-8D3JSEe2aY8BniEDCsA _bHAw2HJSEe2aY8BniEDCsA _bHB_M3JSEe2aY8BniEDCsA _bHDNiHJSEe2aY8BniEDCsA _bHFCvnJSEe2aY8BniEDCsA _bHG3sXJSEe2aY8BniEDCsA _bHIsoHJSEe2aY8BniEDCsA _bHJ7CHJSEe2aY8BniEDCsA _bHMXNHJSEe2aY8BniEDCsA _bHRQBXJSEe2aY8BniEDCsA _bHSeN3JSEe2aY8BniEDCsA _bHTsXHJSEe2aY8BniEDCsA _bHVhD3JSEe2aY8BniEDCsA _bHX9nHJSEe2aY8BniEDCsA _bHZLyHJSEe2aY8BniEDCsA _bHaaG3JSEe2aY8BniEDCsA _bHdc9XJSEe2aY8BniEDCsA _bHerQHJSEe2aY8BniEDCsA _bHf5iHJSEe2aY8BniEDCsA _bHi8p3JSEe2aY8BniEDCsA _bHkLFXJSEe2aY8BniEDCsA" width="237" featureName="name">
+    <columns xmi:type="table:DFeatureColumn" uid="_I5b7QHGQEe2-JdQsb1le-g" label="Name" cells="_LcYlv3ZdEe2RzPxerLhtXQ _YX7BWHccEe2h99q4_bM_Ng _YYTb6HccEe2h99q4_bM_Ng _YYzyEHccEe2h99q4_bM_Ng _YatPqHccEe2h99q4_bM_Ng" width="237" featureName="name">
       <originMapping xmi:type="description_2:FeatureColumnMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedColumnMappings[name='Name']"/>
     </columns>
-    <columns xmi:type="table:DFeatureColumn" uid="_I5ciUHGQEe2-JdQsb1le-g" label="Score" cells="_D-nA8XJJEe2pmoz9rxephA _D-oPHnJJEe2pmoz9rxephA _D-pdPHJJEe2pmoz9rxephA _D-tHknJJEe2pmoz9rxephA _D-uVsXJJEe2pmoz9rxephA _D-vj0HJJEe2pmoz9rxephA _D-wx8XJJEe2pmoz9rxephA _D-yAE3JJEe2pmoz9rxephA _D-zOP3JJEe2pmoz9rxephA _D-1qjnJJEe2pmoz9rxephA _D-3frnJJEe2pmoz9rxephA _D-5U3nJJEe2pmoz9rxephA _D-7KAXJJEe2pmoz9rxephA _D-8_QnJJEe2pmoz9rxephA _D--0YnJJEe2pmoz9rxephA _D_Ce4HJJEe2pmoz9rxephA _D_EUD3JJEe2pmoz9rxephA _D_GJLnJJEe2pmoz9rxephA _D_H-YnJJEe2pmoz9rxephA _D_JzlnJJEe2pmoz9rxephA _D_Lo3nJJEe2pmoz9rxephA _D_PTEnJJEe2pmoz9rxephA _D_RIQXJJEe2pmoz9rxephA _D_ULkXJJEe2pmoz9rxephA _D_VZ3HJJEe2pmoz9rxephA _bG6qQ3JSEe2aY8BniEDCsA _bG9tv3JSEe2aY8BniEDCsA _bG_isXJSEe2aY8BniEDCsA _bHAw2nJSEe2aY8BniEDCsA _bHB_NXJSEe2aY8BniEDCsA _bHDNinJSEe2aY8BniEDCsA _bHFpUXJSEe2aY8BniEDCsA _bHG3s3JSEe2aY8BniEDCsA _bHIsonJSEe2aY8BniEDCsA _bHJ7CnJSEe2aY8BniEDCsA _bHMXNnJSEe2aY8BniEDCsA _bHRQB3JSEe2aY8BniEDCsA _bHSeOXJSEe2aY8BniEDCsA _bHUS0XJSEe2aY8BniEDCsA _bHVhEXJSEe2aY8BniEDCsA _bHX9nnJSEe2aY8BniEDCsA _bHZLynJSEe2aY8BniEDCsA _bHbAgHJSEe2aY8BniEDCsA _bHdc93JSEe2aY8BniEDCsA _bHerQnJSEe2aY8BniEDCsA _bHf5inJSEe2aY8BniEDCsA _bHi8qXJSEe2aY8BniEDCsA _bHkLF3JSEe2aY8BniEDCsA" width="281" featureName="confidence">
+    <columns xmi:type="table:DFeatureColumn" uid="_I5ciUHGQEe2-JdQsb1le-g" label="Score" cells="_LcYlwXZdEe2RzPxerLhtXQ _YX7BWnccEe2h99q4_bM_Ng _YYUC0HccEe2h99q4_bM_Ng _YYzyEnccEe2h99q4_bM_Ng _YatPqnccEe2h99q4_bM_Ng" width="281" featureName="confidence">
       <originMapping xmi:type="description_2:FeatureColumnMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedColumnMappings[name='Confidence']"/>
       <currentStyle xmi:type="table:DTableElementStyle" uid="_LWMRwHG1Ee2ByJXravb0vA" defaultBackgroundStyle="true" backgroundColor="204,242,166"/>
     </columns>
-    <columns xmi:type="table:DFeatureColumn" uid="_Q6vDsXJKEe2TUqQP_vxSNw" label="Accept suggestion" cells="_Q6vqwHJKEe2TUqQP_vxSNw _Q6wR03JKEe2TUqQP_vxSNw _Q6wR13JKEe2TUqQP_vxSNw _Q6wR23JKEe2TUqQP_vxSNw _Q6w44nJKEe2TUqQP_vxSNw _Q6w45nJKEe2TUqQP_vxSNw _Q6w46nJKEe2TUqQP_vxSNw _Q6w47nJKEe2TUqQP_vxSNw _Q6w48nJKEe2TUqQP_vxSNw _Q6xf83JKEe2TUqQP_vxSNw _Q6xf93JKEe2TUqQP_vxSNw _Q6xf-3JKEe2TUqQP_vxSNw _Q6xf_3JKEe2TUqQP_vxSNw _Q6yHA3JKEe2TUqQP_vxSNw _Q6yHB3JKEe2TUqQP_vxSNw _Q6yHC3JKEe2TUqQP_vxSNw _Q6yHD3JKEe2TUqQP_vxSNw _Q6yuEXJKEe2TUqQP_vxSNw _Q6yuFXJKEe2TUqQP_vxSNw _Q6yuGXJKEe2TUqQP_vxSNw _Q6yuHXJKEe2TUqQP_vxSNw _Q6zVInJKEe2TUqQP_vxSNw _Q6zVJnJKEe2TUqQP_vxSNw _Q6zVKnJKEe2TUqQP_vxSNw _Q6zVLnJKEe2TUqQP_vxSNw _bG6qRXJSEe2aY8BniEDCsA _bG9twXJSEe2aY8BniEDCsA _bG_is3JSEe2aY8BniEDCsA _bHAw3HJSEe2aY8BniEDCsA _bHB_N3JSEe2aY8BniEDCsA _bHD0IXJSEe2aY8BniEDCsA _bHFpU3JSEe2aY8BniEDCsA _bHG3tXJSEe2aY8BniEDCsA _bHIspHJSEe2aY8BniEDCsA _bHJ7DHJSEe2aY8BniEDCsA _bHMXOHJSEe2aY8BniEDCsA _bHRQCXJSEe2aY8BniEDCsA _bHSeO3JSEe2aY8BniEDCsA _bHUS03JSEe2aY8BniEDCsA _bHVhE3JSEe2aY8BniEDCsA _bHX9oHJSEe2aY8BniEDCsA _bHZLzHJSEe2aY8BniEDCsA _bHbAgnJSEe2aY8BniEDCsA _bHdc-XJSEe2aY8BniEDCsA _bHerRHJSEe2aY8BniEDCsA _bHf5jHJSEe2aY8BniEDCsA _bHi8q3JSEe2aY8BniEDCsA _bHkLGXJSEe2aY8BniEDCsA" width="188" featureName="Accept">
+    <columns xmi:type="table:DFeatureColumn" uid="_Q6vDsXJKEe2TUqQP_vxSNw" label="Accept suggestion" cells="_LcYlw3ZdEe2RzPxerLhtXQ _YX7BXHccEe2h99q4_bM_Ng _YYUC0nccEe2h99q4_bM_Ng _YYzyFHccEe2h99q4_bM_Ng _Yat2kXccEe2h99q4_bM_Ng" width="188" featureName="Accept">
       <originMapping xmi:type="description_2:FeatureColumnMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedColumnMappings[name='Accept']"/>
     </columns>
-    <columns xmi:type="table:DFeatureColumn" uid="_ZnsagXJPEe2aY8BniEDCsA" label="relatedClass" cells="_Znsag3JPEe2aY8BniEDCsA _ZntBlHJPEe2aY8BniEDCsA _ZntBmXJPEe2aY8BniEDCsA _ZntopHJPEe2aY8BniEDCsA _ZntoqXJPEe2aY8BniEDCsA _ZntornJPEe2aY8BniEDCsA _Zntos3JPEe2aY8BniEDCsA _ZnuPtHJPEe2aY8BniEDCsA _ZnuPuXJPEe2aY8BniEDCsA _ZnuPvnJPEe2aY8BniEDCsA _ZnuPw3JPEe2aY8BniEDCsA _Znu2xHJPEe2aY8BniEDCsA _Znu2yXJPEe2aY8BniEDCsA _Znu2znJPEe2aY8BniEDCsA _Znu203JPEe2aY8BniEDCsA _Znvd0nJPEe2aY8BniEDCsA _Znvd13JPEe2aY8BniEDCsA _Znvd3HJPEe2aY8BniEDCsA _Znvd4XJPEe2aY8BniEDCsA _Znvd5nJPEe2aY8BniEDCsA _ZnwE5HJPEe2aY8BniEDCsA _ZnwE7nJPEe2aY8BniEDCsA _ZnwE83JPEe2aY8BniEDCsA _Znwr83JPEe2aY8BniEDCsA _Znwr-HJPEe2aY8BniEDCsA _bG6qR3JSEe2aY8BniEDCsA _bG9tw3JSEe2aY8BniEDCsA _bG_itXJSEe2aY8BniEDCsA _bHAw3nJSEe2aY8BniEDCsA _bHB_OXJSEe2aY8BniEDCsA _bHD0I3JSEe2aY8BniEDCsA _bHFpVXJSEe2aY8BniEDCsA _bHG3t3JSEe2aY8BniEDCsA _bHIspnJSEe2aY8BniEDCsA _bHJ7DnJSEe2aY8BniEDCsA _bHMXOnJSEe2aY8BniEDCsA _bHRQC3JSEe2aY8BniEDCsA _bHTEsXJSEe2aY8BniEDCsA _bHUS1XJSEe2aY8BniEDCsA _bHVhFXJSEe2aY8BniEDCsA _bHX9onJSEe2aY8BniEDCsA _bHZLznJSEe2aY8BniEDCsA _bHbAhHJSEe2aY8BniEDCsA _bHdc-3JSEe2aY8BniEDCsA _bHerRnJSEe2aY8BniEDCsA _bHf5jnJSEe2aY8BniEDCsA _bHi8rXJSEe2aY8BniEDCsA _bHkxgXJSEe2aY8BniEDCsA" featureName="relatedTo">
+    <columns xmi:type="table:DFeatureColumn" uid="_ZnsagXJPEe2aY8BniEDCsA" label="relatedClass" cells="_LcYlxXZdEe2RzPxerLhtXQ _YX7oUHccEe2h99q4_bM_Ng _YYUC1HccEe2h99q4_bM_Ng _YYzyFnccEe2h99q4_bM_Ng _Yat2k3ccEe2h99q4_bM_Ng" featureName="relatedTo">
       <originMapping xmi:type="description_2:FeatureColumnMapping" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']/@ownedColumnMappings[name='relatedClass']"/>
     </columns>
     <description xmi:type="description_2:EditionTableDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']"/>

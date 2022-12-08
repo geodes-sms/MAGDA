@@ -3,57 +3,11 @@
   <clazz name="plane"/>
   <clazz name="airport"/>
   <clazz name=" passenger "/>
-  <clazz name="cityperson"/>
-  <clazz name="vis"/>
-  <clazz name="student"/>
   <clazz name="company"/>
-  <clazzcondidate name="flight" confidence="2" Accept="true" relatedTo="//@clazz.0"/>
-  <clazzcondidate name="addon" confidence="1" relatedTo="//@clazz.0"/>
-  <clazzcondidate name="city" confidence="2" relatedTo="//@clazz.1"/>
-  <clazzcondidate name="School" confidence="1"/>
-  <clazzcondidate name="costable" confidence="1"/>
-  <clazzcondidate name="library" confidence="2"/>
-  <clazzcondidate name="trip" confidence="3" Accept="true" relatedTo="//@clazz.0"/>
-  <clazzcondidate name="contact" confidence="1"/>
-  <clazzcondidate name="un" confidence="2"/>
-  <clazzcondidate name="organizationcustomer" confidence="1"/>
-  <clazzcondidate name="Course" confidence="2"/>
-  <clazzcondidate name="female" confidence="1"/>
-  <clazzcondidate name="department" confidence="3"/>
-  <clazzcondidate name="tripCourse" confidence="1"/>
-  <clazzcondidate name="familyregister" confidence="1"/>
-  <clazzcondidate name="personclient" confidence="1"/>
-  <clazzcondidate name="familymember" confidence="2"/>
-  <clazzcondidate name="borrower" confidence="1"/>
-  <clazzcondidate name="seat" confidence="1"/>
-  <clazzcondidate name="addresstransaction" confidence="1"/>
-  <clazzcondidate name="professor" confidence="2"/>
-  <clazzcondidate name="family" confidence="2"/>
-  <clazzcondidate name="visitor" confidence="2"/>
-  <clazzcondidate name="party" confidence="1"/>
-  <clazzcondidate name="male" confidence="1"/>
-  <clazzcondidate name="AirplaneTemperature" confidence="1"/>
-  <clazzcondidate name="loan" confidence="1"/>
-  <clazzcondidate name="student" confidence="1"/>
-  <clazzcondidate name="catalog" confidence="1"/>
-  <clazzcondidate name="university" confidence="1"/>
-  <clazzcondidate name="cmp" confidence="1"/>
-  <clazzcondidate name="emp" confidence="1"/>
-  <clazzcondidate name="managermanager" confidence="1"/>
-  <clazzcondidate name="employee" confidence="2"/>
-  <clazzcondidate name="dep" confidence="1"/>
-  <clazzcondidate name="departmentemployeecity" confidence="1"/>
-  <clazzcondidate name="vis" confidence="1"/>
-  <clazzcondidate name="item" confidence="1"/>
-  <clazzcondidate name="universitystudentdepartment" confidence="1"/>
-  <clazzcondidate name="universitycompany" confidence="1"/>
-  <clazzcondidate name="dept" confidence="1"/>
-  <clazzcondidate name="home" confidence="1"/>
-  <clazzcondidate name="Weather" confidence="1"/>
-  <clazzcondidate name="person" confidence="2"/>
   <clazzcondidate name="generalFlight" confidence="1"/>
-  <clazzcondidate name="AddressSpecificFlight" confidence="1"/>
-  <clazzcondidate name="bankPerson" confidence="1"/>
-  <clazzcondidate name="customer" confidence="1"/>
+  <clazzcondidate name="employee" confidence="1"/>
+  <clazzcondidate name="trippassenger" confidence="1"/>
+  <clazzcondidate name="airport" confidence="1"/>
+  <clazzcondidate name="trip" confidence="2"/>
   <association name=" carries" source="//@clazz.2" target="//@clazz.0"/>
 </metamodel:Model>
