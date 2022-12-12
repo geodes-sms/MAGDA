@@ -55,8 +55,7 @@ public class ViewSuggestions extends ViewPart {
 
 	public void createContents() {
 
-		URI sessionResourceURI = URI
-				.createFileURI("platform:/resource/test/representations.aird");
+		//URI sessionResourceURI = URI	.createFileURI("platform:/resource/test/representations.aird");
 
 		parent.pack();
 		parent.layout(true);
@@ -108,8 +107,9 @@ public class ViewSuggestions extends ViewPart {
 				public void mouseDown(MouseEvent e) {
 					//Session createdSession = SessionManager.INSTANCE.getSession(sessionResourceURI, new NullProgressMonitor());
 					Session session = services.getSession(); 
-					services.createClass(classeCondidateInModel.get(indexItem).getClass().getName(), session);
-					//services.deletetClassCondidate(classeCondidateInModel.get(indexItem).getClass().getName(),createdSession);
+		            //SessionManager.INSTANCE.add(session);
+					services.createClass(item.getText(0), session);
+					//services.deletetClassCondidate(item.getText(0),session);
 					table.remove(indexItem);
 					button.setVisible(false);
 

@@ -51,6 +51,8 @@ import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramS
 import org.eclipse.sirius.diagram.ui.business.api.view.SiriusGMFHelper;
 import org.eclipse.sirius.diagram.ui.business.api.view.SiriusLayoutDataManager;
 import org.eclipse.sirius.diagram.ui.business.internal.view.RootLayoutData;
+import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
+import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
@@ -93,6 +95,7 @@ public class Services {
 	protected static final int Nan = 0;
 	protected HashMap<String, HashMap<String, String>> classAttributes;
 	protected HashMap<String, List<String>> relatedClasses;
+
 	public Services() throws Exception {
 		this.config = new Properties();
 		this.relatedClasses = new HashMap<String, List<String>>();
@@ -111,26 +114,23 @@ public class Services {
 
 	};
 
-	
-	public   void refreshSuggestionsView() {
-		//String id = "org.eclipse.ui.views.PropertySheet";
+	public void refreshSuggestionsView() {
+		// String id = "org.eclipse.ui.views.PropertySheet";
 		String id = "ca.umontreal.geodes.merriem.cdeditor.editor.view3";
 		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(id);
 		if (view instanceof ViewSuggestions) {
-			
+
 			ViewSuggestions viewSuggestions = (ViewSuggestions) view;
-			{	
-				//viewSuggestions.parent.redraw();
+			{
+				// viewSuggestions.parent.redraw();
 
 				viewSuggestions.createContents();
 
-				
 			}
-			
+
 		}
 	}
-	
-	
+
 	private IGraphicalEditPart getEditPart(DDiagramElement diagramElement) {
 		IEditorPart editor = EclipseUIUtil.getActiveEditor();
 		if (editor instanceof DiagramEditor) {
@@ -203,7 +203,7 @@ public class Services {
 
 		for (String current : list) {
 			if (current.replaceAll("\\s+", "").equalsIgnoreCase(soughtFor.replaceAll("\\s+", ""))) {
-			
+
 				return true;
 			}
 		}
@@ -257,13 +257,13 @@ public class Services {
 	public void createClass(String Name, Session session) {
 		try {
 
-			System.out.println("creating class");
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
 			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-			CommandStack stack = domain.getCommandStack();
+			// domain = session.getTransactionalEditingDomain();
 
+			CommandStack stack = domain.getCommandStack();
 			RecordingCommand cmd = new RecordingCommand(domain) {
 
 				@Override
@@ -275,18 +275,30 @@ public class Services {
 					newClazz.setName(Name);
 					model.getClazz().add(newClazz);
 
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-
-					}
-
+					SessionManager.INSTANCE.notifyRepresentationCreated(session);
 				}
 
 			};
+			RecordingCommand cmd2 = new RecordingCommand(session.getTransactionalEditingDomain()) {
+				@Override
+				protected void doExecute() {
+					
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE.openEditor(session, represnt , new NullProgressMonitor());
 
+						DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
+					}
+					
+					//DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+				}
+			};
 			stack.execute(cmd);
+			stack.execute(cmd2);
+
+			// SessionManager.INSTANCE.notifyRepresentationCreated(session);
+
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -307,7 +319,8 @@ public class Services {
 				@Override
 				protected void doExecute() {
 					Model model = getModel();
-					// MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+					// MetamodelFactory metamodelFactory =
+					// ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 
 					List<ClazzCondidate> classesCondidate = model.getClazzcondidate();
 					int index = Nan;
@@ -322,20 +335,31 @@ public class Services {
 
 					}
 					model.getClazzcondidate().remove(index);
+					SessionManager.INSTANCE.notifyRepresentationCreated(session);
 
-					// refresh Model
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-
-					}
-					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
 				}
 
 			};
 
+			RecordingCommand cmd2 = new RecordingCommand(session.getTransactionalEditingDomain()) {
+				@Override
+				protected void doExecute() {
+					
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE.openEditor(session, represnt , new NullProgressMonitor());
+
+						DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
+					}
+					
+					//DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+				}
+			};
 			stack.execute(cmd);
+			stack.execute(cmd2);
+
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
@@ -456,7 +480,7 @@ public class Services {
 
 				@Override
 				protected void doExecute() {
-	
+
 					Model model = getModel();
 					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 					List<Clazz> classes = new ArrayList<Clazz>();
@@ -560,7 +584,8 @@ public class Services {
 		this.classAttributes.put(NodeName, typeAttributes);
 		return node;
 	}
-	public Session getSession( ) {
+
+	public Session getSession() {
 		return SessionManager.INSTANCE.getSession(getModel());
 	}
 
@@ -628,7 +653,6 @@ public class Services {
 				}
 			}
 
-
 		}
 
 		String[] arrayConcepts = Results.toArray(new String[0]);
@@ -678,7 +702,7 @@ public class Services {
 						if (listSuggestions.get(j).getName().equalsIgnoreCase(key.replaceAll("\\s+", ""))) {
 							int previousConfidence = listSuggestions.get(j).getConfidence();
 							listSuggestions.get(j).setConfidence(previousConfidence + value);
-							break; 
+							break;
 						}
 					}
 
