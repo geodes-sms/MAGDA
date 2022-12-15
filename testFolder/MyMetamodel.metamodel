@@ -3,11 +3,7 @@
   <clazz name="plane"/>
   <clazz name="airport"/>
   <clazz name=" passenger "/>
-  <clazz name="company"/>
-  <clazzcondidate name="generalFlight" confidence="1"/>
-  <clazzcondidate name="employee" confidence="1"/>
   <clazzcondidate name="trippassenger" confidence="1"/>
   <clazzcondidate name="airport" confidence="1"/>
-  <clazzcondidate name="trip" confidence="2"/>
   <association name=" carries" source="//@clazz.2" target="//@clazz.0"/>
 </metamodel:Model>

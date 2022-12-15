@@ -1,6 +1,9 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.CommandStack;
@@ -48,34 +51,51 @@ public class ViewSuggestions extends ViewPart {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		// this.table = new Table(parent, SWT.BORDER);
 
-		// TODO Auto-generated constructor stub
 	}
+	
 
+
+	@SuppressWarnings("restriction")
 	public void createContents() {
-
-		//URI sessionResourceURI = URI	.createFileURI("platform:/resource/test/representations.aird");
-
-		parent.pack();
-		parent.layout(true);
-
-		List<ClazzCondidate> classeCondidateInModel = this.services.getModel().getClazzcondidate();
+		
+		Control[] children = parent.getChildren();
+		for(Control child : children){
+			if(! child.isDisposed()){
+			    child.dispose();
+			 }
+		}
+		
+		System.out.println("working ? ");
+		
+		List<ClazzCondidate> classCondidateInModel = this.services.getModel().getClazzcondidate();
 		Table table = new Table(parent, SWT.BORDER);
 		table.setLinesVisible(true);
 		table.setHeaderVisible(true);
 		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
 		data.heightHint = 200;
 		table.setLayoutData(data);
+		parent.layout(true, true);
+		//parent.pack();
+
 		String[] titles = { "Suggestion", "score", "Add to Canvas?" };
 		for (String title : titles) {
 			TableColumn column = new TableColumn(table, SWT.CHECK);
 			column.setText(title);
 		}
-		for (int i = 0; i < classeCondidateInModel.size(); i++) {
+		
+
+
+		//classCondidateInModel.sort(Comparator.comparing(ClazzCondidate::getConfidence).reversed());
+		List<ClazzCondidate> sortedClazzCondidate = classCondidateInModel.stream()
+				  .sorted(Comparator.comparing(ClazzCondidate::getConfidence).reversed())
+				  .collect(Collectors.toList());
+
+		
+		for (int i = 0; i < sortedClazzCondidate.size(); i++) {
 			TableItem item = new TableItem(table, SWT.CHECK);
-			item.setText(0, classeCondidateInModel.get(i).getName());
-			item.setText(1, Integer.toString(classeCondidateInModel.get(i).getConfidence()));
+			item.setText(0, sortedClazzCondidate.get(i).getName());
+			item.setText(1, Integer.toString(sortedClazzCondidate.get(i).getConfidence()));
 
 		}
 		for (int i = 0; i < titles.length; i++) {
@@ -86,7 +106,6 @@ public class ViewSuggestions extends ViewPart {
 		for (int i = 0; i < items.length; i++) {
 			int indexItem = i;
 			TableEditor editor = new TableEditor(table);
-
 			TableItem item = items[i];
 			Button button = new Button(table, SWT.PUSH);
 			button.setText("Accept");
@@ -95,23 +114,24 @@ public class ViewSuggestions extends ViewPart {
 			editor.minimumWidth = button.getSize().x;
 			editor.horizontalAlignment = SWT.LEFT;
 			editor.setEditor(button, item, 2);
+			editor.layout();
 			button.addMouseListener(new MouseListener() {
 
 				@Override
 				public void mouseDoubleClick(MouseEvent e) {
 					// System.out.println("accepted clicked");
-
 				}
 
 				@Override
 				public void mouseDown(MouseEvent e) {
-					//Session createdSession = SessionManager.INSTANCE.getSession(sessionResourceURI, new NullProgressMonitor());
-					Session session = services.getSession(); 
-		            //SessionManager.INSTANCE.add(session);
+					Session session = services.getSession();
 					services.createClass(item.getText(0), session);
-					//services.deletetClassCondidate(item.getText(0),session);
-					table.remove(indexItem);
+					services.deletetClassCondidate(item.getText(0), session);
 					button.setVisible(false);
+					
+					//TableEditor b = (TableEditor)item.getData("IO");
+					//redispose(table,b);
+					table.remove(indexItem);
 
 				}
 
@@ -121,8 +141,6 @@ public class ViewSuggestions extends ViewPart {
 
 				}
 			});
-
-			// button.setToolTipText("Fix this session");
 
 		}
 

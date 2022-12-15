@@ -295,7 +295,7 @@ public class Services {
 				}
 			};
 			stack.execute(cmd);
-			stack.execute(cmd2);
+			//stack.execute(cmd2);
 
 			// SessionManager.INSTANCE.notifyRepresentationCreated(session);
 
@@ -328,15 +328,12 @@ public class Services {
 						if (classesCondidate.get(i).getName().replaceAll("\\s+", "")
 								.equals(classToRemove.replaceAll("\\s+", ""))) {
 							index = i;
-							// removedClazz= classesCondidate.get(i);
 
 							break;
 						}
-
 					}
 					model.getClazzcondidate().remove(index);
 					SessionManager.INSTANCE.notifyRepresentationCreated(session);
-
 
 				}
 
@@ -645,14 +642,15 @@ public class Services {
 				Results.add(key);
 				if (!containsIgnoreCase(suggestedConcepts, key)) {
 					createClassCondidate((String) key, Concepts.get(0).get(key), session);
-					refreshSuggestionsView();
+					
 
 				} else {
 
 					updateConfidenceCondidate((String) key, session, model, 1);
 				}
+				
 			}
-
+			refreshSuggestionsView();
 		}
 
 		String[] arrayConcepts = Results.toArray(new String[0]);
