@@ -47,6 +47,12 @@
            name="Suggestions"
            restorable="true">
      </view>
+     <view
+           class="ca.umontreal.geodes.merriem.cdeditor.editor.ViewAssociations"
+           id="ca.umontreal.geodes.merriem.cdeditor.editor.viewAssociations"
+           name="associations"
+           restorable="true">
+     </view>
   </extension>
   <extension
         point="org.eclipse.ui.perspectiveExtensions">
@@ -56,6 +62,12 @@
               id="ca.umontreal.geodes.merriem.cdeditor.editor.view3"
               minimized="false"
               ratio="0.95f"
+              relationship="fast">
+        </view>
+        <view
+              id="ca.umontreal.geodes.merriem.cdeditor.editor.viewAssociations"
+              minimized="false"
+              ratio="95f"
               relationship="fast">
         </view>
      </perspectiveExtension>

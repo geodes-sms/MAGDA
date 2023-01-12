@@ -125,13 +125,13 @@ public class ViewSuggestions extends ViewPart {
 				@Override
 				public void mouseDown(MouseEvent e) {
 					Session session = services.getSession();
-					services.createClass(item.getText(0), session);
-					services.deletetClassCondidate(item.getText(0), session);
+					String acceptedClassName= item.getText(0);
 					button.setVisible(false);
-					
-					//TableEditor b = (TableEditor)item.getData("IO");
-					//redispose(table,b);
+					button.dispose();
 					table.remove(indexItem);
+					services.createClass(acceptedClassName, session);
+					services.deletetClassCondidate(acceptedClassName, session);
+				
 
 				}
 

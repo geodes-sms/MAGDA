@@ -51,7 +51,8 @@ def predictTypeRelation(couples):
     return res
 # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    args = sys.argv[1:]
+    #args = sys.argv[1:]
+    args='student , person'
     results = predictTypeRelation(args[0])
     print(results)
 

@@ -51,7 +51,7 @@ public class AttributesPrediction implements IAttributesPrediction {
 			Prompt attributesTypePrompt = new AttributesTypePrompt(arrayAttributes[i], "\n", " => ");
 			attributesTypePrompt.setPrompt();
 			String[] Type = attributesTypePrompt.run(1, 0.7, "text-davinci-002");
-			System.out.println(arrayAttributes[i] +"::::"+ Type[0]);
+			
 			typeAttributes.put(arrayAttributes[i], Type[0]);
 
 		}

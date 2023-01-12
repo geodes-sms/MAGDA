@@ -35,6 +35,7 @@ import org.eclipse.gmf.runtime.notation.LayoutConstraint;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
@@ -95,10 +96,12 @@ public class Services {
 	protected static final int Nan = 0;
 	protected HashMap<String, HashMap<String, String>> classAttributes;
 	protected HashMap<String, List<String>> relatedClasses;
+	protected HashMap<String, List<String>> relatedAssociations;
 
 	public Services() throws Exception {
 		this.config = new Properties();
 		this.relatedClasses = new HashMap<String, List<String>>();
+		this.relatedAssociations = new HashMap<String, List<String>>();
 		this.classAttributes = new HashMap<String, HashMap<String, String>>();
 		try {
 			InputStream stream = Services.class.getClassLoader().getResourceAsStream("/config.properties");
@@ -122,7 +125,6 @@ public class Services {
 
 			ViewSuggestions viewSuggestions = (ViewSuggestions) view;
 			{
-				// viewSuggestions.parent.redraw();
 
 				viewSuggestions.createContents();
 
@@ -282,20 +284,21 @@ public class Services {
 			RecordingCommand cmd2 = new RecordingCommand(session.getTransactionalEditingDomain()) {
 				@Override
 				protected void doExecute() {
-					
+
 					DRepresentation represnt = null;
 					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
 						represnt = descrp.getRepresentation();
-						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE.openEditor(session, represnt , new NullProgressMonitor());
+						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
+								.openEditor(session, represnt, new NullProgressMonitor());
 
 						DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
 					}
-					
-					//DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
+					// DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 				}
 			};
 			stack.execute(cmd);
-			//stack.execute(cmd2);
+			// stack.execute(cmd2);
 
 			// SessionManager.INSTANCE.notifyRepresentationCreated(session);
 
@@ -342,16 +345,17 @@ public class Services {
 			RecordingCommand cmd2 = new RecordingCommand(session.getTransactionalEditingDomain()) {
 				@Override
 				protected void doExecute() {
-					
+
 					DRepresentation represnt = null;
 					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
 						represnt = descrp.getRepresentation();
-						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE.openEditor(session, represnt , new NullProgressMonitor());
+						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
+								.openEditor(session, represnt, new NullProgressMonitor());
 
 						DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
 					}
-					
-					//DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
+					// DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 				}
 			};
 			stack.execute(cmd);
@@ -463,7 +467,7 @@ public class Services {
 	}
 
 	public void createAssociation(String Type, String Name, String Target, String Source, Session session) {
-
+		System.out.println("creating association  " + Type + " " + Name + " from " + Source + " To " + Target);
 		try {
 
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -544,41 +548,65 @@ public class Services {
 
 		Session session = SessionManager.INSTANCE.getSession(node);
 		assert session != null;
+		List<String> types = new ArrayList<>(List.of("int", "string", "float", "char", "boolean", "double", "byte"));
 		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
 		NodeName = NodeName.replaceAll("\\s+", "");
 		List<String> ResultsTyped = new ArrayList<String>();
 		HashMap<String, String> typeAttributes;
 
-		if (this.classAttributes.containsKey(NodeName) && !this.classAttributes.get(NodeName).isEmpty()) {
+		if (this.classAttributes.containsKey(NodeName) && !this.classAttributes.get(NodeName).isEmpty()
+				&& (this.classAttributes.get(NodeName).size() > 1)) {
 			typeAttributes = this.classAttributes.get(NodeName);
 		} else {
 			IAttributesPrediction attributesPredcition = new AttributesPrediction();
 			typeAttributes = attributesPredcition.run(node, getModel());
-			for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
-				ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
-			}
+		}
+		for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
+			if ((set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
+					|| (set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
+				typeAttributes.remove(set.getKey());
+			} else if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
+					&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
 
+				if (containsIgnoreCase(types, set.getValue())) {
+
+					ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
+				}
+			}
 		}
 
 		String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
-		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
-				new LabelProvider());
 
-		dialog.setElements(ArrayResultsTyped);
-		dialog.setTitle("select appropriate attributes, press ctrl for multiple selection");
-		dialog.setMultipleSelection(true);
+		if (ArrayResultsTyped.length > 0) {
 
-		if (dialog.open() != Window.OK) {
-			// return false;
+			ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
+					new LabelProvider());
+
+			dialog.setElements(ArrayResultsTyped);
+			// dialog.s
+			dialog.setTitle("Select appropriate attributes");
+			dialog.setMultipleSelection(true);
+
+			if (dialog.open() != Window.OK) {
+				// return false;
+			}
+
+			Object[] result = dialog.getResult();
+			for (int i = 0; i < result.length; i++) {
+				String res = (String) result[i];
+				res = res.split(":")[0];
+				createAttribute(res, typeAttributes.get(res), NodeName, session);
+				typeAttributes.remove(res);
+			}
+			this.classAttributes.put(NodeName, typeAttributes);
+
+		} else {
+			MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
+					"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
+			this.classAttributes.remove(NodeName);
+			int result = dialog.open();
 		}
-		Object[] result = dialog.getResult();
-		for (int i = 0; i < result.length; i++) {
-			String res = (String) result[i];
-			res = res.split(":")[0];
-			createAttribute(res, typeAttributes.get(res), NodeName, session);
-			typeAttributes.remove(res);
-		}
-		this.classAttributes.put(NodeName, typeAttributes);
+
 		return node;
 	}
 
@@ -594,7 +622,6 @@ public class Services {
 		List<String> classNames = new ArrayList<String>();
 		List<String> AllclassNames = new ArrayList<String>();
 		List<String> suggestedConcepts = new ArrayList<String>();
-
 		Model model = getModel();
 		List<Clazz> classesInModel = model.getClazz();
 		String className = "";
@@ -603,7 +630,6 @@ public class Services {
 		for (int i = 0; i < classesInModel.size(); i++) {
 			AllclassNames.add(classesInModel.get(i).getName());
 			classNames.add(classesInModel.get(i).getName());
-
 		}
 		for (int i = 0; i < classeCondidateInModel.size(); i++) {
 			AllclassNames.add(classeCondidateInModel.get(i).getName());
@@ -631,7 +657,7 @@ public class Services {
 
 		}
 		if (relatedClasses.containsKey(className)) {
-			if (!relatedClasses.get(className).isEmpty()) {
+			if (!(relatedClasses.get(className).isEmpty()) && (relatedClasses.get(className).size() > 1)) {
 				Results = relatedClasses.get(className);
 			}
 		} else {
@@ -642,41 +668,44 @@ public class Services {
 				Results.add(key);
 				if (!containsIgnoreCase(suggestedConcepts, key)) {
 					createClassCondidate((String) key, Concepts.get(0).get(key), session);
-					
 
 				} else {
 
 					updateConfidenceCondidate((String) key, session, model, 1);
 				}
-				
+
 			}
 			refreshSuggestionsView();
 		}
 
 		String[] arrayConcepts = Results.toArray(new String[0]);
-
-		// To do: factorise this ...
-		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
-				new LabelProvider());
-		dialog.setElements(arrayConcepts);
-		dialog.setTitle("select appropriate concepts, press ctrl for multiple selection");
-		dialog.setMultipleSelection(true);
-		if (dialog.open() != Window.OK) {
-			// return false;
-		}
-		Object[] result = dialog.getResult();
-		for (int i = 0; i < result.length; i++) {
-			if (!containsIgnoreCase(classNames, (String) result[i])) {
-				createClass((String) result[i], session);
-
+		if (arrayConcepts.length > 0) {
+			ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
+					new LabelProvider());
+			dialog.setElements(arrayConcepts);
+			dialog.setTitle("Select  concepts, press ctrl for multiple selection");
+			dialog.setMultipleSelection(true);
+			if (dialog.open() != Window.OK) {
+				// return false;
 			}
-		}
+			Object[] result = dialog.getResult();
+			for (int i = 0; i < result.length; i++) {
+				if (!containsIgnoreCase(classNames, (String) result[i])) {
+					createClass((String) result[i], session);
+					Results.remove((String) result[i]);
+				}
+			}
 
-		if (!className.equals("")) {
-			List<String> wordList = Arrays.asList(arrayConcepts);
-			this.relatedClasses.put(className, wordList);
-		}
+			if (!className.equals("")) {
+				this.relatedClasses.put(className, Results);
+			}
 
+		} else {
+			MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
+					"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
+			this.relatedClasses.remove(className);
+			int result = dialog.open();
+		}
 		return rootModel;
 	}
 
@@ -697,7 +726,8 @@ public class Services {
 					Model model = getModel();
 					List<ClazzCondidate> listSuggestions = model.getClazzcondidate();
 					for (int j = 0; j < listSuggestions.size(); j++) {
-						if (listSuggestions.get(j).getName().equalsIgnoreCase(key.replaceAll("\\s+", ""))) {
+						if (listSuggestions.get(j).getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(key.replaceAll("\\s+", ""))) {
 							int previousConfidence = listSuggestions.get(j).getConfidence();
 							listSuggestions.get(j).setConfidence(previousConfidence + value);
 							break;
@@ -726,12 +756,56 @@ public class Services {
 
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
+		String className = rootModel.toString().split(":")[1];
+		className = className.substring(1, className.length() - 1);
+		List<String> Results = new ArrayList<String>();
+		String[] ArrayResultsTyped = new String[20];
 		// AssociationsPrediction(); AssociationsPredictionDummy()
-		IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
-		List<HashMap<String, String>> res = associationsPrediction.run(rootModel, getModel());
-		for (int j = 0; j < res.size(); j++) {
-			createAssociation(res.get(j).get("Type"), res.get(j).get("Name"), res.get(j).get("Target"),
-					res.get(j).get("Source"), session);
+		if (relatedAssociations.containsKey(className)) {
+			if (!relatedAssociations.get(className).isEmpty()) {
+				Results = relatedAssociations.get(className);
+			}
+			ArrayResultsTyped = Results.toArray(new String[0]);
+
+		} else {
+			IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
+			List<HashMap<String, String>> res = associationsPrediction.run(rootModel, getModel());
+
+			List<String> items = new ArrayList<String>();
+			String item;
+			for (int j = 0; j < res.size(); j++) {
+				item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + "," + res.get(j).get("Target")
+						+ "]; Name => " + res.get(j).get("Name");
+				items.add(item);
+
+				ArrayResultsTyped = items.toArray(new String[0]);
+				this.relatedAssociations.put(className, items);
+
+			}
+			ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
+					new LabelProvider());
+
+			dialog.setElements(ArrayResultsTyped);
+			// dialog.s
+			dialog.setTitle("Select association to add to canvas");
+			dialog.setMultipleSelection(true);
+
+			if (dialog.open() != Window.OK) {
+				// return false;
+			}
+			Object[] result = dialog.getResult();
+
+			for (int j = 0; j < result.length; j++) {
+				item = (String) result[j];
+				String Type = item.split(":")[0];
+				System.out.println(Type);
+				String Name = item.split("=>")[1];
+				String Target = (item.split(",")[1]).split("]")[0];
+				String Source = (item.split("\\[")[1]).split(",")[0];
+				createAssociation(Type, Name, Target, Source, session);
+
+			}
+
 		}
 
 		return null;

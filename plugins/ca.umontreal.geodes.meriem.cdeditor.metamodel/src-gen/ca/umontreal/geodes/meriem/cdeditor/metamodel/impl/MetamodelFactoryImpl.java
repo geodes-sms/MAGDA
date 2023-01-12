@@ -13,20 +13,21 @@ import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model <b>Factory</b>.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
+ * end-user-doc -->
+ * 
  * @generated
  */
 public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFactory {
 	/**
-	 * Creates the default factory implementation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public static MetamodelFactory init() {
 		try {
+
 			MetamodelFactory theMetamodelFactory = (MetamodelFactory) EPackage.Registry.INSTANCE
 					.getEFactory(MetamodelPackage.eNS_URI);
 			if (theMetamodelFactory != null) {
@@ -39,9 +40,9 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	}
 
 	/**
-	 * Creates an instance of the factory.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Creates an instance of the factory. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @generated
 	 */
 	public MetamodelFactoryImpl() {
@@ -49,8 +50,8 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
@@ -76,8 +77,8 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Model createModel() {
@@ -86,8 +87,8 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Operation createOperation() {
@@ -96,18 +97,19 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Clazz createClazz() {
 		ClazzImpl clazz = new ClazzImpl();
+		
 		return clazz;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Attribute createAttribute() {
@@ -116,18 +118,21 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public ClazzCondidate createClazzCondidate() {
 		ClazzCondidateImpl clazzCondidate = new ClazzCondidateImpl();
+		
+
 		return clazzCondidate;
 	}
 
+	
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public AttributeCondidate createAttributeCondidate() {
@@ -136,8 +141,8 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public Association createAssociation() {
@@ -146,8 +151,8 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	public MetamodelPackage getMetamodelPackage() {
@@ -155,8 +160,8 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @deprecated
 	 * @generated
 	 */
@@ -165,4 +170,4 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 		return MetamodelPackage.eINSTANCE;
 	}
 
-} //MetamodelFactoryImpl
+} // MetamodelFactoryImpl

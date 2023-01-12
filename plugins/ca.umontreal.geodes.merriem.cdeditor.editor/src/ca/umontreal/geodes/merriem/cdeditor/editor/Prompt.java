@@ -28,7 +28,7 @@ public abstract class Prompt {
 		String Results = "";
 		String[] GeneratedList = new String[25] ; 
 		// To do set env variables
-		String token = "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";
+		String token = "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";
 		try {
 
 			OpenAiService theService = new OpenAiService(token);
@@ -38,7 +38,6 @@ public abstract class Prompt {
 			Results = theService.createCompletion(engine, completionRequest).getChoices().get(0).getText();
 			// log this : 
 		
-			
 			GeneratedList = interceptResults(Results);
 			
 		} catch (Exception e) {

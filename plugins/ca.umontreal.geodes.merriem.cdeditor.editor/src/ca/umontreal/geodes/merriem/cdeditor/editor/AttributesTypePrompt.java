@@ -9,7 +9,7 @@ public class AttributesTypePrompt extends Prompt {
 
 	@Override
 	public String[] interceptResults(String Results) {
-		System.out.println("here is the prblm? " + Results); 
+		System.out.println( Results); 
 		String[] results = new String[50];
 		results[0]=Results;
 		return results; 

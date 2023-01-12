@@ -9,7 +9,6 @@ public class AssociationTypePrompt extends Prompt {
 
 	@Override
 	public String[] interceptResults(String Results) {
-		System.out.println("here is the prblm? " + Results); 
 		String[] results = new String[10];
 		results[0]=Results;
 		return results; 

@@ -1,9 +1,2 @@
 <?xml version="1.0" encoding="ASCII"?>
-<metamodel:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.umontreal.geodes/metamodel">
-  <clazz name="plane"/>
-  <clazz name="airport"/>
-  <clazz name=" passenger "/>
-  <clazzcondidate name="trippassenger" confidence="1"/>
-  <clazzcondidate name="airport" confidence="1"/>
-  <association name=" carries" source="//@clazz.2" target="//@clazz.0"/>
-</metamodel:Model>
+<metamodel:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.umontreal.geodes/metamodel"/>

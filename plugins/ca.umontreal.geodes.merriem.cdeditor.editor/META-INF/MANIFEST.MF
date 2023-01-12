@@ -26,3 +26,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-11
 Bundle-Vendor: %providerName
 Automatic-Module-Name: ca.umontreal.geodes.merriem.cdeditor.editor
+Export-Package: ca.umontreal.geodes.merriem.cdeditor.editor

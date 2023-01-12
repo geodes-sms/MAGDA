@@ -24,10 +24,7 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 		String className;
 
 		List<Clazz> classesInModel = model.getClazz();
-		for (int j = 0; j < classesInModel.size(); j++) {
-			System.out.println(classesInModel.get(j).getName());
-		}
-
+	
 		if (rootModel instanceof Clazz) {
 			className = rootModel.toString().split(":")[1];
 			className = className.substring(1, className.length() - 1);
@@ -38,10 +35,10 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 				if (classesInModel.get(i).getName().equals(className)) {
 
 					if (classesInModel.get(i).getIsMember() != null) {
-						classesAssociatedTo.add(classesInModel.get(i).getIsMember().getName());
+						classesAssociatedTo.add(classesInModel.get(i).getIsMember().getName().replaceAll("\\s+", ""));
 					}
 					if (classesInModel.get(i).getSpecializes() != null) {
-						classesAssociatedTo.add(classesInModel.get(i).getSpecializes().getName());
+						classesAssociatedTo.add(classesInModel.get(i).getSpecializes().getName().replaceAll("\\s+", ""));
 					}
 				}
 			}
@@ -54,7 +51,7 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 				if (Associations.get(j).getTarget() != null) {
 
 					if (Associations.get(j).getTarget().getName().equals(className)) {
-						classesAssociatedTo.add(Associations.get(j).getSource().getName());
+						classesAssociatedTo.add(Associations.get(j).getSource().getName().replaceAll("\\s+", ""));
 					}
 				}
 			}
@@ -70,15 +67,13 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 						Prompt associtaionsNamePrompt = new AssociationNamePrompt(input, "\n", "=>");
 						associtaionsNamePrompt.setPrompt();
 						String[] arrayAssociationName = associtaionsNamePrompt.run(1, 0.7, "text-davinci-002");
-						String Type="";
-						if(arrayAssociationName[0].replaceAll("\\s+", "").toLowerCase().equals("association")) {
-							Prompt associtaionsTypePrompt = new AssociationTypePrompt(input, "\n", "=>");
-							associtaionsNamePrompt.setPrompt();
-							String[] arrayAssociationType = associtaionsTypePrompt.run(1, 0.7, "text-davinci-002");
-							Type=arrayAssociationType[0]; 
-							System.out.println(Type);
-							
-						}
+						String Type = "";
+
+						Prompt associtaionsTypePrompt = new AssociationTypePrompt(input, "\n", "=>");
+						associtaionsNamePrompt.setPrompt();
+						String[] arrayAssociationType = associtaionsTypePrompt.run(1, 0.7, "text-davinci-002");
+						Type = arrayAssociationType[0];
+						System.out.println(Type);
 
 						itemAssociation.put("Name", arrayAssociationName[0].replaceAll("\\s+", ""));
 						itemAssociation.put("Type", Type.replaceAll("\\s+", ""));
