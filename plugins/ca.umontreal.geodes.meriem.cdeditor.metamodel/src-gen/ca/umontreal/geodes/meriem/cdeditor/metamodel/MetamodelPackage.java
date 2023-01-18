@@ -213,14 +213,14 @@ public interface MetamodelPackage extends EPackage {
 	int TYPED_ELEMENT_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationImpl <em>Operation</em>}' class.
+	 * The meta object id for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationCondidateImpl <em>Operation Condidate</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationImpl
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getOperation()
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationCondidateImpl
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getOperationCondidate()
 	 * @generated
 	 */
-	int OPERATION = 3;
+	int OPERATION_CONDIDATE = 3;
 
 	/**
 	 * The feature id for the '<em><b>Name</b></em>' attribute.
@@ -229,25 +229,52 @@ public interface MetamodelPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION__NAME = NAMED_ELEMENT__NAME;
+	int OPERATION_CONDIDATE__NAME = NAMED_ELEMENT__NAME;
 
 	/**
-	 * The number of structural features of the '<em>Operation</em>' class.
+	 * The feature id for the '<em><b>Type</b></em>' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 0;
+	int OPERATION_CONDIDATE__TYPE = NAMED_ELEMENT_FEATURE_COUNT + 0;
 
 	/**
-	 * The number of operations of the '<em>Operation</em>' class.
+	 * The feature id for the '<em><b>Source</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int OPERATION_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
+	int OPERATION_CONDIDATE__SOURCE = NAMED_ELEMENT_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Target</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CONDIDATE__TARGET = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The number of structural features of the '<em>Operation Condidate</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CONDIDATE_FEATURE_COUNT = NAMED_ELEMENT_FEATURE_COUNT + 3;
+
+	/**
+	 * The number of operations of the '<em>Operation Condidate</em>' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int OPERATION_CONDIDATE_OPERATION_COUNT = NAMED_ELEMENT_OPERATION_COUNT + 0;
 
 	/**
 	 * The meta object id for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl <em>Clazz</em>}' class.
@@ -415,22 +442,22 @@ public interface MetamodelPackage extends EPackage {
 	int CLAZZ_CONDIDATE__CONFIDENCE = NAMED_ELEMENT_FEATURE_COUNT + 1;
 
 	/**
-	 * The feature id for the '<em><b>Accept</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int CLAZZ_CONDIDATE__ACCEPT = NAMED_ELEMENT_FEATURE_COUNT + 2;
-
-	/**
 	 * The feature id for the '<em><b>Related To</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int CLAZZ_CONDIDATE__RELATED_TO = NAMED_ELEMENT_FEATURE_COUNT + 3;
+	int CLAZZ_CONDIDATE__RELATED_TO = NAMED_ELEMENT_FEATURE_COUNT + 2;
+
+	/**
+	 * The feature id for the '<em><b>Accept</b></em>' attribute.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int CLAZZ_CONDIDATE__ACCEPT = NAMED_ELEMENT_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of structural features of the '<em>Clazz Condidate</em>' class.
@@ -688,14 +715,36 @@ public interface MetamodelPackage extends EPackage {
 	EAttribute getTypedElement_Type();
 
 	/**
-	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation <em>Operation</em>}'.
+	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate <em>Operation Condidate</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Operation</em>'.
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation
+	 * @return the meta object for class '<em>Operation Condidate</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate
 	 * @generated
 	 */
-	EClass getOperation();
+	EClass getOperationCondidate();
+
+	/**
+	 * Returns the meta object for the reference '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Source</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate#getSource()
+	 * @see #getOperationCondidate()
+	 * @generated
+	 */
+	EReference getOperationCondidate_Source();
+
+	/**
+	 * Returns the meta object for the reference '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Target</em>'.
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate#getTarget()
+	 * @see #getOperationCondidate()
+	 * @generated
+	 */
+	EReference getOperationCondidate_Target();
 
 	/**
 	 * Returns the meta object for class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz <em>Clazz</em>}'.
@@ -1008,14 +1057,30 @@ public interface MetamodelPackage extends EPackage {
 		EAttribute TYPED_ELEMENT__TYPE = eINSTANCE.getTypedElement_Type();
 
 		/**
-		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationImpl <em>Operation</em>}' class.
+		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationCondidateImpl <em>Operation Condidate</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationImpl
-		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getOperation()
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationCondidateImpl
+		 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl#getOperationCondidate()
 		 * @generated
 		 */
-		EClass OPERATION = eINSTANCE.getOperation();
+		EClass OPERATION_CONDIDATE = eINSTANCE.getOperationCondidate();
+
+		/**
+		 * The meta object literal for the '<em><b>Source</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_CONDIDATE__SOURCE = eINSTANCE.getOperationCondidate_Source();
+
+		/**
+		 * The meta object literal for the '<em><b>Target</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference OPERATION_CONDIDATE__TARGET = eINSTANCE.getOperationCondidate_Target();
 
 		/**
 		 * The meta object literal for the '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl <em>Clazz</em>}' class.

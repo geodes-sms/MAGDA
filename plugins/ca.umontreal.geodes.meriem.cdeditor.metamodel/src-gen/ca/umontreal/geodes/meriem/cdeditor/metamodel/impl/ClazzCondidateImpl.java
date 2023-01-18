@@ -27,8 +27,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * <ul>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl#getAttributecondidate <em>Attributecondidate</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl#getConfidence <em>Confidence</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl#isAccept <em>Accept</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl#getRelatedTo <em>Related To</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl#isAccept <em>Accept</em>}</li>
  * </ul>
  *
  * @generated
@@ -64,6 +64,16 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	protected int confidence = CONFIDENCE_EDEFAULT;
 
 	/**
+	 * The cached value of the '{@link #getRelatedTo() <em>Related To</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getRelatedTo()
+	 * @generated
+	 * @ordered
+	 */
+	protected Clazz relatedTo;
+
+	/**
 	 * The default value of the '{@link #isAccept() <em>Accept</em>}' attribute.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
@@ -82,16 +92,6 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	 * @ordered
 	 */
 	protected boolean accept = ACCEPT_EDEFAULT;
-
-	/**
-	 * The cached value of the '{@link #getRelatedTo() <em>Related To</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getRelatedTo()
-	 * @generated
-	 * @ordered
-	 */
-	protected Clazz relatedTo;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -235,12 +235,12 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 			return getAttributecondidate();
 		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
 			return getConfidence();
-		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
-			return isAccept();
 		case MetamodelPackage.CLAZZ_CONDIDATE__RELATED_TO:
 			if (resolve)
 				return getRelatedTo();
 			return basicGetRelatedTo();
+		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
+			return isAccept();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -261,11 +261,11 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
 			setConfidence((Integer) newValue);
 			return;
-		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
-			setAccept((Boolean) newValue);
-			return;
 		case MetamodelPackage.CLAZZ_CONDIDATE__RELATED_TO:
 			setRelatedTo((Clazz) newValue);
+			return;
+		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
+			setAccept((Boolean) newValue);
 			return;
 		}
 		super.eSet(featureID, newValue);
@@ -285,11 +285,11 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
 			setConfidence(CONFIDENCE_EDEFAULT);
 			return;
-		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
-			setAccept(ACCEPT_EDEFAULT);
-			return;
 		case MetamodelPackage.CLAZZ_CONDIDATE__RELATED_TO:
 			setRelatedTo((Clazz) null);
+			return;
+		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
+			setAccept(ACCEPT_EDEFAULT);
 			return;
 		}
 		super.eUnset(featureID);
@@ -307,10 +307,10 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 			return attributecondidate != null && !attributecondidate.isEmpty();
 		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
 			return confidence != CONFIDENCE_EDEFAULT;
-		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
-			return accept != ACCEPT_EDEFAULT;
 		case MetamodelPackage.CLAZZ_CONDIDATE__RELATED_TO:
 			return relatedTo != null;
+		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
+			return accept != ACCEPT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}

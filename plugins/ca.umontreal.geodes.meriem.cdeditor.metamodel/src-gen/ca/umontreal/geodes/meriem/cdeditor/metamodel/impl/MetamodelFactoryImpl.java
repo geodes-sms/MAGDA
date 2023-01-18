@@ -15,19 +15,17 @@ import org.eclipse.emf.ecore.plugin.EcorePlugin;
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory</b>. <!--
  * end-user-doc -->
- * 
  * @generated
  */
 public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFactory {
 	/**
-	 * Creates the default factory implementation. <!-- begin-user-doc --> <!--
+	 * Creates the default factory implementation.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public static MetamodelFactory init() {
 		try {
-
 			MetamodelFactory theMetamodelFactory = (MetamodelFactory) EPackage.Registry.INSTANCE
 					.getEFactory(MetamodelPackage.eNS_URI);
 			if (theMetamodelFactory != null) {
@@ -51,7 +49,6 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	@Override
@@ -59,8 +56,8 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 		switch (eClass.getClassifierID()) {
 		case MetamodelPackage.MODEL:
 			return createModel();
-		case MetamodelPackage.OPERATION:
-			return createOperation();
+		case MetamodelPackage.OPERATION_CONDIDATE:
+			return createOperationCondidate();
 		case MetamodelPackage.CLAZZ:
 			return createClazz();
 		case MetamodelPackage.ATTRIBUTE:
@@ -78,7 +75,6 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Model createModel() {
@@ -87,29 +83,26 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 	}
 
 	/**
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Operation createOperation() {
-		OperationImpl operation = new OperationImpl();
-		return operation;
+	public OperationCondidate createOperationCondidate() {
+		OperationCondidateImpl operationCondidate = new OperationCondidateImpl();
+		return operationCondidate;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Clazz createClazz() {
 		ClazzImpl clazz = new ClazzImpl();
-		
 		return clazz;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Attribute createAttribute() {
@@ -119,20 +112,15 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public ClazzCondidate createClazzCondidate() {
 		ClazzCondidateImpl clazzCondidate = new ClazzCondidateImpl();
-		
-
 		return clazzCondidate;
 	}
 
-	
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public AttributeCondidate createAttributeCondidate() {
@@ -142,7 +130,6 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public Association createAssociation() {
@@ -152,7 +139,6 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public MetamodelPackage getMetamodelPackage() {
@@ -161,7 +147,6 @@ public class MetamodelFactoryImpl extends EFactoryImpl implements MetamodelFacto
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @deprecated
 	 * @generated
 	 */

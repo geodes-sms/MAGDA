@@ -9,8 +9,7 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation;
-
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate;
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -52,7 +51,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<Operation> operation;
+	protected EList<OperationCondidate> operation;
 
 	/**
 	 * The cached value of the '{@link #getClazz() <em>Clazz</em>}' containment reference list.
@@ -128,9 +127,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<Operation> getOperation() {
+	public EList<OperationCondidate> getOperation() {
 		if (operation == null) {
-			operation = new EObjectContainmentEList<Operation>(Operation.class, this,
+			operation = new EObjectContainmentEList<OperationCondidate>(OperationCondidate.class, this,
 					MetamodelPackage.MODEL__OPERATION);
 		}
 		return operation;
@@ -259,7 +258,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		switch (featureID) {
 		case MetamodelPackage.MODEL__OPERATION:
 			getOperation().clear();
-			getOperation().addAll((Collection<? extends Operation>) newValue);
+			getOperation().addAll((Collection<? extends OperationCondidate>) newValue);
 			return;
 		case MetamodelPackage.MODEL__CLAZZ:
 			getClazz().clear();

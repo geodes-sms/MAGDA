@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface Model extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Operation</b></em>' containment reference list.
-	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation}.
+	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operation</em>' containment reference list.
@@ -38,7 +38,7 @@ public interface Model extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<Operation> getOperation();
+	EList<OperationCondidate> getOperation();
 
 	/**
 	 * Returns the value of the '<em><b>Clazz</b></em>' containment reference list.

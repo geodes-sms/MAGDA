@@ -82,8 +82,8 @@ public class MetamodelAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseOperation(Operation object) {
-			return createOperationAdapter();
+		public Adapter caseOperationCondidate(OperationCondidate object) {
+			return createOperationCondidateAdapter();
 		}
 
 		@Override
@@ -173,16 +173,16 @@ public class MetamodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation <em>Operation</em>}'.
+	 * Creates a new adapter for an object of class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate <em>Operation Condidate</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate
 	 * @generated
 	 */
-	public Adapter createOperationAdapter() {
+	public Adapter createOperationCondidateAdapter() {
 		return null;
 	}
 

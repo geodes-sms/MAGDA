@@ -15,8 +15,8 @@ import org.eclipse.emf.common.util.EList;
  * <ul>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#getAttributecondidate <em>Attributecondidate</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#getConfidence <em>Confidence</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#isAccept <em>Accept</em>}</li>
  *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#getRelatedTo <em>Related To</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate#isAccept <em>Accept</em>}</li>
  * </ul>
  *
  * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage#getClazzCondidate()

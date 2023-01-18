@@ -96,26 +96,26 @@ public class MetamodelItemProviderAdapterFactory extends MetamodelAdapterFactory
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation} instances.
+	 * This keeps track of the one adapter used for all {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected OperationItemProvider operationItemProvider;
+	protected OperationCondidateItemProvider operationCondidateItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.Operation}.
+	 * This creates an adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createOperationAdapter() {
-		if (operationItemProvider == null) {
-			operationItemProvider = new OperationItemProvider(this);
+	public Adapter createOperationCondidateAdapter() {
+		if (operationCondidateItemProvider == null) {
+			operationCondidateItemProvider = new OperationCondidateItemProvider(this);
 		}
 
-		return operationItemProvider;
+		return operationCondidateItemProvider;
 	}
 
 	/**
@@ -334,8 +334,8 @@ public class MetamodelItemProviderAdapterFactory extends MetamodelAdapterFactory
 	public void dispose() {
 		if (modelItemProvider != null)
 			modelItemProvider.dispose();
-		if (operationItemProvider != null)
-			operationItemProvider.dispose();
+		if (operationCondidateItemProvider != null)
+			operationCondidateItemProvider.dispose();
 		if (clazzItemProvider != null)
 			clazzItemProvider.dispose();
 		if (attributeItemProvider != null)

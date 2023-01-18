@@ -31,13 +31,13 @@ public interface MetamodelFactory extends EFactory {
 	Model createModel();
 
 	/**
-	 * Returns a new object of class '<em>Operation</em>'.
+	 * Returns a new object of class '<em>Operation Condidate</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Operation</em>'.
+	 * @return a new object of class '<em>Operation Condidate</em>'.
 	 * @generated
 	 */
-	Operation createOperation();
+	OperationCondidate createOperationCondidate();
 
 	/**
 	 * Returns a new object of class '<em>Clazz</em>'.

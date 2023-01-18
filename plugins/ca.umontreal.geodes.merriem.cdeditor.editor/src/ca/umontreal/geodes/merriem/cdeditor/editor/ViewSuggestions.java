@@ -1,47 +1,29 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.emf.common.command.CommandStack;
-import org.eclipse.emf.common.util.URI;
-import org.eclipse.emf.transaction.RecordingCommand;
-import org.eclipse.emf.transaction.TransactionalEditingDomain;
-import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
-import org.eclipse.sirius.business.api.session.SessionManager;
-import org.eclipse.sirius.viewpoint.DAnalysis;
-import org.eclipse.sirius.viewpoint.DRepresentation;
-import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
-import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridData;
-import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
-import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.part.ViewPart;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
 
 public class ViewSuggestions extends ViewPart {
 	private Services services;
-	Composite parent;
+	private ConceptsFactory conceptsFactory;
+	public Composite parent;
 	// Table table;
 
 	public ViewSuggestions() {
@@ -53,21 +35,17 @@ public class ViewSuggestions extends ViewPart {
 		}
 
 	}
-	
-
 
 	@SuppressWarnings("restriction")
 	public void createContents() {
-		
+
 		Control[] children = parent.getChildren();
-		for(Control child : children){
-			if(! child.isDisposed()){
-			    child.dispose();
-			 }
+		for (Control child : children) {
+			if (!child.isDisposed()) {
+				child.dispose();
+			}
 		}
-		
-		System.out.println("working ? ");
-		
+
 		List<ClazzCondidate> classCondidateInModel = this.services.getModel().getClazzcondidate();
 		Table table = new Table(parent, SWT.BORDER);
 		table.setLinesVisible(true);
@@ -76,22 +54,18 @@ public class ViewSuggestions extends ViewPart {
 		data.heightHint = 200;
 		table.setLayoutData(data);
 		parent.layout(true, true);
-		//parent.pack();
+		// parent.pack();
 
 		String[] titles = { "Suggestion", "score", "Add to Canvas?" };
 		for (String title : titles) {
 			TableColumn column = new TableColumn(table, SWT.CHECK);
 			column.setText(title);
 		}
-		
 
-
-		//classCondidateInModel.sort(Comparator.comparing(ClazzCondidate::getConfidence).reversed());
+		// classCondidateInModel.sort(Comparator.comparing(ClazzCondidate::getConfidence).reversed());
 		List<ClazzCondidate> sortedClazzCondidate = classCondidateInModel.stream()
-				  .sorted(Comparator.comparing(ClazzCondidate::getConfidence).reversed())
-				  .collect(Collectors.toList());
+				.sorted(Comparator.comparing(ClazzCondidate::getConfidence).reversed()).collect(Collectors.toList());
 
-		
 		for (int i = 0; i < sortedClazzCondidate.size(); i++) {
 			TableItem item = new TableItem(table, SWT.CHECK);
 			item.setText(0, sortedClazzCondidate.get(i).getName());
@@ -125,13 +99,12 @@ public class ViewSuggestions extends ViewPart {
 				@Override
 				public void mouseDown(MouseEvent e) {
 					Session session = services.getSession();
-					String acceptedClassName= item.getText(0);
+					String acceptedClassName = item.getText(0);
 					button.setVisible(false);
 					button.dispose();
 					table.remove(indexItem);
-					services.createClass(acceptedClassName, session);
-					services.deletetClassCondidate(acceptedClassName, session);
-				
+					conceptsFactory.createClass(acceptedClassName, session);
+					conceptsFactory.deletetClassCondidate(acceptedClassName, session);
 
 				}
 

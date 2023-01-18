@@ -87,11 +87,13 @@ public class MetamodelSwitch<T> extends Switch<T> {
 				result = defaultCase(theEObject);
 			return result;
 		}
-		case MetamodelPackage.OPERATION: {
-			Operation operation = (Operation) theEObject;
-			T result = caseOperation(operation);
+		case MetamodelPackage.OPERATION_CONDIDATE: {
+			OperationCondidate operationCondidate = (OperationCondidate) theEObject;
+			T result = caseOperationCondidate(operationCondidate);
 			if (result == null)
-				result = caseNamedElement(operation);
+				result = caseNamedElement(operationCondidate);
+			if (result == null)
+				result = caseTypedElement(operationCondidate);
 			if (result == null)
 				result = defaultCase(theEObject);
 			return result;
@@ -196,17 +198,17 @@ public class MetamodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Operation</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Operation Condidate</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Operation</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Operation Condidate</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseOperation(Operation object) {
+	public T caseOperationCondidate(OperationCondidate object) {
 		return null;
 	}
 

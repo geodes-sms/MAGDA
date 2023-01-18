@@ -161,7 +161,7 @@ public class ModelItemProvider extends ItemProviderAdapter implements IEditingDo
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
 		newChildDescriptors.add(createChildParameter(MetamodelPackage.Literals.MODEL__OPERATION,
-				MetamodelFactory.eINSTANCE.createOperation()));
+				MetamodelFactory.eINSTANCE.createOperationCondidate()));
 
 		newChildDescriptors.add(
 				createChildParameter(MetamodelPackage.Literals.MODEL__CLAZZ, MetamodelFactory.eINSTANCE.createClazz()));

@@ -118,7 +118,6 @@ public class Services {
 	};
 
 	public void refreshSuggestionsView() {
-		// String id = "org.eclipse.ui.views.PropertySheet";
 		String id = "ca.umontreal.geodes.merriem.cdeditor.editor.view3";
 		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(id);
 		if (view instanceof ViewSuggestions) {
@@ -133,6 +132,20 @@ public class Services {
 		}
 	}
 
+	public void refreshAssociationsView() {
+		String id = "ca.umontreal.geodes.merriem.cdeditor.editor.viewAssociations";
+		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(id);
+		if (view instanceof ViewAssociations) {
+
+			ViewAssociations viewAssociations = (ViewAssociations) view;
+			{
+
+				viewAssociations.createContents();
+
+			}
+
+		}
+	}
 	private IGraphicalEditPart getEditPart(DDiagramElement diagramElement) {
 		IEditorPart editor = EclipseUIUtil.getActiveEditor();
 		if (editor instanceof DiagramEditor) {
@@ -256,296 +269,14 @@ public class Services {
 		return (Model) model;
 	}
 
-	public void createClass(String Name, Session session) {
-		try {
+	
 
-			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
-			DView dView = root.getOwnedViews().get(0);
+	
 
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-			// domain = session.getTransactionalEditingDomain();
 
-			CommandStack stack = domain.getCommandStack();
-			RecordingCommand cmd = new RecordingCommand(domain) {
-
-				@Override
-				protected void doExecute() {
-					Model model = getModel();
-					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
-
-					ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
-					newClazz.setName(Name);
-					model.getClazz().add(newClazz);
-
-					SessionManager.INSTANCE.notifyRepresentationCreated(session);
-				}
-
-			};
-			RecordingCommand cmd2 = new RecordingCommand(session.getTransactionalEditingDomain()) {
-				@Override
-				protected void doExecute() {
-
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
-								.openEditor(session, represnt, new NullProgressMonitor());
-
-						DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
-					}
-
-					// DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-				}
-			};
-			stack.execute(cmd);
-			// stack.execute(cmd2);
-
-			// SessionManager.INSTANCE.notifyRepresentationCreated(session);
-
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public void deletetClassCondidate(String classToRemove, Session session) {
-
-		try {
-			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
-			DView dView = root.getOwnedViews().get(0);
-
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-
-			CommandStack stack = domain.getCommandStack();
-			RecordingCommand cmd = new RecordingCommand(domain) {
-
-				@Override
-				protected void doExecute() {
-					Model model = getModel();
-					// MetamodelFactory metamodelFactory =
-					// ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
-
-					List<ClazzCondidate> classesCondidate = model.getClazzcondidate();
-					int index = Nan;
-					for (int i = 0; i < classesCondidate.size(); i++) {
-						if (classesCondidate.get(i).getName().replaceAll("\\s+", "")
-								.equals(classToRemove.replaceAll("\\s+", ""))) {
-							index = i;
-
-							break;
-						}
-					}
-					model.getClazzcondidate().remove(index);
-					SessionManager.INSTANCE.notifyRepresentationCreated(session);
-
-				}
-
-			};
-
-			RecordingCommand cmd2 = new RecordingCommand(session.getTransactionalEditingDomain()) {
-				@Override
-				protected void doExecute() {
-
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
-								.openEditor(session, represnt, new NullProgressMonitor());
-
-						DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
-					}
-
-					// DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-				}
-			};
-			stack.execute(cmd);
-			stack.execute(cmd2);
-
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-
-		// return removedClazz;
-	}
-
-	public void createClassCondidate(String Name, String confidence, Session session) {
-
-		try {
-
-			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
-			DView dView = root.getOwnedViews().get(0);
-
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-
-			CommandStack stack = domain.getCommandStack();
-
-			RecordingCommand cmd = new RecordingCommand(domain) {
-
-				@Override
-				protected void doExecute() {
-					Model model = getModel();
-					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
-					ClazzCondidateImpl newClazzCondidate = (ClazzCondidateImpl) metamodelFactory.createClazzCondidate();
-					newClazzCondidate.setName(Name);
-
-					newClazzCondidate.setConfidence(Integer.parseInt(confidence));
-
-					model.getClazzcondidate().add(newClazzCondidate);
-
-					// refresh Model
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-
-					}
-					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-				}
-
-			};
-
-			stack.execute(cmd);
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-	public void createAttribute(String Name, String Type, String containerName, Session session) {
-		try {
-
-			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
-			DView dView = root.getOwnedViews().get(0);
-
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-
-			CommandStack stack = domain.getCommandStack();
-
-			RecordingCommand cmd = new RecordingCommand(domain) {
-
-				@Override
-				protected void doExecute() {
-					Model model = getModel();
-					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
-					AttributeImpl newAttribute = (AttributeImpl) metamodelFactory.createAttribute();
-					newAttribute.setName(Name);
-					newAttribute.setType(Type);
-					List<Clazz> classes = model.getClazz();
-					for (int i = 0; i < classes.size(); i++) {
-
-						String Cname = classes.get(i).getName().replaceAll("\\s+", "");
-						if (containerName.equals(Cname)) {
-							EList<Attribute> attributesName = model.getClazz().get(i).getAttributes();
-							boolean attributeExist = false;
-							for (int j = 0; j < attributesName.size(); j++) {
-
-								if (attributesName.get(j).getName().replaceAll("\\s+", "")
-										.equals(Name.replaceAll("\\s+", ""))) {
-									attributeExist = true;
-									break;
-								}
-							}
-							if (!attributeExist) {
-								model.getClazz().get(i).getAttributes().add(newAttribute);
-								break;
-							}
-						}
-					}
-
-					// refresh Model
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-					}
-					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-
-				}
-			};
-			stack.execute(cmd);
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void createAssociation(String Type, String Name, String Target, String Source, Session session) {
-		System.out.println("creating association  " + Type + " " + Name + " from " + Source + " To " + Target);
-		try {
-
-			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
-			DView dView = root.getOwnedViews().get(0);
-
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-
-			CommandStack stack = domain.getCommandStack();
-
-			RecordingCommand cmd = new RecordingCommand(domain) {
-
-				@Override
-				protected void doExecute() {
-
-					Model model = getModel();
-					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
-					List<Clazz> classes = new ArrayList<Clazz>();
-					List<Association> Associations = new ArrayList<Association>();
-					classes = model.getClazz();
-					Associations = model.getAssociation();
-
-					// find both classes target and source:
-					Clazz ClassSource = null;
-					Clazz ClassTarget = null;
-					for (int i = 0; i < classes.size(); i++) {
-
-						if (classes.get(i).getName().replaceAll("\\s+", "").equals(Source.replaceAll("\\s+", ""))) {
-							ClassSource = classes.get(i);
-						}
-						if (classes.get(i).getName().replaceAll("\\s+", "").equals(Target.replaceAll("\\s+", ""))) {
-							ClassTarget = classes.get(i);
-						}
-					}
-
-					switch (Type) {
-					case "inheritance":
-						ClassSource.setSpecializes(ClassTarget);
-
-						break;
-					case "composition":
-						ClassSource.setIsMember(ClassTarget);
-
-						break;
-					case "association":
-
-						if (Name.equals("is")) {
-							ClassSource.setSpecializes(ClassTarget);
-
-						} else {
-							AssociationImpl newAssociation = (AssociationImpl) metamodelFactory.createAssociation();
-							newAssociation.setName(Name);
-							newAssociation.setTarget(ClassTarget);
-							newAssociation.setSource(ClassSource);
-							Associations.add(newAssociation);
-						}
-
-						break;
-					default:
-						break;
-
-					}
-					// refresh Model
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-					}
-					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-
-				}
-			};
-			stack.execute(cmd);
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-	}
 
 	public EObject getAttributePrediction(EObject node) {
-
+		AttributesFactory attributesFactory = new AttributesFactory();
 		Session session = SessionManager.INSTANCE.getSession(node);
 		assert session != null;
 		List<String> types = new ArrayList<>(List.of("int", "string", "float", "char", "boolean", "double", "byte"));
@@ -595,7 +326,7 @@ public class Services {
 			for (int i = 0; i < result.length; i++) {
 				String res = (String) result[i];
 				res = res.split(":")[0];
-				createAttribute(res, typeAttributes.get(res), NodeName, session);
+				attributesFactory.createAttribute(res, typeAttributes.get(res), NodeName, session);
 				typeAttributes.remove(res);
 			}
 			this.classAttributes.put(NodeName, typeAttributes);
@@ -615,7 +346,7 @@ public class Services {
 	}
 
 	public EObject getClassPrediction(EObject rootModel) {
-
+		ConceptsFactory conceptsFactory =new ConceptsFactory(); 
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 
@@ -667,11 +398,11 @@ public class Services {
 			for (String key : Concepts.get(0).keySet()) {
 				Results.add(key);
 				if (!containsIgnoreCase(suggestedConcepts, key)) {
-					createClassCondidate((String) key, Concepts.get(0).get(key), session);
+					conceptsFactory.createClassCondidate((String) key, Concepts.get(0).get(key), session);
 
 				} else {
 
-					updateConfidenceCondidate((String) key, session, model, 1);
+					conceptsFactory.updateConfidenceCondidate((String) key, session, model, 1);
 				}
 
 			}
@@ -691,7 +422,7 @@ public class Services {
 			Object[] result = dialog.getResult();
 			for (int i = 0; i < result.length; i++) {
 				if (!containsIgnoreCase(classNames, (String) result[i])) {
-					createClass((String) result[i], session);
+					conceptsFactory.createClass((String) result[i], session);
 					Results.remove((String) result[i]);
 				}
 			}
@@ -709,51 +440,10 @@ public class Services {
 		return rootModel;
 	}
 
-	private void updateConfidenceCondidate(String key, Session session, Model model, int value) {
-		try {
-
-			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
-			DView dView = root.getOwnedViews().get(0);
-
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
-
-			CommandStack stack = domain.getCommandStack();
-
-			RecordingCommand cmd = new RecordingCommand(domain) {
-
-				@Override
-				protected void doExecute() {
-					Model model = getModel();
-					List<ClazzCondidate> listSuggestions = model.getClazzcondidate();
-					for (int j = 0; j < listSuggestions.size(); j++) {
-						if (listSuggestions.get(j).getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(key.replaceAll("\\s+", ""))) {
-							int previousConfidence = listSuggestions.get(j).getConfidence();
-							listSuggestions.get(j).setConfidence(previousConfidence + value);
-							break;
-						}
-					}
-
-					// refresh Model
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-
-					}
-					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-				}
-
-			};
-
-			stack.execute(cmd);
-		} catch (ServiceException e) {
-			e.printStackTrace();
-		}
-
-	}
+	
 
 	public EObject getAssociationPrediction(EObject rootModel) {
-
+		AssociationsFactory associationsFactory = new AssociationsFactory(); 
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 		String className = rootModel.toString().split(":")[1];
@@ -779,6 +469,8 @@ public class Services {
 				items.add(item);
 
 				ArrayResultsTyped = items.toArray(new String[0]);
+				associationsFactory.createAssociationCondidate(res.get(j).get("Type"), res.get(j).get("Name"), res.get(j).get("Target"), res.get(j).get("Source"), session); 
+				refreshAssociationsView();
 				this.relatedAssociations.put(className, items);
 
 			}
@@ -802,7 +494,7 @@ public class Services {
 				String Name = item.split("=>")[1];
 				String Target = (item.split(",")[1]).split("]")[0];
 				String Source = (item.split("\\[")[1]).split(",")[0];
-				createAssociation(Type, Name, Target, Source, session);
+				associationsFactory.createAssociation(Type, Name, Target, Source, session);
 
 			}
 
@@ -812,6 +504,8 @@ public class Services {
 	}
 
 	public EObject approveClassCondidate(EObject rootModel) throws InterruptedException {
+		ConceptsFactory conceptsFactory =new ConceptsFactory(); 
+
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 		String className = "";
@@ -837,8 +531,8 @@ public class Services {
 		// the new class should should have the same coordinates as the candidate class
 
 		setGraphicalHintsFromExistingNode((DDiagramElement) eob);
-		createClass(className, session);
-		deletetClassCondidate(className, session);
+		conceptsFactory.createClass(className, session);
+		conceptsFactory.deletetClassCondidate(className, session);
 
 		return rootModel;
 	}

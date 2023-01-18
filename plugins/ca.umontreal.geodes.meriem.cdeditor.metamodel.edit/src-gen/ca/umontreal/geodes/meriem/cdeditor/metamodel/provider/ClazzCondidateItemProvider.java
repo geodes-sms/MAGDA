@@ -47,8 +47,8 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 			super.getPropertyDescriptors(object);
 
 			addConfidencePropertyDescriptor(object);
-			addAcceptPropertyDescriptor(object);
 			addRelatedToPropertyDescriptor(object);
+			addAcceptPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
