@@ -1,10 +1,7 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -13,16 +10,10 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
+
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.draw2d.geometry.Point;
-import org.eclipse.emf.common.command.CommandStack;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.ResourceSetListener;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.gmf.runtime.diagram.ui.commands.CreateOrSelectElementCommand.LabelProvider;
@@ -31,13 +22,9 @@ import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.parts.DiagramEditor;
 import org.eclipse.gmf.runtime.notation.Bounds;
 import org.eclipse.gmf.runtime.notation.Diagram;
-import org.eclipse.gmf.runtime.notation.LayoutConstraint;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
-import org.eclipse.gmf.runtime.notation.impl.NodeImpl;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
-import org.eclipse.jface.operation.IRunnableWithProgress;
 import org.eclipse.jface.window.Window;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
@@ -52,18 +39,10 @@ import org.eclipse.sirius.diagram.model.business.internal.spec.DSemanticDiagramS
 import org.eclipse.sirius.diagram.ui.business.api.view.SiriusGMFHelper;
 import org.eclipse.sirius.diagram.ui.business.api.view.SiriusLayoutDataManager;
 import org.eclipse.sirius.diagram.ui.business.internal.view.RootLayoutData;
-import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
-import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.ui.business.api.session.SessionEditorInput;
-import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
-import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
-import org.eclipse.sirius.viewpoint.DView;
 import org.eclipse.sirius.viewpoint.ViewpointPackage;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.MessageBox;
-import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.IEditorReference;
@@ -71,25 +50,15 @@ import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.internal.EditorReference;
-import org.eclipse.ui.part.IPage;
-import org.osgi.framework.ServiceException;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate;
+
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationImpl;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeCondidateImpl;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
 
 /**
  * The services class used by VSM.
  */
-public class Services {
+public  class Services {
 
 	private Properties config;
 	protected static final String SIRIUS_DIAGRAM_EDITOR_ID = "org.eclipse.sirius.diagram.ui.part.SiriusDiagramEditorID";
@@ -97,12 +66,14 @@ public class Services {
 	protected HashMap<String, HashMap<String, String>> classAttributes;
 	protected HashMap<String, List<String>> relatedClasses;
 	protected HashMap<String, List<String>> relatedAssociations;
+	protected ResourceSetListener listener;
 
 	public Services() throws Exception {
 		this.config = new Properties();
 		this.relatedClasses = new HashMap<String, List<String>>();
 		this.relatedAssociations = new HashMap<String, List<String>>();
 		this.classAttributes = new HashMap<String, HashMap<String, String>>();
+		this.listener = (ResourceSetListener) new Listener();
 		try {
 			InputStream stream = Services.class.getClassLoader().getResourceAsStream("/config.properties");
 			this.config.load(stream);
@@ -110,8 +81,8 @@ public class Services {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		ResourceSetListener listener = new MyListener();
-		TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+		
+		TransactionalEditingDomain domain = getSession().getTransactionalEditingDomain();
 
 		domain.addResourceSetListener(listener);
 
@@ -146,6 +117,7 @@ public class Services {
 
 		}
 	}
+
 	private IGraphicalEditPart getEditPart(DDiagramElement diagramElement) {
 		IEditorPart editor = EclipseUIUtil.getActiveEditor();
 		if (editor instanceof DiagramEditor) {
@@ -269,12 +241,6 @@ public class Services {
 		return (Model) model;
 	}
 
-	
-
-	
-
-
-
 	public EObject getAttributePrediction(EObject node) {
 		AttributesFactory attributesFactory = new AttributesFactory();
 		Session session = SessionManager.INSTANCE.getSession(node);
@@ -314,7 +280,7 @@ public class Services {
 					new LabelProvider());
 
 			dialog.setElements(ArrayResultsTyped);
-			// dialog.s
+
 			dialog.setTitle("Select appropriate attributes");
 			dialog.setMultipleSelection(true);
 
@@ -346,7 +312,9 @@ public class Services {
 	}
 
 	public EObject getClassPrediction(EObject rootModel) {
-		ConceptsFactory conceptsFactory =new ConceptsFactory(); 
+		
+		
+		ConceptsFactory conceptsFactory = new ConceptsFactory();
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 
@@ -354,6 +322,11 @@ public class Services {
 		List<String> AllclassNames = new ArrayList<String>();
 		List<String> suggestedConcepts = new ArrayList<String>();
 		Model model = getModel();
+		
+		//dummy example 
+		conceptsFactory.createClassCondidate("nameFRom prediction", "1",session,model);
+		refreshSuggestionsView();
+		
 		List<Clazz> classesInModel = model.getClazz();
 		String className = "";
 		List<ClazzCondidate> classeCondidateInModel = model.getClazzcondidate();
@@ -398,7 +371,7 @@ public class Services {
 			for (String key : Concepts.get(0).keySet()) {
 				Results.add(key);
 				if (!containsIgnoreCase(suggestedConcepts, key)) {
-					conceptsFactory.createClassCondidate((String) key, Concepts.get(0).get(key), session);
+					conceptsFactory.createClassCondidate((String) key, Concepts.get(0).get(key), session,getModel());
 
 				} else {
 
@@ -406,6 +379,7 @@ public class Services {
 				}
 
 			}
+		
 			refreshSuggestionsView();
 		}
 
@@ -440,10 +414,8 @@ public class Services {
 		return rootModel;
 	}
 
-	
-
 	public EObject getAssociationPrediction(EObject rootModel) {
-		AssociationsFactory associationsFactory = new AssociationsFactory(); 
+		AssociationsFactory associationsFactory = new AssociationsFactory();
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 		String className = rootModel.toString().split(":")[1];
@@ -469,7 +441,8 @@ public class Services {
 				items.add(item);
 
 				ArrayResultsTyped = items.toArray(new String[0]);
-				associationsFactory.createAssociationCondidate(res.get(j).get("Type"), res.get(j).get("Name"), res.get(j).get("Target"), res.get(j).get("Source"), session); 
+				associationsFactory.createAssociationCondidate(res.get(j).get("Type"), res.get(j).get("Name"),
+						res.get(j).get("Target"), res.get(j).get("Source"), session);
 				refreshAssociationsView();
 				this.relatedAssociations.put(className, items);
 
@@ -504,7 +477,7 @@ public class Services {
 	}
 
 	public EObject approveClassCondidate(EObject rootModel) throws InterruptedException {
-		ConceptsFactory conceptsFactory =new ConceptsFactory(); 
+		ConceptsFactory conceptsFactory = new ConceptsFactory();
 
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;

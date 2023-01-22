@@ -29,6 +29,7 @@ public class ViewSuggestions extends ViewPart {
 	public ViewSuggestions() {
 		try {
 			this.services = new Services();
+			this.conceptsFactory = new ConceptsFactory();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -36,6 +37,9 @@ public class ViewSuggestions extends ViewPart {
 
 	}
 
+	
+	
+	
 	@SuppressWarnings("restriction")
 	public void createContents() {
 

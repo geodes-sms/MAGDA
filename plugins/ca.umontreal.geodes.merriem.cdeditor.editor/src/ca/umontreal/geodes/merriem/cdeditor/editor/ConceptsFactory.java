@@ -35,6 +35,15 @@ public class ConceptsFactory {
 		}
 
 	}
+	public ConceptsFactory(Services services) {
+		try {
+			this.services = services;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 	public void updateConfidenceCondidate(String key, Session session, Model model, int value) {
 		try {
@@ -132,7 +141,7 @@ public class ConceptsFactory {
 	}
 	
 	
-	public void createClassCondidate(String Name, String confidence, Session session) {
+	public void createClassCondidate(String Name, String confidence, Session session,Model model) {
 
 		try {
 
@@ -147,7 +156,7 @@ public class ConceptsFactory {
 
 				@Override
 				protected void doExecute() {
-					Model model = services.getModel();
+
 					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 					ClazzCondidateImpl newClazzCondidate = (ClazzCondidateImpl) metamodelFactory.createClazzCondidate();
 					newClazzCondidate.setName(Name);
@@ -157,12 +166,12 @@ public class ConceptsFactory {
 					model.getClazzcondidate().add(newClazzCondidate);
 
 					// refresh Model
-					DRepresentation represnt = null;
+					/*DRepresentation represnt = null;
 					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
 						represnt = descrp.getRepresentation();
 
 					}
-					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());*/
 				}
 
 			};

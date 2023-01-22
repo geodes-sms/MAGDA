@@ -22,7 +22,6 @@ public class ConceptsPrediction implements IConceptsPrediction {
 	public List<HashMap<String, String>> run(EObject rootModel, Model model) {
 		List<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
 		List<String[]> predictionLists = new ArrayList<String[]>();
-		List<String> classNames = new ArrayList<String>();
 		List<String> AllclassNames = new ArrayList<String>();
 		List<Clazz> classesInModel = model.getClazz();
 		String className = "";
@@ -35,19 +34,29 @@ public class ConceptsPrediction implements IConceptsPrediction {
 			AllclassNames.add(classeCondidateInModel.get(i).getName());
 		}
 		String input = "";
-		if (rootModel instanceof Model) {
+		// rootModel could be null (in cashing system)
+		if (rootModel instanceof Model || rootModel == null) {
+			System.out.println("in concepts prediction from all canvas");
 			for (int i = 0; i < classesInModel.size(); i++) {
-				input = input.concat(",").concat(classesInModel.get(i).getName());
-				classNames.add(classesInModel.get(i).getName());
+				if (!classesInModel.get(i).getName().isEmpty()) {
+					input = input.concat(",").concat(classesInModel.get(i).getName());
+				}
 			}
+
+			Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
+			concpetsPrompt.setPrompt();
+			String[] arrayConceptsName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
+
+			predictionLists.add(arrayConceptsName);
+
 		} else if (rootModel instanceof Clazz) {
 			Clazz inputClass = (Clazz) rootModel;
 			input = inputClass.getName();
 			className = input;
-			classNames.add(inputClass.getName());
 			/**
 			 * heuristic/strategy : what to send to GPT3, use random , TO DO: update use
-			 * loop
+			 * loop, here we send all possible couples. then based on frequency we select
+			 * top 3
 			 **/
 
 			for (int z = 0; z < classesInModel.size(); z++) {
@@ -55,28 +64,28 @@ public class ConceptsPrediction implements IConceptsPrediction {
 				if (!classesInModel.get(z).getName().equals(className)) {
 					if (input != "") {
 						input = input.concat(",").concat(classesInModel.get(z).getName());
+						Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
+						concpetsPrompt.setPrompt();
+						String[] arrayConceptsName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
 
+						/*
+						 * results.add(new HashMap<String, String>()); for (int i = 0; i <
+						 * arrayConceptsName.length; i++) {
+						 * 
+						 * // key = value (because it's interface ...)
+						 * results.get(0).put(arrayConceptsName[i], arrayConceptsName[i]);
+						 * 
+						 * }
+						 */
+
+						predictionLists.add(arrayConceptsName);
 					}
 				}
-				Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
-				concpetsPrompt.setPrompt();
-				String[] arrayAssociationName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
-				// HashMap<String, String> item = new HashMap<String, String>();
-				results.add(new HashMap<String, String>());
-				for (int i = 0; i < arrayAssociationName.length; i++) {
-
-					// key = value (because it's interface ...)
-					results.get(0).put(arrayAssociationName[i], arrayAssociationName[i]);
-
-				}
-			
-				predictionLists.add(arrayAssociationName);
-
 			}
-
 		}
 
-		// add a loop concat with all the rest of classes in canvas !
+		// combine results and calculate frequecy
+
 		Map<String, Integer> result = new HashMap<String, Integer>();
 		for (int i = 0; i < predictionLists.size(); i++) {
 			for (int j = 0; j < predictionLists.get(i).length; j++) {
@@ -86,11 +95,15 @@ public class ConceptsPrediction implements IConceptsPrediction {
 				result.merge(predictionLists.get(i)[j], 1, Integer::sum);
 			}
 		}
+		// we have this format because it is an interface.
+
 		List<HashMap<String, String>> convertedResults = new ArrayList<HashMap<String, String>>();
 
 		Map copy = result.entrySet().stream().sorted(Map.Entry.comparingByValue())
 				.collect(Collectors.toMap(e -> e.getKey(), e -> e.getValue().toString()));
 		HashMap<String, String> temp = new HashMap<String, String>(copy);
+
+		// first element only will be considered...
 		convertedResults.add(temp);
 
 		return convertedResults;

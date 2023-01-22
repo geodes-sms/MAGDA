@@ -1,2 +1,13 @@
 <?xml version="1.0" encoding="ASCII"?>
-<metamodel:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.umontreal.geodes/metamodel"/>
+<metamodel:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.umontreal.geodes/metamodel">
+  <clazz name="airport"/>
+  <clazz name="plane"/>
+  <clazz name="passenger"/>
+  <clazzcondidate name="trip" confidence="1"/>
+  <clazzcondidate name="addon" confidence="1"/>
+  <clazzcondidate name="city" confidence="1"/>
+  <clazzcondidate name="company" confidence="1"/>
+  <clazzcondidate name="visitor" confidence="1"/>
+  <clazzcondidate name="employee" confidence="1"/>
+  <clazzcondidate name="department" confidence="1"/>
+</metamodel:Model>
