@@ -11,5 +11,5 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 public interface IAssociationsPrediction {
 	
 
-	List< HashMap<String,String>> run(EObject rootModel, Model model);
+	List< HashMap<String,String>> run(String className,EObject rootModel, Model model);
 }

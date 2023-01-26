@@ -12,7 +12,7 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 public class AssociationsPredictionDummy implements IAssociationsPrediction {
 
 	@Override
-	public List<HashMap<String, String>> run(EObject rootModel, Model model) {
+	public List<HashMap<String, String>> run(String className, EObject rootModel, Model model) {
 		List< HashMap<String,String> >results = new ArrayList < HashMap<String,String> >();
 
 		HashMap<String,String> itemAssociation = new  HashMap<String,String>();

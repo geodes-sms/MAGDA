@@ -19,15 +19,15 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 public class AssociationsPrediction implements IAssociationsPrediction {
 
 	@Override
-	public List<HashMap<String, String>> run(EObject rootModel, Model model) {
+	public List<HashMap<String, String>> run(String className, EObject rootModel, Model model) {
 		List<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
-		String className;
+		//String className;
 
 		List<Clazz> classesInModel = model.getClazz();
 	
-		if (rootModel instanceof Clazz) {
-			className = rootModel.toString().split(":")[1];
-			className = className.substring(1, className.length() - 1);
+		if (rootModel instanceof Clazz || rootModel ==null ) {
+			//className = rootModel.toString().split(":")[1];
+			//className = className.substring(1, className.length() - 1);
 			List<Association> Associations = new ArrayList<Association>();
 			Associations = model.getAssociation();
 			List<String> classesAssociatedTo = new ArrayList<String>();

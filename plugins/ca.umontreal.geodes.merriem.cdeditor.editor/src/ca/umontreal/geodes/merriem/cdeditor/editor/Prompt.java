@@ -28,7 +28,8 @@ public abstract class Prompt {
 		String Results = "";
 		String[] GeneratedList = new String[25] ; 
 		// To do set env variables
-		String token = "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";
+		String token = "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";
+		
 		try {
 
 			OpenAiService theService = new OpenAiService(token);

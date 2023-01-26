@@ -17,10 +17,10 @@ public class AttributesNamePrompt extends Prompt {
 		String attributesStr=Results;
 		String[] Attributes = new String[20];
 		if (Results.contains("[")) {
-			attributesStr = Results.split("[")[1];
+			attributesStr = Results.split("\\[")[1];
 			}
 		if (Results.contains("]")) {
-			attributesStr.replace("]", "");
+			attributesStr.replace("\\]", "");
 		}
 			Attributes = attributesStr.split(",");
 			for (int j = 0; j < Attributes.length; j++) {

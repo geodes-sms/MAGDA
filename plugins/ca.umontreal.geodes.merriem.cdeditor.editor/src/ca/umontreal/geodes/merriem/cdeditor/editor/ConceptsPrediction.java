@@ -38,7 +38,7 @@ public class ConceptsPrediction implements IConceptsPrediction {
 		if (rootModel instanceof Model || rootModel == null) {
 			System.out.println("in concepts prediction from all canvas");
 			for (int i = 0; i < classesInModel.size(); i++) {
-				if (!classesInModel.get(i).getName().isEmpty()) {
+				if (!(classesInModel.get(i).getName()==null) ){
 					input = input.concat(",").concat(classesInModel.get(i).getName());
 				}
 			}
@@ -67,16 +67,6 @@ public class ConceptsPrediction implements IConceptsPrediction {
 						Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
 						concpetsPrompt.setPrompt();
 						String[] arrayConceptsName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
-
-						/*
-						 * results.add(new HashMap<String, String>()); for (int i = 0; i <
-						 * arrayConceptsName.length; i++) {
-						 * 
-						 * // key = value (because it's interface ...)
-						 * results.get(0).put(arrayConceptsName[i], arrayConceptsName[i]);
-						 * 
-						 * }
-						 */
 
 						predictionLists.add(arrayConceptsName);
 					}

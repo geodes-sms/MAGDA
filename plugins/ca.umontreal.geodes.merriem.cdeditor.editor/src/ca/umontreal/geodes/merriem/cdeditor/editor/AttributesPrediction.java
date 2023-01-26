@@ -22,36 +22,44 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 public class AttributesPrediction implements IAttributesPrediction {
 
 	@Override
-	public HashMap<String, String> run(EObject node, Model model) {
+	public HashMap<String, String> run(EObject node, String NodeName, Model model) {
 
-		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
-		NodeName = NodeName.replaceAll("\\s+", "");
+		/*
+		 * String NodeName = node.toString().split(":", 2)[1].replace(")", ""); NodeName
+		 * = NodeName.replaceAll("\\s+", "");
+		 */
 		HashMap<String, String> typeAttributes = new HashMap<String, String>();
 		List<String> attributes = new ArrayList<String>();
-		for (int i = 1; i < node.eContents().size(); i++) {
-			attributes.add(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
+		if (node != null) {
+			for (int i = 1; i < node.eContents().size(); i++) {
+				attributes.add(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
+			}
 		}
+
 		/** if class already have attributes, ... **/
 		String input;
-		if (node.eContents().size() > 1) {
-			input = attributes.get(0);
-			for (int i = 1; i < attributes.size(); i++) {
-				input = input.concat(",").concat(attributes.get(i));
-			}
+		if (node != null) {
+			if (node.eContents().size() > 1) {
+				input = attributes.get(0);
+				for (int i = 1; i < attributes.size(); i++) {
+					input = input.concat(",").concat(attributes.get(i));
+				}
+			} else
+				input = "";
 		} else
 			input = "";
 		Prompt attributesNamePrompt = new AttributesNamePrompt(NodeName.concat(input), "\n", " : [ ");
 		attributesNamePrompt.setPrompt();
 		System.out.println("predicting attributes...");
 
-		String[] arrayAttributes = attributesNamePrompt.run(20,0.7, "text-davinci-002");
-		
+		String[] arrayAttributes = attributesNamePrompt.run(20, 0.7, "text-davinci-002");
+
 		// type of predicted attribute
 		for (int i = 0; i < arrayAttributes.length; i++) {
 			Prompt attributesTypePrompt = new AttributesTypePrompt(arrayAttributes[i], "\n", " => ");
 			attributesTypePrompt.setPrompt();
 			String[] Type = attributesTypePrompt.run(1, 0.7, "text-davinci-002");
-			
+
 			typeAttributes.put(arrayAttributes[i], Type[0]);
 
 		}

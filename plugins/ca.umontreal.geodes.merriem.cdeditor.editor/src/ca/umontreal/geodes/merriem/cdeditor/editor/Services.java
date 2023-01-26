@@ -58,21 +58,23 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 /**
  * The services class used by VSM.
  */
-public  class Services {
+public class Services {
 
 	private Properties config;
 	protected static final String SIRIUS_DIAGRAM_EDITOR_ID = "org.eclipse.sirius.diagram.ui.part.SiriusDiagramEditorID";
 	protected static final int Nan = 0;
-	protected HashMap<String, HashMap<String, String>> classAttributes;
+	protected static HashMap<String, HashMap<String, String>> classAttributes;
 	protected HashMap<String, List<String>> relatedClasses;
-	protected HashMap<String, List<String>> relatedAssociations;
+	protected static HashMap<String, List<String>> relatedAssociations;
 	protected ResourceSetListener listener;
+	public static IViewPart suggestionView;
+	public static IViewPart associationView;
 
 	public Services() throws Exception {
 		this.config = new Properties();
 		this.relatedClasses = new HashMap<String, List<String>>();
-		this.relatedAssociations = new HashMap<String, List<String>>();
-		this.classAttributes = new HashMap<String, HashMap<String, String>>();
+		// this.relatedAssociations = new HashMap<String, List<String>>();
+		// this.classAttributes = new HashMap<String, HashMap<String, String>>();
 		this.listener = (ResourceSetListener) new Listener();
 		try {
 			InputStream stream = Services.class.getClassLoader().getResourceAsStream("/config.properties");
@@ -81,39 +83,40 @@ public  class Services {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+		if (Services.suggestionView == null) {
+			Services.suggestionView = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.findView("ca.umontreal.geodes.merriem.cdeditor.editor.view3");
+
+		}
+		if (Services.associationView == null) {
+			Services.associationView = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
+					.findView("ca.umontreal.geodes.merriem.cdeditor.editor.viewAssociations");
+		}
+
 		TransactionalEditingDomain domain = getSession().getTransactionalEditingDomain();
 
 		domain.addResourceSetListener(listener);
 
+		// domain.addResourceSetListener(new MyListener(this.classAttributes));
+
 	};
 
-	public void refreshSuggestionsView() {
-		String id = "ca.umontreal.geodes.merriem.cdeditor.editor.view3";
-		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(id);
-		if (view instanceof ViewSuggestions) {
+	public static void refreshSuggestionsView() {
+		// String id = "ca.umontreal.geodes.merriem.cdeditor.editor.view3";
 
-			ViewSuggestions viewSuggestions = (ViewSuggestions) view;
-			{
+		if (Services.suggestionView instanceof ViewSuggestions) {
 
-				viewSuggestions.createContents();
-
-			}
-
+			ViewSuggestions viewSuggestions = (ViewSuggestions) Services.suggestionView;
+			viewSuggestions.createContents();
 		}
 	}
 
-	public void refreshAssociationsView() {
-		String id = "ca.umontreal.geodes.merriem.cdeditor.editor.viewAssociations";
-		IViewPart view = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().findView(id);
-		if (view instanceof ViewAssociations) {
+	public static void refreshAssociationsView() {
 
-			ViewAssociations viewAssociations = (ViewAssociations) view;
-			{
+		if (Services.associationView instanceof ViewAssociations) {
 
-				viewAssociations.createContents();
-
-			}
+			ViewAssociations viewAssociations = (ViewAssociations) Services.associationView;
+			viewAssociations.createContents();
 
 		}
 	}
@@ -245,18 +248,27 @@ public  class Services {
 		AttributesFactory attributesFactory = new AttributesFactory();
 		Session session = SessionManager.INSTANCE.getSession(node);
 		assert session != null;
-		List<String> types = new ArrayList<>(List.of("int", "string", "float", "char", "boolean", "double", "byte"));
+		List<String> types = new ArrayList<>(
+				List.of("int", "string", "float", "char", "boolean", "double", "byte", "array", "object"));
 		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
 		NodeName = NodeName.replaceAll("\\s+", "");
 		List<String> ResultsTyped = new ArrayList<String>();
-		HashMap<String, String> typeAttributes;
 
-		if (this.classAttributes.containsKey(NodeName) && !this.classAttributes.get(NodeName).isEmpty()
-				&& (this.classAttributes.get(NodeName).size() > 1)) {
-			typeAttributes = this.classAttributes.get(NodeName);
+		HashMap<String, String> typeAttributes;
+		if (Services.classAttributes == null) {
+			Services.classAttributes = new HashMap<String, HashMap<String, String>>();
+		}
+		if (Services.classAttributes.containsKey(NodeName) && !Services.classAttributes.get(NodeName).isEmpty()) {
+			// && (this.classAttributes.get(NodeName).size() > 1)) {
+
+			typeAttributes = Services.classAttributes.get(NodeName);
 		} else {
+
 			IAttributesPrediction attributesPredcition = new AttributesPrediction();
-			typeAttributes = attributesPredcition.run(node, getModel());
+			typeAttributes = attributesPredcition.run(node, NodeName, getModel());
+
+			// dummy example remove this
+			// typeAttributes =new HashMap<String, String>();
 		}
 		for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
 			if ((set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
@@ -289,18 +301,21 @@ public  class Services {
 			}
 
 			Object[] result = dialog.getResult();
-			for (int i = 0; i < result.length; i++) {
-				String res = (String) result[i];
-				res = res.split(":")[0];
-				attributesFactory.createAttribute(res, typeAttributes.get(res), NodeName, session);
-				typeAttributes.remove(res);
+			if (result != null) {
+				for (int i = 0; i < result.length; i++) {
+					String res = (String) result[i];
+					res = res.split(":")[0];
+					attributesFactory.createAttribute(res, typeAttributes.get(res), NodeName, session);
+					typeAttributes.remove(res);
+				}
 			}
-			this.classAttributes.put(NodeName, typeAttributes);
+
+			Services.classAttributes.put(NodeName, typeAttributes);
 
 		} else {
 			MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
 					"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
-			this.classAttributes.remove(NodeName);
+			Services.classAttributes.remove(NodeName);
 			int result = dialog.open();
 		}
 
@@ -312,8 +327,7 @@ public  class Services {
 	}
 
 	public EObject getClassPrediction(EObject rootModel) {
-		
-		
+
 		ConceptsFactory conceptsFactory = new ConceptsFactory();
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
@@ -322,11 +336,11 @@ public  class Services {
 		List<String> AllclassNames = new ArrayList<String>();
 		List<String> suggestedConcepts = new ArrayList<String>();
 		Model model = getModel();
-		
-		//dummy example 
-		conceptsFactory.createClassCondidate("nameFRom prediction", "1",session,model);
+
+		// dummy example
+		conceptsFactory.createClassCondidate("nameFRom prediction", "1", session, model);
 		refreshSuggestionsView();
-		
+
 		List<Clazz> classesInModel = model.getClazz();
 		String className = "";
 		List<ClazzCondidate> classeCondidateInModel = model.getClazzcondidate();
@@ -371,7 +385,7 @@ public  class Services {
 			for (String key : Concepts.get(0).keySet()) {
 				Results.add(key);
 				if (!containsIgnoreCase(suggestedConcepts, key)) {
-					conceptsFactory.createClassCondidate((String) key, Concepts.get(0).get(key), session,getModel());
+					conceptsFactory.createClassCondidate((String) key, Concepts.get(0).get(key), session, getModel());
 
 				} else {
 
@@ -379,7 +393,7 @@ public  class Services {
 				}
 
 			}
-		
+
 			refreshSuggestionsView();
 		}
 
@@ -394,13 +408,14 @@ public  class Services {
 				// return false;
 			}
 			Object[] result = dialog.getResult();
-			for (int i = 0; i < result.length; i++) {
-				if (!containsIgnoreCase(classNames, (String) result[i])) {
-					conceptsFactory.createClass((String) result[i], session);
-					Results.remove((String) result[i]);
+			if (result != null) {
+				for (int i = 0; i < result.length; i++) {
+					if (!containsIgnoreCase(classNames, (String) result[i])) {
+						conceptsFactory.createClass((String) result[i], session);
+						Results.remove((String) result[i]);
+					}
 				}
 			}
-
 			if (!className.equals("")) {
 				this.relatedClasses.put(className, Results);
 			}
@@ -423,18 +438,22 @@ public  class Services {
 		List<String> Results = new ArrayList<String>();
 		String[] ArrayResultsTyped = new String[20];
 		// AssociationsPrediction(); AssociationsPredictionDummy()
-		if (relatedAssociations.containsKey(className)) {
-			if (!relatedAssociations.get(className).isEmpty()) {
-				Results = relatedAssociations.get(className);
+		String item;
+
+		if (Services.relatedAssociations == null) {
+			Services.relatedAssociations = new HashMap<String, List<String>>();
+		}
+		if (Services.relatedAssociations.containsKey(className)) {
+			if (!Services.relatedAssociations.get(className).isEmpty()) {
+				Results = Services.relatedAssociations.get(className);
 			}
 			ArrayResultsTyped = Results.toArray(new String[0]);
 
 		} else {
 			IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
-			List<HashMap<String, String>> res = associationsPrediction.run(rootModel, getModel());
+			List<HashMap<String, String>> res = associationsPrediction.run(className, rootModel, getModel());
 
 			List<String> items = new ArrayList<String>();
-			String item;
 			for (int j = 0; j < res.size(); j++) {
 				item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + "," + res.get(j).get("Target")
 						+ "]; Name => " + res.get(j).get("Name");
@@ -444,22 +463,24 @@ public  class Services {
 				associationsFactory.createAssociationCondidate(res.get(j).get("Type"), res.get(j).get("Name"),
 						res.get(j).get("Target"), res.get(j).get("Source"), session);
 				refreshAssociationsView();
-				this.relatedAssociations.put(className, items);
+				Services.relatedAssociations.put(className, items);
 
 			}
-			ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
-					new LabelProvider());
 
-			dialog.setElements(ArrayResultsTyped);
-			// dialog.s
-			dialog.setTitle("Select association to add to canvas");
-			dialog.setMultipleSelection(true);
+		}
+		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
+				new LabelProvider());
 
-			if (dialog.open() != Window.OK) {
-				// return false;
-			}
-			Object[] result = dialog.getResult();
+		dialog.setElements(ArrayResultsTyped);
+		// dialog.s
+		dialog.setTitle("Select association to add to canvas");
+		dialog.setMultipleSelection(true);
 
+		if (dialog.open() != Window.OK) {
+			// return false;
+		}
+		Object[] result = dialog.getResult();
+		if (result != null) {
 			for (int j = 0; j < result.length; j++) {
 				item = (String) result[j];
 				String Type = item.split(":")[0];
@@ -470,7 +491,6 @@ public  class Services {
 				associationsFactory.createAssociation(Type, Name, Target, Source, session);
 
 			}
-
 		}
 
 		return null;
