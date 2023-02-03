@@ -15,6 +15,7 @@
      </javaActions>
   </extension>
   <extension
+        id="menu:setModeReference"
         point="org.eclipse.ui.menus">
      <menuContribution
            allPopups="false"
@@ -22,10 +23,44 @@
         <command
               commandId="ca.umontreal.geodes.merriem.cdeditor.editor.command.1"
               icon="icons/start.png"
+              id="predict"
               label="predict"
               mode="FORCE_TEXT"
               style="push"
               tooltip="start">
+        </command>
+     </menuContribution>
+     <menuContribution
+           allPopups="false"
+           locationURI="toolbar:org.eclipse.sirius.diagram.ui.tabbar?after=additions">
+        <toolbar
+              id="ca.umontreal.geodes.merriem.cdeditor.editor.toolbar2"
+              label="toolbarSetMode">
+           <command
+                 commandId="setModeReference"
+                 icon="icons/spark.png"
+                 id="modepulldown"
+                 label="pulldown menu"
+                 style="pulldown">
+           </command>
+        </toolbar>
+     </menuContribution>
+     <menuContribution
+           allPopups="false"
+           locationURI="menu:setModeReference">
+        <command
+              commandId="ca.umontreal.geodes.merriem.cdeditor.editor.hello"
+              icon="icons/start.png"
+              label="hello"
+              mode="FORCE_TEXT"
+              style="push">
+        </command>
+        <command
+              commandId="ca.umontreal.geodes.merriem.cdeditor.editor.hi"
+              icon="icons/start.png"
+              label="hi"
+              mode="FORCE_TEXT"
+              style="push">
         </command>
      </menuContribution>
   </extension>
@@ -35,9 +70,18 @@
            class="ca.umontreal.geodes.merriem.cdeditor.editor.handler"
            commandId="ca.umontreal.geodes.merriem.cdeditor.editor.command.1">
      </handler>
+     <handler
+           class="ca.umontreal.geodes.merriem.cdeditor.editor.PredictionMode"
+           commandId="ca.umontreal.geodes.merriem.cdeditor.editor.predictionMode">
+     </handler>
   </extension>
   <extension
         point="org.eclipse.ui.commands">
+     <command
+           defaultHandler="PredictionMode"
+           id="setModeReference"
+           name="setModeReference">
+     </command>
   </extension>
   <extension
         point="org.eclipse.ui.views">

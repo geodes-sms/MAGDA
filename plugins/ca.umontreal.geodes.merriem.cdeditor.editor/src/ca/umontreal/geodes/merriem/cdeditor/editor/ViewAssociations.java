@@ -26,14 +26,15 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationCondidateImpl;
 
 public class ViewAssociations extends ViewPart {
-	
+
 	private Services services;
-	private AssociationsFactory associationsFactory; 
+	private AssociationsFactory associationsFactory;
 	public Composite parent;
 
 	public ViewAssociations() {
 		try {
 			this.services = new Services();
+			this.associationsFactory = new AssociationsFactory();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -68,7 +69,7 @@ public class ViewAssociations extends ViewPart {
 		table.setLayoutData(data);
 		parent.layout(true, true);
 		// parent.pack();
-		String[] titles = { "Source", "Target", "Name", "Type of association", "Draw in Canvas?"  };
+		String[] titles = { "Source", "Target", "Name", "Type of association", "Draw in Canvas?" };
 		for (String title : titles) {
 			TableColumn column = new TableColumn(table, SWT.CHECK);
 			column.setText(title);
@@ -106,12 +107,13 @@ public class ViewAssociations extends ViewPart {
 				@Override
 				public void mouseDown(MouseEvent e) {
 					Session session = services.getSession();
-					String acceptedClassName = item.getText(0);
 					button.setVisible(false);
 					button.dispose();
 					table.remove(indexItem);
-					associationsFactory.createAssociation(item.getText(3),item.getText(2),   item.getText(1),item.getText(0) , session);
-				
+					associationsFactory.createAssociation(item.getText(3), item.getText(2), item.getText(1),
+							item.getText(0), session);
+					associationsFactory.removeCondidate(item.getText(3), item.getText(2), item.getText(1),
+							item.getText(0), session);
 
 				}
 
@@ -123,12 +125,12 @@ public class ViewAssociations extends ViewPart {
 			});
 
 		}
-		
+
 	}
 
 	@Override
 	public void setFocus() {
-		
+
 	}
 
 }

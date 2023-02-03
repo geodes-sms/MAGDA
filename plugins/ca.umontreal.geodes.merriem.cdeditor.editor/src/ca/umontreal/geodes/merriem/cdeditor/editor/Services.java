@@ -1,8 +1,10 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
+import java.awt.Component;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +13,10 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+
+import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.ecore.EObject;
@@ -25,6 +31,7 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.dialogs.MessageDialog;
+import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
@@ -338,8 +345,8 @@ public class Services {
 		Model model = getModel();
 
 		// dummy example
-		conceptsFactory.createClassCondidate("nameFRom prediction", "1", session, model);
-		refreshSuggestionsView();
+//		conceptsFactory.createClassCondidate("nameFRom prediction", "1", session, model);
+//		refreshSuggestionsView();
 
 		List<Clazz> classesInModel = model.getClazz();
 		String className = "";
@@ -379,7 +386,19 @@ public class Services {
 				Results = relatedClasses.get(className);
 			}
 		} else {
+			JOptionPane opt = new JOptionPane("Running prediction", JOptionPane.NO_OPTION); // no buttons
+			final JDialog dlg = opt.createDialog("Predicting relevant concepts...");
+			new Thread(new Runnable() {
+				public void run() {
+					try {
+						Thread.sleep(7000);
+						dlg.dispose();
+					} catch (Throwable th) {
 
+					}
+				}
+			}).start();
+			dlg.setVisible(true);
 			IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
 			List<HashMap<String, String>> Concepts = conceptsPrediction.run(rootModel, getModel());
 			for (String key : Concepts.get(0).keySet()) {
@@ -455,45 +474,61 @@ public class Services {
 
 			List<String> items = new ArrayList<String>();
 			for (int j = 0; j < res.size(); j++) {
-				item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + "," + res.get(j).get("Target")
-						+ "]; Name => " + res.get(j).get("Name");
-				items.add(item);
+				if (!res.get(j).get("Type").replaceAll("\\s+", "").equals("")
+						&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
+					item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + "," + res.get(j).get("Target")
+							+ "]; Name => " + res.get(j).get("Name");
+					items.add(item);
 
-				ArrayResultsTyped = items.toArray(new String[0]);
-				associationsFactory.createAssociationCondidate(res.get(j).get("Type"), res.get(j).get("Name"),
-						res.get(j).get("Target"), res.get(j).get("Source"), session);
-				refreshAssociationsView();
-				Services.relatedAssociations.put(className, items);
-
-			}
-
-		}
-		ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
-				new LabelProvider());
-
-		dialog.setElements(ArrayResultsTyped);
-		// dialog.s
-		dialog.setTitle("Select association to add to canvas");
-		dialog.setMultipleSelection(true);
-
-		if (dialog.open() != Window.OK) {
-			// return false;
-		}
-		Object[] result = dialog.getResult();
-		if (result != null) {
-			for (int j = 0; j < result.length; j++) {
-				item = (String) result[j];
-				String Type = item.split(":")[0];
-				System.out.println(Type);
-				String Name = item.split("=>")[1];
-				String Target = (item.split(",")[1]).split("]")[0];
-				String Source = (item.split("\\[")[1]).split(",")[0];
-				associationsFactory.createAssociation(Type, Name, Target, Source, session);
+					ArrayResultsTyped = items.toArray(new String[0]);
+					associationsFactory.createAssociationCondidate(res.get(j).get("Type"), res.get(j).get("Name"),
+							res.get(j).get("Target"), res.get(j).get("Source"), session);
+					refreshAssociationsView();
+					Services.relatedAssociations.put(className, items);
+				}
 
 			}
+
+		}
+		if (ArrayResultsTyped.length > 0 && (ArrayResultsTyped[0]!=null)) {
+			ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
+					new LabelProvider());
+
+			dialog.setElements(ArrayResultsTyped);
+			// dialog.s
+			dialog.setTitle("Select association to add to canvas");
+			dialog.setMultipleSelection(true);
+
+			if (dialog.open() != Window.OK) {
+				// return false;
+			}
+			Object[] result = dialog.getResult();
+			if (result != null) {
+				List<String> items = new ArrayList<String>(Arrays.asList(ArrayResultsTyped));
+
+				for (int j = 0; j < result.length; j++) {
+					item = (String) result[j];
+					String Type = item.split(":")[0];
+					System.out.println(Type);
+					String Name = item.split("=>")[1];
+					String Target = (item.split(",")[1]).split("]")[0];
+					String Source = (item.split("\\[")[1]).split(",")[0];
+					associationsFactory.createAssociation(Type, Name, Target, Source, session);
+					associationsFactory.removeCondidate(Type, Name, Target, Source, session);
+					refreshAssociationsView();
+
+					items.remove(item);
+					Services.relatedAssociations.put(className, items);
+				}
+			}
+		} else {
+			MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
+					"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
+			this.relatedClasses.remove(className);
+			int result = dialog.open();
 		}
 
-		return null;
+		return rootModel;
 	}
 
 	public EObject approveClassCondidate(EObject rootModel) throws InterruptedException {

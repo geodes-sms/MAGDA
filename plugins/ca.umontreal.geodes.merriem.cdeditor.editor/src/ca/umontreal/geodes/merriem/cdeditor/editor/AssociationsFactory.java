@@ -9,6 +9,9 @@ import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
+import org.eclipse.sirius.business.api.session.SessionManager;
+import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
+import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.viewpoint.DAnalysis;
 import org.eclipse.sirius.viewpoint.DRepresentation;
 import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
@@ -17,6 +20,7 @@ import org.osgi.framework.ServiceException;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate;
@@ -38,10 +42,10 @@ public class AssociationsFactory {
 
 	}
 
-	public void createAssociation(String Type, String Name, String Target, String Source, Session session) {
-		System.out.println("creating association  " + Type + " " + Name + " from " + Source + " To " + Target);
+	public void createAssociation(String type, String Name, String Target, String Source, Session session) {
+		System.out.println("creating association  " + type + " " + Name + " from " + Source + " To " + Target);
 		try {
-
+			String Type=type.replaceAll("\\s+", " ").toLowerCase();
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
@@ -179,6 +183,72 @@ public class AssociationsFactory {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
+	}
+
+	public void removeCondidate(String type, String name, String target, String source, Session session) {
+
+			try {
+				DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+				DView dView = root.getOwnedViews().get(0);
+
+				TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+
+				CommandStack stack = domain.getCommandStack();
+				RecordingCommand cmd = new RecordingCommand(domain) {
+
+					@Override
+					protected void doExecute() {
+						Model model = services.getModel();
+						// MetamodelFactory metamodelFactory =
+						// ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+
+						List<OperationCondidate> operationCondidates = model.getOperation();
+						int index = 0;
+						for (int i = 0; i < operationCondidates.size(); i++) {
+							if (operationCondidates.get(i).getName().replaceAll("\\s+", "")
+									.equals(name.replaceAll("\\s+", "")) &&(operationCondidates.get(i).getTarget().getName().replaceAll("\\s+", "")
+									.equals(target.replaceAll("\\s+", "")))&& (operationCondidates.get(i).getSource().getName().replaceAll("\\s+", "")
+								
+									.equals(source.replaceAll("\\s+", ""))))  {
+								System.out.println("found the operation" );
+								index = i;
+
+								break;
+							}
+						}
+						model.getOperation().remove(index);
+						SessionManager.INSTANCE.notifyRepresentationCreated(session);
+
+					}
+
+				};
+
+				/*RecordingCommand cmd2 = new RecordingCommand(session.getTransactionalEditingDomain()) {
+					@Override
+					protected void doExecute() {
+
+						DRepresentation represnt = null;
+						for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+							represnt = descrp.getRepresentation();
+							DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
+									.openEditor(session, represnt, new NullProgressMonitor());
+
+							DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
+						}
+
+						// DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+					}
+				};*/
+				stack.execute(cmd);
+				//stack.execute(cmd2);
+
+			} catch (ServiceException e) {
+				e.printStackTrace();
+			}
+
+			// return removedClazz;
+		
+		
 	}
 
 }

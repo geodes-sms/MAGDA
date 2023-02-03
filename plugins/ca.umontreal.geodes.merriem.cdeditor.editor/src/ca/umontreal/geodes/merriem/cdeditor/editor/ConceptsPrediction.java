@@ -50,6 +50,8 @@ public class ConceptsPrediction implements IConceptsPrediction {
 			predictionLists.add(arrayConceptsName);
 
 		} else if (rootModel instanceof Clazz) {
+			System.out.println("in concepts prediction from one class");
+
 			Clazz inputClass = (Clazz) rootModel;
 			input = inputClass.getName();
 			className = input;
@@ -69,6 +71,8 @@ public class ConceptsPrediction implements IConceptsPrediction {
 						String[] arrayConceptsName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
 
 						predictionLists.add(arrayConceptsName);
+						System.out.println(arrayConceptsName);
+
 					}
 				}
 			}
