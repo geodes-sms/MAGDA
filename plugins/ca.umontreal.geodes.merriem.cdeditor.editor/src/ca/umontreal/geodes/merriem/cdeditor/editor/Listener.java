@@ -82,45 +82,58 @@ public class Listener extends ResourceSetListenerImpl {
 										}
 										// dummy example
 										// conceptsFactory.createClassCondidate("jobSuggestion", "1", session, model);
+										if (Services.relatedClasses == null) {
+											Services.relatedClasses = new HashMap<String, List<String>>();
+										}
+										for (int i = 0; i < classes.size(); i++) {
+											List<String> Results = new ArrayList<String>();
+											if (!Services.relatedClasses.containsKey(classes.get(i).getName())) {
+												IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
+												// rootModel is null
 
-										IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
-										// rootModel is null
+												List<HashMap<String, String>> Concepts = conceptsPrediction
+														.run(classes.get(i).getName(), null, model);
+												for (String key : Concepts.get(0).keySet()) {
+													Results.add(key);
+												}
+												Services.relatedClasses.put(classes.get(i).getName(), Results);
+												for (String key : Concepts.get(0).keySet()) {
 
-										List<HashMap<String, String>> Concepts = conceptsPrediction.run(null, model);
+													if (!services.containsIgnoreCase(suggestedConcepts, key)) {
 
-										for (String key : Concepts.get(0).keySet()) {
+														conceptsFactory.createClassCondidate((String) key,
+																Concepts.get(0).get(key), session, model);
 
-											if (!services.containsIgnoreCase(suggestedConcepts, key)) {
+														/**
+														 * One strategy: predict attributes even for potential classes
+														 * or Candidates and save them to hashmaps in session
+														 **/
 
-												conceptsFactory.createClassCondidate((String) key,
-														Concepts.get(0).get(key), session, model);
+														/*
+														 * HashMap<String, String> typeAttributes = new HashMap<String,
+														 * String>(); IAttributesPrediction attributesPredcition = new
+														 * AttributesPrediction();
+														 * 
+														 * typeAttributes = attributesPredcition.run(null, (String) key,
+														 * model);
+														 * 
+														 * // typeAttributes.put("id", "String");
+														 * 
+														 * if (services.classAttributes == null) {
+														 * services.classAttributes = new HashMap<String,
+														 * HashMap<String, String>>(); }
+														 * 
+														 * services.classAttributes.put((String) key, typeAttributes);
+														 */
 
-												/**
-												 * One strategy: predict attributes even for potential classes or
-												 * Candidates and save them to hashmaps in session
-												 **/
+													} else {
 
-												/*
-												 * HashMap<String, String> typeAttributes = new HashMap<String,
-												 * String>(); IAttributesPrediction attributesPredcition = new
-												 * AttributesPrediction();
-												 * 
-												 * typeAttributes = attributesPredcition.run(null, (String) key, model);
-												 * 
-												 * // typeAttributes.put("id", "String");
-												 * 
-												 * if (services.classAttributes == null) { services.classAttributes =
-												 * new HashMap<String, HashMap<String, String>>(); }
-												 * 
-												 * services.classAttributes.put((String) key, typeAttributes);
-												 */
+														conceptsFactory.updateConfidenceCondidate((String) key, session,
+																model, 1);
+													}
 
-											} else {
-
-												conceptsFactory.updateConfidenceCondidate((String) key, session, model,
-														1);
+												}
 											}
-
 										}
 
 										Display.getDefault().syncExec(new Runnable() {
@@ -144,100 +157,100 @@ public class Listener extends ResourceSetListenerImpl {
 							/***
 							 * Second Thread - Job : Predict related attributes for concepts added ?
 							 **/
-							Job jobAttributes = new Job("Attributes prediction") {
+//							Job jobAttributes = new Job("Attributes prediction") {
+//
+//								protected IStatus run(IProgressMonitor monitor) {
+//
+//									System.out.println("Predict attributes for added class");
+//									try {
+//										TimeUnit.SECONDS.sleep(7);
+//										HashMap<String, String> typeAttributes = new HashMap<String, String>();
+//										IAttributesPrediction attributesPredcition = new AttributesPrediction();
+//										if (Services.classAttributes == null) {
+//											Services.classAttributes = new HashMap<String, HashMap<String, String>>();
+//										}
+//										for (int i = 0; i < classes.size(); i++) {
+//											if (!Services.classAttributes.containsKey(classes.get(i).getName())) {
+//												typeAttributes = attributesPredcition.run(null,
+//														classes.get(i).getName(), model);
+//												Services.classAttributes.put(classes.get(i).getName(), typeAttributes);
+//											}
+//										}
+//										System.out.println("attributes  started ");
+//
+//									} catch (InterruptedException e) {
+//										// TODO Auto-generated catch block
+//										e.printStackTrace();
+//									}
+//									return ASYNC_FINISH;
+//								}
+//							};
+//							jobAttributes.setPriority(Job.SHORT);
+//							jobAttributes.schedule();
 
-								protected IStatus run(IProgressMonitor monitor) {
-
-									System.out.println("Predict attributes for added class");
-									try {
-										TimeUnit.SECONDS.sleep(7);
-										HashMap<String, String> typeAttributes = new HashMap<String, String>();
-										IAttributesPrediction attributesPredcition = new AttributesPrediction();
-										if (Services.classAttributes == null) {
-											Services.classAttributes = new HashMap<String, HashMap<String, String>>();
-										}
-										for (int i = 0; i < classes.size(); i++) {
-											if (!Services.classAttributes.containsKey(classes.get(i).getName())) {
-												typeAttributes = attributesPredcition.run(null,
-														classes.get(i).getName(), model);
-												Services.classAttributes.put(classes.get(i).getName(), typeAttributes);
-											}
-										}
-										System.out.println("attributes  started ");
-
-									} catch (InterruptedException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-									return ASYNC_FINISH;
-								}
-							};
-							jobAttributes.setPriority(Job.SHORT);
-							jobAttributes.schedule();
-
-							Job jobAssociations = new Job("Associations prediction") {
-
-								@Override
-								protected IStatus run(IProgressMonitor monitor) {
-									// TODO Auto-generated method stub
-									try {
-
-										TimeUnit.SECONDS.sleep(10);
-										System.out.println("Association prediction launched");
-										IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
-
-										for (int i = 0; i < classes.size(); i++) {
-											String className = classes.get(i).getName();
-											if (Services.relatedAssociations == null) {
-												Services.relatedAssociations = new HashMap<String, List<String>>();
-											}
-											if (!Services.relatedAssociations.containsKey(classes.get(i).getName())) {
-
-												List<HashMap<String, String>> res = associationsPrediction
-														.run(className, null, model);
-
-												List<String> items = new ArrayList<String>();
-												String item;
-												for (int j = 0; j < res.size(); j++) {
-													if (!(res.get(j).get("Type").replaceAll("\\s+", "").equals(""))&&(!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
-
-														item = res.get(j).get("Type") + ":[" + res.get(j).get("Source")
-																+ "," + res.get(j).get("Target") + "]; Name => "
-																+ res.get(j).get("Name");
-														items.add(item);
-
-														String[] ArrayResultsTyped = items.toArray(new String[0]);
-														associationsFactory.createAssociationCondidate(
-																res.get(j).get("Type"), res.get(j).get("Name"),
-																res.get(j).get("Target"), res.get(j).get("Source"),
-																session);
-
-														Services.relatedAssociations.put(className, items);
-
-														Display.getDefault().syncExec(new Runnable() {
-															public void run() {
-																Services.refreshSuggestionsView();
-
-															}
-														});
-													}
-												}
-											}
-										}
-									} catch (InterruptedException e) {
-										// TODO Auto-generated catch block
-										e.printStackTrace();
-									}
-									concepstJobLaunched = false;
-
-									return ASYNC_FINISH;
-								}
-
-							};
-							jobAssociations.setPriority(Job.SHORT);
-							jobAssociations.schedule();
-							System.out.println("Association prediction finished");
-							jobAssociations.cancel();
+//							Job jobAssociations = new Job("Associations prediction") {
+//
+//								@Override
+//								protected IStatus run(IProgressMonitor monitor) {
+//									// TODO Auto-generated method stub
+//									try {
+//
+//										TimeUnit.SECONDS.sleep(10);
+//										System.out.println("Association prediction launched");
+//										IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
+//
+//										for (int i = 0; i < classes.size(); i++) {
+//											String className = classes.get(i).getName();
+//											if (Services.relatedAssociations == null) {
+//												Services.relatedAssociations = new HashMap<String, List<String>>();
+//											}
+//											if (!Services.relatedAssociations.containsKey(classes.get(i).getName())) {
+//
+//												List<HashMap<String, String>> res = associationsPrediction
+//														.run(className, null, model);
+//
+//												List<String> items = new ArrayList<String>();
+//												String item;
+//												for (int j = 0; j < res.size(); j++) {
+//													if (!(res.get(j).get("Type").replaceAll("\\s+", "").equals(""))&&(!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
+//
+//														item = res.get(j).get("Type") + ":[" + res.get(j).get("Source")
+//																+ "," + res.get(j).get("Target") + "]; Name => "
+//																+ res.get(j).get("Name");
+//														items.add(item);
+//
+//														String[] ArrayResultsTyped = items.toArray(new String[0]);
+//														associationsFactory.createAssociationCondidate(
+//																res.get(j).get("Type"), res.get(j).get("Name"),
+//																res.get(j).get("Target"), res.get(j).get("Source"),
+//																session);
+//
+//														Services.relatedAssociations.put(className, items);
+//
+//														Display.getDefault().syncExec(new Runnable() {
+//															public void run() {
+//																Services.refreshSuggestionsView();
+//
+//															}
+//														});
+//													}
+//												}
+//											}
+//										}
+//									} catch (InterruptedException e) {
+//										// TODO Auto-generated catch block
+//										e.printStackTrace();
+//									}
+//									concepstJobLaunched = false;
+//
+//									return ASYNC_FINISH;
+//								}
+//
+//							};
+//							jobAssociations.setPriority(Job.SHORT);
+//							jobAssociations.schedule();
+//							System.out.println("Association prediction finished");
+//							jobAssociations.cancel();
 
 						} catch (Exception e1) {
 							// TODO Auto-generated catch block

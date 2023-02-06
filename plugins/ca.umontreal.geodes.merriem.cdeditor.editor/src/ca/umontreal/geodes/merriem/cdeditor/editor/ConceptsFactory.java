@@ -35,6 +35,7 @@ public class ConceptsFactory {
 		}
 
 	}
+
 	public ConceptsFactory(Services services) {
 		try {
 			this.services = services;
@@ -87,8 +88,8 @@ public class ConceptsFactory {
 		}
 
 	}
-	
-	public void createClass(String Name, Session session) {
+
+	public void createClass(String Name, Session session, Boolean refreshFlag) {
 		try {
 
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -110,6 +111,13 @@ public class ConceptsFactory {
 					model.getClazz().add(newClazz);
 
 					SessionManager.INSTANCE.notifyRepresentationCreated(session);
+					// refresh Model
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 				}
 
 			};
@@ -123,14 +131,25 @@ public class ConceptsFactory {
 						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
 								.openEditor(session, represnt, new NullProgressMonitor());
 
-						DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
-					}
+						/**
+						 * this suggestions to canvas
+						 **/
+						if (refreshFlag) {
+							DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
 
-					// DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+						}
+					}
+					/**
+					 * this list to canvas
+					 **/
+
+					if (!refreshFlag) {
+						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+					}
 				}
 			};
 			stack.execute(cmd);
-			// stack.execute(cmd2);
+			stack.execute(cmd2);
 
 			// SessionManager.INSTANCE.notifyRepresentationCreated(session);
 
@@ -139,9 +158,8 @@ public class ConceptsFactory {
 		}
 
 	}
-	
-	
-	public void createClassCondidate(String Name, String confidence, Session session,Model model) {
+
+	public void createClassCondidate(String Name, String confidence, Session session, Model model) {
 
 		try {
 
@@ -166,12 +184,13 @@ public class ConceptsFactory {
 					model.getClazzcondidate().add(newClazzCondidate);
 
 					// refresh Model
-					/*DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-
-					}
-					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());*/
+					/*
+					 * DRepresentation represnt = null; for (DRepresentationDescriptor descrp :
+					 * dView.getOwnedRepresentationDescriptors()) { represnt =
+					 * descrp.getRepresentation();
+					 * 
+					 * } DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+					 */
 				}
 
 			};
@@ -182,8 +201,7 @@ public class ConceptsFactory {
 		}
 
 	}
-	
-	
+
 	public void deletetClassCondidate(String classToRemove, Session session) {
 
 		try {
@@ -213,6 +231,15 @@ public class ConceptsFactory {
 					}
 					model.getClazzcondidate().remove(index);
 					SessionManager.INSTANCE.notifyRepresentationCreated(session);
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
+								.openEditor(session, represnt, new NullProgressMonitor());
+						/// DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
+
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
 				}
 
@@ -228,22 +255,19 @@ public class ConceptsFactory {
 						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
 								.openEditor(session, represnt, new NullProgressMonitor());
 
-						DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
+						// DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
 					}
 
-					// DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 				}
 			};
 			stack.execute(cmd);
-			stack.execute(cmd2);
+			// stack.execute(cmd2);
 
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 
-		// return removedClazz;
 	}
-
-	
 
 }

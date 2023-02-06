@@ -44,9 +44,11 @@ public class ViewAssociations extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		this.parent = parent;
+		if (Services.mode != Mode.acessAtEnd && Services.mode != Mode.OnRequest) {
+			this.parent = parent;
 
-		createContents();
+			createContents();
+		}
 
 	}
 
@@ -114,7 +116,7 @@ public class ViewAssociations extends ViewPart {
 							item.getText(0), session);
 					associationsFactory.removeCondidate(item.getText(3), item.getText(2), item.getText(1),
 							item.getText(0), session);
-
+					
 				}
 
 				@Override

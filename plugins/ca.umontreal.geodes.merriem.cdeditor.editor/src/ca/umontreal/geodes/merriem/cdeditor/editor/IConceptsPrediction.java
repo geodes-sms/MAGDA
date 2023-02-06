@@ -9,6 +9,6 @@ import org.eclipse.emf.ecore.EObject;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
 public interface IConceptsPrediction {
-	List<HashMap<String, String>> run(EObject rootModel, Model model);
+	List<HashMap<String, String>> run(String className, EObject rootModel, Model model);
 
 }

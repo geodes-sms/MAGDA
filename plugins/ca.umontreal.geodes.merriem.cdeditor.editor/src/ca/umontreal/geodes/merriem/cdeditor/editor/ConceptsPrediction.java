@@ -19,12 +19,12 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 public class ConceptsPrediction implements IConceptsPrediction {
 
 	@Override
-	public List<HashMap<String, String>> run(EObject rootModel, Model model) {
+	public List<HashMap<String, String>> run(String className, EObject rootModel, Model model) {
 		List<HashMap<String, String>> results = new ArrayList<HashMap<String, String>>();
 		List<String[]> predictionLists = new ArrayList<String[]>();
 		List<String> AllclassNames = new ArrayList<String>();
 		List<Clazz> classesInModel = model.getClazz();
-		String className = "";
+		//String className = "";
 		List<ClazzCondidate> classeCondidateInModel = model.getClazzcondidate();
 
 		for (int i = 0; i < classesInModel.size(); i++) {
@@ -38,7 +38,7 @@ public class ConceptsPrediction implements IConceptsPrediction {
 		if (rootModel instanceof Model || rootModel == null) {
 			System.out.println("in concepts prediction from all canvas");
 			for (int i = 0; i < classesInModel.size(); i++) {
-				if (!(classesInModel.get(i).getName()==null) ){
+				if (!(classesInModel.get(i).getName() == null)) {
 					input = input.concat(",").concat(classesInModel.get(i).getName());
 				}
 			}

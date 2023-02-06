@@ -56,6 +56,7 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
+import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.internal.EditorReference;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
@@ -63,7 +64,9 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
 /**
- * The services class used by VSM.
+ * The services class used by VSM. Ps need to check flag Mode if it is set or
+ * not, It shouldn't be set in constructor because Services constructor is
+ * called multiple times => use singleton
  */
 public class Services {
 
@@ -71,15 +74,16 @@ public class Services {
 	protected static final String SIRIUS_DIAGRAM_EDITOR_ID = "org.eclipse.sirius.diagram.ui.part.SiriusDiagramEditorID";
 	protected static final int Nan = 0;
 	protected static HashMap<String, HashMap<String, String>> classAttributes;
-	protected HashMap<String, List<String>> relatedClasses;
+	protected static HashMap<String, List<String>> relatedClasses;
 	protected static HashMap<String, List<String>> relatedAssociations;
 	protected ResourceSetListener listener;
 	public static IViewPart suggestionView;
 	public static IViewPart associationView;
+	public static Mode mode;
 
 	public Services() throws Exception {
 		this.config = new Properties();
-		this.relatedClasses = new HashMap<String, List<String>>();
+		// this.relatedClasses = new HashMap<String, List<String>>();
 		// this.relatedAssociations = new HashMap<String, List<String>>();
 		// this.classAttributes = new HashMap<String, HashMap<String, String>>();
 		this.listener = (ResourceSetListener) new Listener();
@@ -103,8 +107,6 @@ public class Services {
 		TransactionalEditingDomain domain = getSession().getTransactionalEditingDomain();
 
 		domain.addResourceSetListener(listener);
-
-		// domain.addResourceSetListener(new MyListener(this.classAttributes));
 
 	};
 
@@ -381,8 +383,11 @@ public class Services {
 			input = input.concat(",").concat(randomElement);
 
 		}
+		if (Services.relatedClasses == null) {
+			relatedClasses = new HashMap<String, List<String>>();
+		}
 		if (relatedClasses.containsKey(className)) {
-			if (!(relatedClasses.get(className).isEmpty()) && (relatedClasses.get(className).size() > 1)) {
+			if (!(relatedClasses.get(className).isEmpty()) && (relatedClasses.get(className).size() > 0)) {
 				Results = relatedClasses.get(className);
 			}
 		} else {
@@ -400,7 +405,7 @@ public class Services {
 			}).start();
 			dlg.setVisible(true);
 			IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
-			List<HashMap<String, String>> Concepts = conceptsPrediction.run(rootModel, getModel());
+			List<HashMap<String, String>> Concepts = conceptsPrediction.run(className, rootModel, getModel());
 			for (String key : Concepts.get(0).keySet()) {
 				Results.add(key);
 				if (!containsIgnoreCase(suggestedConcepts, key)) {
@@ -430,21 +435,27 @@ public class Services {
 			if (result != null) {
 				for (int i = 0; i < result.length; i++) {
 					if (!containsIgnoreCase(classNames, (String) result[i])) {
-						conceptsFactory.createClass((String) result[i], session);
+						conceptsFactory.createClass((String) result[i], session,false);
+						conceptsFactory.deletetClassCondidate((String) result[i], session);
+						
 						Results.remove((String) result[i]);
+
 					}
 				}
 			}
 			if (!className.equals("")) {
-				this.relatedClasses.put(className, Results);
+				// update after removing a selected concept
+				Services.relatedClasses.put(className, Results);
 			}
-
+			
 		} else {
 			MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
 					"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
-			this.relatedClasses.remove(className);
+			Services.relatedClasses.remove(className);
+
 			int result = dialog.open();
 		}
+		refreshSuggestionsView();
 		return rootModel;
 	}
 
@@ -490,7 +501,7 @@ public class Services {
 			}
 
 		}
-		if (ArrayResultsTyped.length > 0 && (ArrayResultsTyped[0]!=null)) {
+		if (ArrayResultsTyped.length > 0 && (ArrayResultsTyped[0] != null)) {
 			ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
 					new LabelProvider());
 
@@ -559,7 +570,7 @@ public class Services {
 		// the new class should should have the same coordinates as the candidate class
 
 		setGraphicalHintsFromExistingNode((DDiagramElement) eob);
-		conceptsFactory.createClass(className, session);
+		conceptsFactory.createClass(className, session,false);
 		conceptsFactory.deletetClassCondidate(className, session);
 
 		return rootModel;
