@@ -3,15 +3,15 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="metamodel" nsURI="http://www.umontreal.geodes/metamodel" nsPrefix="metamodel">
   <eClassifiers xsi:type="ecore:EClass" name="Model">
     <eStructuralFeatures xsi:type="ecore:EReference" name="operation" upperBound="-1"
-        eType="#//OperationCondidate" containment="true"/>
+        eType="#//AssociationCandidate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" upperBound="-1"
         eType="#//Clazz" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attribute" upperBound="-1"
         eType="#//Attribute" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributecondidate" upperBound="-1"
-        eType="#//AttributeCondidate" containment="true"/>
+        eType="#//AttributeCandidate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="clazzcondidate" upperBound="-1"
-        eType="#//ClazzCondidate" containment="true"/>
+        eType="#//ClazzCandidate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="association" upperBound="-1"
         eType="#//Association" containment="true"/>
   </eClassifiers>
@@ -21,7 +21,7 @@
   <eClassifiers xsi:type="ecore:EClass" name="TypedElement" abstract="true">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="type" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="OperationCondidate" eSuperTypes="#//NamedElement #//TypedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="AssociationCandidate" eSuperTypes="#//NamedElement #//TypedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"
         eType="#//Clazz"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="target" lowerBound="1"
@@ -40,14 +40,13 @@
         eType="#//Attribute" containment="true"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Attribute" eSuperTypes="#//NamedElement #//TypedElement"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ClazzCondidate" eSuperTypes="#//NamedElement">
+  <eClassifiers xsi:type="ecore:EClass" name="ClazzCandidate" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributecondidate" upperBound="-1"
-        eType="#//AttributeCondidate" containment="true"/>
+        eType="#//AttributeCandidate" containment="true"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="confidence" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="relatedTo" eType="#//Clazz"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="Accept" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AttributeCondidate" eSuperTypes="#//TypedElement #//NamedElement"/>
+  <eClassifiers xsi:type="ecore:EClass" name="AttributeCandidate" eSuperTypes="#//TypedElement #//NamedElement"/>
   <eClassifiers xsi:type="ecore:EClass" name="Association" eSuperTypes="#//NamedElement">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="lowerBound" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="source" lowerBound="1"

@@ -21,10 +21,10 @@
            allPopups="false"
            locationURI="toolbar:org.eclipse.sirius.diagram.ui.tabbar?after=additions">
         <command
-              commandId="ca.umontreal.geodes.merriem.cdeditor.editor.command.1"
+              commandId="ca.umontreal.geodes.merriem.cdeditor.editor.predictAtEnd"
               icon="icons/start.png"
-              id="predict"
-              label="predict"
+              id="Predict"
+              label="Predict"
               mode="FORCE_TEXT"
               style="push"
               tooltip="start">
@@ -32,7 +32,7 @@
      </menuContribution>
      <menuContribution
            allPopups="false"
-           locationURI="toolbar:org.eclipse.sirius.diagram.ui.tabbar?after=predict">
+           locationURI="toolbar:org.eclipse.sirius.diagram.ui.tabbar?after=Predict">
         <command
               commandId="ca.umontreal.geodes.merriem.cdeditor.editor.mode"
               icon="icons/spark.png"
@@ -40,15 +40,15 @@
               label="mode"
               mode="FORCE_TEXT"
               style="push"
-              tooltip="select Mode">
+              tooltip="Select Mode">
         </command>
      </menuContribution>
   </extension>
   <extension
         point="org.eclipse.ui.handlers">
      <handler
-           class="ca.umontreal.geodes.merriem.cdeditor.editor.handler"
-           commandId="ca.umontreal.geodes.merriem.cdeditor.editor.command.1">
+           class="ca.umontreal.geodes.merriem.cdeditor.editor.PredictAtEnd"
+           commandId="ca.umontreal.geodes.merriem.cdeditor.editor.predictAtEnd">
      </handler>
      <handler
            class="ca.umontreal.geodes.merriem.cdeditor.editor.ModeSelectionHandler"
@@ -63,13 +63,13 @@
      <view
            class="ca.umontreal.geodes.merriem.cdeditor.editor.ViewSuggestions"
            id="ca.umontreal.geodes.merriem.cdeditor.editor.view3"
-           name="Suggestions"
+           name="Class Names"
            restorable="true">
      </view>
      <view
            class="ca.umontreal.geodes.merriem.cdeditor.editor.ViewAssociations"
            id="ca.umontreal.geodes.merriem.cdeditor.editor.viewAssociations"
-           name="associations"
+           name="Associations"
            restorable="true">
      </view>
   </extension>
@@ -81,13 +81,15 @@
               id="ca.umontreal.geodes.merriem.cdeditor.editor.view3"
               minimized="false"
               ratio="0.95f"
-              relationship="fast">
+              relationship="fast"
+              visible="true">
         </view>
         <view
               id="ca.umontreal.geodes.merriem.cdeditor.editor.viewAssociations"
               minimized="false"
               ratio="95f"
-              relationship="fast">
+              relationship="fast"
+              visible="true">
         </view>
      </perspectiveExtension>
   </extension>

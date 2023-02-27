@@ -3,13 +3,14 @@
 package ca.umontreal.geodes.meriem.cdeditor.metamodel.impl;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate;
+
 import java.util.Collection;
 
 import org.eclipse.emf.common.notify.NotificationChain;
@@ -51,7 +52,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<OperationCondidate> operation;
+	protected EList<AssociationCandidate> operation;
 
 	/**
 	 * The cached value of the '{@link #getClazz() <em>Clazz</em>}' containment reference list.
@@ -81,7 +82,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<AttributeCondidate> attributecondidate;
+	protected EList<AttributeCandidate> attributecondidate;
 
 	/**
 	 * The cached value of the '{@link #getClazzcondidate() <em>Clazzcondidate</em>}' containment reference list.
@@ -91,7 +92,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<ClazzCondidate> clazzcondidate;
+	protected EList<ClazzCandidate> clazzcondidate;
 
 	/**
 	 * The cached value of the '{@link #getAssociation() <em>Association</em>}' containment reference list.
@@ -127,9 +128,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<OperationCondidate> getOperation() {
+	public EList<AssociationCandidate> getOperation() {
 		if (operation == null) {
-			operation = new EObjectContainmentEList<OperationCondidate>(OperationCondidate.class, this,
+			operation = new EObjectContainmentEList<AssociationCandidate>(AssociationCandidate.class, this,
 					MetamodelPackage.MODEL__OPERATION);
 		}
 		return operation;
@@ -165,9 +166,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<AttributeCondidate> getAttributecondidate() {
+	public EList<AttributeCandidate> getAttributecondidate() {
 		if (attributecondidate == null) {
-			attributecondidate = new EObjectContainmentEList<AttributeCondidate>(AttributeCondidate.class, this,
+			attributecondidate = new EObjectContainmentEList<AttributeCandidate>(AttributeCandidate.class, this,
 					MetamodelPackage.MODEL__ATTRIBUTECONDIDATE);
 		}
 		return attributecondidate;
@@ -178,9 +179,9 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<ClazzCondidate> getClazzcondidate() {
+	public EList<ClazzCandidate> getClazzcondidate() {
 		if (clazzcondidate == null) {
-			clazzcondidate = new EObjectContainmentEList<ClazzCondidate>(ClazzCondidate.class, this,
+			clazzcondidate = new EObjectContainmentEList<ClazzCandidate>(ClazzCandidate.class, this,
 					MetamodelPackage.MODEL__CLAZZCONDIDATE);
 		}
 		return clazzcondidate;
@@ -258,7 +259,7 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 		switch (featureID) {
 		case MetamodelPackage.MODEL__OPERATION:
 			getOperation().clear();
-			getOperation().addAll((Collection<? extends OperationCondidate>) newValue);
+			getOperation().addAll((Collection<? extends AssociationCandidate>) newValue);
 			return;
 		case MetamodelPackage.MODEL__CLAZZ:
 			getClazz().clear();
@@ -270,11 +271,11 @@ public class ModelImpl extends MinimalEObjectImpl.Container implements Model {
 			return;
 		case MetamodelPackage.MODEL__ATTRIBUTECONDIDATE:
 			getAttributecondidate().clear();
-			getAttributecondidate().addAll((Collection<? extends AttributeCondidate>) newValue);
+			getAttributecondidate().addAll((Collection<? extends AttributeCandidate>) newValue);
 			return;
 		case MetamodelPackage.MODEL__CLAZZCONDIDATE:
 			getClazzcondidate().clear();
-			getClazzcondidate().addAll((Collection<? extends ClazzCondidate>) newValue);
+			getClazzcondidate().addAll((Collection<? extends ClazzCandidate>) newValue);
 			return;
 		case MetamodelPackage.MODEL__ASSOCIATION:
 			getAssociation().clear();

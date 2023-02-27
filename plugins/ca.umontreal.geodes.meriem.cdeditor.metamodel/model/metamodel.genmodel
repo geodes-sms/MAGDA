@@ -26,9 +26,9 @@
     <genClasses ecoreClass="metamodel.ecore#//TypedElement">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodel.ecore#//TypedElement/type"/>
     </genClasses>
-    <genClasses ecoreClass="metamodel.ecore#//OperationCondidate">
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodel.ecore#//OperationCondidate/source"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodel.ecore#//OperationCondidate/target"/>
+    <genClasses ecoreClass="metamodel.ecore#//AssociationCandidate">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodel.ecore#//AssociationCandidate/source"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodel.ecore#//AssociationCandidate/target"/>
     </genClasses>
     <genClasses ecoreClass="metamodel.ecore#//Clazz">
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodel.ecore#//Clazz/generalizes"/>
@@ -38,13 +38,12 @@
       <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodel.ecore#//Clazz/attributes"/>
     </genClasses>
     <genClasses ecoreClass="metamodel.ecore#//Attribute"/>
-    <genClasses ecoreClass="metamodel.ecore#//ClazzCondidate">
-      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodel.ecore#//ClazzCondidate/attributecondidate"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodel.ecore#//ClazzCondidate/confidence"/>
-      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodel.ecore#//ClazzCondidate/relatedTo"/>
-      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodel.ecore#//ClazzCondidate/Accept"/>
+    <genClasses ecoreClass="metamodel.ecore#//ClazzCandidate">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference metamodel.ecore#//ClazzCandidate/attributecondidate"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodel.ecore#//ClazzCandidate/confidence"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodel.ecore#//ClazzCandidate/relatedTo"/>
     </genClasses>
-    <genClasses ecoreClass="metamodel.ecore#//AttributeCondidate"/>
+    <genClasses ecoreClass="metamodel.ecore#//AttributeCandidate"/>
     <genClasses ecoreClass="metamodel.ecore#//Association">
       <genFeatures createChild="false" ecoreFeature="ecore:EAttribute metamodel.ecore#//Association/lowerBound"/>
       <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference metamodel.ecore#//Association/source"/>

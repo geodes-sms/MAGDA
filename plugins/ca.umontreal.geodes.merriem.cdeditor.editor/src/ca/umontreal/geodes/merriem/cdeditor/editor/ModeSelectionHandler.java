@@ -23,11 +23,11 @@ public class ModeSelectionHandler extends AbstractHandler {
 	}
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
-	String[] options = { "OnTrigger", "OnRequest", "acessAtEnd" };
+	String[] options = { "Automatic complete", "Complete on Request", "Complete at end" };
 	
 		
 		MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Assistance mode ", null,
-			    "Select the assistance mode you plan to use", MessageDialog.ERROR, options, 0);
+			    "Select the assistance mode you plan to use", MessageDialog.QUESTION, options, 0);
 			int result = dialog.open();
 			System.out.println(result);
 			switch(result) {
@@ -35,7 +35,7 @@ public class ModeSelectionHandler extends AbstractHandler {
 			    Services.mode=Mode.OnRequest;
 			    break;
 			  case 2:
-				  Services.mode=Mode.acessAtEnd;
+				  Services.mode=Mode.assessAtEnd;
 			    break;
 			  case 0:
 				  Services.mode=Mode.OnTrigger;
@@ -44,7 +44,8 @@ public class ModeSelectionHandler extends AbstractHandler {
 				Services.mode=Mode.OnRequest;
 			}
 
-				
+				Services.refreshAssociationsView();
+				Services.refreshSuggestionsView();
 		return null;
 	}
 

@@ -2,9 +2,9 @@
  */
 package ca.umontreal.geodes.meriem.cdeditor.metamodel.impl;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.TypedElement;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -16,20 +16,20 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Operation Condidate</b></em>'.
+ * An implementation of the model object '<em><b>Association Candidate</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationCondidateImpl#getType <em>Type</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationCondidateImpl#getSource <em>Source</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationCondidateImpl#getTarget <em>Target</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationCandidateImpl#getType <em>Type</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationCandidateImpl#getSource <em>Source</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationCandidateImpl#getTarget <em>Target</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class OperationCondidateImpl extends NamedElementImpl implements OperationCondidate {
+public class AssociationCandidateImpl extends NamedElementImpl implements AssociationCandidate {
 	/**
 	 * The default value of the '{@link #getType() <em>Type</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -75,7 +75,7 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected OperationCondidateImpl() {
+	protected AssociationCandidateImpl() {
 		super();
 	}
 
@@ -86,7 +86,7 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return MetamodelPackage.Literals.OPERATION_CONDIDATE;
+		return MetamodelPackage.Literals.ASSOCIATION_CANDIDATE;
 	}
 
 	/**
@@ -107,7 +107,7 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 		String oldType = type;
 		type = newType;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.OPERATION_CONDIDATE__TYPE, oldType,
+			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.ASSOCIATION_CANDIDATE__TYPE, oldType,
 					type));
 	}
 
@@ -123,7 +123,7 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 			if (source != oldSource) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							MetamodelPackage.OPERATION_CONDIDATE__SOURCE, oldSource, source));
+							MetamodelPackage.ASSOCIATION_CANDIDATE__SOURCE, oldSource, source));
 			}
 		}
 		return source;
@@ -147,7 +147,7 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 		Clazz oldSource = source;
 		source = newSource;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.OPERATION_CONDIDATE__SOURCE,
+			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.ASSOCIATION_CANDIDATE__SOURCE,
 					oldSource, source));
 	}
 
@@ -163,7 +163,7 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 			if (target != oldTarget) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							MetamodelPackage.OPERATION_CONDIDATE__TARGET, oldTarget, target));
+							MetamodelPackage.ASSOCIATION_CANDIDATE__TARGET, oldTarget, target));
 			}
 		}
 		return target;
@@ -187,7 +187,7 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 		Clazz oldTarget = target;
 		target = newTarget;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.OPERATION_CONDIDATE__TARGET,
+			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.ASSOCIATION_CANDIDATE__TARGET,
 					oldTarget, target));
 	}
 
@@ -199,13 +199,13 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case MetamodelPackage.OPERATION_CONDIDATE__TYPE:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__TYPE:
 			return getType();
-		case MetamodelPackage.OPERATION_CONDIDATE__SOURCE:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__SOURCE:
 			if (resolve)
 				return getSource();
 			return basicGetSource();
-		case MetamodelPackage.OPERATION_CONDIDATE__TARGET:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__TARGET:
 			if (resolve)
 				return getTarget();
 			return basicGetTarget();
@@ -221,13 +221,13 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case MetamodelPackage.OPERATION_CONDIDATE__TYPE:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__TYPE:
 			setType((String) newValue);
 			return;
-		case MetamodelPackage.OPERATION_CONDIDATE__SOURCE:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__SOURCE:
 			setSource((Clazz) newValue);
 			return;
-		case MetamodelPackage.OPERATION_CONDIDATE__TARGET:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__TARGET:
 			setTarget((Clazz) newValue);
 			return;
 		}
@@ -242,13 +242,13 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case MetamodelPackage.OPERATION_CONDIDATE__TYPE:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__TYPE:
 			setType(TYPE_EDEFAULT);
 			return;
-		case MetamodelPackage.OPERATION_CONDIDATE__SOURCE:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__SOURCE:
 			setSource((Clazz) null);
 			return;
-		case MetamodelPackage.OPERATION_CONDIDATE__TARGET:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__TARGET:
 			setTarget((Clazz) null);
 			return;
 		}
@@ -263,11 +263,11 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case MetamodelPackage.OPERATION_CONDIDATE__TYPE:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__TYPE:
 			return TYPE_EDEFAULT == null ? type != null : !TYPE_EDEFAULT.equals(type);
-		case MetamodelPackage.OPERATION_CONDIDATE__SOURCE:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__SOURCE:
 			return source != null;
-		case MetamodelPackage.OPERATION_CONDIDATE__TARGET:
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__TARGET:
 			return target != null;
 		}
 		return super.eIsSet(featureID);
@@ -282,7 +282,7 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == TypedElement.class) {
 			switch (derivedFeatureID) {
-			case MetamodelPackage.OPERATION_CONDIDATE__TYPE:
+			case MetamodelPackage.ASSOCIATION_CANDIDATE__TYPE:
 				return MetamodelPackage.TYPED_ELEMENT__TYPE;
 			default:
 				return -1;
@@ -301,7 +301,7 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 		if (baseClass == TypedElement.class) {
 			switch (baseFeatureID) {
 			case MetamodelPackage.TYPED_ELEMENT__TYPE:
-				return MetamodelPackage.OPERATION_CONDIDATE__TYPE;
+				return MetamodelPackage.ASSOCIATION_CANDIDATE__TYPE;
 			default:
 				return -1;
 			}
@@ -326,4 +326,4 @@ public class OperationCondidateImpl extends NamedElementImpl implements Operatio
 		return result.toString();
 	}
 
-} //OperationCondidateImpl
+} //AssociationCandidateImpl

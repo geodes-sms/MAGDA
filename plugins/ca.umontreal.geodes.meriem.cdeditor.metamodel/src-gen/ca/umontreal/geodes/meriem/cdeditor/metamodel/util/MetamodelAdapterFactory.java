@@ -82,8 +82,8 @@ public class MetamodelAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseOperationCondidate(OperationCondidate object) {
-			return createOperationCondidateAdapter();
+		public Adapter caseAssociationCandidate(AssociationCandidate object) {
+			return createAssociationCandidateAdapter();
 		}
 
 		@Override
@@ -97,13 +97,13 @@ public class MetamodelAdapterFactory extends AdapterFactoryImpl {
 		}
 
 		@Override
-		public Adapter caseClazzCondidate(ClazzCondidate object) {
-			return createClazzCondidateAdapter();
+		public Adapter caseClazzCandidate(ClazzCandidate object) {
+			return createClazzCandidateAdapter();
 		}
 
 		@Override
-		public Adapter caseAttributeCondidate(AttributeCondidate object) {
-			return createAttributeCondidateAdapter();
+		public Adapter caseAttributeCandidate(AttributeCandidate object) {
+			return createAttributeCandidateAdapter();
 		}
 
 		@Override
@@ -173,16 +173,16 @@ public class MetamodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate <em>Operation Condidate</em>}'.
+	 * Creates a new adapter for an object of class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate <em>Association Candidate</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate
 	 * @generated
 	 */
-	public Adapter createOperationCondidateAdapter() {
+	public Adapter createAssociationCandidateAdapter() {
 		return null;
 	}
 
@@ -215,30 +215,30 @@ public class MetamodelAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate <em>Clazz Condidate</em>}'.
+	 * Creates a new adapter for an object of class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate <em>Clazz Candidate</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate
 	 * @generated
 	 */
-	public Adapter createClazzCondidateAdapter() {
+	public Adapter createClazzCandidateAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate <em>Attribute Condidate</em>}'.
+	 * Creates a new adapter for an object of class '{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCandidate <em>Attribute Candidate</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate
+	 * @see ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCandidate
 	 * @generated
 	 */
-	public Adapter createAttributeCondidateAdapter() {
+	public Adapter createAttributeCandidateAdapter() {
 		return null;
 	}
 

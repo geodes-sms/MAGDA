@@ -44,9 +44,7 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeCondidateImpl;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeImpl;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl;
+
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
 
 public class handler extends AbstractHandler {

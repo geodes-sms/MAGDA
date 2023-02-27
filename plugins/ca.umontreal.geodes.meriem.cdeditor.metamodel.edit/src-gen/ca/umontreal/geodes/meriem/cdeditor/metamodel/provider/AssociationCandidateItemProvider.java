@@ -2,8 +2,8 @@
  */
 package ca.umontreal.geodes.meriem.cdeditor.metamodel.provider;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate;
 
 import java.util.Collection;
 import java.util.List;
@@ -17,19 +17,19 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate} object.
+ * This is the item provider adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class OperationCondidateItemProvider extends NamedElementItemProvider {
+public class AssociationCandidateItemProvider extends NamedElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public OperationCondidateItemProvider(AdapterFactory adapterFactory) {
+	public AssociationCandidateItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -76,10 +76,10 @@ public class OperationCondidateItemProvider extends NamedElementItemProvider {
 	protected void addSourcePropertyDescriptor(Object object) {
 		itemPropertyDescriptors
 				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-						getResourceLocator(), getString("_UI_OperationCondidate_source_feature"),
-						getString("_UI_PropertyDescriptor_description", "_UI_OperationCondidate_source_feature",
-								"_UI_OperationCondidate_type"),
-						MetamodelPackage.Literals.OPERATION_CONDIDATE__SOURCE, true, false, true, null, null, null));
+						getResourceLocator(), getString("_UI_AssociationCandidate_source_feature"),
+						getString("_UI_PropertyDescriptor_description", "_UI_AssociationCandidate_source_feature",
+								"_UI_AssociationCandidate_type"),
+						MetamodelPackage.Literals.ASSOCIATION_CANDIDATE__SOURCE, true, false, true, null, null, null));
 	}
 
 	/**
@@ -91,21 +91,21 @@ public class OperationCondidateItemProvider extends NamedElementItemProvider {
 	protected void addTargetPropertyDescriptor(Object object) {
 		itemPropertyDescriptors
 				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-						getResourceLocator(), getString("_UI_OperationCondidate_target_feature"),
-						getString("_UI_PropertyDescriptor_description", "_UI_OperationCondidate_target_feature",
-								"_UI_OperationCondidate_type"),
-						MetamodelPackage.Literals.OPERATION_CONDIDATE__TARGET, true, false, true, null, null, null));
+						getResourceLocator(), getString("_UI_AssociationCandidate_target_feature"),
+						getString("_UI_PropertyDescriptor_description", "_UI_AssociationCandidate_target_feature",
+								"_UI_AssociationCandidate_type"),
+						MetamodelPackage.Literals.ASSOCIATION_CANDIDATE__TARGET, true, false, true, null, null, null));
 	}
 
 	/**
-	 * This returns OperationCondidate.gif.
+	 * This returns AssociationCandidate.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/OperationCondidate"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/AssociationCandidate"));
 	}
 
 	/**
@@ -126,9 +126,9 @@ public class OperationCondidateItemProvider extends NamedElementItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((OperationCondidate) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_OperationCondidate_type")
-				: getString("_UI_OperationCondidate_type") + " " + label;
+		String label = ((AssociationCandidate) object).getName();
+		return label == null || label.length() == 0 ? getString("_UI_AssociationCandidate_type")
+				: getString("_UI_AssociationCandidate_type") + " " + label;
 	}
 
 	/**
@@ -142,8 +142,8 @@ public class OperationCondidateItemProvider extends NamedElementItemProvider {
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(OperationCondidate.class)) {
-		case MetamodelPackage.OPERATION_CONDIDATE__TYPE:
+		switch (notification.getFeatureID(AssociationCandidate.class)) {
+		case MetamodelPackage.ASSOCIATION_CANDIDATE__TYPE:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
 		}

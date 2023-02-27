@@ -31,13 +31,13 @@ public interface MetamodelFactory extends EFactory {
 	Model createModel();
 
 	/**
-	 * Returns a new object of class '<em>Operation Condidate</em>'.
+	 * Returns a new object of class '<em>Association Candidate</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Operation Condidate</em>'.
+	 * @return a new object of class '<em>Association Candidate</em>'.
 	 * @generated
 	 */
-	OperationCondidate createOperationCondidate();
+	AssociationCandidate createAssociationCandidate();
 
 	/**
 	 * Returns a new object of class '<em>Clazz</em>'.
@@ -58,22 +58,22 @@ public interface MetamodelFactory extends EFactory {
 	Attribute createAttribute();
 
 	/**
-	 * Returns a new object of class '<em>Clazz Condidate</em>'.
+	 * Returns a new object of class '<em>Clazz Candidate</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Clazz Condidate</em>'.
+	 * @return a new object of class '<em>Clazz Candidate</em>'.
 	 * @generated
 	 */
-	ClazzCondidate createClazzCondidate();
+	ClazzCandidate createClazzCandidate();
 
 	/**
-	 * Returns a new object of class '<em>Attribute Condidate</em>'.
+	 * Returns a new object of class '<em>Attribute Candidate</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Attribute Condidate</em>'.
+	 * @return a new object of class '<em>Attribute Candidate</em>'.
 	 * @generated
 	 */
-	AttributeCondidate createAttributeCondidate();
+	AttributeCandidate createAttributeCandidate();
 
 	/**
 	 * Returns a new object of class '<em>Association</em>'.

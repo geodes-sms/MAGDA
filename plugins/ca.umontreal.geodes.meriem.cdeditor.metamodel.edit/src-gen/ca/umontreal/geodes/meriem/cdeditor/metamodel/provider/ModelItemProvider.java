@@ -161,7 +161,7 @@ public class ModelItemProvider extends ItemProviderAdapter implements IEditingDo
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
 		newChildDescriptors.add(createChildParameter(MetamodelPackage.Literals.MODEL__OPERATION,
-				MetamodelFactory.eINSTANCE.createOperationCondidate()));
+				MetamodelFactory.eINSTANCE.createAssociationCandidate()));
 
 		newChildDescriptors.add(
 				createChildParameter(MetamodelPackage.Literals.MODEL__CLAZZ, MetamodelFactory.eINSTANCE.createClazz()));
@@ -170,10 +170,10 @@ public class ModelItemProvider extends ItemProviderAdapter implements IEditingDo
 				MetamodelFactory.eINSTANCE.createAttribute()));
 
 		newChildDescriptors.add(createChildParameter(MetamodelPackage.Literals.MODEL__ATTRIBUTECONDIDATE,
-				MetamodelFactory.eINSTANCE.createAttributeCondidate()));
+				MetamodelFactory.eINSTANCE.createAttributeCandidate()));
 
 		newChildDescriptors.add(createChildParameter(MetamodelPackage.Literals.MODEL__CLAZZCONDIDATE,
-				MetamodelFactory.eINSTANCE.createClazzCondidate()));
+				MetamodelFactory.eINSTANCE.createClazzCandidate()));
 
 		newChildDescriptors.add(createChildParameter(MetamodelPackage.Literals.MODEL__ASSOCIATION,
 				MetamodelFactory.eINSTANCE.createAssociation()));

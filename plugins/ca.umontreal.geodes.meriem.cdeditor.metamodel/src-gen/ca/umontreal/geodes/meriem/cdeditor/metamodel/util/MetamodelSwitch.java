@@ -87,13 +87,13 @@ public class MetamodelSwitch<T> extends Switch<T> {
 				result = defaultCase(theEObject);
 			return result;
 		}
-		case MetamodelPackage.OPERATION_CONDIDATE: {
-			OperationCondidate operationCondidate = (OperationCondidate) theEObject;
-			T result = caseOperationCondidate(operationCondidate);
+		case MetamodelPackage.ASSOCIATION_CANDIDATE: {
+			AssociationCandidate associationCandidate = (AssociationCandidate) theEObject;
+			T result = caseAssociationCandidate(associationCandidate);
 			if (result == null)
-				result = caseNamedElement(operationCondidate);
+				result = caseNamedElement(associationCandidate);
 			if (result == null)
-				result = caseTypedElement(operationCondidate);
+				result = caseTypedElement(associationCandidate);
 			if (result == null)
 				result = defaultCase(theEObject);
 			return result;
@@ -118,22 +118,22 @@ public class MetamodelSwitch<T> extends Switch<T> {
 				result = defaultCase(theEObject);
 			return result;
 		}
-		case MetamodelPackage.CLAZZ_CONDIDATE: {
-			ClazzCondidate clazzCondidate = (ClazzCondidate) theEObject;
-			T result = caseClazzCondidate(clazzCondidate);
+		case MetamodelPackage.CLAZZ_CANDIDATE: {
+			ClazzCandidate clazzCandidate = (ClazzCandidate) theEObject;
+			T result = caseClazzCandidate(clazzCandidate);
 			if (result == null)
-				result = caseNamedElement(clazzCondidate);
+				result = caseNamedElement(clazzCandidate);
 			if (result == null)
 				result = defaultCase(theEObject);
 			return result;
 		}
-		case MetamodelPackage.ATTRIBUTE_CONDIDATE: {
-			AttributeCondidate attributeCondidate = (AttributeCondidate) theEObject;
-			T result = caseAttributeCondidate(attributeCondidate);
+		case MetamodelPackage.ATTRIBUTE_CANDIDATE: {
+			AttributeCandidate attributeCandidate = (AttributeCandidate) theEObject;
+			T result = caseAttributeCandidate(attributeCandidate);
 			if (result == null)
-				result = caseTypedElement(attributeCondidate);
+				result = caseTypedElement(attributeCandidate);
 			if (result == null)
-				result = caseNamedElement(attributeCondidate);
+				result = caseNamedElement(attributeCandidate);
 			if (result == null)
 				result = defaultCase(theEObject);
 			return result;
@@ -198,17 +198,17 @@ public class MetamodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Operation Condidate</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Association Candidate</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Operation Condidate</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Association Candidate</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseOperationCondidate(OperationCondidate object) {
+	public T caseAssociationCandidate(AssociationCandidate object) {
 		return null;
 	}
 
@@ -243,32 +243,32 @@ public class MetamodelSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Clazz Condidate</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Clazz Candidate</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Clazz Condidate</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Clazz Candidate</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseClazzCondidate(ClazzCondidate object) {
+	public T caseClazzCandidate(ClazzCandidate object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Attribute Condidate</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Attribute Candidate</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Attribute Condidate</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Attribute Candidate</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseAttributeCondidate(AttributeCondidate object) {
+	public T caseAttributeCandidate(AttributeCandidate object) {
 		return null;
 	}
 

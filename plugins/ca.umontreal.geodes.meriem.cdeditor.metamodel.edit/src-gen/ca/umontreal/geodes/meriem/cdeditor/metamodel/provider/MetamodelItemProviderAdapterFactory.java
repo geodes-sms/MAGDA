@@ -96,26 +96,26 @@ public class MetamodelItemProviderAdapterFactory extends MetamodelAdapterFactory
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate} instances.
+	 * This keeps track of the one adapter used for all {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected OperationCondidateItemProvider operationCondidateItemProvider;
+	protected AssociationCandidateItemProvider associationCandidateItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate}.
+	 * This creates an adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createOperationCondidateAdapter() {
-		if (operationCondidateItemProvider == null) {
-			operationCondidateItemProvider = new OperationCondidateItemProvider(this);
+	public Adapter createAssociationCandidateAdapter() {
+		if (associationCandidateItemProvider == null) {
+			associationCandidateItemProvider = new AssociationCandidateItemProvider(this);
 		}
 
-		return operationCondidateItemProvider;
+		return associationCandidateItemProvider;
 	}
 
 	/**
@@ -165,49 +165,49 @@ public class MetamodelItemProviderAdapterFactory extends MetamodelAdapterFactory
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate} instances.
+	 * This keeps track of the one adapter used for all {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ClazzCondidateItemProvider clazzCondidateItemProvider;
+	protected ClazzCandidateItemProvider clazzCandidateItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate}.
+	 * This creates an adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createClazzCondidateAdapter() {
-		if (clazzCondidateItemProvider == null) {
-			clazzCondidateItemProvider = new ClazzCondidateItemProvider(this);
+	public Adapter createClazzCandidateAdapter() {
+		if (clazzCandidateItemProvider == null) {
+			clazzCandidateItemProvider = new ClazzCandidateItemProvider(this);
 		}
 
-		return clazzCondidateItemProvider;
+		return clazzCandidateItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate} instances.
+	 * This keeps track of the one adapter used for all {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCandidate} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AttributeCondidateItemProvider attributeCondidateItemProvider;
+	protected AttributeCandidateItemProvider attributeCandidateItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate}.
+	 * This creates an adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCandidate}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createAttributeCondidateAdapter() {
-		if (attributeCondidateItemProvider == null) {
-			attributeCondidateItemProvider = new AttributeCondidateItemProvider(this);
+	public Adapter createAttributeCandidateAdapter() {
+		if (attributeCandidateItemProvider == null) {
+			attributeCandidateItemProvider = new AttributeCandidateItemProvider(this);
 		}
 
-		return attributeCondidateItemProvider;
+		return attributeCandidateItemProvider;
 	}
 
 	/**
@@ -334,16 +334,16 @@ public class MetamodelItemProviderAdapterFactory extends MetamodelAdapterFactory
 	public void dispose() {
 		if (modelItemProvider != null)
 			modelItemProvider.dispose();
-		if (operationCondidateItemProvider != null)
-			operationCondidateItemProvider.dispose();
+		if (associationCandidateItemProvider != null)
+			associationCandidateItemProvider.dispose();
 		if (clazzItemProvider != null)
 			clazzItemProvider.dispose();
 		if (attributeItemProvider != null)
 			attributeItemProvider.dispose();
-		if (clazzCondidateItemProvider != null)
-			clazzCondidateItemProvider.dispose();
-		if (attributeCondidateItemProvider != null)
-			attributeCondidateItemProvider.dispose();
+		if (clazzCandidateItemProvider != null)
+			clazzCandidateItemProvider.dispose();
+		if (attributeCandidateItemProvider != null)
+			attributeCandidateItemProvider.dispose();
 		if (associationItemProvider != null)
 			associationItemProvider.dispose();
 	}

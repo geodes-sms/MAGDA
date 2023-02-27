@@ -20,13 +20,11 @@ import org.osgi.framework.ServiceException;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationImpl;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationCondidateImpl;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationCandidateImpl;
 
 public class AssociationsFactory {
 
@@ -42,10 +40,54 @@ public class AssociationsFactory {
 
 	}
 
-	public void createAssociation(String type, String Name, String Target, String Source, Session session) {
+	public Boolean checkAssociationExist(String Target, String Source, Model model) {
+		List<Clazz> allClasses = model.getClazz();
+		Clazz ClassSource = null;
+		Clazz ClassTarget = null;
+		for (int i = 0; i < allClasses.size(); i++) {
+
+			if (allClasses.get(i).getName().replaceAll("\\s+", "").equals(Source.replaceAll("\\s+", ""))) {
+				ClassSource = allClasses.get(i);
+			}
+			if (allClasses.get(i).getName().replaceAll("\\s+", "").equals(Target.replaceAll("\\s+", ""))) {
+				ClassTarget = allClasses.get(i);
+			}
+		}
+
+		if (ClassSource.getHas().contains(ClassTarget) || ClassSource.getGeneralizes().contains(ClassTarget)
+				|| ClassTarget.getHas().contains(ClassSource) || ClassTarget.getGeneralizes().contains(ClassSource)) {
+		
+			return true;
+		}
+		if (ClassSource.getSpecializes() != null) {
+			if (ClassSource.getSpecializes().getName().equals(Target)) {
+				return true;
+			}
+		}
+		if (ClassSource.getIsMember() != null) {
+			if (ClassSource.getIsMember().getName().equals(Target)) {
+				return true;
+			}
+		}
+		if (ClassTarget.getSpecializes() != null) {
+			if (ClassTarget.getSpecializes().getName().equals(Source)) {
+				return true;
+			}
+		}
+		if (ClassTarget.getIsMember() != null) {
+			if (ClassTarget.getIsMember().getName().equals(Source)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	public void createAssociation(String type, String Name, String Target, String Source, Session session,
+			Boolean refreshFlag) {
 		System.out.println("creating association  " + type + " " + Name + " from " + Source + " To " + Target);
 		try {
-			String Type=type.replaceAll("\\s+", " ").toLowerCase();
+			String Type = type.replaceAll("\\s+", " ").toLowerCase();
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
@@ -88,7 +130,8 @@ public class AssociationsFactory {
 
 						break;
 					case "association":
-
+						
+						// what is shown must be inheritance and not association
 						if (Name.equals("is")) {
 							ClassSource.setSpecializes(ClassTarget);
 
@@ -114,15 +157,46 @@ public class AssociationsFactory {
 
 				}
 			};
+			RecordingCommand cmd2 = new RecordingCommand(session.getTransactionalEditingDomain()) {
+				@Override
+				protected void doExecute() {
+
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
+								.openEditor(session, represnt, new NullProgressMonitor());
+
+						/**
+						 * this suggestions to canvas
+						 **/
+						if (!refreshFlag) {
+							DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
+
+						}
+					}
+					/**
+					 * list to canvas
+					 **/
+
+					if (refreshFlag) {
+						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+					}
+				}
+			};
 			stack.execute(cmd);
+			stack.execute(cmd2);
+
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 	}
 
-	public void createAssociationCondidate(String Type, String Name, String Target, String Source, Session session) {
+	public void createAssociationcandidate(String Type, String Name, String Target, String Source, Session session,
+			Model model) {
 
-		System.out.println("creating association condidates " + Type + " " + Name + " from " + Source + " To " + Target);
+		System.out
+				.println("creating association candidates " + Type + " " + Name + " from " + Source + " To " + Target);
 		try {
 
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -137,10 +211,9 @@ public class AssociationsFactory {
 				@Override
 				protected void doExecute() {
 
-					Model model = services.getModel();
 					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 					List<Clazz> classes = new ArrayList<Clazz>();
-					List<OperationCondidate> Associations = new ArrayList<OperationCondidate>();
+					List<AssociationCandidate> Associations = new ArrayList<AssociationCandidate>();
 					classes = model.getClazz();
 					Associations = model.getOperation();
 
@@ -156,26 +229,26 @@ public class AssociationsFactory {
 							ClassTarget = classes.get(i);
 						}
 					}
-					OperationCondidateImpl newAssociationCondidate = (OperationCondidateImpl) metamodelFactory
-							.createOperationCondidate();
+					AssociationCandidateImpl newAssociationcandidate = (AssociationCandidateImpl) metamodelFactory
+							.createAssociationCandidate();
 
 					if (Name.equals("is")) {
 						ClassSource.setSpecializes(ClassTarget);
 
 					} else {
-						newAssociationCondidate.setName(Name);
-						newAssociationCondidate.setTarget(ClassTarget);
-						newAssociationCondidate.setSource(ClassSource);
-						newAssociationCondidate.setType(Type);
-						Associations.add(newAssociationCondidate);
+						newAssociationcandidate.setName(Name);
+						newAssociationcandidate.setTarget(ClassTarget);
+						newAssociationcandidate.setSource(ClassSource);
+						newAssociationcandidate.setType(Type);
+						Associations.add(newAssociationcandidate);
 					}
 
-					// refresh Model
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-					}
-					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+//					// refresh Model
+//					DRepresentation represnt = null;
+//					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+//						represnt = descrp.getRepresentation();
+//					}
+//					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
 				}
 			};
@@ -185,70 +258,64 @@ public class AssociationsFactory {
 		}
 	}
 
-	public void removeCondidate(String type, String name, String target, String source, Session session) {
+	public void removecandidate(String type, String name, String target, String source, Session session) {
 
-			try {
-				DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
-				DView dView = root.getOwnedViews().get(0);
+		try {
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
 
-				TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 
-				CommandStack stack = domain.getCommandStack();
-				RecordingCommand cmd = new RecordingCommand(domain) {
+			CommandStack stack = domain.getCommandStack();
+			RecordingCommand cmd = new RecordingCommand(domain) {
 
-					@Override
-					protected void doExecute() {
-						Model model = services.getModel();
-						// MetamodelFactory metamodelFactory =
-						// ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+				@Override
+				protected void doExecute() {
+					Model model = services.getModel();
+					// MetamodelFactory metamodelFactory =
+					// ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 
-						List<OperationCondidate> operationCondidates = model.getOperation();
-						int index = 0;
-						for (int i = 0; i < operationCondidates.size(); i++) {
-							if (operationCondidates.get(i).getName().replaceAll("\\s+", "")
-									.equals(name.replaceAll("\\s+", "")) &&(operationCondidates.get(i).getTarget().getName().replaceAll("\\s+", "")
-									.equals(target.replaceAll("\\s+", "")))&& (operationCondidates.get(i).getSource().getName().replaceAll("\\s+", "")
-								
-									.equals(source.replaceAll("\\s+", ""))))  {
-								System.out.println("found the operation" );
-								index = i;
+					List<AssociationCandidate> AssociationCandidates = model.getOperation();
+					int index = 0;
+					for (int i = 0; i < AssociationCandidates.size(); i++) {
+						if (AssociationCandidates.get(i).getName().replaceAll("\\s+", "")
+								.equals(name.replaceAll("\\s+", ""))
+								&& (AssociationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
+										.equals(target.replaceAll("\\s+", "")))
+								&& (AssociationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
 
-								break;
-							}
+										.equals(source.replaceAll("\\s+", "")))) {
+							System.out.println("found the operation");
+							index = i;
+
+							break;
 						}
-						model.getOperation().remove(index);
-						SessionManager.INSTANCE.notifyRepresentationCreated(session);
+					}
+					model.getOperation().remove(index);
+					SessionManager.INSTANCE.notifyRepresentationCreated(session);
+					DRepresentation represnt = null;
+
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
+								.openEditor(session, represnt, new NullProgressMonitor());
+						/// DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
 
 					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
-				};
+				}
 
-				/*RecordingCommand cmd2 = new RecordingCommand(session.getTransactionalEditingDomain()) {
-					@Override
-					protected void doExecute() {
+			};
 
-						DRepresentation represnt = null;
-						for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-							represnt = descrp.getRepresentation();
-							DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
-									.openEditor(session, represnt, new NullProgressMonitor());
+			stack.execute(cmd);
 
-							DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
-						}
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 
-						// DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-					}
-				};*/
-				stack.execute(cmd);
-				//stack.execute(cmd2);
+		// return removedClazz;
 
-			} catch (ServiceException e) {
-				e.printStackTrace();
-			}
-
-			// return removedClazz;
-		
-		
 	}
 
 }

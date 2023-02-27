@@ -9,8 +9,13 @@ public class AssociationTypePrompt extends Prompt {
 
 	@Override
 	public String[] interceptResults(String Results) {
+		
+		if("inheritance".contains(Results.toLowerCase())) {
+			Results="inheritance"; 
+		}
 		String[] results = new String[10];
 		results[0]=Results;
+		
 		return results; 
 	}
 

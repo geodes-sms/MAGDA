@@ -1,7 +1,11 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.TableEditor;
@@ -21,9 +25,10 @@ import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.part.ViewPart;
 
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.OperationCondidateImpl;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationCandidateImpl;
+import kotlin.Pair;
 
 public class ViewAssociations extends ViewPart {
 
@@ -44,7 +49,7 @@ public class ViewAssociations extends ViewPart {
 
 	@Override
 	public void createPartControl(Composite parent) {
-		if (Services.mode != Mode.acessAtEnd && Services.mode != Mode.OnRequest) {
+		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
 			this.parent = parent;
 
 			createContents();
@@ -61,71 +66,115 @@ public class ViewAssociations extends ViewPart {
 				child.dispose();
 			}
 		}
+		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
 
-		List<OperationCondidate> operationsCondidate = this.services.getModel().getOperation();
-		Table table = new Table(parent, SWT.BORDER);
-		table.setLinesVisible(true);
-		table.setHeaderVisible(true);
-		GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-		data.heightHint = 200;
-		table.setLayoutData(data);
-		parent.layout(true, true);
-		// parent.pack();
-		String[] titles = { "Source", "Target", "Name", "Type of association", "Draw in Canvas?" };
-		for (String title : titles) {
-			TableColumn column = new TableColumn(table, SWT.CHECK);
-			column.setText(title);
-		}
-		for (int i = 0; i < operationsCondidate.size(); i++) {
-			TableItem item = new TableItem(table, SWT.CHECK);
-			item.setText(0, operationsCondidate.get(i).getSource().getName());
-			item.setText(1, operationsCondidate.get(i).getTarget().getName());
-			item.setText(2, operationsCondidate.get(i).getName());
-			item.setText(3, operationsCondidate.get(i).getType());
-		}
-		for (int i = 0; i < titles.length; i++) {
-			table.getColumn(i).pack();
-		}
-		TableItem[] items = table.getItems();
-		for (int i = 0; i < items.length; i++) {
-			int indexItem = i;
-			TableEditor editor = new TableEditor(table);
-			TableItem item = items[i];
-			Button button = new Button(table, SWT.PUSH);
-			button.setText("Draw");
-			button.setSize(80, 16);
-			button.pack();
-			editor.minimumWidth = button.getSize().x;
-			editor.horizontalAlignment = SWT.LEFT;
-			editor.setEditor(button, item, 4);
-			editor.layout();
-			button.addMouseListener(new MouseListener() {
+			List<AssociationCandidate> operationsCandidate = this.services.getModel().getOperation();
+			Table table = new Table(parent, SWT.BORDER);
+			table.setLinesVisible(true);
+			table.setHeaderVisible(true);
+			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+			data.heightHint = 200;
+			table.setLayoutData(data);
+			parent.layout(true, true);
+			// parent.pack();
+			String[] titles = { "Source", "Target", "Name", "Type of association", "Draw in Canvas?", "score" };
+			for (String title : titles) {
+				TableColumn column = new TableColumn(table, SWT.CHECK);
+				column.setText(title);
+			}
 
-				@Override
-				public void mouseDoubleClick(MouseEvent e) {
-					// System.out.println("accepted clicked");
-				}
+			// trying to have score with associations;
+//			HashMap<Pair<String, String>, Integer> AssociationsFrequency = null;
+//
+//			for (int i = 0; i < operationsCandidate.size(); i++) {
+//
+//				// exact matching
+//				Pair itemOperation1 = new Pair<>(operationsCandidate.get(i).getSource(),
+//						operationsCandidate.get(i).getTarget());
+//				Pair itemOperation2 = new Pair<>(operationsCandidate.get(i).getTarget(),
+//						operationsCandidate.get(i).getSource());
+//
+//				if (AssociationsFrequency.keySet().contains(itemOperation2)) {
+//					Integer score = AssociationsFrequency.get(operationsCandidate.get(i));
+//					AssociationsFrequency.put(itemOperation2, score + 1);
+//				} else if (AssociationsFrequency.keySet().contains(itemOperation1)) {
+//					Integer score = AssociationsFrequency.get(operationsCandidate.get(i));
+//					AssociationsFrequency.put(itemOperation1, score + 1);
+//				}
+//
+//				else {
+//					AssociationsFrequency.put(itemOperation2, 1);
+//				}
+//			}
 
-				@Override
-				public void mouseDown(MouseEvent e) {
-					Session session = services.getSession();
-					button.setVisible(false);
-					button.dispose();
-					table.remove(indexItem);
-					associationsFactory.createAssociation(item.getText(3), item.getText(2), item.getText(1),
-							item.getText(0), session);
-					associationsFactory.removeCondidate(item.getText(3), item.getText(2), item.getText(1),
-							item.getText(0), session);
-					
-				}
+			for (int i = 0; i < operationsCandidate.size(); i++) {
+				TableItem item = new TableItem(table, SWT.CHECK);
+				item.setText(0, operationsCandidate.get(i).getSource().getName());
+				item.setText(1, operationsCandidate.get(i).getTarget().getName());
+				item.setText(2, operationsCandidate.get(i).getName());
+				item.setText(3, operationsCandidate.get(i).getType());
+			}
+			for (int i = 0; i < titles.length; i++) {
+				table.getColumn(i).pack();
+			}
+			TableItem[] items = table.getItems();
+			for (int i = 0; i < items.length; i++) {
+				int indexItem = i;
+				TableEditor editor = new TableEditor(table);
+				TableItem item = items[i];
+				Button button = new Button(table, SWT.PUSH);
+				button.setText("Draw");
+				button.setSize(80, 16);
+				button.pack();
+				editor.minimumWidth = button.getSize().x;
+				editor.horizontalAlignment = SWT.LEFT;
+				editor.setEditor(button, item, 4);
+				editor.layout();
+				button.addMouseListener(new MouseListener() {
 
-				@Override
-				public void mouseUp(MouseEvent e) {
-					// TODO Auto-generated method stub
+					@Override
+					public void mouseDoubleClick(MouseEvent e) {
+						// System.out.println("accepted clicked");
+					}
 
-				}
-			});
+					@Override
+					public void mouseDown(MouseEvent e) {
+						try {
+							Session session = services.getSession();
+							button.setVisible(false);
+							button.dispose();
+							table.remove(indexItem);
 
+							// need to figure it out, what is acceptedAssociation
+//							if (Services.relatedAssociations != null) {
+//								for (String l : Services.relatedAssociations.keySet()) {
+//
+//									if (Services.relatedAssociations.get(l).contains(acceptedAssociation)) {
+//										Services.relatedAssociations.get(l).remove(acceptedAssociation);
+//
+//									}
+//								}
+//							}
+							associationsFactory.removecandidate(item.getText(3), item.getText(2), item.getText(1),
+									item.getText(0), session);
+							associationsFactory.createAssociation(item.getText(3), item.getText(2), item.getText(1),
+									item.getText(0), session, false);
+
+							// TO DO: remove the association from hashmap in session.
+
+						} catch (Exception e1) {
+							System.out.println(e1);
+						}
+					}
+
+					@Override
+					public void mouseUp(MouseEvent e) {
+						// TODO Auto-generated method stub
+
+					}
+				});
+
+			}
 		}
 
 	}

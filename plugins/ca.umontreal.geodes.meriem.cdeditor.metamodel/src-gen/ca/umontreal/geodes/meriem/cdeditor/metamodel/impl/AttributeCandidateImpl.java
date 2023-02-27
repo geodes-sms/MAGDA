@@ -2,28 +2,30 @@
  */
 package ca.umontreal.geodes.meriem.cdeditor.metamodel.impl;
 
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
-
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.NamedElement;
+
 import org.eclipse.emf.common.notify.Notification;
+
 import org.eclipse.emf.ecore.EClass;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Attribute Condidate</b></em>'.
+ * An implementation of the model object '<em><b>Attribute Candidate</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeCondidateImpl#getName <em>Name</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AttributeCandidateImpl#getName <em>Name</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class AttributeCondidateImpl extends TypedElementImpl implements AttributeCondidate {
+public class AttributeCandidateImpl extends TypedElementImpl implements AttributeCandidate {
 	/**
 	 * The default value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -33,6 +35,7 @@ public class AttributeCondidateImpl extends TypedElementImpl implements Attribut
 	 * @ordered
 	 */
 	protected static final String NAME_EDEFAULT = null;
+
 	/**
 	 * The cached value of the '{@link #getName() <em>Name</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -48,7 +51,7 @@ public class AttributeCondidateImpl extends TypedElementImpl implements Attribut
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected AttributeCondidateImpl() {
+	protected AttributeCandidateImpl() {
 		super();
 	}
 
@@ -59,7 +62,7 @@ public class AttributeCondidateImpl extends TypedElementImpl implements Attribut
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return MetamodelPackage.Literals.ATTRIBUTE_CONDIDATE;
+		return MetamodelPackage.Literals.ATTRIBUTE_CANDIDATE;
 	}
 
 	/**
@@ -80,7 +83,7 @@ public class AttributeCondidateImpl extends TypedElementImpl implements Attribut
 		String oldName = name;
 		name = newName;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.ATTRIBUTE_CONDIDATE__NAME, oldName,
+			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.ATTRIBUTE_CANDIDATE__NAME, oldName,
 					name));
 	}
 
@@ -92,7 +95,7 @@ public class AttributeCondidateImpl extends TypedElementImpl implements Attribut
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case MetamodelPackage.ATTRIBUTE_CONDIDATE__NAME:
+		case MetamodelPackage.ATTRIBUTE_CANDIDATE__NAME:
 			return getName();
 		}
 		return super.eGet(featureID, resolve, coreType);
@@ -106,7 +109,7 @@ public class AttributeCondidateImpl extends TypedElementImpl implements Attribut
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case MetamodelPackage.ATTRIBUTE_CONDIDATE__NAME:
+		case MetamodelPackage.ATTRIBUTE_CANDIDATE__NAME:
 			setName((String) newValue);
 			return;
 		}
@@ -121,7 +124,7 @@ public class AttributeCondidateImpl extends TypedElementImpl implements Attribut
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case MetamodelPackage.ATTRIBUTE_CONDIDATE__NAME:
+		case MetamodelPackage.ATTRIBUTE_CANDIDATE__NAME:
 			setName(NAME_EDEFAULT);
 			return;
 		}
@@ -136,7 +139,7 @@ public class AttributeCondidateImpl extends TypedElementImpl implements Attribut
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case MetamodelPackage.ATTRIBUTE_CONDIDATE__NAME:
+		case MetamodelPackage.ATTRIBUTE_CANDIDATE__NAME:
 			return NAME_EDEFAULT == null ? name != null : !NAME_EDEFAULT.equals(name);
 		}
 		return super.eIsSet(featureID);
@@ -151,7 +154,7 @@ public class AttributeCondidateImpl extends TypedElementImpl implements Attribut
 	public int eBaseStructuralFeatureID(int derivedFeatureID, Class<?> baseClass) {
 		if (baseClass == NamedElement.class) {
 			switch (derivedFeatureID) {
-			case MetamodelPackage.ATTRIBUTE_CONDIDATE__NAME:
+			case MetamodelPackage.ATTRIBUTE_CANDIDATE__NAME:
 				return MetamodelPackage.NAMED_ELEMENT__NAME;
 			default:
 				return -1;
@@ -170,7 +173,7 @@ public class AttributeCondidateImpl extends TypedElementImpl implements Attribut
 		if (baseClass == NamedElement.class) {
 			switch (baseFeatureID) {
 			case MetamodelPackage.NAMED_ELEMENT__NAME:
-				return MetamodelPackage.ATTRIBUTE_CONDIDATE__NAME;
+				return MetamodelPackage.ATTRIBUTE_CANDIDATE__NAME;
 			default:
 				return -1;
 			}
@@ -195,4 +198,4 @@ public class AttributeCondidateImpl extends TypedElementImpl implements Attribut
 		return result.toString();
 	}
 
-} //AttributeCondidateImpl
+} //AttributeCandidateImpl

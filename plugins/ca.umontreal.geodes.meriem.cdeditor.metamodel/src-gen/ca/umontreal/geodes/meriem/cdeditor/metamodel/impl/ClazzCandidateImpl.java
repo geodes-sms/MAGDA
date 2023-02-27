@@ -2,38 +2,42 @@
  */
 package ca.umontreal.geodes.meriem.cdeditor.metamodel.impl;
 
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
 
 import java.util.Collection;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
+
 import org.eclipse.emf.common.util.EList;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
  * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Clazz Condidate</b></em>'.
+ * An implementation of the model object '<em><b>Clazz Candidate</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl#getAttributecondidate <em>Attributecondidate</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl#getConfidence <em>Confidence</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl#getRelatedTo <em>Related To</em>}</li>
- *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCondidateImpl#isAccept <em>Accept</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCandidateImpl#getAttributecondidate <em>Attributecondidate</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCandidateImpl#getConfidence <em>Confidence</em>}</li>
+ *   <li>{@link ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzCandidateImpl#getRelatedTo <em>Related To</em>}</li>
  * </ul>
  *
  * @generated
  */
-public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondidate {
+public class ClazzCandidateImpl extends NamedElementImpl implements ClazzCandidate {
 	/**
 	 * The cached value of the '{@link #getAttributecondidate() <em>Attributecondidate</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
@@ -42,7 +46,7 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<AttributeCondidate> attributecondidate;
+	protected EList<AttributeCandidate> attributecondidate;
 
 	/**
 	 * The default value of the '{@link #getConfidence() <em>Confidence</em>}' attribute.
@@ -53,6 +57,7 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	 * @ordered
 	 */
 	protected static final int CONFIDENCE_EDEFAULT = 0;
+
 	/**
 	 * The cached value of the '{@link #getConfidence() <em>Confidence</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -74,31 +79,11 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	protected Clazz relatedTo;
 
 	/**
-	 * The default value of the '{@link #isAccept() <em>Accept</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isAccept()
-	 * @generated
-	 * @ordered
-	 */
-	protected static final boolean ACCEPT_EDEFAULT = false;
-
-	/**
-	 * The cached value of the '{@link #isAccept() <em>Accept</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #isAccept()
-	 * @generated
-	 * @ordered
-	 */
-	protected boolean accept = ACCEPT_EDEFAULT;
-
-	/**
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected ClazzCondidateImpl() {
+	protected ClazzCandidateImpl() {
 		super();
 	}
 
@@ -109,7 +94,7 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	 */
 	@Override
 	protected EClass eStaticClass() {
-		return MetamodelPackage.Literals.CLAZZ_CONDIDATE;
+		return MetamodelPackage.Literals.CLAZZ_CANDIDATE;
 	}
 
 	/**
@@ -117,10 +102,10 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<AttributeCondidate> getAttributecondidate() {
+	public EList<AttributeCandidate> getAttributecondidate() {
 		if (attributecondidate == null) {
-			attributecondidate = new EObjectContainmentEList<AttributeCondidate>(AttributeCondidate.class, this,
-					MetamodelPackage.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE);
+			attributecondidate = new EObjectContainmentEList<AttributeCandidate>(AttributeCandidate.class, this,
+					MetamodelPackage.CLAZZ_CANDIDATE__ATTRIBUTECONDIDATE);
 		}
 		return attributecondidate;
 	}
@@ -143,30 +128,8 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 		int oldConfidence = confidence;
 		confidence = newConfidence;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE,
+			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.CLAZZ_CANDIDATE__CONFIDENCE,
 					oldConfidence, confidence));
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public boolean isAccept() {
-		return accept;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setAccept(boolean newAccept) {
-		boolean oldAccept = accept;
-		accept = newAccept;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT, oldAccept,
-					accept));
 	}
 
 	/**
@@ -181,7 +144,7 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 			if (relatedTo != oldRelatedTo) {
 				if (eNotificationRequired())
 					eNotify(new ENotificationImpl(this, Notification.RESOLVE,
-							MetamodelPackage.CLAZZ_CONDIDATE__RELATED_TO, oldRelatedTo, relatedTo));
+							MetamodelPackage.CLAZZ_CANDIDATE__RELATED_TO, oldRelatedTo, relatedTo));
 			}
 		}
 		return relatedTo;
@@ -205,7 +168,7 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 		Clazz oldRelatedTo = relatedTo;
 		relatedTo = newRelatedTo;
 		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.CLAZZ_CONDIDATE__RELATED_TO,
+			eNotify(new ENotificationImpl(this, Notification.SET, MetamodelPackage.CLAZZ_CANDIDATE__RELATED_TO,
 					oldRelatedTo, relatedTo));
 	}
 
@@ -217,7 +180,7 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-		case MetamodelPackage.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE:
+		case MetamodelPackage.CLAZZ_CANDIDATE__ATTRIBUTECONDIDATE:
 			return ((InternalEList<?>) getAttributecondidate()).basicRemove(otherEnd, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
@@ -231,16 +194,14 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-		case MetamodelPackage.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE:
+		case MetamodelPackage.CLAZZ_CANDIDATE__ATTRIBUTECONDIDATE:
 			return getAttributecondidate();
-		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
+		case MetamodelPackage.CLAZZ_CANDIDATE__CONFIDENCE:
 			return getConfidence();
-		case MetamodelPackage.CLAZZ_CONDIDATE__RELATED_TO:
+		case MetamodelPackage.CLAZZ_CANDIDATE__RELATED_TO:
 			if (resolve)
 				return getRelatedTo();
 			return basicGetRelatedTo();
-		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
-			return isAccept();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -254,18 +215,15 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-		case MetamodelPackage.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE:
+		case MetamodelPackage.CLAZZ_CANDIDATE__ATTRIBUTECONDIDATE:
 			getAttributecondidate().clear();
-			getAttributecondidate().addAll((Collection<? extends AttributeCondidate>) newValue);
+			getAttributecondidate().addAll((Collection<? extends AttributeCandidate>) newValue);
 			return;
-		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
+		case MetamodelPackage.CLAZZ_CANDIDATE__CONFIDENCE:
 			setConfidence((Integer) newValue);
 			return;
-		case MetamodelPackage.CLAZZ_CONDIDATE__RELATED_TO:
+		case MetamodelPackage.CLAZZ_CANDIDATE__RELATED_TO:
 			setRelatedTo((Clazz) newValue);
-			return;
-		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
-			setAccept((Boolean) newValue);
 			return;
 		}
 		super.eSet(featureID, newValue);
@@ -279,17 +237,14 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-		case MetamodelPackage.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE:
+		case MetamodelPackage.CLAZZ_CANDIDATE__ATTRIBUTECONDIDATE:
 			getAttributecondidate().clear();
 			return;
-		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
+		case MetamodelPackage.CLAZZ_CANDIDATE__CONFIDENCE:
 			setConfidence(CONFIDENCE_EDEFAULT);
 			return;
-		case MetamodelPackage.CLAZZ_CONDIDATE__RELATED_TO:
+		case MetamodelPackage.CLAZZ_CANDIDATE__RELATED_TO:
 			setRelatedTo((Clazz) null);
-			return;
-		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
-			setAccept(ACCEPT_EDEFAULT);
 			return;
 		}
 		super.eUnset(featureID);
@@ -303,14 +258,12 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-		case MetamodelPackage.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE:
+		case MetamodelPackage.CLAZZ_CANDIDATE__ATTRIBUTECONDIDATE:
 			return attributecondidate != null && !attributecondidate.isEmpty();
-		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
+		case MetamodelPackage.CLAZZ_CANDIDATE__CONFIDENCE:
 			return confidence != CONFIDENCE_EDEFAULT;
-		case MetamodelPackage.CLAZZ_CONDIDATE__RELATED_TO:
+		case MetamodelPackage.CLAZZ_CANDIDATE__RELATED_TO:
 			return relatedTo != null;
-		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
-			return accept != ACCEPT_EDEFAULT;
 		}
 		return super.eIsSet(featureID);
 	}
@@ -328,10 +281,8 @@ public class ClazzCondidateImpl extends NamedElementImpl implements ClazzCondida
 		StringBuilder result = new StringBuilder(super.toString());
 		result.append(" (confidence: ");
 		result.append(confidence);
-		result.append(", Accept: ");
-		result.append(accept);
 		result.append(')');
 		return result.toString();
 	}
 
-} //ClazzCondidateImpl
+} //ClazzCandidateImpl

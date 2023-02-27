@@ -12,13 +12,17 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
 import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.transaction.ResourceSetListener;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
@@ -60,7 +64,7 @@ import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.internal.EditorReference;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
 /**
@@ -83,9 +87,7 @@ public class Services {
 
 	public Services() throws Exception {
 		this.config = new Properties();
-		// this.relatedClasses = new HashMap<String, List<String>>();
-		// this.relatedAssociations = new HashMap<String, List<String>>();
-		// this.classAttributes = new HashMap<String, HashMap<String, String>>();
+
 		this.listener = (ResourceSetListener) new Listener();
 		try {
 			InputStream stream = Services.class.getClassLoader().getResourceAsStream("/config.properties");
@@ -123,6 +125,7 @@ public class Services {
 	public static void refreshAssociationsView() {
 
 		if (Services.associationView instanceof ViewAssociations) {
+			System.out.print("association view 1 ? ");
 
 			ViewAssociations viewAssociations = (ViewAssociations) Services.associationView;
 			viewAssociations.createContents();
@@ -257,75 +260,114 @@ public class Services {
 		AttributesFactory attributesFactory = new AttributesFactory();
 		Session session = SessionManager.INSTANCE.getSession(node);
 		assert session != null;
-		List<String> types = new ArrayList<>(
-				List.of("int", "string", "float", "char", "boolean", "double", "byte", "array", "object"));
+		List<String> types = new ArrayList<>(List.of("int", "string", "float", "char", "boolean", "double", "byte",
+				"array", "object", "collection"));
 		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
 		NodeName = NodeName.replaceAll("\\s+", "");
 		List<String> ResultsTyped = new ArrayList<String>();
 
-		HashMap<String, String> typeAttributes;
+		HashMap<String, String> typeAttributes = null;
 		if (Services.classAttributes == null) {
 			Services.classAttributes = new HashMap<String, HashMap<String, String>>();
 		}
-		if (Services.classAttributes.containsKey(NodeName) && !Services.classAttributes.get(NodeName).isEmpty()) {
-			// && (this.classAttributes.get(NodeName).size() > 1)) {
+		if (Services.classAttributes.containsKey(NodeName)) {
+			if (!Services.classAttributes.get(NodeName).isEmpty()) {
+				// && (this.classAttributes.get(NodeName).size() > 1)) {
 
-			typeAttributes = Services.classAttributes.get(NodeName);
+				typeAttributes = Services.classAttributes.get(NodeName);
+			}
 		} else {
 
 			IAttributesPrediction attributesPredcition = new AttributesPrediction();
 			typeAttributes = attributesPredcition.run(node, NodeName, getModel());
-
+			Services.classAttributes.put(NodeName, typeAttributes);
 			// dummy example remove this
 			// typeAttributes =new HashMap<String, String>();
 		}
-		for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
-			if ((set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
-					|| (set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
-				typeAttributes.remove(set.getKey());
-			} else if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
-					&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
-
-				if (containsIgnoreCase(types, set.getValue())) {
-
-					ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
-				}
-			}
-		}
-
-		String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
-
-		if (ArrayResultsTyped.length > 0) {
-
-			ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
-					new LabelProvider());
-
-			dialog.setElements(ArrayResultsTyped);
-
-			dialog.setTitle("Select appropriate attributes");
-			dialog.setMultipleSelection(true);
-
-			if (dialog.open() != Window.OK) {
-				// return false;
-			}
-
-			Object[] result = dialog.getResult();
-			if (result != null) {
-				for (int i = 0; i < result.length; i++) {
-					String res = (String) result[i];
-					res = res.split(":")[0];
-					attributesFactory.createAttribute(res, typeAttributes.get(res), NodeName, session);
-					typeAttributes.remove(res);
-				}
-			}
-
-			Services.classAttributes.put(NodeName, typeAttributes);
-
-		} else {
+		if (typeAttributes == null) {
+			System.out.println("type attribute is null");
 			MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
 					"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
 			Services.classAttributes.remove(NodeName);
 			int result = dialog.open();
+		} else {
+			for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
+				if ((set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
+						|| (set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
+					typeAttributes.remove(set.getKey());
+				} else if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
+						&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
+
+					if (containsIgnoreCase(types, set.getValue())) {
+
+						ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
+					}
+				}
+			}
+
+			String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
+
+			if (ArrayResultsTyped.length > 0) {
+
+				ElementListSelectionDialog dialog = new ElementListSelectionDialog(
+						Display.getCurrent().getActiveShell(), new LabelProvider());
+
+				// dialog.setAllowDuplicates(false);
+
+				dialog.setElements(ArrayResultsTyped);
+
+				dialog.setTitle("Select appropriate attributes");
+				dialog.setMultipleSelection(true);
+
+				if (dialog.open() != Window.OK) {
+					// return false;
+				}
+
+				Object[] result = dialog.getResult();
+				if (result != null) {
+					for (int i = 0; i < result.length; i++) {
+						String res = (String) result[i];
+						res = res.split(":")[0];
+						attributesFactory.createAttribute(res, typeAttributes.get(res), NodeName, session, false);
+						typeAttributes.remove(res);
+					}
+					Services.classAttributes.put(NodeName, typeAttributes);
+
+				} // else {
+				/**
+				 * If cancel is pressed, trigger attributes prediction again. uncomment this for
+				 * better performance
+				 */
+
+				/*
+				 * Model model = getModel();
+				 * 
+				 * Job jobAttributes = new Job("Attributes prediction") {
+				 * 
+				 * protected IStatus run(IProgressMonitor monitor) { String NodeName =
+				 * node.toString().split(":", 2)[1].replace(")", ""); NodeName =
+				 * NodeName.replaceAll("\\s+", ""); System.out.
+				 * println("Not satisfie with attributes, Predict other list of  attributes");
+				 * HashMap<String, String> typeAttributes = new HashMap<String, String>();
+				 * IAttributesPrediction attributesPredcition = new AttributesPrediction(); if
+				 * (Services.classAttributes == null) { Services.classAttributes = new
+				 * HashMap<String, HashMap<String, String>>(); }
+				 * 
+				 * typeAttributes = attributesPredcition.run(node, NodeName, model);
+				 * Services.classAttributes.put(NodeName, typeAttributes);
+				 * 
+				 * System.out.println("job attributes  finished "); return ASYNC_FINISH; } };
+				 * jobAttributes.setPriority(Job.SHORT); jobAttributes.schedule();
+				 */
+				// }
+
+			} else {
+
+				MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
+						"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
+				Services.classAttributes.remove(NodeName);
+				int result = dialog.open();
+			}
 		}
 
 		return node;
@@ -352,34 +394,39 @@ public class Services {
 
 		List<Clazz> classesInModel = model.getClazz();
 		String className = "";
-		List<ClazzCondidate> classeCondidateInModel = model.getClazzcondidate();
+
+		List<ClazzCandidate> classeCondidateInModel = model.getClazzcondidate();
 		List<String> Results = new ArrayList<String>();
+
 		for (int i = 0; i < classesInModel.size(); i++) {
 			AllclassNames.add(classesInModel.get(i).getName());
 			classNames.add(classesInModel.get(i).getName());
 		}
 		for (int i = 0; i < classeCondidateInModel.size(); i++) {
 			AllclassNames.add(classeCondidateInModel.get(i).getName());
-		}
-		for (int i = 0; i < classeCondidateInModel.size(); i++) {
 			suggestedConcepts.add(classeCondidateInModel.get(i).getName());
+
 		}
+
 		String input = "";
 		if (rootModel instanceof Model) {
 			System.out.println("from one Canvas");
 
 			for (int i = 0; i < classesInModel.size(); i++) {
 				input = input.concat(",").concat(classesInModel.get(i).getName());
-				classNames.add(classesInModel.get(i).getName());
 			}
 		} else if (rootModel instanceof Clazz) {
 			System.out.print("from one class");
 			Clazz inputClass = (Clazz) rootModel;
 			input = inputClass.getName();
 			className = input;
-			// heuristic: what to send to GPT3
+
+			/**
+			 * heuristic: what to send to GPT3 concat to only one class name !
+			 **/
+
 			Random rand = new Random();
-			String randomElement = AllclassNames.get(rand.nextInt(AllclassNames.size()));
+			String randomElement = AllclassNames.get(rand.nextInt(classNames.size()));
 			input = input.concat(",").concat(randomElement);
 
 		}
@@ -391,7 +438,7 @@ public class Services {
 				Results = relatedClasses.get(className);
 			}
 		} else {
-			JOptionPane opt = new JOptionPane("Running prediction", JOptionPane.NO_OPTION); // no buttons
+			JOptionPane opt = new JOptionPane("Running prediction", JOptionPane.INFORMATION_MESSAGE); // no buttons
 			final JDialog dlg = opt.createDialog("Predicting relevant concepts...");
 			new Thread(new Runnable() {
 				public void run() {
@@ -407,8 +454,10 @@ public class Services {
 			IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
 			List<HashMap<String, String>> Concepts = conceptsPrediction.run(className, rootModel, getModel());
 			for (String key : Concepts.get(0).keySet()) {
-				Results.add(key);
-				if (!containsIgnoreCase(suggestedConcepts, key)) {
+				if (!containsIgnoreCase(classNames, key) && !(key.equals(""))) {
+					Results.add(key);
+				}
+				if (!containsIgnoreCase(suggestedConcepts, key) && !(key.equals(""))) {
 					conceptsFactory.createClassCondidate((String) key, Concepts.get(0).get(key), session, getModel());
 
 				} else {
@@ -435,19 +484,77 @@ public class Services {
 			if (result != null) {
 				for (int i = 0; i < result.length; i++) {
 					if (!containsIgnoreCase(classNames, (String) result[i])) {
-						conceptsFactory.createClass((String) result[i], session,false);
+						conceptsFactory.createClass((String) result[i], session, false);
 						conceptsFactory.deletetClassCondidate((String) result[i], session);
-						
+
 						Results.remove((String) result[i]);
 
 					}
 				}
+			} else {
+				// Immediately launch a job to predict related concepts because user is not
+				// satisfied.
+
+				Job job = new Job("concepts  prediction") {
+
+					protected IStatus run(IProgressMonitor monitor) {
+
+						try {
+
+							String className;
+							Clazz inputClass = (Clazz) rootModel;
+							className = inputClass.getName();
+
+							System.out.println("concepts job started ");
+
+							List<String> Results = new ArrayList<String>();
+							IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
+							// rootModel is null
+
+							List<HashMap<String, String>> Concepts = conceptsPrediction.run(className, null, model);
+
+							for (String key : Concepts.get(0).keySet()) {
+								if ((!containsIgnoreCase(classNames, key))) {
+									Results.add(key);
+								}
+							}
+							// update hashmap in session.
+							Services.relatedClasses.put(className, Results);
+							for (String key : Concepts.get(0).keySet()) {
+
+								if ((!containsIgnoreCase(classNames, key))) {
+									if (!(containsIgnoreCase(suggestedConcepts, key))) {
+										conceptsFactory.createClassCondidate((String) key, Concepts.get(0).get(key),
+												session, model);
+									} else {
+										conceptsFactory.updateConfidenceCondidate((String) key, session, model, 1);
+									}
+								}
+
+							}
+
+							Display.getDefault().syncExec(new Runnable() {
+								public void run() {
+									Services.refreshSuggestionsView();
+
+								}
+							});
+
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+
+						return ASYNC_FINISH;
+					}
+				};
+				job.setPriority(Job.SHORT);
+				job.schedule();
 			}
 			if (!className.equals("")) {
 				// update after removing a selected concept
 				Services.relatedClasses.put(className, Results);
 			}
-			
+
 		} else {
 			MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
 					"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
@@ -467,7 +574,6 @@ public class Services {
 		className = className.substring(1, className.length() - 1);
 		List<String> Results = new ArrayList<String>();
 		String[] ArrayResultsTyped = new String[20];
-		// AssociationsPrediction(); AssociationsPredictionDummy()
 		String item;
 
 		if (Services.relatedAssociations == null) {
@@ -487,18 +593,24 @@ public class Services {
 			for (int j = 0; j < res.size(); j++) {
 				if (!res.get(j).get("Type").replaceAll("\\s+", "").equals("")
 						&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
-					item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + "," + res.get(j).get("Target")
-							+ "]; Name => " + res.get(j).get("Name");
+
+					if (!res.get(j).get("Name").replaceAll("\\s+", "").equals("")) {
+						item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + "," + res.get(j).get("Target")
+								+ "]; Name => " + res.get(j).get("Name");
+					} else {
+						item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + "," + res.get(j).get("Target")
+								+ "]";
+					}
 					items.add(item);
 
 					ArrayResultsTyped = items.toArray(new String[0]);
-					associationsFactory.createAssociationCondidate(res.get(j).get("Type"), res.get(j).get("Name"),
-							res.get(j).get("Target"), res.get(j).get("Source"), session);
-					refreshAssociationsView();
+					associationsFactory.createAssociationcandidate(res.get(j).get("Type"), res.get(j).get("Name"),
+							res.get(j).get("Target"), res.get(j).get("Source"), session, getModel());
 					Services.relatedAssociations.put(className, items);
 				}
 
 			}
+			refreshAssociationsView();
 
 		}
 		if (ArrayResultsTyped.length > 0 && (ArrayResultsTyped[0] != null)) {
@@ -514,6 +626,7 @@ public class Services {
 				// return false;
 			}
 			Object[] result = dialog.getResult();
+
 			if (result != null) {
 				List<String> items = new ArrayList<String>(Arrays.asList(ArrayResultsTyped));
 
@@ -524,19 +637,25 @@ public class Services {
 					String Name = item.split("=>")[1];
 					String Target = (item.split(",")[1]).split("]")[0];
 					String Source = (item.split("\\[")[1]).split(",")[0];
-					associationsFactory.createAssociation(Type, Name, Target, Source, session);
-					associationsFactory.removeCondidate(Type, Name, Target, Source, session);
+					associationsFactory.createAssociation(Type, Name, Target, Source, session, true);
+					associationsFactory.removecandidate(Type, Name, Target, Source, session);
 					refreshAssociationsView();
 
 					items.remove(item);
 					Services.relatedAssociations.put(className, items);
+
+					// this is to enable future predictions and not always show "try later"
+					if (!(Services.relatedAssociations.get(className).size() > 0)) {
+						Services.relatedAssociations.remove(className);
+					}
 				}
 			}
 		} else {
 			MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
 					"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
-			this.relatedClasses.remove(className);
+			this.relatedAssociations.remove(className);
 			int result = dialog.open();
+			refreshAssociationsView();
 		}
 
 		return rootModel;
@@ -548,7 +667,7 @@ public class Services {
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
 		String className = "";
-		if (rootModel instanceof ClazzCondidate) {
+		if (rootModel instanceof ClazzCandidate) {
 			className = rootModel.toString().split(":", 2)[1];
 			className = className.replace(")", " ");
 
@@ -570,7 +689,7 @@ public class Services {
 		// the new class should should have the same coordinates as the candidate class
 
 		setGraphicalHintsFromExistingNode((DDiagramElement) eob);
-		conceptsFactory.createClass(className, session,false);
+		conceptsFactory.createClass(className, session, false);
 		conceptsFactory.deletetClassCondidate(className, session);
 
 		return rootModel;

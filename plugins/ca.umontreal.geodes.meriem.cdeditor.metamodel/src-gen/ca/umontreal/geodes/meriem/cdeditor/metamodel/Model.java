@@ -30,7 +30,7 @@ import org.eclipse.emf.ecore.EObject;
 public interface Model extends EObject {
 	/**
 	 * Returns the value of the '<em><b>Operation</b></em>' containment reference list.
-	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.OperationCondidate}.
+	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Operation</em>' containment reference list.
@@ -38,7 +38,7 @@ public interface Model extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<OperationCondidate> getOperation();
+	EList<AssociationCandidate> getOperation();
 
 	/**
 	 * Returns the value of the '<em><b>Clazz</b></em>' containment reference list.
@@ -66,7 +66,7 @@ public interface Model extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Attributecondidate</b></em>' containment reference list.
-	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate}.
+	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCandidate}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Attributecondidate</em>' containment reference list.
@@ -74,11 +74,11 @@ public interface Model extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<AttributeCondidate> getAttributecondidate();
+	EList<AttributeCandidate> getAttributecondidate();
 
 	/**
 	 * Returns the value of the '<em><b>Clazzcondidate</b></em>' containment reference list.
-	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate}.
+	 * The list contents are of type {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Clazzcondidate</em>' containment reference list.
@@ -86,7 +86,7 @@ public interface Model extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<ClazzCondidate> getClazzcondidate();
+	EList<ClazzCandidate> getClazzcondidate();
 
 	/**
 	 * Returns the value of the '<em><b>Association</b></em>' containment reference list.

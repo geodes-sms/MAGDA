@@ -12,25 +12,29 @@ public class AttributesNamePrompt extends Prompt {
 
 	@Override
 	public String[] interceptResults(String Results) {
-		Results = Results.replaceAll("\n", "");
-		Results = Results.replaceAll("'", "");
-		String attributesStr=Results;
 		String[] Attributes = new String[20];
-		if (Results.contains("[")) {
-			attributesStr = Results.split("\\[")[1];
+		try {
+			Results = Results.replaceAll("\n", "");
+			Results = Results.replaceAll("'", "");
+			String attributesStr = Results;
+
+			if (Results.contains("[")) {
+				attributesStr = Results.split("\\[")[1];
 			}
-		if (Results.contains("]")) {
-			attributesStr.replace("\\]", "");
-		}
+			if (Results.contains("]")) {
+				attributesStr.replace("\\]", "");
+			}
 			Attributes = attributesStr.split(",");
 			for (int j = 0; j < Attributes.length; j++) {
 				Attributes[j].replaceAll("'", "");
 				System.out.println(Attributes[j]);
 			}
-		
+		} catch (Exception e) {
 
-	return Attributes;
+		}
 
-}
+		return Attributes;
+
+	}
 
 }

@@ -2,7 +2,7 @@
  */
 package ca.umontreal.geodes.meriem.cdeditor.metamodel.provider;
 
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
 
@@ -13,25 +13,26 @@ import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import org.eclipse.emf.edit.provider.ComposeableAdapterFactory;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCondidate} object.
+ * This is the item provider adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class ClazzCondidateItemProvider extends NamedElementItemProvider {
+public class ClazzCandidateItemProvider extends NamedElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public ClazzCondidateItemProvider(AdapterFactory adapterFactory) {
+	public ClazzCandidateItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -48,7 +49,6 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 
 			addConfidencePropertyDescriptor(object);
 			addRelatedToPropertyDescriptor(object);
-			addAcceptPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -62,27 +62,11 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 	protected void addConfidencePropertyDescriptor(Object object) {
 		itemPropertyDescriptors
 				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-						getResourceLocator(), getString("_UI_ClazzCondidate_confidence_feature"),
-						getString("_UI_PropertyDescriptor_description", "_UI_ClazzCondidate_confidence_feature",
-								"_UI_ClazzCondidate_type"),
-						MetamodelPackage.Literals.CLAZZ_CONDIDATE__CONFIDENCE, true, false, false,
+						getResourceLocator(), getString("_UI_ClazzCandidate_confidence_feature"),
+						getString("_UI_PropertyDescriptor_description", "_UI_ClazzCandidate_confidence_feature",
+								"_UI_ClazzCandidate_type"),
+						MetamodelPackage.Literals.CLAZZ_CANDIDATE__CONFIDENCE, true, false, false,
 						ItemPropertyDescriptor.INTEGRAL_VALUE_IMAGE, null, null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Accept feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addAcceptPropertyDescriptor(Object object) {
-		itemPropertyDescriptors
-				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-						getResourceLocator(), getString("_UI_ClazzCondidate_Accept_feature"),
-						getString("_UI_PropertyDescriptor_description", "_UI_ClazzCondidate_Accept_feature",
-								"_UI_ClazzCondidate_type"),
-						MetamodelPackage.Literals.CLAZZ_CONDIDATE__ACCEPT, true, false, false,
-						ItemPropertyDescriptor.BOOLEAN_VALUE_IMAGE, null, null));
 	}
 
 	/**
@@ -94,10 +78,10 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 	protected void addRelatedToPropertyDescriptor(Object object) {
 		itemPropertyDescriptors
 				.add(createItemPropertyDescriptor(((ComposeableAdapterFactory) adapterFactory).getRootAdapterFactory(),
-						getResourceLocator(), getString("_UI_ClazzCondidate_relatedTo_feature"),
-						getString("_UI_PropertyDescriptor_description", "_UI_ClazzCondidate_relatedTo_feature",
-								"_UI_ClazzCondidate_type"),
-						MetamodelPackage.Literals.CLAZZ_CONDIDATE__RELATED_TO, true, false, true, null, null, null));
+						getResourceLocator(), getString("_UI_ClazzCandidate_relatedTo_feature"),
+						getString("_UI_PropertyDescriptor_description", "_UI_ClazzCandidate_relatedTo_feature",
+								"_UI_ClazzCandidate_type"),
+						MetamodelPackage.Literals.CLAZZ_CANDIDATE__RELATED_TO, true, false, true, null, null, null));
 	}
 
 	/**
@@ -112,7 +96,7 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(MetamodelPackage.Literals.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE);
+			childrenFeatures.add(MetamodelPackage.Literals.CLAZZ_CANDIDATE__ATTRIBUTECONDIDATE);
 		}
 		return childrenFeatures;
 	}
@@ -131,14 +115,14 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 	}
 
 	/**
-	 * This returns ClazzCondidate.gif.
+	 * This returns ClazzCandidate.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ClazzCondidate"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/ClazzCandidate"));
 	}
 
 	/**
@@ -159,9 +143,9 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((ClazzCondidate) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_ClazzCondidate_type")
-				: getString("_UI_ClazzCondidate_type") + " " + label;
+		String label = ((ClazzCandidate) object).getName();
+		return label == null || label.length() == 0 ? getString("_UI_ClazzCandidate_type")
+				: getString("_UI_ClazzCandidate_type") + " " + label;
 	}
 
 	/**
@@ -175,12 +159,11 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(ClazzCondidate.class)) {
-		case MetamodelPackage.CLAZZ_CONDIDATE__CONFIDENCE:
-		case MetamodelPackage.CLAZZ_CONDIDATE__ACCEPT:
+		switch (notification.getFeatureID(ClazzCandidate.class)) {
+		case MetamodelPackage.CLAZZ_CANDIDATE__CONFIDENCE:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
-		case MetamodelPackage.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE:
+		case MetamodelPackage.CLAZZ_CANDIDATE__ATTRIBUTECONDIDATE:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 			return;
 		}
@@ -198,8 +181,8 @@ public class ClazzCondidateItemProvider extends NamedElementItemProvider {
 	protected void collectNewChildDescriptors(Collection<Object> newChildDescriptors, Object object) {
 		super.collectNewChildDescriptors(newChildDescriptors, object);
 
-		newChildDescriptors.add(createChildParameter(MetamodelPackage.Literals.CLAZZ_CONDIDATE__ATTRIBUTECONDIDATE,
-				MetamodelFactory.eINSTANCE.createAttributeCondidate()));
+		newChildDescriptors.add(createChildParameter(MetamodelPackage.Literals.CLAZZ_CANDIDATE__ATTRIBUTECONDIDATE,
+				MetamodelFactory.eINSTANCE.createAttributeCandidate()));
 	}
 
 }

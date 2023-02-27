@@ -2,9 +2,9 @@
  */
 package ca.umontreal.geodes.meriem.cdeditor.metamodel.provider;
 
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate;
-
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelPackage;
+
 import java.util.Collection;
 import java.util.List;
 
@@ -17,19 +17,19 @@ import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCondidate} object.
+ * This is the item provider adapter for a {@link ca.umontreal.geodes.meriem.cdeditor.metamodel.AttributeCandidate} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class AttributeCondidateItemProvider extends TypedElementItemProvider {
+public class AttributeCandidateItemProvider extends TypedElementItemProvider {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public AttributeCondidateItemProvider(AdapterFactory adapterFactory) {
+	public AttributeCandidateItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -66,14 +66,14 @@ public class AttributeCondidateItemProvider extends TypedElementItemProvider {
 	}
 
 	/**
-	 * This returns AttributeCondidate.gif.
+	 * This returns AttributeCandidate.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/AttributeCondidate"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/AttributeCandidate"));
 	}
 
 	/**
@@ -94,9 +94,9 @@ public class AttributeCondidateItemProvider extends TypedElementItemProvider {
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((AttributeCondidate) object).getName();
-		return label == null || label.length() == 0 ? getString("_UI_AttributeCondidate_type")
-				: getString("_UI_AttributeCondidate_type") + " " + label;
+		String label = ((AttributeCandidate) object).getName();
+		return label == null || label.length() == 0 ? getString("_UI_AttributeCandidate_type")
+				: getString("_UI_AttributeCandidate_type") + " " + label;
 	}
 
 	/**
@@ -110,8 +110,8 @@ public class AttributeCondidateItemProvider extends TypedElementItemProvider {
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(AttributeCondidate.class)) {
-		case MetamodelPackage.ATTRIBUTE_CONDIDATE__NAME:
+		switch (notification.getFeatureID(AttributeCandidate.class)) {
+		case MetamodelPackage.ATTRIBUTE_CANDIDATE__NAME:
 			fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 			return;
 		}
