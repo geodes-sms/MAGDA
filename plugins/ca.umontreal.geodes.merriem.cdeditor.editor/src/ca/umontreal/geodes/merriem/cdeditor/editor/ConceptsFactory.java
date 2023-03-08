@@ -51,7 +51,7 @@ public class ConceptsFactory {
 
 	}
 
-	public void updateConfidenceCondidate(String key, Session session, Model model, int value) {
+	public void updateConfidenceCandidate(String key, Session session, Model model, int value) {
 		try {
 
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -59,20 +59,24 @@ public class ConceptsFactory {
 
 			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 
+			
+			
+			
 			CommandStack stack = domain.getCommandStack();
 
 			RecordingCommand cmd = new RecordingCommand(domain) {
 
 				@Override
 				protected void doExecute() {
-					Model model = services.getModel();
+					
 					List<ClazzCandidate> listSuggestions = model.getClazzcondidate();
 					for (int j = 0; j < listSuggestions.size(); j++) {
 						if (listSuggestions.get(j).getName().replaceAll("\\s+", "")
 								.equalsIgnoreCase(key.replaceAll("\\s+", ""))) {
 							int previousConfidence = listSuggestions.get(j).getConfidence();
+							System.out.println("confidence");
 							listSuggestions.get(j).setConfidence(previousConfidence + value);
-							break;
+							//break;
 						}
 					}
 
@@ -165,7 +169,7 @@ public class ConceptsFactory {
 
 	}
 
-	public void createClassCondidate(String Name, String confidence, Session session, Model model) {
+	public void createClassCandidate(String Name, String confidence, Session session, Model model) {
 		if (!Name.equals("")) {
 			try {
 
@@ -218,7 +222,7 @@ public class ConceptsFactory {
 		}
 	}
 
-	public void deletetClassCondidate(String classToRemove, Session session) {
+	public void deleteClassCandidate(String classToRemove, Session session) {
 
 		try {
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -242,7 +246,6 @@ public class ConceptsFactory {
 								.equals(classToRemove.replaceAll("\\s+", ""))) {
 							index = i;
 
-							break;
 						}
 					}
 					model.getClazzcondidate().remove(index);

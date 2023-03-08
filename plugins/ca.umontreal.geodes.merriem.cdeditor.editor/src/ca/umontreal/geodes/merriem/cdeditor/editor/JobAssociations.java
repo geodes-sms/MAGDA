@@ -79,6 +79,7 @@ public class JobAssociations extends Job {
 
 				}
 			});
+			Listener.AssociationJobLaunched = false;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

@@ -44,6 +44,7 @@ public class AssociationsFactory {
 		List<Clazz> allClasses = model.getClazz();
 		Clazz ClassSource = null;
 		Clazz ClassTarget = null;
+		List<Association> AssociationsInCanvas = model.getAssociation(); 
 		for (int i = 0; i < allClasses.size(); i++) {
 
 			if (allClasses.get(i).getName().replaceAll("\\s+", "").equals(Source.replaceAll("\\s+", ""))) {
@@ -77,6 +78,14 @@ public class AssociationsFactory {
 		if (ClassTarget.getIsMember() != null) {
 			if (ClassTarget.getIsMember().getName().equals(Source)) {
 				return true;
+			}
+		}
+		for(int i=0; i<AssociationsInCanvas.size(); i++) {
+			if(AssociationsInCanvas.get(i).getSource().getName().equals(Source) && AssociationsInCanvas.get(i).getTarget().getName().equals(Target) ) {
+				return true; 
+			}
+			if(AssociationsInCanvas.get(i).getSource().getName().equals(Target) && AssociationsInCanvas.get(i).getTarget().getName().equals(Source)) {
+				return true; 
 			}
 		}
 

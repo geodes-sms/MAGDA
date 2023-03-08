@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <metamodel:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.umontreal.geodes/metamodel">
-  <clazz name="room" has="//@clazz.1"/>
-  <clazz name="hotel" isMember="//@clazz.0"/>
+  <clazz name="hotel"/>
   <clazz name="manager">
     <attributes name=" department" type=" String"/>
     <attributes name=" yearsOfExperience" type=" int"/>
@@ -9,8 +8,4 @@
     <attributes name=" name" type=" String"/>
     <attributes name=" speciality" type=" String"/>
   </clazz>
-  <clazz name="Guest"/>
-  <association name="" source="//@clazz.2" target="//@clazz.3"/>
-  <association name="stay" source="//@clazz.3" target="//@clazz.0"/>
-  <association name="" source="//@clazz.3" target="//@clazz.1"/>
 </metamodel:Model>

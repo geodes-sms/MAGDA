@@ -45,7 +45,7 @@ public class ConceptsPrediction implements IConceptsPrediction {
 
 				Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
 				concpetsPrompt.setPrompt();
-				String[] arrayConceptsName = concpetsPrompt.run(15, 0.7, "text-davinci-002");
+				String[] arrayConceptsName = concpetsPrompt.run(8, 0.7, "text-davinci-002");
 
 				predictionLists.add(arrayConceptsName);
 
@@ -68,7 +68,9 @@ public class ConceptsPrediction implements IConceptsPrediction {
 							input = input.concat(",").concat(classesInModel.get(z).getName());
 							Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
 							concpetsPrompt.setPrompt();
-							String[] arrayConceptsName = concpetsPrompt.run(20, 0.7, "text-davinci-002");
+							System.out.println("is it working ? ");
+
+							String[] arrayConceptsName = concpetsPrompt.run(8, 0.7, "text-davinci-002");
 
 							predictionLists.add(arrayConceptsName);
 							System.out.println(arrayConceptsName);
@@ -102,6 +104,8 @@ public class ConceptsPrediction implements IConceptsPrediction {
 
 			return convertedResults;
 		} catch (Exception e) {
+			
+			System.out.println("Exception happened while  predicting Concepts ! ");
 			System.out.println(e);
 			return null;
 		}

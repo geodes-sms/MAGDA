@@ -18,8 +18,8 @@ public class AssociationsPredictionDummy implements IAssociationsPrediction {
 		HashMap<String,String> itemAssociation = new  HashMap<String,String>();
 		itemAssociation.put("Type", "association");
 		itemAssociation.put("Name", "nameOfAssociation");
-		itemAssociation.put("Target", "plane");
-		itemAssociation.put("Source", "airport");
+		itemAssociation.put("Target", "manager");
+		itemAssociation.put("Source", "Guest");
 		results.add(itemAssociation);
 
 		return results;

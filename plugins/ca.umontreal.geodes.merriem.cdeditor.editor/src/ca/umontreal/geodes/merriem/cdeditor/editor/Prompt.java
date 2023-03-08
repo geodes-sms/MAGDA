@@ -33,7 +33,7 @@ public abstract class Prompt {
 
 	public abstract String[] interceptResults(String Results);
 
-	private static final int MAX_ATTEMPTS = 5;
+	private static final int MAX_ATTEMPTS = 8;
 	private static final long INITIAL_BACKOFF_MS = 1000;
 	private static final double BACKOFF_MULTIPLIER = 2.0;
 	private static final Random random = new Random();
@@ -46,7 +46,7 @@ public abstract class Prompt {
 				String Results = "";
 				String[] GeneratedList = new String[25];
 				// To do set env variables
-				String token = "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";
+				String token = "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";
 
 				OpenAiService theService = new OpenAiService(token);
 

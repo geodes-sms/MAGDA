@@ -12,7 +12,7 @@ public class AttributesPredictionDummy implements IAttributesPrediction {
 	
 
 	@Override
-	public HashMap<String, String> run(EObject node, String NodeName, Model model) {
+	public HashMap<String, String> run(EObject node, String NodeName, Model model, boolean yes) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -4,9 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Properties;
+import java.util.Random;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.gmf.runtime.diagram.ui.commands.CreateOrSelectElementCommand.LabelProvider;
@@ -22,7 +25,7 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 public class AttributesPrediction implements IAttributesPrediction {
 
 	@Override
-	public HashMap<String, String> run(EObject node, String NodeName, Model model) {
+	public HashMap<String, String> run(EObject node, String NodeName, Model model, boolean isAtEndCompletion) {
 		try {
 			/*
 			 * String NodeName = node.toString().split(":", 2)[1].replace(")", ""); NodeName
@@ -50,11 +53,33 @@ public class AttributesPrediction implements IAttributesPrediction {
 				input = "";
 			Prompt attributesNamePrompt = new AttributesNamePrompt(NodeName.concat(input), "\n", " : [ ");
 			attributesNamePrompt.setPrompt();
-			System.out.println("predicting attributes...");
+			System.out.println("predicting attributes...for class :  "+ NodeName);
 
 			String[] arrayAttributes = attributesNamePrompt.run(15, 0.7, "text-davinci-002");
 
 			// type of predicted attribute
+			String[] arrayAttributesTemp = new String[4];
+
+			/**
+			 * Strategy: Consider three attributes or less to be added to canvas when it's
+			 * global prediction;
+			 * 
+			 **/
+
+			if (isAtEndCompletion) {
+				List<String> arrayAttributesList = new ArrayList<String>(Arrays.asList(arrayAttributes));
+				for (int k = 0; k < 3; k++) {
+					if (arrayAttributesList.size() != 0) {
+						Random random = new Random();
+						int index = random.nextInt(arrayAttributesList.size());
+						arrayAttributesTemp[k] = arrayAttributesList.get(index);
+						arrayAttributesList.remove(index);
+					}
+
+				}
+				arrayAttributes = arrayAttributesTemp;
+			}
+
 			for (int i = 0; i < arrayAttributes.length; i++) {
 				Prompt attributesTypePrompt = new AttributesTypePrompt(arrayAttributes[i], "\n", " => ");
 				attributesTypePrompt.setPrompt();

@@ -108,53 +108,54 @@ public class PredictAtEnd extends AbstractHandler {
 				 * Strategy: predict relevant classes for each concept in the canvas, then
 				 * consider top 25% with higher frequency.
 				 **/
-				List<String> Results = new ArrayList<String>();
-
-				for (int i = 0; i < classes.size(); i++) {
-					IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
-					List<HashMap<String, String>> Concepts = conceptsPrediction.run(classes.get(i).getName(), null,
-							model);
-					for (String key : Concepts.get(0).keySet()) {
-						Results.add(key);
-					}
-				}
-
-				// Map<String, Integer> hm = countFrequencies(Results);
-				HashMap<String, Integer> sortedMap = new HashMap<String, Integer>(countFrequencies(Results));
-				List<Entry<String, Integer>> nlist = new ArrayList<>(sortedMap.entrySet());
-				nlist.sort(Entry.comparingByValue(Comparator.reverseOrder()));
-
-				System.out.print("alll concepts ");
-				System.out.print(sortedMap);
-				List<String> topConcepts = new ArrayList<String>();
-				int l = 0;
-
-				for (Entry<String, Integer> set : nlist) {
-					if (l < 4) {
-						l++;
-						topConcepts.add(set.getKey().toLowerCase());
-					} else {
-						break;
-					}
-				}
-				System.out.print("chosen ones ");
-				System.out.print(topConcepts);
-
-				for (String key : topConcepts) {
-					System.out.print(key);
-					if (!services.containsIgnoreCase(classesInModel, key)) {
-						conceptsFactory.createClass((String) key, session, true);
-					}
-				}
+//				List<String> Results = new ArrayList<String>();
 //
-//				/**
-//				 * One strategy: predict attributes even for potential classes
-//				 **/
+//				for (int i = 0; i < classes.size(); i++) {
+//					IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
+//					List<HashMap<String, String>> Concepts = conceptsPrediction.run(classes.get(i).getName(), null,
+//							model);
+//					for (String key : Concepts.get(0).keySet()) {
+//						Results.add(key);
+//					}
+//				}
+//
+//				// Map<String, Integer> hm = countFrequencies(Results);
+//				HashMap<String, Integer> sortedMap = new HashMap<String, Integer>(countFrequencies(Results));
+//				List<Entry<String, Integer>> nlist = new ArrayList<>(sortedMap.entrySet());
+//				nlist.sort(Entry.comparingByValue(Comparator.reverseOrder()));
+//
+//				System.out.print("alll concepts ");
+//				System.out.print(sortedMap);
+//				List<String> topConcepts = new ArrayList<String>();
+//				int l = 0;
+//
+//				for (Entry<String, Integer> set : nlist) {
+//					if (l < 3) {
+//						l++;
+//						topConcepts.add(set.getKey().toLowerCase());
+//					} else {
+//						break;
+//					}
+//				}
+//				System.out.print("chosen ones ");
+//				System.out.print(topConcepts);
+//
+//				for (String key : topConcepts) {
+//					System.out.print(key);
+//					if (!services.containsIgnoreCase(classesInModel, key)) {
+//						conceptsFactory.createClass((String) key, session, true);
+//					}
+//				}
+
+				/**
+				 * One strategy: predict attributes even for potential classes
+				 * Predict only 3 attributes each
+				 **/
 //				for (String key : topConcepts) {
 //					HashMap<String, String> typeAttributes = new HashMap<String, String>();
 //					IAttributesPrediction attributesPredcition = new AttributesPrediction();
 //
-//					typeAttributes = attributesPredcition.run(null, (String) key, model);
+//					typeAttributes = attributesPredcition.run(null, (String) key, model , true);
 //					if (typeAttributes != null) {
 //						System.out.println("full of attributes");
 //						for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
@@ -169,14 +170,22 @@ public class PredictAtEnd extends AbstractHandler {
 //						System.out.println("attributes list is empty");
 //					}
 //				}
-
+				/**
+				 * One strategy: predict associations even for potential classes
+				 * how many associations to be predicted ? 
+				 **/
 				IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
+				IAssociationsPrediction associationsPredictionDummy = new AssociationsPredictionDummy();
 				List<HashMap<String, String>> allResults = new ArrayList<HashMap<String, String>>();
 				EList<Clazz> Allclasses = model.getClazz();
+				
+				
 				for (int i = 0; i < Allclasses.size(); i++) {
 					String className = Allclasses.get(i).getName();
 
-					List<HashMap<String, String>> res = associationsPrediction.run(className, null, model);
+					//List<HashMap<String, String>> res = associationsPrediction.run(className, null, model);
+					List<HashMap<String, String>> res = associationsPredictionDummy.run(className, null, model);
+
 					if (res != null) {
 						allResults.addAll(res);
 					}
@@ -206,7 +215,7 @@ public class PredictAtEnd extends AbstractHandler {
 				
 				System.out.println("Associatios ******************************");
 				for (int j = 0; j < allResults.size(); j++) {
-					System.out.println("Associatios ******************************");
+					
 
 					if (!(allResults.get(j).get("Type").replaceAll("\\s+", "").equals(""))
 							&& (!(allResults.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
@@ -217,9 +226,15 @@ public class PredictAtEnd extends AbstractHandler {
 
 						if (!associationsFactory.checkAssociationExist(allResults.get(j).get("Target"),
 								allResults.get(j).get("Source"), services.getModel())) {
+							
+							System.out.println("creating Associatios ******************************");
+							
 							associationsFactory.createAssociation(allResults.get(j).get("Type"),
 									allResults.get(j).get("Name"), allResults.get(j).get("Target"),
 									allResults.get(j).get("Source"), session, false);
+						}
+						else {
+							System.out.println("already cyclic  Associatios ******************************");
 						}
 
 					}

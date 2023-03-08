@@ -46,13 +46,12 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 						}
 					}
 				}
+
 				for (int j = 0; j < Associations.size(); j++) {
-					if (Associations.get(j).getSource() != null) {
+					if (Associations.get(j).getSource() != null && Associations.get(j).getTarget() != null) {
 						if (Associations.get(j).getSource().getName().equals(className)) {
 							classesAssociatedTo.add(Associations.get(j).getTarget().getName().replaceAll("\\s+", ""));
 						}
-					}
-					if (Associations.get(j).getTarget() != null) {
 
 						if (Associations.get(j).getTarget().getName().equals(className)) {
 							classesAssociatedTo.add(Associations.get(j).getSource().getName().replaceAll("\\s+", ""));
@@ -96,7 +95,6 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 			System.out.println(e);
 			return null;
 		}
-
 
 	}
 

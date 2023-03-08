@@ -63,14 +63,15 @@ public class Listener extends ResourceSetListenerImpl {
 								 **/
 
 								if (concepstJobLaunched == false) {
+									
 									concepstJobLaunched = true;
 									JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services, model,
-											session);
-									concepstJobLaunched = false;
+											session,true);
+									
 									jobConcepts.setPriority(Job.SHORT);
 									jobConcepts.schedule();
 									//jobConcepts.cancel();
-
+									//concepstJobLaunched = false;
 								}
 
 								/***
@@ -82,7 +83,7 @@ public class Listener extends ResourceSetListenerImpl {
 									JobAttributes jobAttributes = new JobAttributes("Attributes prediction", services,
 											model);
 									// I changed the place of this to out of the Job
-									AttributesJobLaunched = false;
+									
 									jobAttributes.setPriority(Job.SHORT);
 									jobAttributes.schedule();
 									//jobAttributes.cancel();
@@ -96,10 +97,8 @@ public class Listener extends ResourceSetListenerImpl {
 									AssociationJobLaunched = true;
 									Job jobAssociations = new JobAssociations("Associations prediction", services,
 											model, session);
-									AssociationJobLaunched = false;
 									jobAssociations.setPriority(Job.SHORT);
 									jobAssociations.schedule();
-									System.out.println("Association prediction finished");
 									// jobAssociations.cancel();
 								}
 

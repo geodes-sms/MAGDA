@@ -107,13 +107,43 @@ public class ViewAssociations extends ViewPart {
 //				}
 //			}
 
+			HashMap<AssociationCandidate, Integer> selectedOPerations = new HashMap<>();
+
 			for (int i = 0; i < operationsCandidate.size(); i++) {
-				TableItem item = new TableItem(table, SWT.CHECK);
-				item.setText(0, operationsCandidate.get(i).getSource().getName());
-				item.setText(1, operationsCandidate.get(i).getTarget().getName());
-				item.setText(2, operationsCandidate.get(i).getName());
-				item.setText(3, operationsCandidate.get(i).getType());
+				Boolean find = false;
+				for (AssociationCandidate associationCandidateKey : selectedOPerations.keySet()) {
+					if (operationsCandidate.get(i).getSource().getName()
+							.equals(associationCandidateKey.getSource().getName())
+							&& operationsCandidate.get(i).getTarget().getName()
+									.equals(associationCandidateKey.getTarget().getName())) {
+						find = true;
+						int score = selectedOPerations.get(associationCandidateKey);
+						selectedOPerations.put(associationCandidateKey, score + 1);
+
+					}
+				}
+				if (!find) {
+					selectedOPerations.put(operationsCandidate.get(i), 1);
+				}
 			}
+
+			for (AssociationCandidate associationCandidateKey : selectedOPerations.keySet()) {
+				TableItem item = new TableItem(table, SWT.CHECK);
+				item.setText(0, associationCandidateKey.getSource().getName());
+				item.setText(1, associationCandidateKey.getTarget().getName());
+				item.setText(2, associationCandidateKey.getName());
+				item.setText(3, associationCandidateKey.getType());
+				item.setText(5, selectedOPerations.get(associationCandidateKey).toString());
+
+			}
+
+//			for (int i = 0; i < operationsCandidate.size(); i++) {
+//				TableItem item = new TableItem(table, SWT.CHECK);
+//				item.setText(0, operationsCandidate.get(i).getSource().getName());
+//				item.setText(1, operationsCandidate.get(i).getTarget().getName());
+//				item.setText(2, operationsCandidate.get(i).getName());
+//				item.setText(3, operationsCandidate.get(i).getType());
+//			}
 			for (int i = 0; i < titles.length; i++) {
 				table.getColumn(i).pack();
 			}
@@ -123,11 +153,13 @@ public class ViewAssociations extends ViewPart {
 				TableEditor editor = new TableEditor(table);
 				TableItem item = items[i];
 				Button button = new Button(table, SWT.PUSH);
+				button.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, true));
+				editor.grabHorizontal = true;
+				editor.minimumWidth = 50;
 				button.setText("Draw");
-				button.setSize(80, 16);
 				button.pack();
-				editor.minimumWidth = button.getSize().x;
-				editor.horizontalAlignment = SWT.LEFT;
+				
+	
 				editor.setEditor(button, item, 4);
 				editor.layout();
 				button.addMouseListener(new MouseListener() {
@@ -141,9 +173,7 @@ public class ViewAssociations extends ViewPart {
 					public void mouseDown(MouseEvent e) {
 						try {
 							Session session = services.getSession();
-							button.setVisible(false);
-							button.dispose();
-							table.remove(indexItem);
+							
 
 							// need to figure it out, what is acceptedAssociation
 //							if (Services.relatedAssociations != null) {
@@ -159,7 +189,9 @@ public class ViewAssociations extends ViewPart {
 									item.getText(0), session);
 							associationsFactory.createAssociation(item.getText(3), item.getText(2), item.getText(1),
 									item.getText(0), session, false);
-
+							button.setVisible(false);
+							button.dispose();
+							table.remove(indexItem);
 							// TO DO: remove the association from hashmap in session.
 
 						} catch (Exception e1) {
