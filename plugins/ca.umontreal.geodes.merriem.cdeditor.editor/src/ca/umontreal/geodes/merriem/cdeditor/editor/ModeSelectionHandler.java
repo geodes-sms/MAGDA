@@ -5,6 +5,10 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.swt.widgets.Display;
+
+import java.util.logging.Handler;
+import java.util.logging.Logger;
+
 import org.eclipse.core.commands.AbstractHandler;
 /**
  * mode selection:
@@ -23,6 +27,7 @@ public class ModeSelectionHandler extends AbstractHandler {
 	}
 
 	public Object execute(ExecutionEvent event) throws ExecutionException {
+		
 	String[] options = { "Automatic complete", "Complete on Request", "Complete at end" };
 	
 		

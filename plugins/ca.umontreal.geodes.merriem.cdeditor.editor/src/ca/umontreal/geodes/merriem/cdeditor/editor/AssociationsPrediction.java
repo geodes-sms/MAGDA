@@ -77,11 +77,26 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 							String[] arrayAssociationType = associtaionsTypePrompt.run(1, 0.7, "text-davinci-002");
 							Type = arrayAssociationType[0];
 							System.out.println(Type);
+							String Target=  classesInModel.get(i).getName();
+							String Source= className; 
+							
+							if(Type=="inheritance" || arrayAssociationName[0].replaceAll("\\s+", "").equalsIgnoreCase("is") ) {
+								System.out.println("running source and target check for inheritance association");
+								System.out.println("previous target : super  : " + Target );
+								Prompt inheritancePrompt = new InheritancePrompt(input, "\n", "=> ");
+								String[] resultInheritance = inheritancePrompt.run(1, 0.7, "text-davinci-002");
+								if(! Target.equalsIgnoreCase(resultInheritance[0])) {
+									Source =Target; 
+									Target = resultInheritance[0];
+								
+								}
+								System.out.println("new target : super  : " + Target );
+							}
 
 							itemAssociation.put("Name", arrayAssociationName[0].replaceAll("\\s+", ""));
 							itemAssociation.put("Type", Type.replaceAll("\\s+", ""));
-							itemAssociation.put("Target", classesInModel.get(i).getName());
-							itemAssociation.put("Source", className);
+							itemAssociation.put("Target", Target);
+							itemAssociation.put("Source", Source);
 							results.add(itemAssociation);
 
 						}

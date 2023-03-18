@@ -88,7 +88,7 @@ public class PredictAtEnd extends AbstractHandler {
 			try {
 				Services services;
 				List<String> types = new ArrayList<>(List.of("int", "string", "float", "char", "boolean", "double",
-						"byte", "array", "object", "collection"));
+						"byte", "array", "object", "collection", "Date"));
 				services = new Services();
 				AttributesFactory attributesFactory = new AttributesFactory();
 				Session session = services.getSession();
@@ -108,68 +108,75 @@ public class PredictAtEnd extends AbstractHandler {
 				 * Strategy: predict relevant classes for each concept in the canvas, then
 				 * consider top 25% with higher frequency.
 				 **/
-//				List<String> Results = new ArrayList<String>();
-//
-//				for (int i = 0; i < classes.size(); i++) {
-//					IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
-//					List<HashMap<String, String>> Concepts = conceptsPrediction.run(classes.get(i).getName(), null,
-//							model);
-//					for (String key : Concepts.get(0).keySet()) {
-//						Results.add(key);
-//					}
-//				}
-//
-//				// Map<String, Integer> hm = countFrequencies(Results);
-//				HashMap<String, Integer> sortedMap = new HashMap<String, Integer>(countFrequencies(Results));
-//				List<Entry<String, Integer>> nlist = new ArrayList<>(sortedMap.entrySet());
-//				nlist.sort(Entry.comparingByValue(Comparator.reverseOrder()));
-//
-//				System.out.print("alll concepts ");
-//				System.out.print(sortedMap);
-//				List<String> topConcepts = new ArrayList<String>();
-//				int l = 0;
-//
-//				for (Entry<String, Integer> set : nlist) {
-//					if (l < 3) {
-//						l++;
-//						topConcepts.add(set.getKey().toLowerCase());
-//					} else {
-//						break;
-//					}
-//				}
-//				System.out.print("chosen ones ");
-//				System.out.print(topConcepts);
-//
-//				for (String key : topConcepts) {
-//					System.out.print(key);
-//					if (!services.containsIgnoreCase(classesInModel, key)) {
-//						conceptsFactory.createClass((String) key, session, true);
-//					}
-//				}
+				List<String> Results = new ArrayList<String>();
+
+				for (int i = 0; i < classes.size(); i++) {
+					IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
+					List<HashMap<String, String>> Concepts = conceptsPrediction.run(classes.get(i).getName(), null,
+							model);
+					for (String key : Concepts.get(0).keySet()) {
+						Results.add(key);
+					}
+				}
+
+				// Map<String, Integer> hm = countFrequencies(Results);
+				HashMap<String, Integer> sortedMap = new HashMap<String, Integer>(countFrequencies(Results));
+				List<Entry<String, Integer>> nlist = new ArrayList<>(sortedMap.entrySet());
+				nlist.sort(Entry.comparingByValue(Comparator.reverseOrder()));
+
+				System.out.print("alll concepts ");
+				System.out.print(sortedMap);
+				List<String> topConcepts = new ArrayList<String>();
+				int l = 0;
+
+				for (Entry<String, Integer> set : nlist) {
+					if (l < 2) {
+						l++;
+						topConcepts.add(set.getKey().toLowerCase());
+					} else {
+						break;
+					}
+				}
+				System.out.print("chosen ones ");
+				System.out.print(topConcepts);
+
+				for (String key : topConcepts) {
+					System.out.print(key);
+					if (!services.containsIgnoreCase(classesInModel, key)) {
+						conceptsFactory.createClass((String) key, session, true);
+					}
+				}
 
 				/**
 				 * One strategy: predict attributes even for potential classes
 				 * Predict only 3 attributes each
 				 **/
-//				for (String key : topConcepts) {
-//					HashMap<String, String> typeAttributes = new HashMap<String, String>();
-//					IAttributesPrediction attributesPredcition = new AttributesPrediction();
-//
-//					typeAttributes = attributesPredcition.run(null, (String) key, model , true);
-//					if (typeAttributes != null) {
-//						System.out.println("full of attributes");
-//						for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
-//							if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
-//									&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
-//								if (services.containsIgnoreCase(types, set.getValue().replaceAll(" ", ""))) {
-//									attributesFactory.createAttribute(set.getKey(), set.getValue(), key, session, true);
-//								}
-//							}
-//						}
-//					} else {
-//						System.out.println("attributes list is empty");
-//					}
-//				}
+				for (String key : topConcepts) {
+					HashMap<String, String> typeAttributes = new HashMap<String, String>();
+					IAttributesPrediction attributesPredcition = new AttributesPrediction();
+
+					typeAttributes = attributesPredcition.run(null, (String) key, model , true);
+					if (typeAttributes != null) {
+						System.out.println("full of attributes");
+						for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
+							if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
+									&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
+								if (services.containsIgnoreCase(types, set.getValue().replaceAll(" ", ""))) {
+									attributesFactory.createAttribute(set.getKey(), set.getValue(), key, session, true);
+								}
+							}
+						}
+					} else {
+						System.out.println("attributes list is empty");
+					}
+				}
+				
+				/**
+				 * TO DO : predict missing attributes for classes in Canvas
+				 * Predict only 3 attributes each max
+				 **/
+				
+				
 				/**
 				 * One strategy: predict associations even for potential classes
 				 * how many associations to be predicted ? 
@@ -183,8 +190,8 @@ public class PredictAtEnd extends AbstractHandler {
 				for (int i = 0; i < Allclasses.size(); i++) {
 					String className = Allclasses.get(i).getName();
 
-					//List<HashMap<String, String>> res = associationsPrediction.run(className, null, model);
-					List<HashMap<String, String>> res = associationsPredictionDummy.run(className, null, model);
+					List<HashMap<String, String>> res = associationsPrediction.run(className, null, model);
+					//List<HashMap<String, String>> res = associationsPredictionDummy.run(className, null, model);
 
 					if (res != null) {
 						allResults.addAll(res);
@@ -216,7 +223,7 @@ public class PredictAtEnd extends AbstractHandler {
 				System.out.println("Associatios ******************************");
 				for (int j = 0; j < allResults.size(); j++) {
 					
-
+					
 					if (!(allResults.get(j).get("Type").replaceAll("\\s+", "").equals(""))
 							&& (!(allResults.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
 

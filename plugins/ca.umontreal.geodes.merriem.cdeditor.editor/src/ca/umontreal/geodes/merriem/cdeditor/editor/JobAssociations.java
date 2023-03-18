@@ -21,6 +21,7 @@ public class JobAssociations extends Job {
 	private Model model;
 
 	private Session session;
+
 	public JobAssociations(String name, Services services, Model model, Session session) {
 		super(name);
 		try {
@@ -38,37 +39,39 @@ public class JobAssociations extends Job {
 	protected IStatus run(IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		try {
-			List<Clazz> classes = model.getClazz();
 			TimeUnit.SECONDS.sleep(13);
+			List<Clazz> classes = model.getClazz();
 			System.out.println("Association prediction launched");
 			IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
+			AssociationsFactory associationsFactory = new AssociationsFactory(services);
 
 			for (int i = 0; i < classes.size(); i++) {
-				String className = classes.get(i).getName();
-				if (Services.relatedAssociations == null) {
-					Services.relatedAssociations = new HashMap<String, List<String>>();
-				}
-				if (!Services.relatedAssociations.containsKey(classes.get(i).getName())) {
+				if (classes.get(i).getName() != null) {
+					String className = classes.get(i).getName();
+					if (Services.relatedAssociations == null) {
+						Services.relatedAssociations = new HashMap<String, List<String>>();
+					}
+					if (!Services.relatedAssociations.containsKey(classes.get(i).getName())) {
 
-					List<HashMap<String, String>> res = associationsPrediction.run(className, null, model);
+						List<HashMap<String, String>> res = associationsPrediction.run(className, null, model);
 
-					List<String> items = new ArrayList<String>();
-					String item;
-					for (int j = 0; j < res.size(); j++) {
-						if (!(res.get(j).get("Type").replaceAll("\\s+", "").equals(""))
-								&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
+						List<String> items = new ArrayList<String>();
+						String item;
+						for (int j = 0; j < res.size(); j++) {
+							if (!(res.get(j).get("Type").replaceAll("\\s+", "").equals(""))
+									&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
 
-							item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + ","
-									+ res.get(j).get("Target") + "]; Name => " + res.get(j).get("Name");
-							items.add(item);
-							AssociationsFactory associationsFactory = new AssociationsFactory();
+								item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + ","
+										+ res.get(j).get("Target") + "]; Name => " + res.get(j).get("Name");
+								items.add(item);
 
-							associationsFactory.createAssociationcandidate(res.get(j).get("Type"),
-									res.get(j).get("Name"), res.get(j).get("Target"), res.get(j).get("Source"), session,
-									model);
+								associationsFactory.createAssociationcandidate(res.get(j).get("Type"),
+										res.get(j).get("Name"), res.get(j).get("Target"), res.get(j).get("Source"),
+										session, model);
 
-							Services.relatedAssociations.put(className, items);
+								Services.relatedAssociations.put(className, items);
 
+							}
 						}
 					}
 				}

@@ -46,9 +46,20 @@ public class Listener extends ResourceSetListenerImpl {
 					if (object.getFeature() instanceof EReferenceImpl) {
 						EReferenceImpl x = (EReferenceImpl) object.getFeature();
 						// check if not already launched
-
 						// eventType ==3 ; ADD
+						 int attributeNumber= 0 ; 
+						 int associationsNumber = 0 ; 
+						 int inheritanceNumber = 0 ; 
+						 int compositionNumber=0 ; 
+						 int classNumbers= 0 ; 
+							
 						if (x.getName().equals("clazz") && object.getEventType() == 3) {
+							classNumbers++ ; 
+							if(classNumbers ==0 ) {
+							 Services.loggerServices.info("Create class");
+							 } else if (classNumbers==7) {
+								 classNumbers=0; 
+							 }
 
 							Services services;
 
@@ -63,15 +74,15 @@ public class Listener extends ResourceSetListenerImpl {
 								 **/
 
 								if (concepstJobLaunched == false) {
-									
+
 									concepstJobLaunched = true;
 									JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services, model,
-											session,true);
-									
+											session, true);
+
 									jobConcepts.setPriority(Job.SHORT);
 									jobConcepts.schedule();
-									//jobConcepts.cancel();
-									//concepstJobLaunched = false;
+									// jobConcepts.cancel();
+									// concepstJobLaunched = false;
 								}
 
 								/***
@@ -83,10 +94,10 @@ public class Listener extends ResourceSetListenerImpl {
 									JobAttributes jobAttributes = new JobAttributes("Attributes prediction", services,
 											model);
 									// I changed the place of this to out of the Job
-									
+
 									jobAttributes.setPriority(Job.SHORT);
 									jobAttributes.schedule();
-									//jobAttributes.cancel();
+									// jobAttributes.cancel();
 								}
 
 								/***
@@ -106,10 +117,47 @@ public class Listener extends ResourceSetListenerImpl {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
+							
+						} else if (x.getName().equals("attributes") && object.getEventType() == 3) {
+							
+							attributeNumber++ ; 
+							if(attributeNumber ==0 ) {
+								Services.loggerServices.info("Create attribute");
+							 } else if (attributeNumber==7) {
+								 attributeNumber=0; 
+							 }
 
+						} else if (x.getName().equals("generalizes") && object.getEventType() == 3) {
+
+
+							inheritanceNumber++ ; 
+							if(inheritanceNumber ==0 ) {
+								Services.loggerServices.info("Create inheritance ");
+							 } else if (inheritanceNumber==7) {
+								 inheritanceNumber=0; 
+							 }
+
+						} else if (x.getName().equals("isMember") && object.getEventType() == 3) {
+
+
+							compositionNumber++ ; 
+							if(compositionNumber ==0 ) {
+								Services.loggerServices.info("Create composition ");
+							 } else if (compositionNumber==7) {
+								 compositionNumber=0; 
+							 }
+
+						}	else if (x.getName().equals("association") && object.getEventType() == 3) {
+
+
+							associationsNumber++ ; 
+							if(associationsNumber ==0 ) {
+								Services.loggerServices.info("Create  association");
+							 } else if (associationsNumber==7) {
+								 associationsNumber=0; 
+							 }
 						}
 					}
-
 				}
 			} catch (Exception e1) {
 				e1.printStackTrace();

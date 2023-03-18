@@ -1,11 +1,16 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
 import java.awt.Component;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringWriter;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +18,10 @@ import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.FileHandler;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -66,6 +75,8 @@ import org.eclipse.ui.internal.EditorReference;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
+import java.util.logging.Logger;
+import java.util.logging.SimpleFormatter;
 
 /**
  * The services class used by VSM. Ps need to check flag Mode if it is set or
@@ -84,11 +95,13 @@ public class Services {
 	public static IViewPart suggestionView;
 	public static IViewPart associationView;
 	public static Mode mode;
+	public static Logger loggerServices;
 
 	public Services() throws Exception {
 		this.config = new Properties();
-
 		this.listener = (ResourceSetListener) new Listener();
+		// PropertyConfigurator.configure("log4j.properties");
+
 		try {
 			InputStream stream = Services.class.getClassLoader().getResourceAsStream("/config.properties");
 			this.config.load(stream);
@@ -110,7 +123,34 @@ public class Services {
 
 		domain.addResourceSetListener(listener);
 
+		if (Services.loggerServices == null) {
+			System.out.println("instanctiate");
+
+			loggerServices = Logger.getLogger(Services.class.getName());
+			loggerServices.setUseParentHandlers(false);
+			try {
+
+				FileHandler fileHandler = new FileHandler("/home/meriem/editorCD/class-diagram-editor" + "/logg.txt",
+						true);
+				fileHandler.setFormatter(new TextFormatter());
+				loggerServices.setLevel(Level.INFO);
+				loggerServices.addHandler(fileHandler);
+				loggerServices.info("Application started : ");
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		// Log the start of the application
+
 	};
+
+	public static String getCurrentTime() {
+		// Return the current time in the specified format
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return sdf.format(new Date());
+	}
 
 	public static void refreshSuggestionsView() {
 		// String id = "ca.umontreal.geodes.merriem.cdeditor.editor.view3";
@@ -125,7 +165,6 @@ public class Services {
 	public static void refreshAssociationsView() {
 
 		if (Services.associationView instanceof ViewAssociations) {
-			System.out.print("association view 1 ? ");
 
 			ViewAssociations viewAssociations = (ViewAssociations) Services.associationView;
 			viewAssociations.createContents();
@@ -257,11 +296,13 @@ public class Services {
 	}
 
 	public EObject getAttributePrediction(EObject node) {
+
+		Services.loggerServices.info("Demand Attributes Predcion ");
 		AttributesFactory attributesFactory = new AttributesFactory();
 		Session session = SessionManager.INSTANCE.getSession(node);
 		assert session != null;
 		List<String> types = new ArrayList<>(List.of("int", "string", "float", "char", "boolean", "double", "byte",
-				"array", "object", "collection"));
+				"array", "object", "collection", "date"));
 		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
 		NodeName = NodeName.replaceAll("\\s+", "");
 		List<String> ResultsTyped = new ArrayList<String>();
@@ -280,6 +321,7 @@ public class Services {
 			System.out.println("running attributes prediction ");
 			IAttributesPrediction attributesPredcition = new AttributesPrediction();
 			typeAttributes = attributesPredcition.run(node, NodeName, getModel(), false);
+			
 			Services.classAttributes.put(NodeName.toLowerCase(), typeAttributes);
 			// dummy example remove this
 			// typeAttributes =new HashMap<String, String>();
@@ -326,6 +368,8 @@ public class Services {
 
 				Object[] result = dialog.getResult();
 				if (result != null) {
+					// Services.loggerServices.info("Accept fromm Attributs list : " + result.length
+					// );
 					for (int i = 0; i < result.length; i++) {
 						String res = (String) result[i];
 						res = res.split(":")[0];
@@ -366,7 +410,7 @@ public class Services {
 
 				MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
 						"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
-				Services.classAttributes.remove(NodeName);
+				Services.classAttributes.remove(NodeName.toLowerCase());
 				int result = dialog.open();
 			}
 		}
@@ -379,6 +423,7 @@ public class Services {
 	}
 
 	public EObject getClassPrediction(EObject rootModel) {
+		Services.loggerServices.info("Demand Concepts Predcion ");
 
 		ConceptsFactory conceptsFactory = new ConceptsFactory();
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
@@ -439,7 +484,8 @@ public class Services {
 			relatedClasses = new HashMap<String, List<String>>();
 		}
 		if (relatedClasses.containsKey(className.toLowerCase())) {
-			if (!(relatedClasses.get(className.toLowerCase()).isEmpty()) && (relatedClasses.get(className.toLowerCase()).size() > 0)) {
+			if (!(relatedClasses.get(className.toLowerCase()).isEmpty())
+					&& (relatedClasses.get(className.toLowerCase()).size() > 0)) {
 				Results = relatedClasses.get(className.toLowerCase());
 			}
 		} else {
@@ -487,6 +533,7 @@ public class Services {
 			}
 			Object[] result = dialog.getResult();
 			if (result != null) {
+				Services.loggerServices.info("Accept from list of  Concepts ");
 				for (int i = 0; i < result.length; i++) {
 					if (!containsIgnoreCase(classNames, (String) result[i])) {
 						conceptsFactory.createClass((String) result[i], session, false);
@@ -559,6 +606,7 @@ public class Services {
 	}
 
 	public EObject getAssociationPrediction(EObject rootModel) {
+		Services.loggerServices.info("Demand Association Predcion ");
 		AssociationsFactory associationsFactory = new AssociationsFactory();
 		Session session = SessionManager.INSTANCE.getSession(rootModel);
 		assert session != null;
@@ -621,7 +669,7 @@ public class Services {
 
 			if (result != null) {
 				List<String> items = new ArrayList<String>(Arrays.asList(ArrayResultsTyped));
-
+				Services.loggerServices.info("Accept from list of  Concepts : " + result.length);
 				for (int j = 0; j < result.length; j++) {
 					item = (String) result[j];
 					String Type = item.split(":")[0];
@@ -654,6 +702,7 @@ public class Services {
 	}
 
 	public EObject approveClassCondidate(EObject rootModel) throws InterruptedException {
+		Services.loggerServices.info("Approve Class Candidate  ");
 		ConceptsFactory conceptsFactory = new ConceptsFactory();
 
 		Session session = SessionManager.INSTANCE.getSession(rootModel);

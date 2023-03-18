@@ -74,7 +74,6 @@ public class ConceptsFactory {
 						if (listSuggestions.get(j).getName().replaceAll("\\s+", "")
 								.equalsIgnoreCase(key.replaceAll("\\s+", ""))) {
 							int previousConfidence = listSuggestions.get(j).getConfidence();
-							System.out.println("confidence");
 							listSuggestions.get(j).setConfidence(previousConfidence + value);
 							//break;
 						}

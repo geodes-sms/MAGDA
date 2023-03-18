@@ -34,7 +34,7 @@ public class JobAttributes extends Job {
 
 			// Model model = this.services.getModel();
 
-			TimeUnit.SECONDS.sleep(10);
+			TimeUnit.SECONDS.sleep(15);
 			EList<Clazz> classes = model.getClazz();
 			HashMap<String, String> typeAttributes = new HashMap<String, String>();
 			IAttributesPrediction attributesPredcition = new AttributesPrediction();
@@ -42,11 +42,13 @@ public class JobAttributes extends Job {
 				Services.classAttributes = new HashMap<String, HashMap<String, String>>();
 			}
 			for (int i = 0; i < classes.size(); i++) {
-				if (!Services.classAttributes
-						.containsKey(classes.get(i).getName().replaceAll("\\s+", "").toLowerCase())) {
-					typeAttributes = attributesPredcition.run(null, classes.get(i).getName().toLowerCase(), model,
-							false);
-					Services.classAttributes.put(classes.get(i).getName().toLowerCase(), typeAttributes);
+				if (classes.get(i).getName() != null) {
+					if (!Services.classAttributes
+							.containsKey(classes.get(i).getName().replaceAll("\\s+", "").toLowerCase())) {
+						typeAttributes = attributesPredcition.run(null, classes.get(i).getName().toLowerCase(), model,
+								false);
+						Services.classAttributes.put(classes.get(i).getName().toLowerCase(), typeAttributes);
+					}
 				}
 			}
 			System.out.println("attributes  started ");

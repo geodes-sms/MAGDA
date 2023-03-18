@@ -21,7 +21,7 @@ public class JobConcepts extends Job {
 	private Services services;
 	private Model model;
 	private Session session;
-	private Boolean wait; 
+	private Boolean wait;
 
 	public JobConcepts(String name, Services services, Model model, Session session, Boolean wait) {
 		super(name);
@@ -29,7 +29,7 @@ public class JobConcepts extends Job {
 			this.services = services;
 			this.model = model;
 			this.session = session;
-			this.wait=wait;
+			this.wait = wait;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -43,7 +43,7 @@ public class JobConcepts extends Job {
 		// wait some time, to give the user add concept name.
 		try {
 			if (wait == true) {
-				TimeUnit.SECONDS.sleep(13);
+				TimeUnit.SECONDS.sleep(15);
 			}
 
 			System.out.println("job started ");
@@ -56,11 +56,14 @@ public class JobConcepts extends Job {
 			List<ClazzCandidate> classeCondidateInModel = model.getClazzcondidate();
 			List<Clazz> classesInModel = model.getClazz();
 			for (int i = 0; i < classesInModel.size(); i++) {
-
-				classNames.add(classesInModel.get(i).getName());
+				if (classesInModel.get(i).getName() != null) {
+					classNames.add(classesInModel.get(i).getName());
+				}
 			}
 			for (int i = 0; i < classeCondidateInModel.size(); i++) {
-				suggestedConcepts.add(classeCondidateInModel.get(i).getName());
+				if (classeCondidateInModel.get(i).getName() != null) {
+					suggestedConcepts.add(classeCondidateInModel.get(i).getName());
+				}
 			}
 
 			if (Services.relatedClasses == null) {
@@ -68,39 +71,43 @@ public class JobConcepts extends Job {
 			}
 			for (int i = 0; i < classes.size(); i++) {
 				List<String> Results = new ArrayList<String>();
-				if (!Services.relatedClasses.containsKey(classes.get(i).getName().toLowerCase())) {
-					IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
-					// rootModel is null
+				if (classes.get(i).getName() != null) {
+					if (!Services.relatedClasses.containsKey(classes.get(i).getName().toLowerCase())) {
+						IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
+						// rootModel is null
 
-					List<HashMap<String, String>> Concepts = conceptsPrediction.run(classes.get(i).getName(), null,
-							model);
-					for (String key : Concepts.get(0).keySet()) {
-						if (!services.containsIgnoreCase(classNames, key)) {
-							Results.add(key);
+						List<HashMap<String, String>> Concepts = conceptsPrediction.run(classes.get(i).getName(), null,
+								model);
+						for (String key : Concepts.get(0).keySet()) {
+							if (!services.containsIgnoreCase(classNames, key)) {
+								Results.add(key);
 
-						}
-					}
-
-					Services.relatedClasses.put(classes.get(i).getName().toLowerCase(), Results);
-					for (String key : Concepts.get(0).keySet()) {
-
-						if (!services.containsIgnoreCase(suggestedConcepts, key)) {
-
-							conceptsFactory.createClassCandidate((String) key.toLowerCase(), Concepts.get(0).get(key),
-									session, model);
-							suggestedConcepts.add(key.toLowerCase());
-
-						} else {
-							System.out.println("found it in candidates" + key);
-
-							conceptsFactory.updateConfidenceCandidate((String) key.toLowerCase(), session, model, 1);
+							}
 						}
 
-					}
+						Services.relatedClasses.put(classes.get(i).getName().toLowerCase(), Results);
+						for (String key : Concepts.get(0).keySet()) {
 
+							if (!services.containsIgnoreCase(suggestedConcepts, key)) {
+
+								conceptsFactory.createClassCandidate((String) key.toLowerCase(),
+										Concepts.get(0).get(key), session, model);
+								suggestedConcepts.add(key.toLowerCase());
+
+							} else {
+								System.out.println("found it in candidates" + key);
+
+								conceptsFactory.updateConfidenceCandidate((String) key.toLowerCase(), session, model,
+										1);
+							}
+
+						}
+
+					}
 				}
 			}
 			EList<ClazzCandidate> Candidates = model.getClazzcondidate();
+			IAttributesPrediction attributesPredcition = new AttributesPrediction();
 
 			for (int k = 0; k < Candidates.size(); k++) {
 				/**
@@ -119,13 +126,11 @@ public class JobConcepts extends Job {
 								+ Candidates.get(k).getName());
 
 						HashMap<String, String> typeAttributes = new HashMap<String, String>();
-						/*
-						 * IAttributesPrediction attributesPredcition = new AttributesPrediction();
-						 * 
-						 * typeAttributes = attributesPredcition.run(null, (String)
-						 * Candidates.get(k).getName(), model, false);
-						 */
-						typeAttributes.put("id; dummy ", "String");
+
+						typeAttributes = attributesPredcition.run(null, (String) Candidates.get(k).getName(), model,
+								false);
+
+						// typeAttributes.put("id; dummy ", "String");
 
 						if (services.classAttributes == null) {
 							services.classAttributes = new HashMap<String, HashMap<String, String>>();
@@ -149,7 +154,6 @@ public class JobConcepts extends Job {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Hello World (from a background job concepts)");
 		System.out.println("Hello World (from a background job concepts)");
 
 		Listener.concepstJobLaunched = false;

@@ -68,7 +68,7 @@ public class AttributesPrediction implements IAttributesPrediction {
 
 			if (isAtEndCompletion) {
 				List<String> arrayAttributesList = new ArrayList<String>(Arrays.asList(arrayAttributes));
-				for (int k = 0; k < 3; k++) {
+				for (int k = 0; k < 2; k++) {
 					if (arrayAttributesList.size() != 0) {
 						Random random = new Random();
 						int index = random.nextInt(arrayAttributesList.size());
@@ -83,7 +83,7 @@ public class AttributesPrediction implements IAttributesPrediction {
 			for (int i = 0; i < arrayAttributes.length; i++) {
 				Prompt attributesTypePrompt = new AttributesTypePrompt(arrayAttributes[i], "\n", " => ");
 				attributesTypePrompt.setPrompt();
-				String[] Type = attributesTypePrompt.run(1, 0.7, "text-davinci-002");
+				String[] Type = attributesTypePrompt.run(1, 0.5, "text-davinci-002");
 
 				typeAttributes.put(arrayAttributes[i], Type[0]);
 

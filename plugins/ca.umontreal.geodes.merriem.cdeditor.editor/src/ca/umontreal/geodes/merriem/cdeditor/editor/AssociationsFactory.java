@@ -39,12 +39,21 @@ public class AssociationsFactory {
 		}
 
 	}
+	public AssociationsFactory(Services services) {
+		try {
+			this.services = services;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
 
 	public Boolean checkAssociationExist(String Target, String Source, Model model) {
 		List<Clazz> allClasses = model.getClazz();
 		Clazz ClassSource = null;
 		Clazz ClassTarget = null;
-		List<Association> AssociationsInCanvas = model.getAssociation(); 
+		List<Association> AssociationsInCanvas = model.getAssociation();
 		for (int i = 0; i < allClasses.size(); i++) {
 
 			if (allClasses.get(i).getName().replaceAll("\\s+", "").equals(Source.replaceAll("\\s+", ""))) {
@@ -57,7 +66,7 @@ public class AssociationsFactory {
 
 		if (ClassSource.getHas().contains(ClassTarget) || ClassSource.getGeneralizes().contains(ClassTarget)
 				|| ClassTarget.getHas().contains(ClassSource) || ClassTarget.getGeneralizes().contains(ClassSource)) {
-		
+
 			return true;
 		}
 		if (ClassSource.getSpecializes() != null) {
@@ -80,12 +89,14 @@ public class AssociationsFactory {
 				return true;
 			}
 		}
-		for(int i=0; i<AssociationsInCanvas.size(); i++) {
-			if(AssociationsInCanvas.get(i).getSource().getName().equals(Source) && AssociationsInCanvas.get(i).getTarget().getName().equals(Target) ) {
-				return true; 
+		for (int i = 0; i < AssociationsInCanvas.size(); i++) {
+			if (AssociationsInCanvas.get(i).getSource().getName().equals(Source)
+					&& AssociationsInCanvas.get(i).getTarget().getName().equals(Target)) {
+				return true;
 			}
-			if(AssociationsInCanvas.get(i).getSource().getName().equals(Target) && AssociationsInCanvas.get(i).getTarget().getName().equals(Source)) {
-				return true; 
+			if (AssociationsInCanvas.get(i).getSource().getName().equals(Target)
+					&& AssociationsInCanvas.get(i).getTarget().getName().equals(Source)) {
+				return true;
 			}
 		}
 
@@ -139,7 +150,7 @@ public class AssociationsFactory {
 
 						break;
 					case "association":
-						
+
 						// what is shown must be inheritance and not association
 						if (Name.equals("is")) {
 							ClassSource.setSpecializes(ClassTarget);
@@ -241,23 +252,13 @@ public class AssociationsFactory {
 					AssociationCandidateImpl newAssociationcandidate = (AssociationCandidateImpl) metamodelFactory
 							.createAssociationCandidate();
 
-					if (Name.equals("is")) {
-						ClassSource.setSpecializes(ClassTarget);
+					newAssociationcandidate.setName(Name);
+					newAssociationcandidate.setTarget(ClassTarget);
+					newAssociationcandidate.setSource(ClassSource);
+					newAssociationcandidate.setType(Type);
+					Associations.add(newAssociationcandidate);
 
-					} else {
-						newAssociationcandidate.setName(Name);
-						newAssociationcandidate.setTarget(ClassTarget);
-						newAssociationcandidate.setSource(ClassSource);
-						newAssociationcandidate.setType(Type);
-						Associations.add(newAssociationcandidate);
-					}
 
-//					// refresh Model
-//					DRepresentation represnt = null;
-//					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-//						represnt = descrp.getRepresentation();
-//					}
-//					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
 				}
 			};

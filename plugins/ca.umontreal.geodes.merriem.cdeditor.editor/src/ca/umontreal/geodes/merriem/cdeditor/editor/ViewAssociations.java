@@ -150,6 +150,7 @@ public class ViewAssociations extends ViewPart {
 			TableItem[] items = table.getItems();
 			for (int i = 0; i < items.length; i++) {
 				int indexItem = i;
+				
 				TableEditor editor = new TableEditor(table);
 				TableItem item = items[i];
 				Button button = new Button(table, SWT.PUSH);
@@ -172,6 +173,7 @@ public class ViewAssociations extends ViewPart {
 					@Override
 					public void mouseDown(MouseEvent e) {
 						try {
+							Services.loggerServices.info("Accept Association From view of  Suggestions" );
 							Session session = services.getSession();
 							
 

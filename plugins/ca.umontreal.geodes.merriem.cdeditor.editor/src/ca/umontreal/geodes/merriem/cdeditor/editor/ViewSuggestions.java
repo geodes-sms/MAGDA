@@ -110,9 +110,7 @@ public class ViewSuggestions extends ViewPart {
 
 			}
 
-//			TableItem item2 = new TableItem(table, SWT.CHECK);
-//			item2.setText(0, "classname");
-//			item2.setText(1, "1");
+
 
 			for (int i = 0; i < titles.length; i++) {
 				table.getColumn(i).pack();
@@ -125,8 +123,8 @@ public class ViewSuggestions extends ViewPart {
 				TableEditor editorAttributes = new TableEditor(table);
 				TableItem item = items[i];
 				Button button = new Button(table, SWT.PUSH);
-				// GridData gridData = new GridData(SWT.FILL, SWT.DEFAULT, true, true);
-				// gridData.widthHint = 100;
+
+				
 				Button buttonAttributes = new Button(table, SWT.PUSH);
 				editor.grabHorizontal = true;
 				editor.minimumWidth = 50;
@@ -137,11 +135,9 @@ public class ViewSuggestions extends ViewPart {
 				buttonAttributes.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, true));
 
 				button.setText("Accept");
-				// button.setSize(180, 160);
 				button.pack();
 
 				buttonAttributes.setText("Show Attributes");
-				// buttonAttributes.setSize(180, 160);
 
 				buttonAttributes.pack();
 				// editor.minimumWidth = button.getSize().x;
@@ -150,7 +146,10 @@ public class ViewSuggestions extends ViewPart {
 
 				editor.setEditor(buttonAttributes, item, 3);
 				editorAttributes.setEditor(button, item, 2);
-
+				if(sortedClazzCondidate.get(i).getConfidence()>1) {
+					System.out.println("confidence is high");
+					buttonAttributes.setVisible(false);
+				}
 				// editor.layout();
 				button.addMouseListener(new MouseListener() {
 
@@ -163,7 +162,7 @@ public class ViewSuggestions extends ViewPart {
 					public void mouseDown(MouseEvent e) {
 						try {
 							Session session = services.getSession();
-
+							Services.loggerServices.info("Accept Concept From view of  Suggestions" );
 							String acceptedClassName = item.getText(0);
 							button.setVisible(false);
 							button.dispose();
