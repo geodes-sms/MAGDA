@@ -72,9 +72,12 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.internal.EditorReference;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationImpl;
+
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
@@ -96,7 +99,8 @@ public class Services {
 	public static IViewPart associationView;
 	public static Mode mode;
 	public static Logger loggerServices;
-
+	public static boolean newSession=true; 
+	public static FileHandler fileHandler; 
 	public Services() throws Exception {
 		this.config = new Properties();
 		this.listener = (ResourceSetListener) new Listener();
@@ -129,13 +133,15 @@ public class Services {
 			loggerServices = Logger.getLogger(Services.class.getName());
 			loggerServices.setUseParentHandlers(false);
 			try {
-
-				FileHandler fileHandler = new FileHandler("/home/meriem/editorCD/class-diagram-editor" + "/logg.txt",
+				if(Services.fileHandler== null ) {
+				Services.fileHandler = new FileHandler("/home/meriem/editorCD/class-diagram-editor" + "/log_" + System.currentTimeMillis() + ".txt" ,
 						true);
+				
+				}
 				fileHandler.setFormatter(new TextFormatter());
 				loggerServices.setLevel(Level.INFO);
 				loggerServices.addHandler(fileHandler);
-				loggerServices.info("Application started : ");
+				loggerServices.info("Application started");
 
 			} catch (IOException e) {
 				e.printStackTrace();
@@ -252,7 +258,7 @@ public class Services {
 	}
 
 	@SuppressWarnings("restriction")
-	protected Model getModel() {
+	protected static Model getModel() {
 		IEditorReference[] editorReferences = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 				.getEditorReferences();
 
@@ -321,7 +327,7 @@ public class Services {
 			System.out.println("running attributes prediction ");
 			IAttributesPrediction attributesPredcition = new AttributesPrediction();
 			typeAttributes = attributesPredcition.run(node, NodeName, getModel(), false);
-			
+
 			Services.classAttributes.put(NodeName.toLowerCase(), typeAttributes);
 			// dummy example remove this
 			// typeAttributes =new HashMap<String, String>();
@@ -370,6 +376,8 @@ public class Services {
 				if (result != null) {
 					// Services.loggerServices.info("Accept fromm Attributs list : " + result.length
 					// );
+					Services.loggerServices.info("Accept from Attributs list : " + result);
+
 					for (int i = 0; i < result.length; i++) {
 						String res = (String) result[i];
 						res = res.split(":")[0];
@@ -506,7 +514,8 @@ public class Services {
 			List<HashMap<String, String>> Concepts = conceptsPrediction.run(className, rootModel, getModel());
 			for (String key : Concepts.get(0).keySet()) {
 				if (!containsIgnoreCase(classNames, key) && !(key.equals(""))) {
-					Results.add(key);
+					String keyUpperCase = key.substring(0, 1).toUpperCase() + key.substring(1);
+					Results.add(keyUpperCase);
 				}
 				if (!containsIgnoreCase(suggestedConcepts, key) && !(key.equals(""))) {
 					conceptsFactory.createClassCandidate((String) key, Concepts.get(0).get(key), session, getModel());
@@ -635,11 +644,14 @@ public class Services {
 						&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
 
 					if (!(res.get(j).get("Name").replaceAll("\\s+", "").equals(""))) {
-						item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + "," + res.get(j).get("Target")
-								+ "]; Name => " + res.get(j).get("Name");
+
+						item = res.get(j).get("Type") + " ' " + res.get(j).get("Name") + " ' between "
+								+ res.get(j).get("Source") + " => " + res.get(j).get("Target");
+
 					} else {
-						item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + "," + res.get(j).get("Target")
-								+ "]";
+
+						item = res.get(j).get("Type") + " between " + res.get(j).get("Source") + " => "
+								+ res.get(j).get("Target");
 					}
 					items.add(item);
 
@@ -669,14 +681,15 @@ public class Services {
 
 			if (result != null) {
 				List<String> items = new ArrayList<String>(Arrays.asList(ArrayResultsTyped));
-				Services.loggerServices.info("Accept from list of  Concepts : " + result.length);
+				Services.loggerServices.info("Accept from list of  associations ");
+			
 				for (int j = 0; j < result.length; j++) {
 					item = (String) result[j];
-					String Type = item.split(":")[0];
+					String Type = item.split(" ")[0];
 					System.out.println(Type);
-					String Name = item.split("=>")[1];
-					String Target = (item.split(",")[1]).split("]")[0];
-					String Source = (item.split("\\[")[1]).split(",")[0];
+					String Name = item.split("'")[1];
+					String Target = item.split(" ")[5];
+					String Source = item.split(" ")[7];
 					associationsFactory.createAssociation(Type, Name, Target, Source, session, true);
 					associationsFactory.removecandidate(Type, Name, Target, Source, session);
 					refreshAssociationsView();
@@ -696,6 +709,46 @@ public class Services {
 			this.relatedAssociations.remove(className.toLowerCase());
 			int result = dialog.open();
 			refreshAssociationsView();
+		}
+
+		return rootModel;
+	}
+
+	public EObject switchTargetSource(EObject rootModel) throws InterruptedException {
+		System.out.println(rootModel);
+		String Source = rootModel.toString().split("source:NodeList")[1].split(" ")[1];
+
+		String Target = rootModel.toString().split("target:NodeList")[1].split(" ")[1];
+
+		AssociationsFactory associationsFactory = new AssociationsFactory();
+
+		//check if it is a composition or an association
+		
+		if (rootModel.toString().contains("ClazzImpl")) {
+			// it is a composition
+			System.out.print("composition ?  ");
+			associationsFactory.removeComposition(Target, Source, getSession());
+			associationsFactory.createAssociation("composition", "", Source,Target, 
+					getSession(), true);
+			
+			
+			
+			
+		} else {
+			List<Association> associations = getModel().getAssociation();
+			for (int i = 0; i < associations.size(); i++) {
+				if ((associations.get(i).getTarget().getName().equalsIgnoreCase(Target))
+						&& (associations.get(i).getSource().getName().equalsIgnoreCase(Source))) {
+					System.out.print("switch associtaion ");
+					associationsFactory.createAssociation("association", String.valueOf(associations.get(i).getName()), Source, Target,
+							getSession(), true);
+					associationsFactory.deleteAssociation("association", String.valueOf(associations.get(i).getName()), Target, Source,
+							getSession());
+					
+					
+					break; 
+				}
+			}
 		}
 
 		return rootModel;

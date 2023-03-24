@@ -47,7 +47,7 @@ public abstract class Prompt {
 				String[] GeneratedList = new String[25];
 				// To do set env variables
 				String token = "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";
-
+				//String token = "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";
 				OpenAiService theService = new OpenAiService(token);
 
 				CompletionRequest completionRequest = CompletionRequest.builder().prompt(this.prompt)

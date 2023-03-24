@@ -27,10 +27,7 @@ public class AttributesPrediction implements IAttributesPrediction {
 	@Override
 	public HashMap<String, String> run(EObject node, String NodeName, Model model, boolean isAtEndCompletion) {
 		try {
-			/*
-			 * String NodeName = node.toString().split(":", 2)[1].replace(")", ""); NodeName
-			 * = NodeName.replaceAll("\\s+", "");
-			 */
+			
 			HashMap<String, String> typeAttributes = new HashMap<String, String>();
 			List<String> attributes = new ArrayList<String>();
 			if (node != null) {
@@ -55,7 +52,7 @@ public class AttributesPrediction implements IAttributesPrediction {
 			attributesNamePrompt.setPrompt();
 			System.out.println("predicting attributes...for class :  "+ NodeName);
 
-			String[] arrayAttributes = attributesNamePrompt.run(15, 0.7, "text-davinci-002");
+			String[] arrayAttributes = attributesNamePrompt.run(10, 0.7, "text-davinci-002");
 
 			// type of predicted attribute
 			String[] arrayAttributesTemp = new String[4];

@@ -128,22 +128,26 @@ public class ViewAssociations extends ViewPart {
 			}
 
 			for (AssociationCandidate associationCandidateKey : selectedOPerations.keySet()) {
+				String Type= associationCandidateKey.getType(); 
+				Type= Type.substring(0, 1).toUpperCase() + Type.substring(1);
+				
+				String Source= associationCandidateKey.getSource().getName(); 
+				Source = Source.substring(0, 1).toUpperCase() + Source.substring(1);
+				
+				String Target = associationCandidateKey.getTarget().getName(); 
+				Target = Target.substring(0, 1).toUpperCase() + Target.substring(1);
+				
 				TableItem item = new TableItem(table, SWT.CHECK);
-				item.setText(0, associationCandidateKey.getSource().getName());
-				item.setText(1, associationCandidateKey.getTarget().getName());
+				item.setText(0, Source);
+				item.setText(1, Target);
 				item.setText(2, associationCandidateKey.getName());
-				item.setText(3, associationCandidateKey.getType());
+				item.setText(3, Type);
 				item.setText(5, selectedOPerations.get(associationCandidateKey).toString());
 
 			}
 
-//			for (int i = 0; i < operationsCandidate.size(); i++) {
-//				TableItem item = new TableItem(table, SWT.CHECK);
-//				item.setText(0, operationsCandidate.get(i).getSource().getName());
-//				item.setText(1, operationsCandidate.get(i).getTarget().getName());
-//				item.setText(2, operationsCandidate.get(i).getName());
-//				item.setText(3, operationsCandidate.get(i).getType());
-//			}
+
+			
 			for (int i = 0; i < titles.length; i++) {
 				table.getColumn(i).pack();
 			}
@@ -173,7 +177,7 @@ public class ViewAssociations extends ViewPart {
 					@Override
 					public void mouseDown(MouseEvent e) {
 						try {
-							Services.loggerServices.info("Accept Association From view of  Suggestions" );
+							Services.loggerServices.info("Accept Association From view" );
 							Session session = services.getSession();
 							
 

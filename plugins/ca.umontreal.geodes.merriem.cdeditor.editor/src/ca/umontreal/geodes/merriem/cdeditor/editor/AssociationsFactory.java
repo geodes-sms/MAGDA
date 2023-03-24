@@ -39,6 +39,7 @@ public class AssociationsFactory {
 		}
 
 	}
+
 	public AssociationsFactory(Services services) {
 		try {
 			this.services = services;
@@ -56,10 +57,10 @@ public class AssociationsFactory {
 		List<Association> AssociationsInCanvas = model.getAssociation();
 		for (int i = 0; i < allClasses.size(); i++) {
 
-			if (allClasses.get(i).getName().replaceAll("\\s+", "").equals(Source.replaceAll("\\s+", ""))) {
+			if (allClasses.get(i).getName().replaceAll("\\s+", "").equalsIgnoreCase(Source.replaceAll("\\s+", ""))) {
 				ClassSource = allClasses.get(i);
 			}
-			if (allClasses.get(i).getName().replaceAll("\\s+", "").equals(Target.replaceAll("\\s+", ""))) {
+			if (allClasses.get(i).getName().replaceAll("\\s+", "").equalsIgnoreCase(Target.replaceAll("\\s+", ""))) {
 				ClassTarget = allClasses.get(i);
 			}
 		}
@@ -70,37 +71,90 @@ public class AssociationsFactory {
 			return true;
 		}
 		if (ClassSource.getSpecializes() != null) {
-			if (ClassSource.getSpecializes().getName().equals(Target)) {
+			if (ClassSource.getSpecializes().getName().equalsIgnoreCase(Target)) {
 				return true;
 			}
 		}
 		if (ClassSource.getIsMember() != null) {
-			if (ClassSource.getIsMember().getName().equals(Target)) {
+			if (ClassSource.getIsMember().getName().equalsIgnoreCase(Target)) {
 				return true;
 			}
 		}
 		if (ClassTarget.getSpecializes() != null) {
-			if (ClassTarget.getSpecializes().getName().equals(Source)) {
+			if (ClassTarget.getSpecializes().getName().equalsIgnoreCase(Source)) {
 				return true;
 			}
 		}
 		if (ClassTarget.getIsMember() != null) {
-			if (ClassTarget.getIsMember().getName().equals(Source)) {
+			if (ClassTarget.getIsMember().getName().equalsIgnoreCase(Source)) {
 				return true;
 			}
 		}
 		for (int i = 0; i < AssociationsInCanvas.size(); i++) {
-			if (AssociationsInCanvas.get(i).getSource().getName().equals(Source)
-					&& AssociationsInCanvas.get(i).getTarget().getName().equals(Target)) {
+			if (AssociationsInCanvas.get(i).getSource().getName().equalsIgnoreCase(Source)
+					&& AssociationsInCanvas.get(i).getTarget().getName().equalsIgnoreCase(Target)) {
 				return true;
 			}
-			if (AssociationsInCanvas.get(i).getSource().getName().equals(Target)
-					&& AssociationsInCanvas.get(i).getTarget().getName().equals(Source)) {
+			if (AssociationsInCanvas.get(i).getSource().getName().equalsIgnoreCase(Target)
+					&& AssociationsInCanvas.get(i).getTarget().getName().equalsIgnoreCase(Source)) {
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	public void removeComposition(String Target, String Source, Session session) {
+		try {
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
+
+			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+
+			CommandStack stack = domain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(domain) {
+
+				@Override
+				protected void doExecute() {
+
+					Model model = services.getModel();
+					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+					List<Clazz> classes = new ArrayList<Clazz>();
+					List<Association> Associations = new ArrayList<Association>();
+					classes = model.getClazz();
+					Associations = model.getAssociation();
+
+					// find both classes target and source:
+					Clazz ClassSource = null;
+					Clazz ClassTarget = null;
+					for (int i = 0; i < classes.size(); i++) {
+
+						if (classes.get(i).getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(Source.replaceAll("\\s+", ""))) {
+							ClassSource = classes.get(i);
+						}
+						if (classes.get(i).getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(Target.replaceAll("\\s+", ""))) {
+							ClassTarget = classes.get(i);
+						}
+					}
+
+					ClassSource.setIsMember(null);
+
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
+				}
+			};
+			stack.execute(cmd);
+
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public void createAssociation(String type, String Name, String Target, String Source, Session session,
@@ -132,10 +186,12 @@ public class AssociationsFactory {
 					Clazz ClassTarget = null;
 					for (int i = 0; i < classes.size(); i++) {
 
-						if (classes.get(i).getName().replaceAll("\\s+", "").equals(Source.replaceAll("\\s+", ""))) {
+						if (classes.get(i).getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(Source.replaceAll("\\s+", ""))) {
 							ClassSource = classes.get(i);
 						}
-						if (classes.get(i).getName().replaceAll("\\s+", "").equals(Target.replaceAll("\\s+", ""))) {
+						if (classes.get(i).getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(Target.replaceAll("\\s+", ""))) {
 							ClassTarget = classes.get(i);
 						}
 					}
@@ -150,14 +206,17 @@ public class AssociationsFactory {
 
 						break;
 					case "association":
-
+						System.out.println("creating association !! ");
 						// what is shown must be inheritance and not association
-						if (Name.equals("is")) {
+						if (Name.equalsIgnoreCase("is")) {
 							ClassSource.setSpecializes(ClassTarget);
 
 						} else {
 							AssociationImpl newAssociation = (AssociationImpl) metamodelFactory.createAssociation();
-							newAssociation.setName(Name);
+							if (!Name.equalsIgnoreCase("null")) {
+								newAssociation.setName(Name);
+							}
+
 							newAssociation.setTarget(ClassTarget);
 							newAssociation.setSource(ClassSource);
 							Associations.add(newAssociation);
@@ -242,10 +301,12 @@ public class AssociationsFactory {
 					Clazz ClassTarget = null;
 					for (int i = 0; i < classes.size(); i++) {
 
-						if (classes.get(i).getName().replaceAll("\\s+", "").equals(Source.replaceAll("\\s+", ""))) {
+						if (classes.get(i).getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(Source.replaceAll("\\s+", ""))) {
 							ClassSource = classes.get(i);
 						}
-						if (classes.get(i).getName().replaceAll("\\s+", "").equals(Target.replaceAll("\\s+", ""))) {
+						if (classes.get(i).getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(Target.replaceAll("\\s+", ""))) {
 							ClassTarget = classes.get(i);
 						}
 					}
@@ -257,8 +318,6 @@ public class AssociationsFactory {
 					newAssociationcandidate.setSource(ClassSource);
 					newAssociationcandidate.setType(Type);
 					Associations.add(newAssociationcandidate);
-
-
 
 				}
 			};
@@ -286,22 +345,30 @@ public class AssociationsFactory {
 					// ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 
 					List<AssociationCandidate> AssociationCandidates = model.getOperation();
-					int index = 0;
+					List<AssociationCandidate> index = new ArrayList<AssociationCandidate>();
 					for (int i = 0; i < AssociationCandidates.size(); i++) {
-						if (AssociationCandidates.get(i).getName().replaceAll("\\s+", "")
-								.equals(name.replaceAll("\\s+", ""))
-								&& (AssociationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
-										.equals(target.replaceAll("\\s+", "")))
+						if ((AssociationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(target.replaceAll("\\s+", "")))
 								&& (AssociationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
-
-										.equals(source.replaceAll("\\s+", "")))) {
+										.equalsIgnoreCase(source.replaceAll("\\s+", "")))) {
 							System.out.println("found the operation");
-							index = i;
+							index.add(AssociationCandidates.get(i));
 
-							break;
 						}
+						if (AssociationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(source.replaceAll("\\s+", ""))
+								&& (AssociationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
+										.equalsIgnoreCase(target.replaceAll("\\s+", "")))) {
+							index.add(AssociationCandidates.get(i));
+						}
+
 					}
-					model.getOperation().remove(index);
+				
+					
+					for (int k = 0; k < index.size(); k++) {
+						System.out.println("deleting from model candidates");
+						model.getOperation().remove(index.get(k));
+					}
 					SessionManager.INSTANCE.notifyRepresentationCreated(session);
 					DRepresentation represnt = null;
 
@@ -326,6 +393,70 @@ public class AssociationsFactory {
 
 		// return removedClazz;
 
+	}
+
+	public void deleteAssociation(String string, String name, String target, String source, Session session) {
+		// TODO Auto-generated method stub
+		try {
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
+
+			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+
+			CommandStack stack = domain.getCommandStack();
+			RecordingCommand cmd = new RecordingCommand(domain) {
+
+				@Override
+				protected void doExecute() {
+					Model model = services.getModel();
+
+					List<Association> Associations = model.getAssociation();
+					int index = -1;
+					for (int i = 0; i < Associations.size(); i++) {
+						if ((Associations.get(i).getTarget().getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(target.replaceAll("\\s+", "")))
+								&& (Associations.get(i).getSource().getName().replaceAll("\\s+", "")
+
+										.equalsIgnoreCase(source.replaceAll("\\s+", "")))) {
+
+							if ((name != "") && (name != null) && (Associations.get(i).getName() != null)) {
+								if ((Associations.get(i).getName().replaceAll("\\s+", "")
+										.equalsIgnoreCase(name.replaceAll("\\s+", "")))) {
+									index = i;
+									System.out.println("found the operation");
+								}
+							} else {
+								index = i;
+								System.out.println("found the operation");
+							}
+
+							break;
+						}
+					}
+					if (index != -1) {
+						model.getAssociation().remove(index);
+					}
+					SessionManager.INSTANCE.notifyRepresentationCreated(session);
+					DRepresentation represnt = null;
+
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
+								.openEditor(session, represnt, new NullProgressMonitor());
+						/// DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
+
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
+				}
+
+			};
+
+			stack.execute(cmd);
+
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

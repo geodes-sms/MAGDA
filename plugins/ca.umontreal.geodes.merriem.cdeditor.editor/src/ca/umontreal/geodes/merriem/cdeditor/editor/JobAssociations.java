@@ -57,20 +57,22 @@ public class JobAssociations extends Job {
 
 						List<String> items = new ArrayList<String>();
 						String item;
-						for (int j = 0; j < res.size(); j++) {
-							if (!(res.get(j).get("Type").replaceAll("\\s+", "").equals(""))
-									&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
+						if (res != null) {
+							for (int j = 0; j < res.size(); j++) {
+								if (!(res.get(j).get("Type").replaceAll("\\s+", "").equals(""))
+										&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
 
-								item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + ","
-										+ res.get(j).get("Target") + "]; Name => " + res.get(j).get("Name");
-								items.add(item);
+									item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + ","
+											+ res.get(j).get("Target") + "]; Name => " + res.get(j).get("Name");
+									items.add(item);
 
-								associationsFactory.createAssociationcandidate(res.get(j).get("Type"),
-										res.get(j).get("Name"), res.get(j).get("Target"), res.get(j).get("Source"),
-										session, model);
+									associationsFactory.createAssociationcandidate(res.get(j).get("Type"),
+											res.get(j).get("Name"), res.get(j).get("Target"), res.get(j).get("Source"),
+											session, model);
 
-								Services.relatedAssociations.put(className, items);
+									Services.relatedAssociations.put(className, items);
 
+								}
 							}
 						}
 					}

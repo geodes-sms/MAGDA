@@ -105,12 +105,12 @@ public class ViewSuggestions extends ViewPart {
 
 			for (int i = 0; i < sortedClazzCondidate.size(); i++) {
 				TableItem item = new TableItem(table, SWT.CHECK);
-				item.setText(0, sortedClazzCondidate.get(i).getName());
+				String CandidateNameUppercase = sortedClazzCondidate.get(i).getName().substring(0, 1).toUpperCase()
+						+ sortedClazzCondidate.get(i).getName().substring(1);
+				item.setText(0, CandidateNameUppercase);
 				item.setText(1, Integer.toString(sortedClazzCondidate.get(i).getConfidence()));
 
 			}
-
-
 
 			for (int i = 0; i < titles.length; i++) {
 				table.getColumn(i).pack();
@@ -124,7 +124,6 @@ public class ViewSuggestions extends ViewPart {
 				TableItem item = items[i];
 				Button button = new Button(table, SWT.PUSH);
 
-				
 				Button buttonAttributes = new Button(table, SWT.PUSH);
 				editor.grabHorizontal = true;
 				editor.minimumWidth = 50;
@@ -146,7 +145,7 @@ public class ViewSuggestions extends ViewPart {
 
 				editor.setEditor(buttonAttributes, item, 3);
 				editorAttributes.setEditor(button, item, 2);
-				if(sortedClazzCondidate.get(i).getConfidence()>1) {
+				if (sortedClazzCondidate.get(i).getConfidence() < 2) {
 					System.out.println("confidence is high");
 					buttonAttributes.setVisible(false);
 				}
@@ -162,7 +161,7 @@ public class ViewSuggestions extends ViewPart {
 					public void mouseDown(MouseEvent e) {
 						try {
 							Session session = services.getSession();
-							Services.loggerServices.info("Accept Concept From view of  Suggestions" );
+							Services.loggerServices.info("Accept Concept From view ");
 							String acceptedClassName = item.getText(0);
 							button.setVisible(false);
 							button.dispose();
@@ -220,71 +219,76 @@ public class ViewSuggestions extends ViewPart {
 							if (Services.classAttributes == null) {
 								Services.classAttributes = new HashMap<String, HashMap<String, String>>();
 							}
-							if (Services.classAttributes.containsKey(acceptedClassName)) {
-								if (!Services.classAttributes.get(acceptedClassName).isEmpty()) {
+							if (Services.classAttributes.containsKey(acceptedClassName.toLowerCase())) {
+								if (!Services.classAttributes.get(acceptedClassName.toLowerCase()).isEmpty()) {
 									// && (this.classAttributes.get(NodeName).size() > 1)) {
 
-									typeAttributes = Services.classAttributes.get(acceptedClassName);
+									typeAttributes = Services.classAttributes.get(acceptedClassName.toLowerCase());
 								}
-								if (typeAttributes == null) {
-									System.out.println("type attribute is null");
-									MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(),
-											"Try again later", null, "We have no suggestion for you now",
-											MessageDialog.ERROR, new String[] { "Cancel" }, 0);
-									int result = dialog.open();
-								} else {
-									for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
-										if ((set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
-												|| (set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
-											typeAttributes.remove(set.getKey());
-										} else if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
-												&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
-											if (services.containsIgnoreCase(types, set.getValue())) {
 
-												ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
-											}
-										}
-									}
-
-									String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
-
-									if (ArrayResultsTyped.length > 0) {
-
-										ElementListSelectionDialog dialog = new ElementListSelectionDialog(
-												Display.getCurrent().getActiveShell(), new LabelProvider());
-
-										dialog.setElements(ArrayResultsTyped);
-										dialog.setTitle("Select appropriate attributes" + acceptedClassName);
-										dialog.setMultipleSelection(true);
-
-										if (dialog.open() != Window.OK) {
-											// return false;
-										}
-
-										Object[] result = dialog.getResult();
-										if (result != null) {
-											for (int i = 0; i < result.length; i++) {
-												String res = (String) result[i];
-												res = res.split(":")[0];
-												attributesFactory.createAttribute(res, typeAttributes.get(res),
-														acceptedClassName, session, false);
-												typeAttributes.remove(res);
-											}
-											Services.classAttributes.put(acceptedClassName, typeAttributes);
-
-										}
-
-									}
-									;
-								}
-								;
 							} else {
-
+							
+								IAttributesPrediction attributesPredcition = new AttributesPrediction();
+								typeAttributes = attributesPredcition.run(null, acceptedClassName, services.getModel(), false);
+								Services.classAttributes.put(acceptedClassName.toLowerCase(), typeAttributes);
+							}
+							if (typeAttributes == null) {
 								MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(),
 										"Try again later", null, "We have no suggestion for you now",
 										MessageDialog.ERROR, new String[] { "Cancel" }, 0);
 								int result = dialog.open();
+							} else {
+								for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
+									if ((set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
+											|| (set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
+										typeAttributes.remove(set.getKey());
+									} else if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
+											&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
+										if (services.containsIgnoreCase(types, set.getValue())) {
+
+											ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
+										}
+									}
+								}
+
+								String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
+
+								if (ArrayResultsTyped.length > 0) {
+
+									ElementListSelectionDialog dialog = new ElementListSelectionDialog(
+											Display.getCurrent().getActiveShell(), new LabelProvider());
+
+									dialog.setElements(ArrayResultsTyped);
+									dialog.setTitle("Potential attributes for class \" " + acceptedClassName +"\"");
+									dialog.setMultipleSelection(true);
+
+									if (dialog.open() != Window.OK) {
+										// return false;
+									}
+
+									Object[] result = dialog.getResult();
+									if (result != null) {
+										for (int i = 0; i < result.length; i++) {
+											String res = (String) result[i];
+											res = res.split(":")[0];
+											attributesFactory.createAttribute(res, typeAttributes.get(res),
+													acceptedClassName, session, false);
+											typeAttributes.remove(res);
+										}
+										Services.classAttributes.put(acceptedClassName.toLowerCase(), typeAttributes);
+
+									}
+								}
+								;
 							}
+							;
+//							} else {
+//
+//								MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(),
+//										"Try again later", null, "We have no suggestion for you now",
+//										MessageDialog.ERROR, new String[] { "Cancel" }, 0);
+//								int result = dialog.open();
+//							}
 						}
 
 						catch (Exception e1) {

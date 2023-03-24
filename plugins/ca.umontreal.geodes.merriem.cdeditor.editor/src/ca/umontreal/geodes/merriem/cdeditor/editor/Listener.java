@@ -32,35 +32,41 @@ public class Listener extends ResourceSetListenerImpl {
 	public static boolean AttributesJobLaunched = false;
 
 	public static boolean AssociationJobLaunched = false;
+	public static int attributeNumber = 0;
+	public static int associationsNumber = 0;
+	public static int inheritanceNumber = 0;
+	public static int compositionNumber = 0;
+	public static int classNumbers = 0;
+	public static int RemoveClassNumbers = 0;
 
 	public void resourceSetChanged(ResourceSetChangeEvent event) {
 
-		if (Services.mode != Mode.assessAtEnd && Services.mode != null) {
-			// if a class is created:
+		// for loggig and launching jobs to predict new related elements.
 
-			try {
+		try {
 
-				for (Iterator iter = event.getNotifications().iterator(); iter.hasNext();) {
-					Notification object = (Notification) iter.next();
+			for (Iterator iter = event.getNotifications().iterator(); iter.hasNext();) {
+				Notification object = (Notification) iter.next();
 
-					if (object.getFeature() instanceof EReferenceImpl) {
-						EReferenceImpl x = (EReferenceImpl) object.getFeature();
-						// check if not already launched
-						// eventType ==3 ; ADD
-						 int attributeNumber= 0 ; 
-						 int associationsNumber = 0 ; 
-						 int inheritanceNumber = 0 ; 
-						 int compositionNumber=0 ; 
-						 int classNumbers= 0 ; 
-							
-						if (x.getName().equals("clazz") && object.getEventType() == 3) {
-							classNumbers++ ; 
-							if(classNumbers ==0 ) {
-							 Services.loggerServices.info("Create class");
-							 } else if (classNumbers==7) {
-								 classNumbers=0; 
-							 }
+				if (object.getFeature() instanceof EReferenceImpl) {
+					EReferenceImpl x = (EReferenceImpl) object.getFeature();
 
+					// otherwise same event will be logged 6 times.
+
+					// check if not already launched
+					// eventType ==3 ; ADD
+
+					if (x.getName().equals("clazz") && object.getEventType() == 3) {
+
+						if (classNumbers == 0) {
+							Services.loggerServices.info("Create class");
+
+						} else if (classNumbers == 6) {
+							classNumbers = 0;
+						}
+						classNumbers++;
+
+						if (Services.mode != Mode.assessAtEnd && Services.mode != null) {
 							Services services;
 
 							try {
@@ -104,7 +110,7 @@ public class Listener extends ResourceSetListenerImpl {
 								 * Third Thread - Job : Predict related associations for concepts added
 								 **/
 
-								if (AssociationJobLaunched == false) {
+								if (AssociationJobLaunched == false && model.getClazz().size() > 1) {
 									AssociationJobLaunched = true;
 									Job jobAssociations = new JobAssociations("Associations prediction", services,
 											model, session);
@@ -117,52 +123,63 @@ public class Listener extends ResourceSetListenerImpl {
 								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}
-							
-						} else if (x.getName().equals("attributes") && object.getEventType() == 3) {
-							
-							attributeNumber++ ; 
-							if(attributeNumber ==0 ) {
-								Services.loggerServices.info("Create attribute");
-							 } else if (attributeNumber==7) {
-								 attributeNumber=0; 
-							 }
 
-						} else if (x.getName().equals("generalizes") && object.getEventType() == 3) {
-
-
-							inheritanceNumber++ ; 
-							if(inheritanceNumber ==0 ) {
-								Services.loggerServices.info("Create inheritance ");
-							 } else if (inheritanceNumber==7) {
-								 inheritanceNumber=0; 
-							 }
-
-						} else if (x.getName().equals("isMember") && object.getEventType() == 3) {
-
-
-							compositionNumber++ ; 
-							if(compositionNumber ==0 ) {
-								Services.loggerServices.info("Create composition ");
-							 } else if (compositionNumber==7) {
-								 compositionNumber=0; 
-							 }
-
-						}	else if (x.getName().equals("association") && object.getEventType() == 3) {
-
-
-							associationsNumber++ ; 
-							if(associationsNumber ==0 ) {
-								Services.loggerServices.info("Create  association");
-							 } else if (associationsNumber==7) {
-								 associationsNumber=0; 
-							 }
 						}
+					} else if (x.getName().equals("attributes") && object.getEventType() == 3) {
+
+						if (attributeNumber == 0) {
+							Services.loggerServices.info("Create attribute");
+						} else if (attributeNumber == 6) {
+							attributeNumber = 0;
+						}
+						attributeNumber++;
+					} else if (x.getName().equals("generalizes") && object.getEventType() == 3) {
+
+						if (inheritanceNumber == 0) {
+							Services.loggerServices.info("Create inheritance ");
+						} else if (inheritanceNumber == 6) {
+							inheritanceNumber = 0;
+						}
+						inheritanceNumber++;
+					} else if (x.getName().equals("isMember") && object.getEventType() == 3) {
+
+						if (compositionNumber == 0) {
+							Services.loggerServices.info("Create composition ");
+						} else if (compositionNumber == 6) {
+							compositionNumber = 0;
+						}
+						compositionNumber++;
+					} else if (x.getName().equals("association") && object.getEventType() == 3) {
+
+						if (associationsNumber == 0) {
+							Services.loggerServices.info("Create  association");
+						} else if (associationsNumber == 6) {
+							associationsNumber = 0;
+						}
+						associationsNumber++;
+					} else if (x.getName().equals("clazz") && object.getEventType() == 4) {
+
+						if (RemoveClassNumbers == 0) {
+							System.out.println("++++++++");
+							if (((Clazz) object.getOldValue()).getName() != null) {
+								System.out.println(((Clazz) object.getOldValue()).getName());
+								Services.loggerServices
+										.info("remove  class {" + ((Clazz) object.getOldValue()).getName() + "}");
+							} else {
+								System.out.println(((Clazz) object.getOldValue()).getName());
+								Services.loggerServices.info("remove  class ");
+							}
+
+						} else if (RemoveClassNumbers == 6) {
+							RemoveClassNumbers = 0;
+						}
+						RemoveClassNumbers++;
+
 					}
 				}
-			} catch (Exception e1) {
-				e1.printStackTrace();
 			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
 		}
 	}
-
 }
