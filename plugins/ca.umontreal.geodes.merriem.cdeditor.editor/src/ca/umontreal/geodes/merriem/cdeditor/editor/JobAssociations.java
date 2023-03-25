@@ -39,7 +39,7 @@ public class JobAssociations extends Job {
 	protected IStatus run(IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		try {
-			TimeUnit.SECONDS.sleep(13);
+			
 			List<Clazz> classes = model.getClazz();
 			System.out.println("Association prediction launched");
 			IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
@@ -84,7 +84,8 @@ public class JobAssociations extends Job {
 
 				}
 			});
-			Listener.AssociationJobLaunched = false;
+			this.cancel();
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

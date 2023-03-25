@@ -156,10 +156,9 @@ public class JobConcepts extends Job {
 		}
 		System.out.println("Hello World (from a background job concepts)");
 
-		Listener.concepstJobLaunched = false;
 
 		// reset static value to false to enable jobs running.
-
+		this.cancel();
 		return ASYNC_FINISH;
 
 	}

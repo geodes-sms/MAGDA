@@ -34,7 +34,6 @@ public class JobAttributes extends Job {
 
 			// Model model = this.services.getModel();
 
-			TimeUnit.SECONDS.sleep(15);
 			EList<Clazz> classes = model.getClazz();
 			HashMap<String, String> typeAttributes = new HashMap<String, String>();
 			IAttributesPrediction attributesPredcition = new AttributesPrediction();
@@ -52,11 +51,12 @@ public class JobAttributes extends Job {
 				}
 			}
 			System.out.println("attributes  started ");
-			Listener.AttributesJobLaunched = false;
+			
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		this.cancel();
 		return ASYNC_FINISH;
 	}
 

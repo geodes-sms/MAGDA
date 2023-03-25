@@ -10,6 +10,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Status;
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.impl.EReferenceImpl;
@@ -58,6 +59,26 @@ public class Listener extends ResourceSetListenerImpl {
 
 					if (x.getName().equals("clazz") && object.getEventType() == 3) {
 
+						 EList<Clazz> classesInModel = Services.getModel().getClazz();
+						
+						for(int j = 0; j<classesInModel.size(); j++  ) {
+							List<Adapter> adapters = classesInModel.get(j).eAdapters();
+				
+						   
+						    boolean hasAdapter = false;
+						    for (Adapter adapter : classesInModel.get(j).eAdapters()) {
+						        if (adapter instanceof ElementNameChangeNotifier) {
+						            hasAdapter = true;
+						            break;
+						        }
+						    }
+
+						    if (!hasAdapter) {
+						    	
+								classesInModel.get(j).eAdapters().add(new ElementNameChangeNotifier());
+						    }
+						}
+						
 						if (classNumbers == 0) {
 							Services.loggerServices.info("Create class");
 
@@ -66,65 +87,65 @@ public class Listener extends ResourceSetListenerImpl {
 						}
 						classNumbers++;
 
-						if (Services.mode != Mode.assessAtEnd && Services.mode != null) {
-							Services services;
-
-							try {
-								services = new Services();
-								Session session = services.getSession();
-								Model model = services.getModel();
-								EList<Clazz> classes = model.getClazz();
-
-								/***
-								 * First Thread - Job : Predict related concepts Predict it's attributes ?
-								 **/
-
-								if (concepstJobLaunched == false) {
-
-									concepstJobLaunched = true;
-									JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services, model,
-											session, true);
-
-									jobConcepts.setPriority(Job.SHORT);
-									jobConcepts.schedule();
-									// jobConcepts.cancel();
-									// concepstJobLaunched = false;
-								}
-
-								/***
-								 * Second Thread - Job : Predict related attributes for concepts added
-								 **/
-
-								if (AttributesJobLaunched == false) {
-									AttributesJobLaunched = true;
-									JobAttributes jobAttributes = new JobAttributes("Attributes prediction", services,
-											model);
-									// I changed the place of this to out of the Job
-
-									jobAttributes.setPriority(Job.SHORT);
-									jobAttributes.schedule();
-									// jobAttributes.cancel();
-								}
-
-								/***
-								 * Third Thread - Job : Predict related associations for concepts added
-								 **/
-
-								if (AssociationJobLaunched == false && model.getClazz().size() > 1) {
-									AssociationJobLaunched = true;
-									Job jobAssociations = new JobAssociations("Associations prediction", services,
-											model, session);
-									jobAssociations.setPriority(Job.SHORT);
-									jobAssociations.schedule();
-									// jobAssociations.cancel();
-								}
-
-							} catch (Exception e1) {
-								// TODO Auto-generated catch block
-								e1.printStackTrace();
-							}
-
-						}
+//						if (Services.mode != Mode.assessAtEnd && Services.mode != null) {
+//							Services services;
+//
+//							try {
+//								services = new Services();
+//								Session session = services.getSession();
+//								Model model = services.getModel();
+//								EList<Clazz> classes = model.getClazz();
+//
+//								/***
+//								 * First Thread - Job : Predict related concepts Predict it's attributes ?
+//								 **/
+//
+//								if (concepstJobLaunched == false) {
+//
+//									concepstJobLaunched = true;
+//									JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services, model,
+//											session, true);
+//
+//									jobConcepts.setPriority(Job.SHORT);
+//									jobConcepts.schedule();
+//									
+//									// concepstJobLaunched = false;
+//								}
+//
+//								/***
+//								 * Second Thread - Job : Predict related attributes for concepts added
+//								 **/
+//
+//								if (AttributesJobLaunched == false) {
+//									AttributesJobLaunched = true;
+//									JobAttributes jobAttributes = new JobAttributes("Attributes prediction", services,
+//											model);
+//									// I changed the place of this to out of the Job
+//
+//									jobAttributes.setPriority(Job.SHORT);
+//									jobAttributes.schedule();
+//									// jobAttributes.cancel();
+//								}
+//
+//								/***
+//								 * Third Thread - Job : Predict related associations for concepts added
+//								 **/
+//
+//								if (AssociationJobLaunched == false && model.getClazz().size() > 1) {
+//									AssociationJobLaunched = true;
+//									Job jobAssociations = new JobAssociations("Associations prediction", services,
+//											model, session);
+//									jobAssociations.setPriority(Job.SHORT);
+//									jobAssociations.schedule();
+//									// jobAssociations.cancel();
+//								}
+//
+//							} catch (Exception e1) {
+//								// TODO Auto-generated catch block
+//								e1.printStackTrace();
+//							}
+//
+//						}
 					} else if (x.getName().equals("attributes") && object.getEventType() == 3) {
 
 						if (attributeNumber == 0) {

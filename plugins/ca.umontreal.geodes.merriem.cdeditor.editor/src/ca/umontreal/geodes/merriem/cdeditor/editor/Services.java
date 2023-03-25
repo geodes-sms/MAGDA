@@ -31,10 +31,15 @@ import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.geometry.Point;
+import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.ResourceSetListener;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.gmf.runtime.diagram.ui.commands.CreateOrSelectElementCommand.LabelProvider;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.IGraphicalEditPart;
 import org.eclipse.gmf.runtime.diagram.ui.editparts.ShapeEditPart;
@@ -75,8 +80,10 @@ import org.eclipse.ui.internal.EditorReference;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationImpl;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
 
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -99,8 +106,9 @@ public class Services {
 	public static IViewPart associationView;
 	public static Mode mode;
 	public static Logger loggerServices;
-	public static boolean newSession=true; 
-	public static FileHandler fileHandler; 
+	public static boolean newSession = true;
+	public static FileHandler fileHandler;
+
 	public Services() throws Exception {
 		this.config = new Properties();
 		this.listener = (ResourceSetListener) new Listener();
@@ -113,6 +121,11 @@ public class Services {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		TransactionalEditingDomain domain = getSession().getTransactionalEditingDomain();
+
+		domain.addResourceSetListener(listener);
+
 		if (Services.suggestionView == null) {
 			Services.suggestionView = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
 					.findView("ca.umontreal.geodes.merriem.cdeditor.editor.view3");
@@ -123,20 +136,16 @@ public class Services {
 					.findView("ca.umontreal.geodes.merriem.cdeditor.editor.viewAssociations");
 		}
 
-		TransactionalEditingDomain domain = getSession().getTransactionalEditingDomain();
-
-		domain.addResourceSetListener(listener);
-
 		if (Services.loggerServices == null) {
 			System.out.println("instanctiate");
 
 			loggerServices = Logger.getLogger(Services.class.getName());
 			loggerServices.setUseParentHandlers(false);
 			try {
-				if(Services.fileHandler== null ) {
-				Services.fileHandler = new FileHandler("/home/meriem/editorCD/class-diagram-editor" + "/log_" + System.currentTimeMillis() + ".txt" ,
-						true);
-				
+				if (Services.fileHandler == null) {
+					Services.fileHandler = new FileHandler("/home/meriem/editorCD/class-diagram-editor" + "/log_"
+							+ System.currentTimeMillis() + ".txt", true);
+
 				}
 				fileHandler.setFormatter(new TextFormatter());
 				loggerServices.setLevel(Level.INFO);
@@ -431,6 +440,19 @@ public class Services {
 	}
 
 	public EObject getClassPrediction(EObject rootModel) {
+
+		TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(rootModel);
+		ResourceSet resourceSet = editingDomain.getResourceSet();
+		List<Resource> resources = resourceSet.getResources();
+
+		for (Resource resource : resources) {
+			List<Adapter> adapters = resource.eAdapters();
+			System.out.println("Adapters for resource " + resource.getURI() + ":");
+			for (Adapter adapter : adapters) {
+				System.out.println(adapter.getClass().getSimpleName());
+			}
+		}
+
 		Services.loggerServices.info("Demand Concepts Predcion ");
 
 		ConceptsFactory conceptsFactory = new ConceptsFactory();
@@ -682,7 +704,7 @@ public class Services {
 			if (result != null) {
 				List<String> items = new ArrayList<String>(Arrays.asList(ArrayResultsTyped));
 				Services.loggerServices.info("Accept from list of  associations ");
-			
+
 				for (int j = 0; j < result.length; j++) {
 					item = (String) result[j];
 					String Type = item.split(" ")[0];
@@ -722,31 +744,26 @@ public class Services {
 
 		AssociationsFactory associationsFactory = new AssociationsFactory();
 
-		//check if it is a composition or an association
-		
+		// check if it is a composition or an association
+
 		if (rootModel.toString().contains("ClazzImpl")) {
 			// it is a composition
 			System.out.print("composition ?  ");
 			associationsFactory.removeComposition(Target, Source, getSession());
-			associationsFactory.createAssociation("composition", "", Source,Target, 
-					getSession(), true);
-			
-			
-			
-			
+			associationsFactory.createAssociation("composition", "", Source, Target, getSession(), true);
+
 		} else {
 			List<Association> associations = getModel().getAssociation();
 			for (int i = 0; i < associations.size(); i++) {
 				if ((associations.get(i).getTarget().getName().equalsIgnoreCase(Target))
 						&& (associations.get(i).getSource().getName().equalsIgnoreCase(Source))) {
 					System.out.print("switch associtaion ");
-					associationsFactory.createAssociation("association", String.valueOf(associations.get(i).getName()), Source, Target,
-							getSession(), true);
-					associationsFactory.deleteAssociation("association", String.valueOf(associations.get(i).getName()), Target, Source,
-							getSession());
-					
-					
-					break; 
+					associationsFactory.createAssociation("association", String.valueOf(associations.get(i).getName()),
+							Source, Target, getSession(), true);
+					associationsFactory.deleteAssociation("association", String.valueOf(associations.get(i).getName()),
+							Target, Source, getSession());
+
+					break;
 				}
 			}
 		}
