@@ -27,6 +27,7 @@ public class AttributesNamePrompt extends Prompt {
 			Attributes = attributesStr.split(",");
 			for (int j = 0; j < Attributes.length; j++) {
 				Attributes[j].replaceAll("'", "");
+				Attributes[j].replaceAll(" ", "");
 				Attributes[j] = Attributes[j].replaceAll("[^a-zA-Z0-9]", "");
 				System.out.println(Attributes[j]);
 			}

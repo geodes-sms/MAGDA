@@ -198,27 +198,7 @@ public class PredictAtEnd extends AbstractHandler {
 					}
 
 				}
-//					HashMap<HashMap<String, String>, Integer> frequencyAssociations = new HashMap<HashMap<String, String>, Integer>();
-//					int freq;
-//					for (int j = 0; j < allResults.size(); j++) {
-//						for (Entry<HashMap<String, String>, Integer> set : frequencyAssociations.entrySet()) {
-//							if ((allResults.get(j).get("Source").equals(set.getKey().get("Source"))
-//									&& allResults.get(j).get("Target").equals(set.getKey().get("Target"))) || allResults.get(j).get("Source").equals(set.getKey().get("Target"))
-//									&& allResults.get(j).get("Target").equals(set.getKey().get("Source"))) {
-//
-//								freq = set.getValue() + 1;
-//								
-//								if
-//								
-//							} else {
-//								freq = 0;
-//							}
-//
-//							frequencyAssociations.put(allResults.get(j), freq);
-//
-//						}
-//
-//					}
+
 				
 				System.out.println("Associatios ******************************");
 				for (int j = 0; j < allResults.size(); j++) {

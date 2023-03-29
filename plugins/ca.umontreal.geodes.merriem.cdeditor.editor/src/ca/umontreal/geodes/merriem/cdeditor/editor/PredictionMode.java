@@ -37,7 +37,7 @@ public class PredictionMode implements IHandler {
 			 * First Thread - Job : Predict related concepts Predict it's attributes ?
 			 **/
 
-			JobConcepts jobConcepts = new JobConcepts("Attributes prediction", services, model, session,false);
+			JobConcepts jobConcepts = new JobConcepts("Attributes prediction", services, model, session,false,null);
 
 			jobConcepts.setPriority(Job.SHORT);
 			jobConcepts.schedule();

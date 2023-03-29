@@ -5,6 +5,7 @@ import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterImpl;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.sirius.business.api.session.Session;
+import org.eclipse.swt.widgets.ProgressBar;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
@@ -40,12 +41,12 @@ public class ElementNameChangeNotifier extends AdapterImpl {
 					/***
 					 * First Thread - Job : Predict related concepts Predict it's attributes ?
 					 **/
-
-					JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services, model, session, false);
+					ProgressBar progressBar = ((ViewSuggestions) Services.suggestionView).getProgressBar();
+					JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services, model, session, false,
+							progressBar);
 
 					jobConcepts.setPriority(Job.SHORT);
 					jobConcepts.schedule();
-
 
 					/***
 					 * Second Thread - Job : Predict related attributes for concepts added

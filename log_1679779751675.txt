@@ -1,6 +1,0 @@
-2023-03-25 17:29:11.679 , INFO , Application started , null , [] ,  - 
-2023-03-25 17:29:20.269 , INFO , Create class , OnTrigger , [] ,  - 
-2023-03-25 17:30:13.537 , INFO , Accept Association From view , OnTrigger , [Car, Wheel] , [RentalCompany, Engine]
-2023-03-25 17:30:29.682 , INFO , Demand Attributes Predcion  , OnTrigger , [Car, Wheel] , [RentalCompany, Engine]
-2023-03-25 17:30:38.659 , INFO , Demand Attributes Predcion  , OnTrigger , [Car, Wheel] , [RentalCompany, Engine]
-2023-03-25 17:30:42.078 , INFO , Demand Attributes Predcion  , OnTrigger , [Car, Wheel] , [RentalCompany, Engine]

@@ -1,6 +1,7 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.runtime.NullProgressMonitor;
@@ -312,7 +313,6 @@ public class AssociationsFactory {
 					}
 					AssociationCandidateImpl newAssociationcandidate = (AssociationCandidateImpl) metamodelFactory
 							.createAssociationCandidate();
-
 					newAssociationcandidate.setName(Name);
 					newAssociationcandidate.setTarget(ClassTarget);
 					newAssociationcandidate.setSource(ClassSource);
@@ -363,8 +363,7 @@ public class AssociationsFactory {
 						}
 
 					}
-				
-					
+
 					for (int k = 0; k < index.size(); k++) {
 						System.out.println("deleting from model candidates");
 						model.getOperation().remove(index.get(k));
@@ -457,6 +456,94 @@ public class AssociationsFactory {
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	
+	
+	public static void removeAssociationFromCash(String Source , String Taregt) {
+		HashMap<String, List<String>> map = Services.relatedAssociations;
+		System.out.println("casssssssssssh");
+		System.out.println(map);
+		for (List<String> values : map.values()) {
+			values.removeIf(s -> (s.split(" ")[5].toLowerCase().equals(Taregt) &&  s.split(" ")[7].toLowerCase().equals(Source)));
+		
+		}
+
+		System.out.println(map);
+		map.values().removeIf(List::isEmpty);
+		map.keySet().removeIf(key -> map.get(key).isEmpty());
+		Services.relatedAssociations = map;
+	}
+	
+	public static void removeRelatedAssociationsFromCash(String ClazzName) {
+		HashMap<String, List<String>> map = Services.relatedAssociations;
+		System.out.println(map);
+		for (List<String> values : map.values()) {
+			values.removeIf(s -> s.toLowerCase().contains(ClazzName.toLowerCase()));
+		}
+
+		System.out.println(map);
+		map.values().removeIf(List::isEmpty);
+		map.keySet().removeIf(key -> map.get(key).isEmpty());
+		Services.relatedAssociations = map;
+	}
+
+	public static void removeRelatedCandidateAssociations(String ClazzName, Session session) {
+
+		removeRelatedAssociationsFromCash(ClazzName);
+		List<AssociationCandidate> operationsCandidate = Services.getModel().getOperation();
+
+		// remove candidates:
+		try {
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
+
+			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+
+			CommandStack stack = domain.getCommandStack();
+			RecordingCommand cmd = new RecordingCommand(domain) {
+
+				@Override
+				protected void doExecute() {
+					Model model = Services.getModel();
+
+					List<AssociationCandidate> AssociationCandidates = model.getOperation();
+					List<AssociationCandidate> index = new ArrayList<AssociationCandidate>();
+					for (int i = 0; i < AssociationCandidates.size(); i++) {
+						if ((AssociationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(ClazzName.replaceAll("\\s+", "")))) {
+							System.out.println("found the operation");
+							index.add(AssociationCandidates.get(i));
+						}
+						if (AssociationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
+								.equalsIgnoreCase(ClazzName.replaceAll("\\s+", ""))) {
+							index.add(AssociationCandidates.get(i));
+						}
+					}
+					for (int k = 0; k < index.size(); k++) {
+						model.getOperation().remove(index.get(k));
+					}
+					SessionManager.INSTANCE.notifyRepresentationCreated(session);
+					DRepresentation represnt = null;
+
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
+								.openEditor(session, represnt, new NullProgressMonitor());
+
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
+				}
+
+			};
+
+			stack.execute(cmd);
+
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

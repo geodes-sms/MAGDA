@@ -83,29 +83,7 @@ public class ViewAssociations extends ViewPart {
 				column.setText(title);
 			}
 
-			// trying to have score with associations;
-//			HashMap<Pair<String, String>, Integer> AssociationsFrequency = null;
-//
-//			for (int i = 0; i < operationsCandidate.size(); i++) {
-//
-//				// exact matching
-//				Pair itemOperation1 = new Pair<>(operationsCandidate.get(i).getSource(),
-//						operationsCandidate.get(i).getTarget());
-//				Pair itemOperation2 = new Pair<>(operationsCandidate.get(i).getTarget(),
-//						operationsCandidate.get(i).getSource());
-//
-//				if (AssociationsFrequency.keySet().contains(itemOperation2)) {
-//					Integer score = AssociationsFrequency.get(operationsCandidate.get(i));
-//					AssociationsFrequency.put(itemOperation2, score + 1);
-//				} else if (AssociationsFrequency.keySet().contains(itemOperation1)) {
-//					Integer score = AssociationsFrequency.get(operationsCandidate.get(i));
-//					AssociationsFrequency.put(itemOperation1, score + 1);
-//				}
-//
-//				else {
-//					AssociationsFrequency.put(itemOperation2, 1);
-//				}
-//			}
+		
 
 			HashMap<AssociationCandidate, Integer> selectedOPerations = new HashMap<>();
 

@@ -28,11 +28,6 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
 public class Listener extends ResourceSetListenerImpl {
 
-	public static boolean concepstJobLaunched = false;
-
-	public static boolean AttributesJobLaunched = false;
-
-	public static boolean AssociationJobLaunched = false;
 	public static int attributeNumber = 0;
 	public static int associationsNumber = 0;
 	public static int inheritanceNumber = 0;
@@ -59,26 +54,25 @@ public class Listener extends ResourceSetListenerImpl {
 
 					if (x.getName().equals("clazz") && object.getEventType() == 3) {
 
-						 EList<Clazz> classesInModel = Services.getModel().getClazz();
-						
-						for(int j = 0; j<classesInModel.size(); j++  ) {
-							List<Adapter> adapters = classesInModel.get(j).eAdapters();
-				
-						   
-						    boolean hasAdapter = false;
-						    for (Adapter adapter : classesInModel.get(j).eAdapters()) {
-						        if (adapter instanceof ElementNameChangeNotifier) {
-						            hasAdapter = true;
-						            break;
-						        }
-						    }
+						EList<Clazz> classesInModel = Services.getModel().getClazz();
 
-						    if (!hasAdapter) {
-						    	
+						for (int j = 0; j < classesInModel.size(); j++) {
+							List<Adapter> adapters = classesInModel.get(j).eAdapters();
+
+							boolean hasAdapter = false;
+							for (Adapter adapter : classesInModel.get(j).eAdapters()) {
+								if (adapter instanceof ElementNameChangeNotifier) {
+									hasAdapter = true;
+									break;
+								}
+							}
+
+							if (!hasAdapter) {
+
 								classesInModel.get(j).eAdapters().add(new ElementNameChangeNotifier());
-						    }
+							}
 						}
-						
+
 						if (classNumbers == 0) {
 							Services.loggerServices.info("Create class");
 
@@ -87,65 +81,6 @@ public class Listener extends ResourceSetListenerImpl {
 						}
 						classNumbers++;
 
-//						if (Services.mode != Mode.assessAtEnd && Services.mode != null) {
-//							Services services;
-//
-//							try {
-//								services = new Services();
-//								Session session = services.getSession();
-//								Model model = services.getModel();
-//								EList<Clazz> classes = model.getClazz();
-//
-//								/***
-//								 * First Thread - Job : Predict related concepts Predict it's attributes ?
-//								 **/
-//
-//								if (concepstJobLaunched == false) {
-//
-//									concepstJobLaunched = true;
-//									JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services, model,
-//											session, true);
-//
-//									jobConcepts.setPriority(Job.SHORT);
-//									jobConcepts.schedule();
-//									
-//									// concepstJobLaunched = false;
-//								}
-//
-//								/***
-//								 * Second Thread - Job : Predict related attributes for concepts added
-//								 **/
-//
-//								if (AttributesJobLaunched == false) {
-//									AttributesJobLaunched = true;
-//									JobAttributes jobAttributes = new JobAttributes("Attributes prediction", services,
-//											model);
-//									// I changed the place of this to out of the Job
-//
-//									jobAttributes.setPriority(Job.SHORT);
-//									jobAttributes.schedule();
-//									// jobAttributes.cancel();
-//								}
-//
-//								/***
-//								 * Third Thread - Job : Predict related associations for concepts added
-//								 **/
-//
-//								if (AssociationJobLaunched == false && model.getClazz().size() > 1) {
-//									AssociationJobLaunched = true;
-//									Job jobAssociations = new JobAssociations("Associations prediction", services,
-//											model, session);
-//									jobAssociations.setPriority(Job.SHORT);
-//									jobAssociations.schedule();
-//									// jobAssociations.cancel();
-//								}
-//
-//							} catch (Exception e1) {
-//								// TODO Auto-generated catch block
-//								e1.printStackTrace();
-//							}
-//
-//						}
 					} else if (x.getName().equals("attributes") && object.getEventType() == 3) {
 
 						if (attributeNumber == 0) {
@@ -179,15 +114,18 @@ public class Listener extends ResourceSetListenerImpl {
 						}
 						associationsNumber++;
 					} else if (x.getName().equals("clazz") && object.getEventType() == 4) {
-
+						Services services = new Services();
+						Session session = services.getSession();
 						if (RemoveClassNumbers == 0) {
-							System.out.println("++++++++");
+
 							if (((Clazz) object.getOldValue()).getName() != null) {
+								String OldName = ((Clazz) object.getOldValue()).getName();
 								System.out.println(((Clazz) object.getOldValue()).getName());
-								Services.loggerServices
-										.info("remove  class {" + ((Clazz) object.getOldValue()).getName() + "}");
+								Services.loggerServices.info("remove  class {" + OldName + "}");
+								//Services.relatedAssociations.remove(OldName.toLowerCase());
+								AssociationsFactory.removeRelatedCandidateAssociations(OldName.toLowerCase(),session);
+								Services.refreshAssociationsView();
 							} else {
-								System.out.println(((Clazz) object.getOldValue()).getName());
 								Services.loggerServices.info("remove  class ");
 							}
 

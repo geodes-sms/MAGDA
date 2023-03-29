@@ -372,8 +372,8 @@ public class Services {
 				// dialog.setAllowDuplicates(false);
 
 				dialog.setElements(ArrayResultsTyped);
-
-				dialog.setTitle("Select appropriate attributes for class " + NodeName);
+				String keyUpperCase = NodeName.substring(0, 1).toUpperCase() + NodeName.substring(1);
+				dialog.setTitle("Select appropriate attributes for class " + keyUpperCase);
 
 				dialog.setMultipleSelection(true);
 
@@ -665,22 +665,26 @@ public class Services {
 				if (!res.get(j).get("Type").replaceAll("\\s+", "").equals("")
 						&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
 
-					if (!(res.get(j).get("Name").replaceAll("\\s+", "").equals(""))) {
+					if (!associationsFactory.checkAssociationExist(res.get(j).get("Target"), res.get(j).get("Source"),
+							getModel())) {
 
-						item = res.get(j).get("Type") + " ' " + res.get(j).get("Name") + " ' between "
-								+ res.get(j).get("Source") + " => " + res.get(j).get("Target");
+						if (!(res.get(j).get("Name").replaceAll("\\s+", "").equals(""))) {
 
-					} else {
+							item = res.get(j).get("Type") + " ' " + res.get(j).get("Name") + " ' between "
+									+ res.get(j).get("Source") + " => " + res.get(j).get("Target");
 
-						item = res.get(j).get("Type") + " between " + res.get(j).get("Source") + " => "
-								+ res.get(j).get("Target");
+						} else {
+
+							item = res.get(j).get("Type") + " between " + res.get(j).get("Source") + " => "
+									+ res.get(j).get("Target");
+						}
+						items.add(item);
+
+						ArrayResultsTyped = items.toArray(new String[0]);
+						associationsFactory.createAssociationcandidate(res.get(j).get("Type"), res.get(j).get("Name"),
+								res.get(j).get("Target"), res.get(j).get("Source"), session, getModel());
+						Services.relatedAssociations.put(className.toLowerCase(), items);
 					}
-					items.add(item);
-
-					ArrayResultsTyped = items.toArray(new String[0]);
-					associationsFactory.createAssociationcandidate(res.get(j).get("Type"), res.get(j).get("Name"),
-							res.get(j).get("Target"), res.get(j).get("Source"), session, getModel());
-					Services.relatedAssociations.put(className.toLowerCase(), items);
 				}
 
 			}
@@ -714,6 +718,7 @@ public class Services {
 					String Source = item.split(" ")[7];
 					associationsFactory.createAssociation(Type, Name, Target, Source, session, true);
 					associationsFactory.removecandidate(Type, Name, Target, Source, session);
+					AssociationsFactory.removeAssociationFromCash(Source, Target);
 					refreshAssociationsView();
 
 					items.remove(item);

@@ -11,6 +11,7 @@ import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.ProgressBar;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
@@ -22,14 +23,17 @@ public class JobConcepts extends Job {
 	private Model model;
 	private Session session;
 	private Boolean wait;
+	private ProgressBar progressBar;
 
-	public JobConcepts(String name, Services services, Model model, Session session, Boolean wait) {
+	public JobConcepts(String name, Services services, Model model, Session session, Boolean wait,
+			ProgressBar progressBar) {
 		super(name);
 		try {
 			this.services = services;
 			this.model = model;
 			this.session = session;
 			this.wait = wait;
+			this.progressBar = progressBar;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,14 +43,21 @@ public class JobConcepts extends Job {
 
 	@Override
 	protected IStatus run(IProgressMonitor monitor) {
-
+		Display.getDefault().asyncExec(new Runnable() {
+			public void run() {
+				if (progressBar != null && !progressBar.isDisposed()) {
+					progressBar.setMaximum(100);
+					progressBar.setMinimum(0);
+				}
+			}
+		});
 		// wait some time, to give the user add concept name.
 		try {
 			if (wait == true) {
 				TimeUnit.SECONDS.sleep(15);
 			}
 
-			System.out.println("job started ");
+	
 			List<Clazz> classes = model.getClazz();
 
 			ConceptsFactory conceptsFactory = new ConceptsFactory(services);
@@ -148,16 +159,30 @@ public class JobConcepts extends Job {
 
 				}
 			});
-		} catch (
-
-		InterruptedException e) {
+		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("Hello World (from a background job concepts)");
 
-
 		// reset static value to false to enable jobs running.
+		for (int i = 0; i < 100; i++) {
+			try {
+				Thread.sleep(50);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+
+			final int progress = i;
+			Display.getDefault().asyncExec(new Runnable() {
+				public void run() {
+					if (progressBar != null && !progressBar.isDisposed()) {
+						progressBar.setSelection(progress);
+					}
+				}
+			});
+		}
+
 		this.cancel();
 		return ASYNC_FINISH;
 

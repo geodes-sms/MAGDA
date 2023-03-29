@@ -36,7 +36,7 @@ public class AttributesFactory {
 
 	}
 
-	public void createAttribute(String Name, String Type, String containerName, Session session, Boolean refreshFlag ) {
+	public void createAttribute(String Name, String Type, String containerName, Session session, Boolean refreshFlag) {
 		try {
 
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -99,7 +99,7 @@ public class AttributesFactory {
 
 						}
 					}
-					
+
 					if (!refreshFlag) {
 						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 					}

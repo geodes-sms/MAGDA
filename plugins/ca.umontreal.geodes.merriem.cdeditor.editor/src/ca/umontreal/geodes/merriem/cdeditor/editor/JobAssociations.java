@@ -39,7 +39,7 @@ public class JobAssociations extends Job {
 	protected IStatus run(IProgressMonitor monitor) {
 		// TODO Auto-generated method stub
 		try {
-			
+
 			List<Clazz> classes = model.getClazz();
 			System.out.println("Association prediction launched");
 			IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
@@ -51,28 +51,36 @@ public class JobAssociations extends Job {
 					if (Services.relatedAssociations == null) {
 						Services.relatedAssociations = new HashMap<String, List<String>>();
 					}
-					if (!Services.relatedAssociations.containsKey(classes.get(i).getName())) {
+					if (!Services.relatedAssociations.containsKey(classes.get(i).getName().toLowerCase())) {
 
 						List<HashMap<String, String>> res = associationsPrediction.run(className, null, model);
 
 						List<String> items = new ArrayList<String>();
 						String item;
 						if (res != null) {
+
 							for (int j = 0; j < res.size(); j++) {
-								if (!(res.get(j).get("Type").replaceAll("\\s+", "").equals(""))
+								if (!res.get(j).get("Type").replaceAll("\\s+", "").equals("")
 										&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
 
-									item = res.get(j).get("Type") + ":[" + res.get(j).get("Source") + ","
-											+ res.get(j).get("Target") + "]; Name => " + res.get(j).get("Name");
+									if (!(res.get(j).get("Name").replaceAll("\\s+", "").equals(""))) {
+
+										item = res.get(j).get("Type") + " ' " + res.get(j).get("Name") + " ' between "
+												+ res.get(j).get("Source") + " => " + res.get(j).get("Target");
+
+									} else {
+
+										item = res.get(j).get("Type") + " between " + res.get(j).get("Source") + " => "
+												+ res.get(j).get("Target");
+									}
 									items.add(item);
 
 									associationsFactory.createAssociationcandidate(res.get(j).get("Type"),
 											res.get(j).get("Name"), res.get(j).get("Target"), res.get(j).get("Source"),
 											session, model);
-
-									Services.relatedAssociations.put(className, items);
-
+									Services.relatedAssociations.put(className.toLowerCase(), items);
 								}
+
 							}
 						}
 					}
@@ -85,7 +93,7 @@ public class JobAssociations extends Job {
 				}
 			});
 			this.cancel();
-			
+
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

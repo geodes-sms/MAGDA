@@ -24,10 +24,14 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
 public class AttributesPrediction implements IAttributesPrediction {
 
+	public static String[] removeNulls(String[] arr) {
+		return Arrays.stream(arr).filter(s -> s != null && !s.isEmpty()).toArray(String[]::new);
+	}
+
 	@Override
 	public HashMap<String, String> run(EObject node, String NodeName, Model model, boolean isAtEndCompletion) {
 		try {
-			
+
 			HashMap<String, String> typeAttributes = new HashMap<String, String>();
 			List<String> attributes = new ArrayList<String>();
 			if (node != null) {
@@ -50,17 +54,16 @@ public class AttributesPrediction implements IAttributesPrediction {
 				input = "";
 			Prompt attributesNamePrompt = new AttributesNamePrompt(NodeName.concat(input), "\n", " : [ ");
 			attributesNamePrompt.setPrompt();
-			System.out.println("predicting attributes...for class :  "+ NodeName);
+			System.out.println("predicting attributes...for class :  " + NodeName);
 
 			String[] arrayAttributes = attributesNamePrompt.run(10, 0.7, "text-davinci-002");
 
 			// type of predicted attribute
-			String[] arrayAttributesTemp = new String[4];
+			String[] arrayAttributesTemp = new String[10];
 
 			/**
 			 * Strategy: Consider three attributes or less to be added to canvas when it's
-			 * global prediction;
-			 * 
+			 * global prediction; pre
 			 **/
 
 			if (isAtEndCompletion) {
@@ -72,16 +75,16 @@ public class AttributesPrediction implements IAttributesPrediction {
 						arrayAttributesTemp[k] = arrayAttributesList.get(index);
 						arrayAttributesList.remove(index);
 					}
-
 				}
-				arrayAttributes = arrayAttributesTemp;
+
+				arrayAttributes = removeNulls(arrayAttributesTemp);
 			}
 
 			for (int i = 0; i < arrayAttributes.length; i++) {
+				System.out.println("selected  :  " + arrayAttributes[i]);
 				Prompt attributesTypePrompt = new AttributesTypePrompt(arrayAttributes[i], "\n", " => ");
 				attributesTypePrompt.setPrompt();
 				String[] Type = attributesTypePrompt.run(1, 0.5, "text-davinci-002");
-
 				typeAttributes.put(arrayAttributes[i], Type[0]);
 
 			}

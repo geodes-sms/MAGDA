@@ -18,10 +18,12 @@ import org.eclipse.swt.custom.TableEditor;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseListener;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.swt.widgets.ProgressBar;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
@@ -35,7 +37,7 @@ public class ViewSuggestions extends ViewPart {
 	private Services services;
 	private ConceptsFactory conceptsFactory;
 	public Composite parent;
-	// Table table;
+	public static ProgressBar progressBar;
 
 	public ViewSuggestions() {
 		try {
@@ -54,44 +56,68 @@ public class ViewSuggestions extends ViewPart {
 
 		Control[] children = parent.getChildren();
 		for (Control child : children) {
+			
 			if (!child.isDisposed()) {
 				child.dispose();
 			}
 		}
 		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
+
 			// mergeCandidates(this.services.getModel());
 			List<ClazzCandidate> classCondidateInModel = this.services.getModel().getClazzcondidate();
-			while (classCondidateInModel.remove(null))
-				;
+			while (classCondidateInModel.remove(null));
+				
 
-			Table table = new Table(parent, SWT.BORDER);
-			table.setLinesVisible(true);
-			table.setHeaderVisible(true);
-			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+//			Table table = new Table(parent, SWT.BORDER);
+//			table.setLinesVisible(true);
+//			table.setHeaderVisible(true);
+//			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
+//			data.heightHint = 200;
+//			table.setLayoutData(data);
+//			parent.layout(true, true);
+			
 
-			data.heightHint = 600;
-			/*
-			 * Button refreshButton = new Button(parent, SWT.PUSH);
-			 * refreshButton.setLayoutData(new GridData(SWT.TOP, SWT.TOP, false, false));
-			 * refreshButton.setText("Show Suggestions"); refreshButton.setSize(80, 16);
-			 * 
-			 * refreshButton.pack(); refreshButton.addMouseListener(new MouseListener() {
-			 * 
-			 * @Override public void mouseDoubleClick(MouseEvent e) { //
-			 * System.out.println("accepted clicked"); }
-			 * 
-			 * @Override public void mouseDown(MouseEvent e) {
-			 * System.out.println("put to on trigger"); Services.mode = Mode.OnTrigger;
-			 * Services.refreshSuggestionsView(); }
-			 * 
-			 * @Override public void mouseUp(MouseEvent e) { // TODO Auto-generated method
-			 * stub
-			 * 
-			 * } });
-			 */
-			table.setLayoutData(data);
-			parent.layout(true, true);
-			// parent.pack();
+			 
+		
+			
+			
+			Composite composite = new Composite(parent, SWT.NONE);
+			composite.setVisible(true);
+		    composite.setLayout(new GridLayout());
+		    composite.layout(true, true);
+		    GridData compositeData = new GridData(SWT.FILL, SWT.FILL, true, true);
+		    composite.setLayoutData(compositeData);
+		    // Create the table control
+		    Table table = new Table(composite, SWT.BORDER);
+			
+			
+			  //Table table = new Table(parent, SWT.BORDER);
+			    table.setLinesVisible(true);
+			    table.setHeaderVisible(true);
+			    table.setLayout(new GridLayout());
+			    
+			    GridData tableData = new GridData(SWT.FILL, SWT.FILL, true, true); 
+			    tableData.heightHint = 600;
+			    table.setLayoutData(tableData);
+		    
+			    // Create a progress bar control
+			   
+//			
+			   
+				
+				Composite progressBarComposite = new Composite(composite, SWT.NONE);
+				progressBarComposite.setLayout(new GridLayout());
+				GridData progressBarCompositeData = new GridData(SWT.FILL, SWT.TOP, true, false);
+				progressBarComposite.setLayoutData(progressBarCompositeData);
+				progressBarComposite.layout(true,true);
+				this.progressBar = new ProgressBar(progressBarComposite, SWT.HORIZONTAL | SWT.INDETERMINATE);
+				GridData progressBarData = new GridData(SWT.FILL, SWT.TOP, true, false);
+				this.progressBar.setLayoutData(progressBarData);
+				this.progressBar.setVisible(true);
+			
+
+			    parent.layout(true, true);
+
 
 			String[] titles = { "Suggestion", "score", "Add class to Canvas?", "Attributes" };
 			for (String title : titles) {
@@ -179,7 +205,7 @@ public class ViewSuggestions extends ViewPart {
 							conceptsFactory.deleteClassCandidate(acceptedClassName, session);
 							conceptsFactory.createClass(acceptedClassName, session, true);
 							JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services,
-									services.getModel(), session, false);
+									services.getModel(), session, false, progressBar);
 
 							jobConcepts.setPriority(Job.SHORT);
 							jobConcepts.schedule();
@@ -227,9 +253,10 @@ public class ViewSuggestions extends ViewPart {
 								}
 
 							} else {
-							
+
 								IAttributesPrediction attributesPredcition = new AttributesPrediction();
-								typeAttributes = attributesPredcition.run(null, acceptedClassName, services.getModel(), false);
+								typeAttributes = attributesPredcition.run(null, acceptedClassName, services.getModel(),
+										false);
 								Services.classAttributes.put(acceptedClassName.toLowerCase(), typeAttributes);
 							}
 							if (typeAttributes == null) {
@@ -259,41 +286,24 @@ public class ViewSuggestions extends ViewPart {
 											Display.getCurrent().getActiveShell(), new LabelProvider());
 
 									dialog.setElements(ArrayResultsTyped);
-									dialog.setTitle("Potential attributes for class \" " + acceptedClassName +"\"");
+									dialog.setTitle("Potential attributes for class \" " + acceptedClassName + "\"");
 									dialog.setMultipleSelection(true);
 
 									if (dialog.open() != Window.OK) {
 										// return false;
 									}
 
-									Object[] result = dialog.getResult();
-									if (result != null) {
-										for (int i = 0; i < result.length; i++) {
-											String res = (String) result[i];
-											res = res.split(":")[0];
-											attributesFactory.createAttribute(res, typeAttributes.get(res),
-													acceptedClassName, session, false);
-											typeAttributes.remove(res);
-										}
-										Services.classAttributes.put(acceptedClassName.toLowerCase(), typeAttributes);
-
-									}
 								}
 								;
 							}
 							;
-//							} else {
-//
-//								MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(),
-//										"Try again later", null, "We have no suggestion for you now",
-//										MessageDialog.ERROR, new String[] { "Cancel" }, 0);
-//								int result = dialog.open();
-//							}
+
 						}
 
 						catch (Exception e1) {
 							System.out.println(e1);
 						}
+
 					}
 
 					@Override
@@ -309,6 +319,10 @@ public class ViewSuggestions extends ViewPart {
 
 	}
 
+	public static ProgressBar getProgressBar() {
+		return progressBar;
+	}
+
 	@Override
 	public void createPartControl(Composite parent) {
 		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
@@ -316,36 +330,13 @@ public class ViewSuggestions extends ViewPart {
 			this.parent = parent;
 
 			createContents();
-		}
-	}
 
-	/**
-	 * public void mergeCandidates(Model model) {
-	 * 
-	 * List<ClazzCandidate> candidatesInModel = model.getClazzcondidate();
-	 * 
-	 * Map<String, Integer> nameCounts = new HashMap<>(); for (ClazzCandidate
-	 * candidate : candidatesInModel) { if (candidate != null) { String name =
-	 * candidate.getName(); int count = nameCounts.getOrDefault(name, 0);
-	 * nameCounts.put(name, count + candidate.getConfidence()); }
-	 * 
-	 * }
-	 * 
-	 * Session session = services.getSession(); for (Map.Entry<String, Integer>
-	 * entry : nameCounts.entrySet()) { String name = entry.getKey(); int count =
-	 * entry.getValue(); conceptsFactory.deleteClassCandidate(name, session);
-	 * 
-	 * conceptsFactory.createClassCandidate(name, Integer.toString(count), session,
-	 * model);
-	 * 
-	 * }
-	 * 
-	 * }
-	 **/
+		}
+
+	}
 
 	@Override
 	public void setFocus() {
-		// TODO Auto-generated method stub
 
 	}
 
