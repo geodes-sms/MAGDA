@@ -1,5 +1,0 @@
-2023-03-30 01:03:16.403 , INFO , Application started , null , [] ,  - 
-2023-03-30 01:03:27.480 , INFO , Create class , OnTrigger , [] ,  - 
-2023-03-30 01:03:29.836 , INFO , update class name , OnTrigger , [wheel] ,  - 
-2023-03-30 01:03:41.576 , INFO , update class name , OnTrigger , [wheel, truck] , [motorcycle, car]
-2023-03-30 01:04:26.630 , INFO , Accept Concept From view  , OnTrigger , [wheel, truck] , [motorcycle, car, motorcycle, car]
