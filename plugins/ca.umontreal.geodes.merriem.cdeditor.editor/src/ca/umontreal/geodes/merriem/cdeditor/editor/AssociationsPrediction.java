@@ -28,8 +28,7 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 			List<Clazz> classesInModel = model.getClazz();
 
 			if (rootModel instanceof Clazz || rootModel == null) {
-				// className = rootModel.toString().split(":")[1];
-				// className = className.substring(1, className.length() - 1);
+
 				List<Association> Associations = new ArrayList<Association>();
 				Associations = model.getAssociation();
 				List<String> classesAssociatedTo = new ArrayList<String>();
@@ -85,7 +84,7 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 								System.out.println("previous target : super  : " + Target );
 								Prompt inheritancePrompt = new InheritancePrompt(input, "\n", "=> ");
 								String[] resultInheritance = inheritancePrompt.run(1, 0.7, "text-davinci-002");
-								if(! Target.equalsIgnoreCase(resultInheritance[0])) {
+								if(! (Target.replaceAll("\\s+", "").equalsIgnoreCase(resultInheritance[0].replaceAll("\\s+", "")))) {
 									Source =Target; 
 									Target = resultInheritance[0];
 								

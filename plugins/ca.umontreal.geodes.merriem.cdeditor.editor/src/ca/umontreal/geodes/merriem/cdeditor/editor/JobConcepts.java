@@ -9,9 +9,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.ProgressBar;
+import org.eclipse.ui.PlatformUI;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
@@ -28,12 +30,13 @@ public class JobConcepts extends Job {
 	public JobConcepts(String name, Services services, Model model, Session session, Boolean wait,
 			ProgressBar progressBar) {
 		super(name);
+		this.progressBar = progressBar;
+
 		try {
 			this.services = services;
 			this.model = model;
 			this.session = session;
 			this.wait = wait;
-			this.progressBar = progressBar;
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -141,7 +144,6 @@ public class JobConcepts extends Job {
 						typeAttributes = attributesPredcition.run(null, (String) Candidates.get(k).getName(), model,
 								false);
 
-						// typeAttributes.put("id; dummy ", "String");
 
 						if (services.classAttributes == null) {
 							services.classAttributes = new HashMap<String, HashMap<String, String>>();
@@ -153,12 +155,7 @@ public class JobConcepts extends Job {
 				}
 			}
 
-			Display.getDefault().syncExec(new Runnable() {
-				public void run() {
-					Services.refreshSuggestionsView();
-
-				}
-			});
+			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -168,7 +165,7 @@ public class JobConcepts extends Job {
 		// reset static value to false to enable jobs running.
 		for (int i = 0; i < 100; i++) {
 			try {
-				Thread.sleep(50);
+				Thread.sleep(15);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -182,6 +179,13 @@ public class JobConcepts extends Job {
 				}
 			});
 		}
+		
+		Display.getDefault().syncExec(new Runnable() {
+			public void run() {
+				Services.refreshSuggestionsView();
+
+			}
+		});
 
 		this.cancel();
 		return ASYNC_FINISH;

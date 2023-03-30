@@ -35,24 +35,40 @@ public class AttributesPrediction implements IAttributesPrediction {
 			HashMap<String, String> typeAttributes = new HashMap<String, String>();
 			List<String> attributes = new ArrayList<String>();
 			if (node != null) {
-				for (int i = 1; i < node.eContents().size(); i++) {
-					attributes.add(node.eContents().get(i).toString().split(" ", 3)[2].split(":", 3)[0]);
+				System.out.println(node.eContents());
+				for (int i = 0; i < node.eContents().size(); i++) {
+					attributes.add(node.eContents().get(i).toString().split(" ")[2].split("\\)")[0]);
+					System.out.println(node.eContents().get(i).toString());
 				}
 			}
 
 			/** if class already have attributes, ... **/
 			String input;
+			String shot;
+			String Symbol; 
 			if (node != null) {
-				if (node.eContents().size() > 1) {
+				if (attributes.size()!=0) {
 					input = attributes.get(0);
 					for (int i = 1; i < attributes.size(); i++) {
 						input = input.concat(",").concat(attributes.get(i));
 					}
-				} else
+					System.out.println("=====================================");
+					System.out.println(input);
+					shot=NodeName.concat(": [' ").concat(input);
+					Symbol= " , ";
+				} else {
 					input = "";
-			} else
+					shot=NodeName;
+					Symbol= ": [ ";
+				}
+			} else {
 				input = "";
-			Prompt attributesNamePrompt = new AttributesNamePrompt(NodeName.concat(input), "\n", " : [ ");
+				shot=NodeName;
+				Symbol= ": [ ";
+			}
+		
+			
+			Prompt attributesNamePrompt = new AttributesNamePrompt(shot, "\n", Symbol);
 			attributesNamePrompt.setPrompt();
 			System.out.println("predicting attributes...for class :  " + NodeName);
 

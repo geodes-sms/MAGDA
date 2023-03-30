@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.eclipse.core.runtime.jobs.Job;
+import org.eclipse.emf.common.util.EList;
 import org.eclipse.gmf.runtime.diagram.ui.commands.CreateOrSelectElementCommand.LabelProvider;
 import org.eclipse.jface.dialogs.MessageDialog;
 import org.eclipse.jface.window.Window;
@@ -30,6 +31,7 @@ import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 import org.eclipse.ui.part.ViewPart;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
@@ -56,7 +58,7 @@ public class ViewSuggestions extends ViewPart {
 
 		Control[] children = parent.getChildren();
 		for (Control child : children) {
-			
+
 			if (!child.isDisposed()) {
 				child.dispose();
 			}
@@ -65,59 +67,40 @@ public class ViewSuggestions extends ViewPart {
 
 			// mergeCandidates(this.services.getModel());
 			List<ClazzCandidate> classCondidateInModel = this.services.getModel().getClazzcondidate();
-			while (classCondidateInModel.remove(null));
-				
+			while (classCondidateInModel.remove(null))
+				;
 
-//			Table table = new Table(parent, SWT.BORDER);
-//			table.setLinesVisible(true);
-//			table.setHeaderVisible(true);
-//			GridData data = new GridData(SWT.FILL, SWT.FILL, true, true);
-//			data.heightHint = 200;
-//			table.setLayoutData(data);
-//			parent.layout(true, true);
-			
-
-			 
-		
-			
-			
 			Composite composite = new Composite(parent, SWT.NONE);
 			composite.setVisible(true);
-		    composite.setLayout(new GridLayout());
-		    composite.layout(true, true);
-		    GridData compositeData = new GridData(SWT.FILL, SWT.FILL, true, true);
-		    composite.setLayoutData(compositeData);
-		    // Create the table control
-		    Table table = new Table(composite, SWT.BORDER);
-			
-			
-			  //Table table = new Table(parent, SWT.BORDER);
-			    table.setLinesVisible(true);
-			    table.setHeaderVisible(true);
-			    table.setLayout(new GridLayout());
-			    
-			    GridData tableData = new GridData(SWT.FILL, SWT.FILL, true, true); 
-			    tableData.heightHint = 600;
-			    table.setLayoutData(tableData);
-		    
-			    // Create a progress bar control
-			   
-//			
-			   
-				
-				Composite progressBarComposite = new Composite(composite, SWT.NONE);
-				progressBarComposite.setLayout(new GridLayout());
-				GridData progressBarCompositeData = new GridData(SWT.FILL, SWT.TOP, true, false);
-				progressBarComposite.setLayoutData(progressBarCompositeData);
-				progressBarComposite.layout(true,true);
-				this.progressBar = new ProgressBar(progressBarComposite, SWT.HORIZONTAL | SWT.INDETERMINATE);
-				GridData progressBarData = new GridData(SWT.FILL, SWT.TOP, true, false);
-				this.progressBar.setLayoutData(progressBarData);
-				this.progressBar.setVisible(true);
-			
+			composite.setLayout(new GridLayout());
+			composite.layout(true, true);
+			GridData compositeData = new GridData(SWT.FILL, SWT.FILL, true, true);
+			composite.setLayoutData(compositeData);
+			// Create the table control
+			Table table = new Table(composite, SWT.BORDER);
 
-			    parent.layout(true, true);
+			// Table table = new Table(parent, SWT.BORDER);
+			table.setLinesVisible(true);
+			table.setHeaderVisible(true);
+			table.setLayout(new GridLayout());
 
+			GridData tableData = new GridData(SWT.FILL, SWT.FILL, true, true);
+			tableData.heightHint = 600;
+			table.setLayoutData(tableData);
+
+			// Create a progress bar control
+
+			Composite progressBarComposite = new Composite(composite, SWT.NONE);
+			progressBarComposite.setLayout(new GridLayout());
+			GridData progressBarCompositeData = new GridData(SWT.FILL, SWT.TOP, true, false);
+			progressBarComposite.setLayoutData(progressBarCompositeData);
+			progressBarComposite.layout(true, true);
+			this.progressBar = new ProgressBar(progressBarComposite, SWT.HORIZONTAL | SWT.INDETERMINATE);
+			GridData progressBarData = new GridData(SWT.FILL, SWT.TOP, true, false);
+			this.progressBar.setLayoutData(progressBarData);
+			this.progressBar.setVisible(true);
+
+			parent.layout(true, true);
 
 			String[] titles = { "Suggestion", "score", "Add class to Canvas?", "Attributes" };
 			for (String title : titles) {
@@ -128,6 +111,19 @@ public class ViewSuggestions extends ViewPart {
 			List<ClazzCandidate> sortedClazzCondidate = classCondidateInModel.stream()
 					.sorted(Comparator.comparing(ClazzCandidate::getConfidence).reversed())
 					.collect(Collectors.toList());
+
+			
+			// Do not show an already in canvas clazz.
+			EList<Clazz> classesINCanvas = this.services.getModel().getClazz();
+			List<String> namesOfClassesInCanvas = new ArrayList<String>();
+			for (int j = 0; j < classesINCanvas.size(); j++) {
+				namesOfClassesInCanvas.add(classesINCanvas.get(j).getName());
+			}
+			for (int k = 0; k < sortedClazzCondidate.size(); k++) {
+				if (services.containsIgnoreCase(namesOfClassesInCanvas, sortedClazzCondidate.get(k).getName())) {
+					sortedClazzCondidate.remove(k);
+				}
+			}
 
 			for (int i = 0; i < sortedClazzCondidate.size(); i++) {
 				TableItem item = new TableItem(table, SWT.CHECK);
@@ -204,6 +200,7 @@ public class ViewSuggestions extends ViewPart {
 							}
 							conceptsFactory.deleteClassCandidate(acceptedClassName, session);
 							conceptsFactory.createClass(acceptedClassName, session, true);
+
 							JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services,
 									services.getModel(), session, false, progressBar);
 
@@ -328,7 +325,6 @@ public class ViewSuggestions extends ViewPart {
 		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
 
 			this.parent = parent;
-
 			createContents();
 
 		}

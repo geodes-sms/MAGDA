@@ -1,0 +1,9 @@
+2023-03-29 23:20:12.274 , INFO , Application started , null , [] ,  - 
+2023-03-29 23:20:18.535 , INFO , Create class , null , [] ,  - 
+2023-03-29 23:20:20.817 , INFO , update class name , null , [wheel] ,  - 
+2023-03-29 23:20:29.942 , INFO , Create attribute , null , [wheel] ,  - 
+2023-03-29 23:20:40.512 , INFO , Demand Attributes Predcion  , null , [wheel] ,  - 
+2023-03-29 23:20:54.623 , INFO , Demand Attributes Predcion  , null , [wheel] ,  - 
+2023-03-29 23:21:02.541 , INFO , Accept from Attributs list : [Ljava.lang.Object;@10223d15 , null , [wheel] ,  - 
+2023-03-29 23:21:05.303 , INFO , Demand Attributes Predcion  , null , [wheel] ,  - 
+2023-03-29 23:21:07.954 , INFO , Demand Attributes Predcion  , null , [wheel] ,  - 

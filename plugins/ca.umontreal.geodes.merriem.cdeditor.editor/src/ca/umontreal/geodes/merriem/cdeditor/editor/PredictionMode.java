@@ -56,7 +56,7 @@ public class PredictionMode implements IHandler {
 			 * Third Thread - Job : Predict related associations for concepts added
 			 **/
 
-			Job jobAssociations = new JobAssociations("Associations prediction", services, model, session);
+			Job jobAssociations = new JobAssociations("Associations prediction", services, model, session,null);
 
 			jobAssociations.setPriority(Job.SHORT);
 			jobAssociations.schedule();

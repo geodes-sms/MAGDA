@@ -221,7 +221,7 @@ public class ConceptsFactory {
 		}
 	}
 
-	public void deleteClassCandidate(String classToRemove, Session session) {
+	public static void  deleteClassCandidate(String classToRemove, Session session) {
 
 		try {
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -234,7 +234,7 @@ public class ConceptsFactory {
 
 				@Override
 				protected void doExecute() {
-					Model model = services.getModel();
+					Model model = Services.getModel();
 					// MetamodelFactory metamodelFactory =
 					// ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 

@@ -457,16 +457,15 @@ public class AssociationsFactory {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	
-	public static void removeAssociationFromCash(String Source , String Taregt) {
+
+	public static void removeAssociationFromCash(String Source, String Taregt) {
 		HashMap<String, List<String>> map = Services.relatedAssociations;
 		System.out.println("casssssssssssh");
 		System.out.println(map);
 		for (List<String> values : map.values()) {
-			values.removeIf(s -> (s.split(" ")[5].toLowerCase().equals(Taregt) &&  s.split(" ")[7].toLowerCase().equals(Source)));
-		
+			values.removeIf(s -> (s.split(" ")[5].toLowerCase().equals(Taregt)
+					&& s.split(" ")[7].toLowerCase().equals(Source)));
+
 		}
 
 		System.out.println(map);
@@ -474,18 +473,22 @@ public class AssociationsFactory {
 		map.keySet().removeIf(key -> map.get(key).isEmpty());
 		Services.relatedAssociations = map;
 	}
-	
+
 	public static void removeRelatedAssociationsFromCash(String ClazzName) {
+
 		HashMap<String, List<String>> map = Services.relatedAssociations;
-		System.out.println(map);
-		for (List<String> values : map.values()) {
-			values.removeIf(s -> s.toLowerCase().contains(ClazzName.toLowerCase()));
+		if (Services.relatedAssociations != null) {
+			System.out.println(map);
+			for (List<String> values : map.values()) {
+				values.removeIf(s -> s.toLowerCase().contains(ClazzName.toLowerCase()));
+			}
+
+			System.out.println(map);
+			map.values().removeIf(List::isEmpty);
+			map.keySet().removeIf(key -> map.get(key).isEmpty());
+			Services.relatedAssociations = map;
 		}
 
-		System.out.println(map);
-		map.values().removeIf(List::isEmpty);
-		map.keySet().removeIf(key -> map.get(key).isEmpty());
-		Services.relatedAssociations = map;
 	}
 
 	public static void removeRelatedCandidateAssociations(String ClazzName, Session session) {

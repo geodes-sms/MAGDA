@@ -44,7 +44,6 @@ public class ElementNameChangeNotifier extends AdapterImpl {
 					ProgressBar progressBar = ((ViewSuggestions) Services.suggestionView).getProgressBar();
 					JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services, model, session, false,
 							progressBar);
-
 					jobConcepts.setPriority(Job.SHORT);
 					jobConcepts.schedule();
 
@@ -53,8 +52,6 @@ public class ElementNameChangeNotifier extends AdapterImpl {
 					 **/
 
 					JobAttributes jobAttributes = new JobAttributes("Attributes prediction", services, model);
-					// I changed the place of this to out of the Job
-
 					jobAttributes.setPriority(Job.SHORT);
 					jobAttributes.schedule();
 
@@ -63,9 +60,9 @@ public class ElementNameChangeNotifier extends AdapterImpl {
 					 **/
 
 					if (model.getClazz().size() > 1) {
-
+						ProgressBar progressBarAssociations = ((ViewAssociations) Services.associationView).getProgressBar();
 						JobAssociations jobAssociations = new JobAssociations("Associations prediction", services,
-								model, session);
+								model, session,progressBarAssociations);
 						jobAssociations.setPriority(Job.SHORT);
 						jobAssociations.schedule();
 					}

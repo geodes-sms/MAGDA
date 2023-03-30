@@ -122,9 +122,18 @@ public class Listener extends ResourceSetListenerImpl {
 								String OldName = ((Clazz) object.getOldValue()).getName();
 								System.out.println(((Clazz) object.getOldValue()).getName());
 								Services.loggerServices.info("remove  class {" + OldName + "}");
-								//Services.relatedAssociations.remove(OldName.toLowerCase());
-								AssociationsFactory.removeRelatedCandidateAssociations(OldName.toLowerCase(),session);
+								// Services.relatedAssociations.remove(OldName.toLowerCase());
+								AssociationsFactory.removeRelatedCandidateAssociations(OldName.toLowerCase(), session);
+								if ((Services.relatedClasses != null)
+										&& (Services.relatedClasses.containsKey(OldName.toLowerCase()))) {
+									for (int j = 0; j < Services.relatedClasses.get(OldName.toLowerCase()).size(); j++) {
+										ConceptsFactory.deleteClassCandidate(Services.relatedClasses.get(OldName.toLowerCase()).get(j), session);
+
+									}
+								}
+
 								Services.refreshAssociationsView();
+								Services.refreshSuggestionsView();
 							} else {
 								Services.loggerServices.info("remove  class ");
 							}

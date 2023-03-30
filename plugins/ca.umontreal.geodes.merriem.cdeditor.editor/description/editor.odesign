@@ -61,7 +61,7 @@
               <firstModelOperations xsi:type="tool_1:CreateInstance" typeName="metamodel::Attribute" referenceName="attributes"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setInheritance" label="Inheritance" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='inheritance']">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setInheritance" label="Inheritance" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='inheritance']" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/association.png">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -72,7 +72,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setComposition" label="Composition" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='composition']">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setComposition" label="Composition" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='composition']" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/association.png">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
@@ -83,7 +83,7 @@
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setAssociation" label="Association" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='Association']">
+          <ownedTools xsi:type="tool:EdgeCreationDescription" name="setAssociation" label="Association" edgeMappings="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@edgeMappings[name='Association']" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/association.png">
             <sourceVariable name="source"/>
             <targetVariable name="target"/>
             <sourceViewVariable name="sourceView"/>
