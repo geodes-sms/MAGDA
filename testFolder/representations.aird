@@ -8,7 +8,7 @@
         <description xmi:type="description_1:EditionTableDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Suggestions']"/>
         <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
       </ownedRepresentationDescriptors>
-      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_3rlIMI4XEe2QPPFkCl-sEQ" name="Test" repPath="#_3rj6EI4XEe2QPPFkCl-sEQ" changeId="505cebc8-0fb0-4ab2-97b8-02b0eafa7e43">
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_3rlIMI4XEe2QPPFkCl-sEQ" name="Test" repPath="#_3rj6EI4XEe2QPPFkCl-sEQ" changeId="dc253a21-4d24-443a-bf4d-af27c0a6f482">
         <description xmi:type="description_2:DiagramDescription" href="platform:/plugin/ca.umontreal.geodes.merriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']"/>
         <target xmi:type="metamodel:Model" href="MyMetamodel.metamodel#/"/>
       </ownedRepresentationDescriptors>

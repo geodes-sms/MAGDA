@@ -4,15 +4,15 @@
     <ownedRepresentations xsi:type="description_1:DiagramDescription" name="Editor" domainClass="metamodel::Model" enablePopupBars="true">
       <metamodel href="../../ca.umontreal.geodes.meriem.cdeditor.metamodel/model/metamodel.ecore#/"/>
       <defaultLayer name="Default">
-        <edgeMappings name="inheritance" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='switchTargetSource']" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetFinderExpression="feature:generalizes">
-          <style sourceArrow="InputClosedArrow" targetArrow="NoDecoration" sizeComputationExpression="2">
+        <edgeMappings name="inheritance" deletionDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='deleteInheritanceLink']" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='switchTargetSource']" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetFinderExpression="feature:specializes">
+          <style targetArrow="InputClosedArrow" sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
             <centerLabelStyleDescription labelSize="12">
               <labelColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='black']"/>
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="composition" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='switchTargetSource']" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetFinderExpression="feature:isMember">
+        <edgeMappings name="composition" deletionDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='deleteContainedLink']" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='switchTargetSource']" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetFinderExpression="feature:isMember">
           <style targetArrow="FillDiamond" sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='dark_gray']"/>
             <centerLabelStyleDescription labelSize="12">
@@ -20,7 +20,7 @@
             </centerLabelStyleDescription>
           </style>
         </edgeMappings>
-        <edgeMappings name="Association" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='switchTargetSource']" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="metamodel::Association" useDomainElement="true">
+        <edgeMappings name="Association" deletionDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='deleteClassBasedLink']" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='switchTargetSource']" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetFinderExpression="feature:target" sourceFinderExpression="feature:source" domainClass="metamodel::Association" useDomainElement="true">
           <style sizeComputationExpression="2">
             <strokeColor xsi:type="description:SystemColor" href="environment:/viewpoint#//@systemColors/@entries[name='gray']"/>
             <centerLabelStyleDescription labelSize="12" labelExpression="feature:name" iconPath="/ca.umontreal.geodes.merriem.cdeditor.editor/icons/association.png">
@@ -67,8 +67,8 @@
             <sourceViewVariable name="sourceView"/>
             <targetViewVariable name="targetView"/>
             <initialOperation>
-              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:target">
-                <subModelOperations xsi:type="tool_1:SetValue" featureName="generalizes" valueExpression="var:source"/>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:source">
+                <subModelOperations xsi:type="tool_1:SetValue" featureName="specializes" valueExpression="var:target"/>
               </firstModelOperations>
             </initialOperation>
           </ownedTools>
@@ -159,7 +159,17 @@
               <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="aql:self.approveClassCondidate()"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:DeleteElementDescription" name="deleteClassCondidate">
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="deleteInheritanceLink">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:self">
+                <subModelOperations xsi:type="tool_1:Unset" featureName="specializes"/>
+              </firstModelOperations>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="deleteClassCandidate">
             <element name="element"/>
             <elementView name="elementView"/>
             <containerView name="containerView"/>
@@ -167,12 +177,22 @@
               <firstModelOperations xsi:type="tool_1:RemoveElement"/>
             </initialOperation>
           </ownedTools>
-          <ownedTools xsi:type="tool:DeleteElementDescription" name="deleteoperation">
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="deleteClassBasedLink">
             <element name="element"/>
             <elementView name="elementView"/>
             <containerView name="containerView"/>
             <initialOperation>
               <firstModelOperations xsi:type="tool_1:RemoveElement"/>
+            </initialOperation>
+          </ownedTools>
+          <ownedTools xsi:type="tool:DeleteElementDescription" name="deleteContainedLink">
+            <element name="element"/>
+            <elementView name="elementView"/>
+            <containerView name="containerView"/>
+            <initialOperation>
+              <firstModelOperations xsi:type="tool_1:ChangeContext" browseExpression="var:self">
+                <subModelOperations xsi:type="tool_1:Unset" featureName="isMember"/>
+              </firstModelOperations>
             </initialOperation>
           </ownedTools>
           <ownedTools xsi:type="tool:DeleteElementDescription" name="delete class">

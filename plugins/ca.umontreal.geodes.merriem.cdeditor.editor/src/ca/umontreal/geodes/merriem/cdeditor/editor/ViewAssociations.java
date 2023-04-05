@@ -29,6 +29,7 @@ import org.eclipse.ui.part.ViewPart;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.AssociationCandidate;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationCandidateImpl;
 import kotlin.Pair;
 
@@ -73,7 +74,6 @@ public class ViewAssociations extends ViewPart {
 
 			List<AssociationCandidate> operationsCandidate = this.services.getModel().getOperation();
 
-
 			Composite composite = new Composite(parent, SWT.NONE);
 			composite.setVisible(true);
 			composite.setLayout(new GridLayout());
@@ -91,8 +91,6 @@ public class ViewAssociations extends ViewPart {
 			GridData tableData = new GridData(SWT.FILL, SWT.FILL, true, true);
 			tableData.heightHint = 600;
 			table.setLayoutData(tableData);
-
-		
 
 			Composite progressBarComposite = new Composite(composite, SWT.NONE);
 			progressBarComposite.setLayout(new GridLayout());
@@ -112,42 +110,57 @@ public class ViewAssociations extends ViewPart {
 				column.setText(title);
 			}
 
-			HashMap<AssociationCandidate, Integer> selectedOPerations = new HashMap<>();
+			HashMap<AssociationCandidate, Integer> selectedOperations = new HashMap<>();
 
 			for (int i = 0; i < operationsCandidate.size(); i++) {
 				Boolean find = false;
-				for (AssociationCandidate associationCandidateKey : selectedOPerations.keySet()) {
-					if (operationsCandidate.get(i).getSource().getName()
-							.equals(associationCandidateKey.getSource().getName())
-							&& operationsCandidate.get(i).getTarget().getName()
-									.equals(associationCandidateKey.getTarget().getName())) {
-						find = true;
-						int score = selectedOPerations.get(associationCandidateKey);
-						selectedOPerations.put(associationCandidateKey, score + 1);
-
+				for (AssociationCandidate associationCandidateKey : selectedOperations.keySet()) {
+					if (operationsCandidate.get(i).getSource() == null
+							|| operationsCandidate.get(i).getTarget() == null) {
+						return;
 					}
+					if (associationCandidateKey.getSource() != null && associationCandidateKey.getTarget() != null) {
+						if (operationsCandidate.get(i).getSource().getName()
+								.equals(associationCandidateKey.getSource().getName())
+								&& operationsCandidate.get(i).getTarget().getName()
+										.equals(associationCandidateKey.getTarget().getName())) {
+							find = true;
+							int score = selectedOperations.get(associationCandidateKey);
+							selectedOperations.put(associationCandidateKey, score + 1);
+
+						}
+					}
+
 				}
 				if (!find) {
-					selectedOPerations.put(operationsCandidate.get(i), 1);
+					selectedOperations.put(operationsCandidate.get(i), 1);
 				}
 			}
 
-			for (AssociationCandidate associationCandidateKey : selectedOPerations.keySet()) {
-				String Type = associationCandidateKey.getType();
-				Type = Type.substring(0, 1).toUpperCase() + Type.substring(1);
-
+			for (AssociationCandidate associationCandidateKey : selectedOperations.keySet()) {
+				String type = associationCandidateKey.getType();
+				if (type != "") {
+					type = type.substring(0, 1).toUpperCase() + type.substring(1);
+				}
 				String Source = associationCandidateKey.getSource().getName();
-				Source = Source.substring(0, 1).toUpperCase() + Source.substring(1);
+				if (Source != "") {
+					Source = Source.substring(0, 1).toUpperCase() + Source.substring(1);
+				}
 
-				String Target = associationCandidateKey.getTarget().getName();
-				Target = Target.substring(0, 1).toUpperCase() + Target.substring(1);
-
+				Clazz target = associationCandidateKey.getTarget();
+				if (target == null) {
+					return;
+				}
+				String Target = target.getName();
+				if (Target != "") {
+					Target = Target.substring(0, 1).toUpperCase() + Target.substring(1);
+				}
 				TableItem item = new TableItem(table, SWT.CHECK);
 				item.setText(0, Source);
 				item.setText(1, Target);
 				item.setText(2, associationCandidateKey.getName());
-				item.setText(3, Type);
-				item.setText(5, selectedOPerations.get(associationCandidateKey).toString());
+				item.setText(3, type);
+				item.setText(5, selectedOperations.get(associationCandidateKey).toString());
 
 			}
 
@@ -181,15 +194,16 @@ public class ViewAssociations extends ViewPart {
 						try {
 							Services.loggerServices.info("Accept Association From view");
 							Session session = services.getSession();
-
-
-							associationsFactory.removecandidate(item.getText(3), item.getText(2), item.getText(1),
-									item.getText(0), session);
-							associationsFactory.createAssociation(item.getText(3), item.getText(2), item.getText(1),
-									item.getText(0), session, false);
+							String type = item.getText(3);
+							String name = item.getText(2);
+							String target = item.getText(1);
+							String source = item.getText(0);
 							button.setVisible(false);
 							button.dispose();
 							table.remove(indexItem);
+							associationsFactory.removecandidate(type, name, target, source, session);
+							associationsFactory.createAssociation(type, name, target, source, session, false);
+
 							// TO DO: remove the association from hashmap in session.
 
 						} catch (Exception e1) {

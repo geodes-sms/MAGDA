@@ -141,8 +141,8 @@ public class JobConcepts extends Job {
 
 						HashMap<String, String> typeAttributes = new HashMap<String, String>();
 
-						typeAttributes = attributesPredcition.run(null, (String) Candidates.get(k).getName(), model,
-								false);
+//						typeAttributes = attributesPredcition.run(null, (String) Candidates.get(k).getName(), model,
+//								false);
 
 
 						if (services.classAttributes == null) {

@@ -8,6 +8,7 @@ import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.business.api.session.SessionManager;
@@ -110,11 +111,11 @@ public class AssociationsFactory {
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
 
-			CommandStack stack = domain.getCommandStack();
+			CommandStack stack = editingDomain.getCommandStack();
 
-			RecordingCommand cmd = new RecordingCommand(domain) {
+			RecordingCommand cmd = new RecordingCommand(editingDomain) {
 
 				@Override
 				protected void doExecute() {
@@ -166,11 +167,11 @@ public class AssociationsFactory {
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
 
-			CommandStack stack = domain.getCommandStack();
+			CommandStack stack = editingDomain.getCommandStack();
 
-			RecordingCommand cmd = new RecordingCommand(domain) {
+			RecordingCommand cmd = new RecordingCommand(editingDomain) {
 
 				@Override
 				protected void doExecute() {
@@ -265,7 +266,7 @@ public class AssociationsFactory {
 				}
 			};
 			stack.execute(cmd);
-			stack.execute(cmd2);
+			// stack.execute(cmd2);
 
 		} catch (ServiceException e) {
 			e.printStackTrace();
@@ -282,11 +283,11 @@ public class AssociationsFactory {
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
 
-			CommandStack stack = domain.getCommandStack();
+			CommandStack stack = editingDomain.getCommandStack();
 
-			RecordingCommand cmd = new RecordingCommand(domain) {
+			RecordingCommand cmd = new RecordingCommand(editingDomain) {
 
 				@Override
 				protected void doExecute() {
@@ -333,10 +334,11 @@ public class AssociationsFactory {
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
 
-			CommandStack stack = domain.getCommandStack();
-			RecordingCommand cmd = new RecordingCommand(domain) {
+			CommandStack stack = editingDomain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(editingDomain) {
 
 				@Override
 				protected void doExecute() {
@@ -400,11 +402,11 @@ public class AssociationsFactory {
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
 
-			CommandStack stack = domain.getCommandStack();
-			RecordingCommand cmd = new RecordingCommand(domain) {
+			CommandStack stack = editingDomain.getCommandStack();
 
+			RecordingCommand cmd = new RecordingCommand(editingDomain) {
 				@Override
 				protected void doExecute() {
 					Model model = services.getModel();
@@ -460,8 +462,6 @@ public class AssociationsFactory {
 
 	public static void removeAssociationFromCash(String Source, String Taregt) {
 		HashMap<String, List<String>> map = Services.relatedAssociations;
-		System.out.println("casssssssssssh");
-		System.out.println(map);
 		for (List<String> values : map.values()) {
 			values.removeIf(s -> (s.split(" ")[5].toLowerCase().equals(Taregt)
 					&& s.split(" ")[7].toLowerCase().equals(Source)));
@@ -494,17 +494,18 @@ public class AssociationsFactory {
 	public static void removeRelatedCandidateAssociations(String ClazzName, Session session) {
 
 		removeRelatedAssociationsFromCash(ClazzName);
-		List<AssociationCandidate> operationsCandidate = Services.getModel().getOperation();
 
 		// remove candidates:
 		try {
+
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
+			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
 
-			CommandStack stack = domain.getCommandStack();
-			RecordingCommand cmd = new RecordingCommand(domain) {
+			CommandStack stack = editingDomain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(editingDomain) {
 
 				@Override
 				protected void doExecute() {
@@ -526,6 +527,7 @@ public class AssociationsFactory {
 					for (int k = 0; k < index.size(); k++) {
 						model.getOperation().remove(index.get(k));
 					}
+					
 					SessionManager.INSTANCE.notifyRepresentationCreated(session);
 					DRepresentation represnt = null;
 

@@ -108,6 +108,10 @@ public class Services {
 	public static Logger loggerServices;
 	public static boolean newSession = true;
 	public static FileHandler fileHandler;
+	public static String key;
+	public static boolean  hasAdapterDelete = false;
+	public static boolean  hasAdapterRefresh = false;
+	
 
 	public Services() throws Exception {
 		this.config = new Properties();
@@ -117,6 +121,8 @@ public class Services {
 		try {
 			InputStream stream = Services.class.getClassLoader().getResourceAsStream("/config.properties");
 			this.config.load(stream);
+			key = this.config.getProperty("Key");
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -159,7 +165,31 @@ public class Services {
 
 		// Log the start of the application
 
+		
+
 	};
+
+	public static List<String> removeNonWords(List<String> list) {
+		List<String> result = new ArrayList<>();
+		for (String element : list) {
+			if (element.matches("[a-zA-Z]+")) {
+				result.add(element);
+			}
+		}
+		return result;
+	}
+
+	public static HashMap<String, String> removeNonWords(HashMap<String, String> map) {
+		HashMap<String, String> result = new HashMap<>();
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			String key = entry.getKey();
+			String value = entry.getValue();
+			if (key.matches("[a-zA-Z]+") && value.matches("[a-zA-Z]+")) {
+				result.put(key, value);
+			}
+		}
+		return result;
+	}
 
 	public static String getCurrentTime() {
 		// Return the current time in the specified format
@@ -258,9 +288,11 @@ public class Services {
 	public boolean containsIgnoreCase(List<String> list, String soughtFor) {
 
 		for (String current : list) {
-			if (current.replaceAll("\\s+", "").equalsIgnoreCase(soughtFor.replaceAll("\\s+", ""))) {
+			if (current != null) {
+				if (current.replaceAll("\\s+", "").equalsIgnoreCase(soughtFor.replaceAll("\\s+", ""))) {
 
-				return true;
+					return true;
+				}
 			}
 		}
 		return false;
@@ -311,128 +343,140 @@ public class Services {
 	}
 
 	public EObject getAttributePrediction(EObject node) {
-
-		Services.loggerServices.info("Demand Attributes Predcion ");
-		AttributesFactory attributesFactory = new AttributesFactory();
-		Session session = SessionManager.INSTANCE.getSession(node);
-		assert session != null;
-		List<String> types = new ArrayList<>(List.of("int", "string", "float", "char", "boolean", "double", "byte",
-				"array", "object", "collection", "date"));
-		String NodeName = node.toString().split(":", 2)[1].replace(")", "");
-		NodeName = NodeName.replaceAll("\\s+", "");
-		List<String> ResultsTyped = new ArrayList<String>();
-
-		HashMap<String, String> typeAttributes = null;
-		if (Services.classAttributes == null) {
-			Services.classAttributes = new HashMap<String, HashMap<String, String>>();
-		}
-		if (Services.classAttributes.containsKey(NodeName.toLowerCase())) {
-			if (!Services.classAttributes.get(NodeName.toLowerCase()).isEmpty()) {
-				// && (this.classAttributes.get(NodeName).size() > 1)) {
-
-				typeAttributes = Services.classAttributes.get(NodeName.toLowerCase());
-			}
-		} else {
-			System.out.println("running attributes prediction ");
-			IAttributesPrediction attributesPredcition = new AttributesPrediction();
-			typeAttributes = attributesPredcition.run(node, NodeName, getModel(), false);
-
-			Services.classAttributes.put(NodeName.toLowerCase(), typeAttributes);
-			// dummy example remove this
-			// typeAttributes =new HashMap<String, String>();
-		}
-		if (typeAttributes == null) {
-			System.out.println("type attribute is null");
-			MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
-					"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
-			Services.classAttributes.remove(NodeName.toLowerCase());
-			int result = dialog.open();
-		} else {
-			for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
-				if ((set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
-						|| (set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
-					typeAttributes.remove(set.getKey());
-				} else if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
-						&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
-
-					if (containsIgnoreCase(types, set.getValue())) {
-
-						ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
-					}
-				}
-			}
-
-			String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
-
-			if (ArrayResultsTyped.length > 0) {
-
-				ElementListSelectionDialog dialog = new ElementListSelectionDialog(
-						Display.getCurrent().getActiveShell(), new LabelProvider());
-
-				// dialog.setAllowDuplicates(false);
-
-				dialog.setElements(ArrayResultsTyped);
-				String keyUpperCase = NodeName.substring(0, 1).toUpperCase() + NodeName.substring(1);
-				dialog.setTitle("Select appropriate attributes for class " + keyUpperCase);
-
-				dialog.setMultipleSelection(true);
-
-				if (dialog.open() != Window.OK) {
-					// return false;
-				}
-
-				Object[] result = dialog.getResult();
-				if (result != null) {
-					// Services.loggerServices.info("Accept fromm Attributs list : " + result.length
-					// );
-					Services.loggerServices.info("Accept from Attributs list : " + result);
-
-					for (int i = 0; i < result.length; i++) {
-						String res = (String) result[i];
-						res = res.split(":")[0];
-						attributesFactory.createAttribute(res, typeAttributes.get(res), NodeName, session, false);
-						typeAttributes.remove(res);
-					}
-					Services.classAttributes.put(NodeName.toLowerCase(), typeAttributes);
-
-				} // else {
-				/**
-				 * If cancel is pressed, trigger attributes prediction again. uncomment this for
-				 * better performance
-				 */
-
-				/*
-				 * Model model = getModel();
-				 * 
-				 * Job jobAttributes = new Job("Attributes prediction") {
-				 * 
-				 * protected IStatus run(IProgressMonitor monitor) { String NodeName =
-				 * node.toString().split(":", 2)[1].replace(")", ""); NodeName =
-				 * NodeName.replaceAll("\\s+", ""); System.out.
-				 * println("Not satisfie with attributes, Predict other list of  attributes");
-				 * HashMap<String, String> typeAttributes = new HashMap<String, String>();
-				 * IAttributesPrediction attributesPredcition = new AttributesPrediction(); if
-				 * (Services.classAttributes == null) { Services.classAttributes = new
-				 * HashMap<String, HashMap<String, String>>(); }
-				 * 
-				 * typeAttributes = attributesPredcition.run(node, NodeName, model);
-				 * Services.classAttributes.put(NodeName, typeAttributes);
-				 * 
-				 * System.out.println("job attributes  finished "); return ASYNC_FINISH; } };
-				 * jobAttributes.setPriority(Job.SHORT); jobAttributes.schedule();
-				 */
-				// }
-
+		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
+			Services.loggerServices.info("Demand Attributes Predcion ");
+			AttributesFactory attributesFactory = new AttributesFactory();
+			Session session = SessionManager.INSTANCE.getSession(node);
+			assert session != null;
+			List<String> types = new ArrayList<>(List.of("int", "string", "float", "char", "boolean", "double", "byte",
+					"array", "object", "collection", "date"));
+			String NodeName = "";
+			if (node.toString().contains("NodeList ")) {
+				NodeName = node.toString().split(" ")[1];
+				// because contents from canvas is complicated, just take the name and predict;
+				// (quick fix, should be enhanced later)
+				node = null;
 			} else {
+				NodeName = node.toString().split(":", 2)[1].replace(")", "");
+			}
+			NodeName = NodeName.replaceAll("\\s+", "");
+			List<String> ResultsTyped = new ArrayList<String>();
 
+			HashMap<String, String> typeAttributes = null;
+			if (Services.classAttributes == null) {
+				Services.classAttributes = new HashMap<String, HashMap<String, String>>();
+			}
+			if (Services.classAttributes.containsKey(NodeName.toLowerCase())) {
+				if (!Services.classAttributes.get(NodeName.toLowerCase()).isEmpty()) {
+					// && (this.classAttributes.get(NodeName).size() > 1)) {
+
+					typeAttributes = Services.classAttributes.get(NodeName.toLowerCase());
+				}
+			} else {
+				System.out.println("running attributes prediction ");
+				IAttributesPrediction attributesPredcition = new AttributesPrediction();
+				typeAttributes = attributesPredcition.run(node, NodeName, getModel(), false);
+
+				Services.classAttributes.put(NodeName.toLowerCase(), typeAttributes);
+				// dummy example remove this
+				// typeAttributes =new HashMap<String, String>();
+			}
+
+			HashMap<String, String> onlyWordsList = removeNonWords(typeAttributes);
+			if (typeAttributes == null || onlyWordsList.size() == 0) {
+				System.out.println("type attribute is null");
 				MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
 						"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
 				Services.classAttributes.remove(NodeName.toLowerCase());
 				int result = dialog.open();
+			} else {
+				for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
+					if ((set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
+							|| (set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
+						typeAttributes.remove(set.getKey());
+					} else if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
+							&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
+
+						if (containsIgnoreCase(types, set.getValue())) {
+
+							ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
+						}
+					}
+				}
+
+				String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
+
+				if (ArrayResultsTyped.length > 0) {
+
+					ElementListSelectionDialog dialog = new ElementListSelectionDialog(
+							Display.getCurrent().getActiveShell(), new LabelProvider());
+
+					// dialog.setAllowDuplicates(false);
+
+					dialog.setElements(ArrayResultsTyped);
+					String keyUpperCase = NodeName.substring(0, 1).toUpperCase() + NodeName.substring(1);
+					dialog.setTitle("Select appropriate attributes for class " + keyUpperCase);
+
+					dialog.setMultipleSelection(true);
+
+					if (dialog.open() != Window.OK) {
+						// return false;
+					}
+
+					Object[] result = dialog.getResult();
+					if (result != null) {
+						// Services.loggerServices.info("Accept fromm Attributs list : " + result.length
+						// );
+						Services.loggerServices.info("Accept from Attributs list : " + result);
+
+						for (int i = 0; i < result.length; i++) {
+							String res = (String) result[i];
+							res = res.split(":")[0];
+							attributesFactory.createAttribute(res, typeAttributes.get(res), NodeName, session, false);
+							typeAttributes.remove(res);
+						}
+						Services.classAttributes.put(NodeName.toLowerCase(), typeAttributes);
+
+					} // else {
+					/**
+					 * If cancel is pressed, trigger attributes prediction again. uncomment this for
+					 * better performance
+					 */
+
+					/*
+					 * Model model = getModel();
+					 * 
+					 * Job jobAttributes = new Job("Attributes prediction") {
+					 * 
+					 * protected IStatus run(IProgressMonitor monitor) { String NodeName =
+					 * node.toString().split(":", 2)[1].replace(")", ""); NodeName =
+					 * NodeName.replaceAll("\\s+", ""); System.out.
+					 * println("Not satisfie with attributes, Predict other list of  attributes");
+					 * HashMap<String, String> typeAttributes = new HashMap<String, String>();
+					 * IAttributesPrediction attributesPredcition = new AttributesPrediction(); if
+					 * (Services.classAttributes == null) { Services.classAttributes = new
+					 * HashMap<String, HashMap<String, String>>(); }
+					 * 
+					 * typeAttributes = attributesPredcition.run(node, NodeName, model);
+					 * Services.classAttributes.put(NodeName, typeAttributes);
+					 * 
+					 * System.out.println("job attributes  finished "); return ASYNC_FINISH; } };
+					 * jobAttributes.setPriority(Job.SHORT); jobAttributes.schedule();
+					 */
+					// }
+
+				} else {
+
+					MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later",
+							null, "We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" },
+							0);
+					Services.classAttributes.remove(NodeName.toLowerCase());
+					int result = dialog.open();
+				}
 			}
 		}
-
 		return node;
+
 	}
 
 	public Session getSession() {
@@ -440,305 +484,312 @@ public class Services {
 	}
 
 	public EObject getClassPrediction(EObject rootModel) {
+		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
 
-		TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(rootModel);
-		ResourceSet resourceSet = editingDomain.getResourceSet();
-		List<Resource> resources = resourceSet.getResources();
+			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(rootModel);
+			ResourceSet resourceSet = editingDomain.getResourceSet();
+			List<Resource> resources = resourceSet.getResources();
 
-		for (Resource resource : resources) {
-			List<Adapter> adapters = resource.eAdapters();
-			System.out.println("Adapters for resource " + resource.getURI() + ":");
-			for (Adapter adapter : adapters) {
-				System.out.println(adapter.getClass().getSimpleName());
+			for (Resource resource : resources) {
+				List<Adapter> adapters = resource.eAdapters();
+				System.out.println("Adapters for resource " + resource.getURI() + ":");
+				for (Adapter adapter : adapters) {
+					System.out.println(adapter.getClass().getSimpleName());
+				}
 			}
-		}
 
-		Services.loggerServices.info("Demand Concepts Predcion ");
+			Services.loggerServices.info("Demand Concepts Predcion ");
 
-		ConceptsFactory conceptsFactory = new ConceptsFactory();
-		Session session = SessionManager.INSTANCE.getSession(rootModel);
-		assert session != null;
+			ConceptsFactory conceptsFactory = new ConceptsFactory();
+			Session session = SessionManager.INSTANCE.getSession(rootModel);
+			assert session != null;
 
-		List<String> classNames = new ArrayList<String>();
-		List<String> AllclassNames = new ArrayList<String>();
-		List<String> suggestedConcepts = new ArrayList<String>();
-		Model model = getModel();
+			List<String> classNames = new ArrayList<String>();
+			List<String> AllclassNames = new ArrayList<String>();
+			List<String> suggestedConcepts = new ArrayList<String>();
+			Model model = getModel();
 
-		// dummy example
+			// dummy example
 //		conceptsFactory.createClassCondidate("nameFRom prediction", "1", session, model);
 //		refreshSuggestionsView();
 
-		List<Clazz> classesInModel = model.getClazz();
-		String className = "";
+			List<Clazz> classesInModel = model.getClazz();
+			String className = "";
 
-		List<ClazzCandidate> classeCandidateInModel = model.getClazzcondidate();
-		List<String> Results = new ArrayList<String>();
-
-		for (int i = 0; i < classesInModel.size(); i++) {
-			if (classesInModel.get(i) != null) {
-				AllclassNames.add(classesInModel.get(i).getName());
-				classNames.add(classesInModel.get(i).getName());
-			}
-		}
-		for (int i = 0; i < classeCandidateInModel.size(); i++) {
-			if (classeCandidateInModel.get(i) != null) {
-				AllclassNames.add(classeCandidateInModel.get(i).getName());
-				suggestedConcepts.add(classeCandidateInModel.get(i).getName());
-			}
-
-		}
-
-		String input = "";
-		if (rootModel instanceof Model) {
-			System.out.println("from one Canvas");
+			List<ClazzCandidate> classeCandidateInModel = model.getClazzcondidate();
+			List<String> Results = new ArrayList<String>();
 
 			for (int i = 0; i < classesInModel.size(); i++) {
-				input = input.concat(",").concat(classesInModel.get(i).getName());
-			}
-		} else if (rootModel instanceof Clazz) {
-			System.out.print("from one class");
-			Clazz inputClass = (Clazz) rootModel;
-			input = inputClass.getName();
-			className = input;
-
-			/**
-			 * heuristic: what to send to GPT3 concat to only one class name !
-			 **/
-
-			Random rand = new Random();
-			String randomElement = AllclassNames.get(rand.nextInt(classNames.size()));
-			input = input.concat(",").concat(randomElement);
-
-		}
-		if (Services.relatedClasses == null) {
-			relatedClasses = new HashMap<String, List<String>>();
-		}
-		if (relatedClasses.containsKey(className.toLowerCase())) {
-			if (!(relatedClasses.get(className.toLowerCase()).isEmpty())
-					&& (relatedClasses.get(className.toLowerCase()).size() > 0)) {
-				Results = relatedClasses.get(className.toLowerCase());
-			}
-		} else {
-			JOptionPane opt = new JOptionPane("Running prediction", JOptionPane.INFORMATION_MESSAGE); // no buttons
-			final JDialog dlg = opt.createDialog("Predicting relevant concepts...");
-			new Thread(new Runnable() {
-				public void run() {
-					try {
-						Thread.sleep(7000);
-						dlg.dispose();
-					} catch (Throwable th) {
-
-					}
+				if (classesInModel.get(i) != null) {
+					AllclassNames.add(classesInModel.get(i).getName());
+					classNames.add(classesInModel.get(i).getName());
 				}
-			}).start();
-			dlg.setVisible(true);
-			IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
-			List<HashMap<String, String>> Concepts = conceptsPrediction.run(className, rootModel, getModel());
-			for (String key : Concepts.get(0).keySet()) {
-				if (!containsIgnoreCase(classNames, key) && !(key.equals(""))) {
-					String keyUpperCase = key.substring(0, 1).toUpperCase() + key.substring(1);
-					Results.add(keyUpperCase);
-				}
-				if (!containsIgnoreCase(suggestedConcepts, key) && !(key.equals(""))) {
-					conceptsFactory.createClassCandidate((String) key, Concepts.get(0).get(key), session, getModel());
-
-				} else {
-
-					conceptsFactory.updateConfidenceCandidate((String) key, session, model, 1);
+			}
+			for (int i = 0; i < classeCandidateInModel.size(); i++) {
+				if (classeCandidateInModel.get(i) != null) {
+					AllclassNames.add(classeCandidateInModel.get(i).getName());
+					suggestedConcepts.add(classeCandidateInModel.get(i).getName());
 				}
 
 			}
 
-			refreshSuggestionsView();
-		}
+			String input = "";
+			if (rootModel instanceof Model) {
+				System.out.println("from one Canvas");
 
-		String[] arrayConcepts = Results.toArray(new String[0]);
-		if (arrayConcepts.length > 0) {
-			ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
-					new LabelProvider());
-			dialog.setElements(arrayConcepts);
-			dialog.setTitle("Select  concepts, press ctrl for multiple selection");
-			dialog.setMultipleSelection(true);
-			if (dialog.open() != Window.OK) {
-				// return false;
+				for (int i = 0; i < classesInModel.size(); i++) {
+					input = input.concat(",").concat(classesInModel.get(i).getName());
+				}
+			} else if (rootModel instanceof Clazz) {
+				System.out.print("from one class");
+				Clazz inputClass = (Clazz) rootModel;
+				input = inputClass.getName();
+				className = input;
+
+				/**
+				 * heuristic: what to send to GPT3 concat to only one class name !
+				 **/
+
+				Random rand = new Random();
+				String randomElement = AllclassNames.get(rand.nextInt(classNames.size()));
+				input = input.concat(",").concat(randomElement);
+
 			}
-			Object[] result = dialog.getResult();
-			if (result != null) {
-				Services.loggerServices.info("Accept from list of  Concepts ");
-				for (int i = 0; i < result.length; i++) {
-					if (!containsIgnoreCase(classNames, (String) result[i])) {
-						conceptsFactory.createClass((String) result[i], session, false);
-						conceptsFactory.deleteClassCandidate((String) result[i], session);
-
-						Results.remove((String) result[i]);
-
-					}
+			if (Services.relatedClasses == null) {
+				relatedClasses = new HashMap<String, List<String>>();
+			}
+			if (relatedClasses.containsKey(className.toLowerCase())) {
+				if (!(relatedClasses.get(className.toLowerCase()).isEmpty())
+						&& (relatedClasses.get(className.toLowerCase()).size() > 0)) {
+					Results = relatedClasses.get(className.toLowerCase());
 				}
 			} else {
-				// Immediately launch a job to predict related concepts because user is not
-				// satisfied.
+				JOptionPane opt = new JOptionPane("Running prediction", JOptionPane.INFORMATION_MESSAGE); // no buttons
+				final JDialog dlg = opt.createDialog("Predicting relevant concepts...");
+				new Thread(new Runnable() {
+					public void run() {
+						try {
+							Thread.sleep(7000);
+							dlg.dispose();
+						} catch (Throwable th) {
 
-				/*
-				 * Job job = new Job("concepts  prediction") {
-				 * 
-				 * protected IStatus run(IProgressMonitor monitor) {
-				 * 
-				 * try {
-				 * 
-				 * String className; Clazz inputClass = (Clazz) rootModel; className =
-				 * inputClass.getName();
-				 * 
-				 * System.out.println("concepts job started ");
-				 * 
-				 * List<String> Results = new ArrayList<String>(); IConceptsPrediction
-				 * conceptsPrediction = new ConceptsPrediction(); // rootModel is null
-				 * 
-				 * List<HashMap<String, String>> Concepts = conceptsPrediction.run(className,
-				 * null, model);
-				 * 
-				 * for (String key : Concepts.get(0).keySet()) { if
-				 * ((!containsIgnoreCase(classNames, key))) { Results.add(key); } } // update
-				 * hashmap in session. Services.relatedClasses.put(className, Results); for
-				 * (String key : Concepts.get(0).keySet()) {
-				 * 
-				 * if ((!containsIgnoreCase(classNames, key))) { if
-				 * (!(containsIgnoreCase(suggestedConcepts, key))) {
-				 * conceptsFactory.createClassCondidate((String) key, Concepts.get(0).get(key),
-				 * session, model); } else { conceptsFactory.updateConfidenceCondidate((String)
-				 * key, session, model, 1); } }
-				 * 
-				 * }
-				 * 
-				 * Display.getDefault().syncExec(new Runnable() { public void run() {
-				 * Services.refreshSuggestionsView();
-				 * 
-				 * } });
-				 * 
-				 * } catch (Exception e) { e.printStackTrace(); }
-				 * 
-				 * return ASYNC_FINISH; } }; job.setPriority(Job.SHORT); job.schedule();
-				 *
-				 */
-			}
-			if (!className.equals("")) {
-				// update after removing a selected concept
-				Services.relatedClasses.put(className.toLowerCase(), Results);
+						}
+					}
+				}).start();
+				dlg.setVisible(true);
+				IConceptsPrediction conceptsPrediction = new ConceptsPrediction();
+				List<HashMap<String, String>> Concepts = conceptsPrediction.run(className, rootModel, getModel());
+				for (String key : Concepts.get(0).keySet()) {
+					if (!containsIgnoreCase(classNames, key) && !(key.equals(""))) {
+						String keyUpperCase = key.substring(0, 1).toUpperCase() + key.substring(1);
+						Results.add(keyUpperCase);
+					}
+					if (!containsIgnoreCase(suggestedConcepts, key) && !(key.equals(""))) {
+						conceptsFactory.createClassCandidate((String) key, Concepts.get(0).get(key), session,
+								getModel());
+
+					} else {
+
+						conceptsFactory.updateConfidenceCandidate((String) key, session, model, 1);
+					}
+
+				}
+
+				refreshSuggestionsView();
 			}
 
-		} else {
-			MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
-					"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
-			Services.relatedClasses.remove(className.toLowerCase());
+			String[] arrayConcepts = Results.toArray(new String[0]);
+			if (arrayConcepts.length > 0) {
+				ElementListSelectionDialog dialog = new ElementListSelectionDialog(
+						Display.getCurrent().getActiveShell(), new LabelProvider());
+				dialog.setElements(arrayConcepts);
+				dialog.setTitle("Select  concepts, press ctrl for multiple selection");
+				dialog.setMultipleSelection(true);
+				if (dialog.open() != Window.OK) {
+					// return false;
+				}
+				Object[] result = dialog.getResult();
+				if (result != null) {
+					Services.loggerServices.info("Accept from list of  Concepts ");
+					for (int i = 0; i < result.length; i++) {
+						if (!containsIgnoreCase(classNames, (String) result[i])) {
+							conceptsFactory.createClass((String) result[i], session, false);
+							conceptsFactory.deleteClassCandidate((String) result[i], session);
 
-			int result = dialog.open();
+							Results.remove((String) result[i]);
+
+						}
+					}
+				} else {
+					// Immediately launch a job to predict related concepts because user is not
+					// satisfied.
+
+					/*
+					 * Job job = new Job("concepts  prediction") {
+					 * 
+					 * protected IStatus run(IProgressMonitor monitor) {
+					 * 
+					 * try {
+					 * 
+					 * String className; Clazz inputClass = (Clazz) rootModel; className =
+					 * inputClass.getName();
+					 * 
+					 * System.out.println("concepts job started ");
+					 * 
+					 * List<String> Results = new ArrayList<String>(); IConceptsPrediction
+					 * conceptsPrediction = new ConceptsPrediction(); // rootModel is null
+					 * 
+					 * List<HashMap<String, String>> Concepts = conceptsPrediction.run(className,
+					 * null, model);
+					 * 
+					 * for (String key : Concepts.get(0).keySet()) { if
+					 * ((!containsIgnoreCase(classNames, key))) { Results.add(key); } } // update
+					 * hashmap in session. Services.relatedClasses.put(className, Results); for
+					 * (String key : Concepts.get(0).keySet()) {
+					 * 
+					 * if ((!containsIgnoreCase(classNames, key))) { if
+					 * (!(containsIgnoreCase(suggestedConcepts, key))) {
+					 * conceptsFactory.createClassCondidate((String) key, Concepts.get(0).get(key),
+					 * session, model); } else { conceptsFactory.updateConfidenceCondidate((String)
+					 * key, session, model, 1); } }
+					 * 
+					 * }
+					 * 
+					 * Display.getDefault().syncExec(new Runnable() { public void run() {
+					 * Services.refreshSuggestionsView();
+					 * 
+					 * } });
+					 * 
+					 * } catch (Exception e) { e.printStackTrace(); }
+					 * 
+					 * return ASYNC_FINISH; } }; job.setPriority(Job.SHORT); job.schedule();
+					 *
+					 */
+				}
+				if (!className.equals("")) {
+					// update after removing a selected concept
+					Services.relatedClasses.put(className.toLowerCase(), Results);
+				}
+
+			} else {
+				MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
+						"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
+				Services.relatedClasses.remove(className.toLowerCase());
+
+				int result = dialog.open();
+			}
+			refreshSuggestionsView();
 		}
-		refreshSuggestionsView();
 		return rootModel;
+
 	}
 
 	public EObject getAssociationPrediction(EObject rootModel) {
-		Services.loggerServices.info("Demand Association Predcion ");
-		AssociationsFactory associationsFactory = new AssociationsFactory();
-		Session session = SessionManager.INSTANCE.getSession(rootModel);
-		assert session != null;
-		String className = rootModel.toString().split(":")[1];
-		className = className.substring(1, className.length() - 1);
-		List<String> Results = new ArrayList<String>();
-		String[] ArrayResultsTyped = new String[20];
-		String item;
+		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
+			Services.loggerServices.info("Demand Association Predcion ");
+			AssociationsFactory associationsFactory = new AssociationsFactory();
+			Session session = SessionManager.INSTANCE.getSession(rootModel);
+			assert session != null;
+			String className = rootModel.toString().split(":")[1];
+			className = className.substring(1, className.length() - 1);
+			List<String> Results = new ArrayList<String>();
+			String[] ArrayResultsTyped = new String[20];
+			String item;
 
-		if (Services.relatedAssociations == null) {
-			Services.relatedAssociations = new HashMap<String, List<String>>();
-		}
-		if (Services.relatedAssociations.containsKey(className.toLowerCase())) {
-			if (!Services.relatedAssociations.get(className.toLowerCase()).isEmpty()) {
-				Results = Services.relatedAssociations.get(className.toLowerCase());
+			if (Services.relatedAssociations == null) {
+				Services.relatedAssociations = new HashMap<String, List<String>>();
 			}
-			ArrayResultsTyped = Results.toArray(new String[0]);
+			if (Services.relatedAssociations.containsKey(className.toLowerCase())) {
+				if (!Services.relatedAssociations.get(className.toLowerCase()).isEmpty()) {
+					Results = Services.relatedAssociations.get(className.toLowerCase());
+				}
+				ArrayResultsTyped = Results.toArray(new String[0]);
 
-		} else {
-			IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
-			List<HashMap<String, String>> res = associationsPrediction.run(className, rootModel, getModel());
+			} else {
+				IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
+				List<HashMap<String, String>> res = associationsPrediction.run(className, rootModel, getModel());
 
-			List<String> items = new ArrayList<String>();
-			for (int j = 0; j < res.size(); j++) {
-				if (!res.get(j).get("Type").replaceAll("\\s+", "").equals("")
-						&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
+				List<String> items = new ArrayList<String>();
+				for (int j = 0; j < res.size(); j++) {
+					if (!res.get(j).get("Type").replaceAll("\\s+", "").equals("")
+							&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
 
-					if (!associationsFactory.checkAssociationExist(res.get(j).get("Target"), res.get(j).get("Source"),
-							getModel())) {
+						if (!associationsFactory.checkAssociationExist(res.get(j).get("Target"),
+								res.get(j).get("Source"), getModel())) {
 
-						if (!(res.get(j).get("Name").replaceAll("\\s+", "").equals(""))) {
+							if (!(res.get(j).get("Name").replaceAll("\\s+", "").equals(""))) {
 
-							item = res.get(j).get("Type") + " ' " + res.get(j).get("Name") + " ' between "
-									+ res.get(j).get("Source") + " => " + res.get(j).get("Target");
+								item = res.get(j).get("Type") + " ' " + res.get(j).get("Name") + " ' between "
+										+ res.get(j).get("Source") + " => " + res.get(j).get("Target");
 
-						} else {
+							} else {
 
-							item = res.get(j).get("Type") + " between " + res.get(j).get("Source") + " => "
-									+ res.get(j).get("Target");
+								item = res.get(j).get("Type") + " between " + res.get(j).get("Source") + " => "
+										+ res.get(j).get("Target");
+							}
+							items.add(item);
+
+							ArrayResultsTyped = items.toArray(new String[0]);
+							associationsFactory.createAssociationcandidate(res.get(j).get("Type"),
+									res.get(j).get("Name"), res.get(j).get("Target"), res.get(j).get("Source"), session,
+									getModel());
+							Services.relatedAssociations.put(className.toLowerCase(), items);
 						}
-						items.add(item);
+					}
 
-						ArrayResultsTyped = items.toArray(new String[0]);
-						associationsFactory.createAssociationcandidate(res.get(j).get("Type"), res.get(j).get("Name"),
-								res.get(j).get("Target"), res.get(j).get("Source"), session, getModel());
+				}
+				refreshAssociationsView();
+
+			}
+			if (ArrayResultsTyped.length > 0 && (ArrayResultsTyped[0] != null)) {
+				ElementListSelectionDialog dialog = new ElementListSelectionDialog(
+						Display.getCurrent().getActiveShell(), new LabelProvider());
+
+				dialog.setElements(ArrayResultsTyped);
+				// dialog.s
+				dialog.setTitle("Select association to add to canvas");
+				dialog.setMultipleSelection(true);
+
+				if (dialog.open() != Window.OK) {
+					// return false;
+				}
+				Object[] result = dialog.getResult();
+
+				if (result != null) {
+					List<String> items = new ArrayList<String>(Arrays.asList(ArrayResultsTyped));
+					Services.loggerServices.info("Accept from list of  associations ");
+
+					for (int j = 0; j < result.length; j++) {
+						item = (String) result[j];
+						String Type = item.split(" ")[0];
+						System.out.println(Type);
+						String Name = item.split("'")[1];
+						String Target = item.split(" ")[5];
+						String Source = item.split(" ")[7];
+						associationsFactory.createAssociation(Type, Name, Target, Source, session, true);
+						associationsFactory.removecandidate(Type, Name, Target, Source, session);
+						AssociationsFactory.removeAssociationFromCash(Source, Target);
+						refreshAssociationsView();
+
+						items.remove(item);
 						Services.relatedAssociations.put(className.toLowerCase(), items);
+
+						// this is to enable future predictions and not always show "try later"
+						if (!(Services.relatedAssociations.get(className.toLowerCase()).size() > 0)) {
+							Services.relatedAssociations.remove(className.toLowerCase());
+						}
 					}
 				}
-
+			} else {
+				MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
+						"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
+				this.relatedAssociations.remove(className.toLowerCase());
+				int result = dialog.open();
+				refreshAssociationsView();
 			}
-			refreshAssociationsView();
-
 		}
-		if (ArrayResultsTyped.length > 0 && (ArrayResultsTyped[0] != null)) {
-			ElementListSelectionDialog dialog = new ElementListSelectionDialog(Display.getCurrent().getActiveShell(),
-					new LabelProvider());
-
-			dialog.setElements(ArrayResultsTyped);
-			// dialog.s
-			dialog.setTitle("Select association to add to canvas");
-			dialog.setMultipleSelection(true);
-
-			if (dialog.open() != Window.OK) {
-				// return false;
-			}
-			Object[] result = dialog.getResult();
-
-			if (result != null) {
-				List<String> items = new ArrayList<String>(Arrays.asList(ArrayResultsTyped));
-				Services.loggerServices.info("Accept from list of  associations ");
-
-				for (int j = 0; j < result.length; j++) {
-					item = (String) result[j];
-					String Type = item.split(" ")[0];
-					System.out.println(Type);
-					String Name = item.split("'")[1];
-					String Target = item.split(" ")[5];
-					String Source = item.split(" ")[7];
-					associationsFactory.createAssociation(Type, Name, Target, Source, session, true);
-					associationsFactory.removecandidate(Type, Name, Target, Source, session);
-					AssociationsFactory.removeAssociationFromCash(Source, Target);
-					refreshAssociationsView();
-
-					items.remove(item);
-					Services.relatedAssociations.put(className.toLowerCase(), items);
-
-					// this is to enable future predictions and not always show "try later"
-					if (!(Services.relatedAssociations.get(className.toLowerCase()).size() > 0)) {
-						Services.relatedAssociations.remove(className.toLowerCase());
-					}
-				}
-			}
-		} else {
-			MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
-					"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
-			this.relatedAssociations.remove(className.toLowerCase());
-			int result = dialog.open();
-			refreshAssociationsView();
-		}
-
 		return rootModel;
+
 	}
 
 	public EObject switchTargetSource(EObject rootModel) throws InterruptedException {

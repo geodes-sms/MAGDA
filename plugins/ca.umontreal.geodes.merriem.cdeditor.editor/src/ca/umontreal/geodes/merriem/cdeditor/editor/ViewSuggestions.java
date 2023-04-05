@@ -112,7 +112,6 @@ public class ViewSuggestions extends ViewPart {
 					.sorted(Comparator.comparing(ClazzCandidate::getConfidence).reversed())
 					.collect(Collectors.toList());
 
-			
 			// Do not show an already in canvas clazz.
 			EList<Clazz> classesINCanvas = this.services.getModel().getClazz();
 			List<String> namesOfClassesInCanvas = new ArrayList<String>();
@@ -168,7 +167,7 @@ public class ViewSuggestions extends ViewPart {
 				editor.setEditor(buttonAttributes, item, 3);
 				editorAttributes.setEditor(button, item, 2);
 				if (sortedClazzCondidate.get(i).getConfidence() < 2) {
-					System.out.println("confidence is high");
+					
 					buttonAttributes.setVisible(false);
 				}
 				// editor.layout();
@@ -204,8 +203,22 @@ public class ViewSuggestions extends ViewPart {
 							JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services,
 									services.getModel(), session, false, progressBar);
 
+//							JobConceptsDummy jobConcepts = new JobConceptsDummy("Concepts prediction", services,
+//									services.getModel(), session, false, progressBar);
+
 							jobConcepts.setPriority(Job.SHORT);
 							jobConcepts.schedule();
+
+							if (services.getModel().getClazz().size() > 1) {
+								ProgressBar progressBarAssociations = ((ViewAssociations) Services.associationView)
+										.getProgressBar();
+								JobAssociations jobAssociations = new JobAssociations("Associations prediction", services,
+										services.getModel(), session,progressBarAssociations);
+//								JobAssociationsDummy jobAssociations = new JobAssociationsDummy(
+//										"Associations prediction", services, services.getModel(), session, progressBarAssociations);
+								jobAssociations.setPriority(Job.SHORT);
+								jobAssociations.schedule();
+							}
 
 						} catch (Exception e1) {
 							System.out.println(e1);

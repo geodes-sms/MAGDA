@@ -59,18 +59,44 @@ public class Listener extends ResourceSetListenerImpl {
 						for (int j = 0; j < classesInModel.size(); j++) {
 							List<Adapter> adapters = classesInModel.get(j).eAdapters();
 
-							boolean hasAdapter = false;
+							boolean hasAdapterName = false;
+
 							for (Adapter adapter : classesInModel.get(j).eAdapters()) {
 								if (adapter instanceof ElementNameChangeNotifier) {
-									hasAdapter = true;
+									hasAdapterName = true;
 									break;
 								}
+
 							}
 
-							if (!hasAdapter) {
+							if (!hasAdapterName) {
 
 								classesInModel.get(j).eAdapters().add(new ElementNameChangeNotifier());
 							}
+
+						}
+
+						List<Adapter> adapters = Services.getModel().eAdapters();
+
+						for (Adapter adapter : adapters) {
+							if (adapter instanceof ClazzDeletedNotifier) {
+								Services.hasAdapterDelete = true;
+
+							}
+							if (adapter instanceof refreshNotifier) {
+								Services.hasAdapterRefresh = true;
+
+							}
+
+						}
+						if (!Services.hasAdapterDelete) {
+							System.out.println("added adapter ...");
+							Services.getModel().eAdapters().add(new ClazzDeletedNotifier());
+
+						}
+						if (!Services.hasAdapterRefresh) {
+
+							Services.getModel().eAdapters().add(new refreshNotifier());
 						}
 
 						if (classNumbers == 0) {
@@ -114,34 +140,24 @@ public class Listener extends ResourceSetListenerImpl {
 						}
 						associationsNumber++;
 					} else if (x.getName().equals("clazz") && object.getEventType() == 4) {
-						Services services = new Services();
-						Session session = services.getSession();
-						if (RemoveClassNumbers == 0) {
 
-							if (((Clazz) object.getOldValue()).getName() != null) {
-								String OldName = ((Clazz) object.getOldValue()).getName();
-								System.out.println(((Clazz) object.getOldValue()).getName());
-								Services.loggerServices.info("remove  class {" + OldName + "}");
-								// Services.relatedAssociations.remove(OldName.toLowerCase());
-								AssociationsFactory.removeRelatedCandidateAssociations(OldName.toLowerCase(), session);
-								if ((Services.relatedClasses != null)
-										&& (Services.relatedClasses.containsKey(OldName.toLowerCase()))) {
-									for (int j = 0; j < Services.relatedClasses.get(OldName.toLowerCase()).size(); j++) {
-										ConceptsFactory.deleteClassCandidate(Services.relatedClasses.get(OldName.toLowerCase()).get(j), session);
-
-									}
-								}
-
-								Services.refreshAssociationsView();
-								Services.refreshSuggestionsView();
-							} else {
-								Services.loggerServices.info("remove  class ");
-							}
-
-						} else if (RemoveClassNumbers == 6) {
-							RemoveClassNumbers = 0;
-						}
-						RemoveClassNumbers++;
+//						RemoveClassNumbers++;
+//						if (RemoveClassNumbers == 6) {
+//							RemoveClassNumbers = 0;
+//
+//						} else if (RemoveClassNumbers == 1) {
+//							Services services = new Services();
+//							Session session = services.getSession();
+//
+//							if (((Clazz) object.getOldValue()).getName() != null) {
+//								Services.loggerServices
+//										.info("remove  class {" + ((Clazz) object.getOldValue()).getName() + "}");
+//
+//							} else {
+//								Services.loggerServices.info("remove  class ");
+//							}
+//
+//						}
 
 					}
 				}
