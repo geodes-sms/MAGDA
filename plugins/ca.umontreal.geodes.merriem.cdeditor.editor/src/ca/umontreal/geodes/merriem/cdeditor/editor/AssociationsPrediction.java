@@ -59,45 +59,48 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 				}
 
 				for (int i = 0; i < classesInModel.size(); i++) {
+					if (classesInModel.get(i).getName() != null) {
+						if (!className.replaceAll("\\s+", "").equals(classesInModel.get(i).getName())) {
 
-					if (!className.replaceAll("\\s+", "").equals(classesInModel.get(i).getName())) {
+							HashMap<String, String> itemAssociation = new HashMap<String, String>();
+							if (!classesAssociatedTo.contains(classesInModel.get(i).getName().replaceAll("\\s+", ""))) {
+								String input = classesInModel.get(i).getName().concat(" , ").concat(className);
 
-						HashMap<String, String> itemAssociation = new HashMap<String, String>();
-						if (!classesAssociatedTo.contains(classesInModel.get(i).getName().replaceAll("\\s+", ""))) {
-							String input = classesInModel.get(i).getName().concat(" , ").concat(className);
+								Prompt associtaionsNamePrompt = new AssociationNamePrompt(input, "\n", "=>");
+								associtaionsNamePrompt.setPrompt();
+								String[] arrayAssociationName = associtaionsNamePrompt.run(1, 0.7, "text-davinci-002");
+								String type = "";
 
-							Prompt associtaionsNamePrompt = new AssociationNamePrompt(input, "\n", "=>");
-							associtaionsNamePrompt.setPrompt();
-							String[] arrayAssociationName = associtaionsNamePrompt.run(1, 0.7, "text-davinci-002");
-							String Type = "";
+								Prompt associtaionsTypePrompt = new AssociationTypePrompt(input, "\n", "=>");
+								associtaionsNamePrompt.setPrompt();
+								String[] arrayAssociationType = associtaionsTypePrompt.run(1, 0.7, "text-davinci-002");
+								type = arrayAssociationType[0];
+								System.out.println(type);
+								String target = classesInModel.get(i).getName();
+								String source = className;
 
-							Prompt associtaionsTypePrompt = new AssociationTypePrompt(input, "\n", "=>");
-							associtaionsNamePrompt.setPrompt();
-							String[] arrayAssociationType = associtaionsTypePrompt.run(1, 0.7, "text-davinci-002");
-							Type = arrayAssociationType[0];
-							System.out.println(Type);
-							String Target=  classesInModel.get(i).getName();
-							String Source= className; 
-							
-							if(Type=="inheritance" || arrayAssociationName[0].replaceAll("\\s+", "").equalsIgnoreCase("is") ) {
-								System.out.println("running source and target check for inheritance association");
-								System.out.println("previous target : super  : " + Target );
-								Prompt inheritancePrompt = new InheritancePrompt(input, "\n", "=> ");
-								String[] resultInheritance = inheritancePrompt.run(1, 0.7, "text-davinci-002");
-								if(! (Target.replaceAll("\\s+", "").equalsIgnoreCase(resultInheritance[0].replaceAll("\\s+", "")))) {
-									Source =Target; 
-									Target = resultInheritance[0];
-								
+								if (type == "inheritance"
+										|| arrayAssociationName[0].replaceAll("\\s+", "").equalsIgnoreCase("is")) {
+									System.out.println("running source and target check for inheritance association");
+									System.out.println("previous target : super  : " + target);
+									Prompt inheritancePrompt = new InheritancePrompt(input, "\n", "=> ");
+									String[] resultInheritance = inheritancePrompt.run(1, 0.7, "text-davinci-002");
+									if (!(target.replaceAll("\\s+", "")
+											.equalsIgnoreCase(resultInheritance[0].replaceAll("\\s+", "")))) {
+										source = target;
+										target = resultInheritance[0];
+
+									}
+									System.out.println("new target : super  : " + target);
 								}
-								System.out.println("new target : super  : " + Target );
+
+								itemAssociation.put("Name", arrayAssociationName[0].replaceAll("\\s+", ""));
+								itemAssociation.put("Type", type.replaceAll("\\s+", ""));
+								itemAssociation.put("Target", target);
+								itemAssociation.put("Source", source);
+								results.add(itemAssociation);
+
 							}
-
-							itemAssociation.put("Name", arrayAssociationName[0].replaceAll("\\s+", ""));
-							itemAssociation.put("Type", Type.replaceAll("\\s+", ""));
-							itemAssociation.put("Target", Target);
-							itemAssociation.put("Source", Source);
-							results.add(itemAssociation);
-
 						}
 					}
 

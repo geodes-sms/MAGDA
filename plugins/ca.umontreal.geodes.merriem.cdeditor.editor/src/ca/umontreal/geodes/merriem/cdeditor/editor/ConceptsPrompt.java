@@ -49,7 +49,6 @@ public class ConceptsPrompt extends Prompt {
 		//Collections.addAll(both, second);
 		// concepts = removeLetter(concepts)
 		both = (ArrayList<String>) removeSymbols(both);
-		
 		concepts = removeDuplicates(both);
 		return concepts.toArray(String[]::new);
 	}

@@ -82,6 +82,7 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.NamedElement;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationImpl;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
 
@@ -109,9 +110,8 @@ public class Services {
 	public static boolean newSession = true;
 	public static FileHandler fileHandler;
 	public static String key;
-	public static boolean  hasAdapterDelete = false;
-	public static boolean  hasAdapterRefresh = false;
-	
+	public static boolean hasAdapterDelete = false;
+	public static boolean hasAdapterRefresh = false;
 
 	public Services() throws Exception {
 		this.config = new Properties();
@@ -164,8 +164,6 @@ public class Services {
 		}
 
 		// Log the start of the application
-
-		
 
 	};
 
@@ -481,6 +479,23 @@ public class Services {
 
 	public Session getSession() {
 		return SessionManager.INSTANCE.getSession(getModel());
+	}
+
+	public boolean namesAreUnique(NamedElement namedElement) {
+		if (namedElement.getName() == null) {
+			return true;
+		}
+		Model model = (Model) namedElement.eContainer();
+
+		for (Clazz clazz : model.getClazz()) {
+			if (clazz != namedElement) {
+				if (clazz.getName().equals(namedElement.getName())) {
+					return false;
+				}
+			}
+		}
+		return true;
+
 	}
 
 	public EObject getClassPrediction(EObject rootModel) {

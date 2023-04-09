@@ -27,27 +27,7 @@ public class ClazzDeletedNotifier extends AdapterImpl {
 		Services services;
 		try {
 
-//			Display.getDefault().syncExec(new Runnable() {
-//				public void run() {
-//					System.out.println("refreshhh");
-//					try {
-//						Services services = new Services();
-//						DAnalysis root = (DAnalysis) services.getSession().getSessionResource().getContents().get(0);
-//						DView dView = root.getOwnedViews().get(0);
-//						DRepresentation represnt = null;
-//						for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-//							represnt = descrp.getRepresentation();
-//
-//						}
-//						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-//
-//					} catch (Exception e) {
-//						// TODO Auto-generated catch block
-//						e.printStackTrace();
-//					}
-//				
-//				}
-//			});
+
 
 			if ((notification.getEventType() == Notification.REMOVE)) {
 
@@ -71,7 +51,7 @@ public class ClazzDeletedNotifier extends AdapterImpl {
 						if ((Services.relatedClasses != null) && oldName != null
 								&& (Services.relatedClasses.containsKey(oldName.toLowerCase()))) {
 							for (int j = 0; j < Services.relatedClasses.get(oldName.toLowerCase()).size(); j++) {
-								
+
 								ConceptsFactory.deleteClassCandidate(
 										Services.relatedClasses.get(oldName.toLowerCase()).get(j), session);
 

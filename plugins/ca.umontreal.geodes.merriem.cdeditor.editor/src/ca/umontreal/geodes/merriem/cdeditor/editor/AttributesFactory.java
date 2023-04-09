@@ -56,26 +56,27 @@ public class AttributesFactory {
 					newAttribute.setType(Type);
 					List<Clazz> classes = model.getClazz();
 					for (int i = 0; i < classes.size(); i++) {
-
-						String Cname = classes.get(i).getName().replaceAll("\\s+", "");
-						if (containerName.equals(Cname)) {
-							EList<Attribute> attributesName = model.getClazz().get(i).getAttributes();
-							boolean attributeExist = false;
-							for (int j = 0; j < attributesName.size(); j++) {
-
-								if (attributesName.get(j).getName().replaceAll("\\s+", "")
-										.equals(Name.replaceAll("\\s+", ""))) {
-									attributeExist = true;
+						if (classes.get(i).getName() != null) {
+							String className = classes.get(i).getName().replaceAll("\\s+", "");
+							if (containerName.equals(className)) {
+								EList<Attribute> attributesName = model.getClazz().get(i).getAttributes();
+								boolean attributeExist = false;
+								for (int j = 0; j < attributesName.size(); j++) {
+									if (attributesName.get(j).getName()!=null) {
+										if (attributesName.get(j).getName().replaceAll("\\s+", "")
+												.equals(Name.replaceAll("\\s+", ""))) {
+											attributeExist = true;
+											break;
+										}
+									}
+								}
+								if (!attributeExist) {
+									model.getClazz().get(i).getAttributes().add(newAttribute);
 									break;
 								}
 							}
-							if (!attributeExist) {
-								model.getClazz().get(i).getAttributes().add(newAttribute);
-								break;
-							}
 						}
 					}
-
 					// refresh Model
 
 				}

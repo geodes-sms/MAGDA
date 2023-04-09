@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" xmlns:tool_1="http://www.eclipse.org/sirius/description/tool/1.1.0" name="editor" version="12.0.0.2017041100">
+<description:Group xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:style="http://www.eclipse.org/sirius/diagram/description/style/1.1.0" xmlns:tool="http://www.eclipse.org/sirius/diagram/description/tool/1.1.0" xmlns:tool_1="http://www.eclipse.org/sirius/description/tool/1.1.0" xmlns:validation="http://www.eclipse.org/sirius/description/validation/1.1.0" name="editor" version="12.0.0.2017041100">
   <ownedViewpoints name="MyViewpoint">
     <ownedRepresentations xsi:type="description_1:DiagramDescription" name="Editor" domainClass="metamodel::Model" enablePopupBars="true">
       <metamodel href="../../ca.umontreal.geodes.meriem.cdeditor.metamodel/model/metamodel.ecore#/"/>
+      <validationSet>
+        <ownedRules xsi:type="validation:SemanticValidationRule" name="duplicateName" level="ERROR" targetClass="NamedElement">
+          <audits auditExpression="service:namesAreUnique()"/>
+        </ownedRules>
+      </validationSet>
       <defaultLayer name="Default">
         <edgeMappings name="inheritance" deletionDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='deleteInheritanceLink']" labelDirectEdit="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='setName']" doubleClickDescription="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@toolSections.0/@ownedTools[name='switchTargetSource']" sourceMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetMapping="//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer/@containerMappings[name='clazzContainer']" targetFinderExpression="feature:specializes">
           <style targetArrow="InputClosedArrow" sizeComputationExpression="2">

@@ -38,7 +38,7 @@ public class AttributesPrediction implements IAttributesPrediction {
 				System.out.println(node.eContents());
 				for (int i = 0; i < node.eContents().size(); i++) {
 					attributes.add(node.eContents().get(i).toString().split(" ")[2].split("\\)")[0]);
-					System.out.println(node.eContents().get(i).toString());
+				
 				}
 			}
 

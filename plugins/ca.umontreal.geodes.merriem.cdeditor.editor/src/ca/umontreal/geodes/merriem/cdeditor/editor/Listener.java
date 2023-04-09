@@ -22,6 +22,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
@@ -40,7 +41,7 @@ public class Listener extends ResourceSetListenerImpl {
 		// for loggig and launching jobs to predict new related elements.
 
 		try {
-
+			int i = 0;
 			for (Iterator iter = event.getNotifications().iterator(); iter.hasNext();) {
 				Notification object = (Notification) iter.next();
 
@@ -50,85 +51,118 @@ public class Listener extends ResourceSetListenerImpl {
 					// otherwise same event will be logged 6 times.
 
 					// check if not already launched
+
 					// eventType ==3 ; ADD
+					if (x.getName().equals("attributes") && object.getEventType() == 3) {
+						if (attributeNumber == 0) {
+							System.out.println("listenner, calling attributes");
 
-					if (x.getName().equals("clazz") && object.getEventType() == 3) {
+							// EList<Attribute> attributesInModel = Services.getModel().getAttribute();
+							List<Attribute> attributesInModel = new ArrayList<Attribute>();
+							List<Clazz> classesInModel = Services.getModel().getClazz();
+							for (int k = 0; k < classesInModel.size(); k++) {
+								attributesInModel.addAll(classesInModel.get(k).getAttributes());
+							}
 
-						EList<Clazz> classesInModel = Services.getModel().getClazz();
+							for (int j = 0; j < attributesInModel.size(); j++) {
+								System.out.println("attribute in model " + attributesInModel.get(j).getName());
+								List<Adapter> adapters = attributesInModel.get(j).eAdapters();
 
-						for (int j = 0; j < classesInModel.size(); j++) {
-							List<Adapter> adapters = classesInModel.get(j).eAdapters();
+								boolean hasAdapterAttribute = false;
 
-							boolean hasAdapterName = false;
+								for (Adapter adapter : adapters) {
 
-							for (Adapter adapter : classesInModel.get(j).eAdapters()) {
-								if (adapter instanceof ElementNameChangeNotifier) {
-									hasAdapterName = true;
-									break;
+									if (adapter instanceof attributeChangedNotifier) {
+										hasAdapterAttribute = true;
+										break;
+									}
+
+								}
+								if (!hasAdapterAttribute) {
+									System.out.println("added adapter ...to " + attributesInModel.get(j).getName());
+									attributesInModel.get(j).eAdapters().add(new attributeChangedNotifier());
 								}
 
 							}
 
-							if (!hasAdapterName) {
-
-								classesInModel.get(j).eAdapters().add(new ElementNameChangeNotifier());
-							}
-
+							Services.loggerServices.info("Create attribute");
+						} else if (attributeNumber == 6) {
+							attributeNumber = -1;
+							System.out.println("put to 0 ");
 						}
+						attributeNumber++;
+					}
 
-						List<Adapter> adapters = Services.getModel().eAdapters();
-
-						for (Adapter adapter : adapters) {
-							if (adapter instanceof ClazzDeletedNotifier) {
-								Services.hasAdapterDelete = true;
-
-							}
-							if (adapter instanceof refreshNotifier) {
-								Services.hasAdapterRefresh = true;
-
-							}
-
-						}
-						if (!Services.hasAdapterDelete) {
-							System.out.println("added adapter ...");
-							Services.getModel().eAdapters().add(new ClazzDeletedNotifier());
-
-						}
-						if (!Services.hasAdapterRefresh) {
-
-							Services.getModel().eAdapters().add(new refreshNotifier());
-						}
-
+					else if (x.getName().equals("clazz") && object.getEventType() == 3) {
 						if (classNumbers == 0) {
+							EList<Clazz> classesInModel = Services.getModel().getClazz();
+
+							for (int j = 0; j < classesInModel.size(); j++) {
+								List<Adapter> adapters = classesInModel.get(j).eAdapters();
+
+								boolean hasAdapterName = false;
+								// boolean hasAdapterAttribute = false;
+
+								for (Adapter adapter : classesInModel.get(j).eAdapters()) {
+									if (adapter instanceof ElementNameChangeNotifier) {
+										hasAdapterName = true;
+										break;
+									}
+
+								}
+
+								if (!hasAdapterName) {
+
+									classesInModel.get(j).eAdapters().add(new ElementNameChangeNotifier());
+								}
+
+							}
+
+							List<Adapter> adapters = Services.getModel().eAdapters();
+
+							for (Adapter adapter : adapters) {
+								if (adapter instanceof ClazzDeletedNotifier) {
+									Services.hasAdapterDelete = true;
+
+								}
+								if (adapter instanceof refreshNotifier) {
+									Services.hasAdapterRefresh = true;
+
+								}
+
+							}
+							if (!Services.hasAdapterDelete) {
+								System.out.println("added adapter ...");
+								Services.getModel().eAdapters().add(new ClazzDeletedNotifier());
+
+							}
+							if (!Services.hasAdapterRefresh) {
+
+								Services.getModel().eAdapters().add(new refreshNotifier());
+							}
+
 							Services.loggerServices.info("Create class");
 
 						} else if (classNumbers == 6) {
-							classNumbers = 0;
+							classNumbers = -1;
 						}
 						classNumbers++;
 
-					} else if (x.getName().equals("attributes") && object.getEventType() == 3) {
-
-						if (attributeNumber == 0) {
-							Services.loggerServices.info("Create attribute");
-						} else if (attributeNumber == 6) {
-							attributeNumber = 0;
-						}
-						attributeNumber++;
 					} else if (x.getName().equals("generalizes") && object.getEventType() == 3) {
 
 						if (inheritanceNumber == 0) {
 							Services.loggerServices.info("Create inheritance ");
+							inheritanceNumber++;
 						} else if (inheritanceNumber == 6) {
-							inheritanceNumber = 0;
+							inheritanceNumber = -1;
 						}
-						inheritanceNumber++;
+
 					} else if (x.getName().equals("isMember") && object.getEventType() == 3) {
 
 						if (compositionNumber == 0) {
 							Services.loggerServices.info("Create composition ");
 						} else if (compositionNumber == 6) {
-							compositionNumber = 0;
+							compositionNumber = -1;
 						}
 						compositionNumber++;
 					} else if (x.getName().equals("association") && object.getEventType() == 3) {
@@ -136,29 +170,9 @@ public class Listener extends ResourceSetListenerImpl {
 						if (associationsNumber == 0) {
 							Services.loggerServices.info("Create  association");
 						} else if (associationsNumber == 6) {
-							associationsNumber = 0;
+							associationsNumber = -1;
 						}
 						associationsNumber++;
-					} else if (x.getName().equals("clazz") && object.getEventType() == 4) {
-
-//						RemoveClassNumbers++;
-//						if (RemoveClassNumbers == 6) {
-//							RemoveClassNumbers = 0;
-//
-//						} else if (RemoveClassNumbers == 1) {
-//							Services services = new Services();
-//							Session session = services.getSession();
-//
-//							if (((Clazz) object.getOldValue()).getName() != null) {
-//								Services.loggerServices
-//										.info("remove  class {" + ((Clazz) object.getOldValue()).getName() + "}");
-//
-//							} else {
-//								Services.loggerServices.info("remove  class ");
-//							}
-//
-//						}
-
 					}
 				}
 			}

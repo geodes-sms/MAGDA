@@ -59,11 +59,16 @@ public class AssociationsFactory {
 		List<Association> AssociationsInCanvas = model.getAssociation();
 		for (int i = 0; i < allClasses.size(); i++) {
 
-			if (allClasses.get(i).getName().replaceAll("\\s+", "").equalsIgnoreCase(Source.replaceAll("\\s+", ""))) {
-				ClassSource = allClasses.get(i);
-			}
-			if (allClasses.get(i).getName().replaceAll("\\s+", "").equalsIgnoreCase(Target.replaceAll("\\s+", ""))) {
-				ClassTarget = allClasses.get(i);
+			if (allClasses.get(i).getName() != null) {
+				if (allClasses.get(i).getName().replaceAll("\\s+", "")
+						.equalsIgnoreCase(Source.replaceAll("\\s+", ""))) {
+					ClassSource = allClasses.get(i);
+				}
+
+				if (allClasses.get(i).getName().replaceAll("\\s+", "")
+						.equalsIgnoreCase(Target.replaceAll("\\s+", ""))) {
+					ClassTarget = allClasses.get(i);
+				}
 			}
 		}
 
@@ -129,20 +134,18 @@ public class AssociationsFactory {
 
 					// find both classes target and source:
 					Clazz ClassSource = null;
-					Clazz ClassTarget = null;
 					for (int i = 0; i < classes.size(); i++) {
+						if (classes.get(i).getName() != null) {
+							if (classes.get(i).getName().replaceAll("\\s+", "")
+									.equalsIgnoreCase(Source.replaceAll("\\s+", ""))) {
+								ClassSource = classes.get(i);
+							}
 
-						if (classes.get(i).getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(Source.replaceAll("\\s+", ""))) {
-							ClassSource = classes.get(i);
-						}
-						if (classes.get(i).getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(Target.replaceAll("\\s+", ""))) {
-							ClassTarget = classes.get(i);
 						}
 					}
-
-					ClassSource.setIsMember(null);
+					if (ClassSource != null) {
+						ClassSource.setIsMember(null);
+					}
 
 					DRepresentation represnt = null;
 					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
@@ -159,9 +162,11 @@ public class AssociationsFactory {
 		}
 	}
 
-	public void createAssociation(String type, String Name, String Target, String Source, Session session,
+	public void createAssociation(String type, String name, String target, String Source, Session session,
 			Boolean refreshFlag) {
-		System.out.println("creating association  " + type + " " + Name + " from " + Source + " To " + Target);
+		if (name != null) {
+			System.out.println("creating association  " + type + " " + name + " from " + Source + " To " + target);
+		}
 		try {
 			String Type = type.replaceAll("\\s+", " ").toLowerCase();
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -184,43 +189,44 @@ public class AssociationsFactory {
 					Associations = model.getAssociation();
 
 					// find both classes target and source:
-					Clazz ClassSource = null;
-					Clazz ClassTarget = null;
+					Clazz classSource = null;
+					Clazz classTarget = null;
 					for (int i = 0; i < classes.size(); i++) {
-
-						if (classes.get(i).getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(Source.replaceAll("\\s+", ""))) {
-							ClassSource = classes.get(i);
-						}
-						if (classes.get(i).getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(Target.replaceAll("\\s+", ""))) {
-							ClassTarget = classes.get(i);
+						if (classes.get(i).getName() != null) {
+							if (classes.get(i).getName().replaceAll("\\s+", "")
+									.equalsIgnoreCase(Source.replaceAll("\\s+", ""))) {
+								classSource = classes.get(i);
+							}
+							if (classes.get(i).getName().replaceAll("\\s+", "")
+									.equalsIgnoreCase(target.replaceAll("\\s+", ""))) {
+								classTarget = classes.get(i);
+							}
 						}
 					}
 
 					switch (Type) {
 					case "inheritance":
-						ClassSource.setSpecializes(ClassTarget);
+						classSource.setSpecializes(classTarget);
 
 						break;
 					case "composition":
-						ClassSource.setIsMember(ClassTarget);
+						classSource.setIsMember(classTarget);
 
 						break;
 					case "association":
 						System.out.println("creating association !! ");
 						// what is shown must be inheritance and not association
-						if (Name.equalsIgnoreCase("is")) {
-							ClassSource.setSpecializes(ClassTarget);
+						if (name.equalsIgnoreCase("is")) {
+							classSource.setSpecializes(classTarget);
 
 						} else {
 							AssociationImpl newAssociation = (AssociationImpl) metamodelFactory.createAssociation();
-							if (!Name.equalsIgnoreCase("null")) {
-								newAssociation.setName(Name);
+							if (!name.equalsIgnoreCase("null")) {
+								newAssociation.setName(name);
 							}
 
-							newAssociation.setTarget(ClassTarget);
-							newAssociation.setSource(ClassSource);
+							newAssociation.setTarget(classTarget);
+							newAssociation.setSource(classSource);
 							Associations.add(newAssociation);
 						}
 
@@ -273,11 +279,11 @@ public class AssociationsFactory {
 		}
 	}
 
-	public void createAssociationcandidate(String Type, String Name, String Target, String Source, Session session,
+	public void createAssociationcandidate(String type, String name, String target, String source, Session session,
 			Model model) {
 
 		System.out
-				.println("creating association candidates " + Type + " " + Name + " from " + Source + " To " + Target);
+				.println("creating association candidates " + type + " " + name + " from " + source + " To " + target);
 		try {
 
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
@@ -299,25 +305,26 @@ public class AssociationsFactory {
 					Associations = model.getOperation();
 
 					// find both classes target and source:
-					Clazz ClassSource = null;
-					Clazz ClassTarget = null;
+					Clazz classSource = null;
+					Clazz classTarget = null;
 					for (int i = 0; i < classes.size(); i++) {
-
-						if (classes.get(i).getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(Source.replaceAll("\\s+", ""))) {
-							ClassSource = classes.get(i);
-						}
-						if (classes.get(i).getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(Target.replaceAll("\\s+", ""))) {
-							ClassTarget = classes.get(i);
+						if (classes.get(i).getName() != null) {
+							if (classes.get(i).getName().replaceAll("\\s+", "")
+									.equalsIgnoreCase(source.replaceAll("\\s+", ""))) {
+								classSource = classes.get(i);
+							}
+							if (classes.get(i).getName().replaceAll("\\s+", "")
+									.equalsIgnoreCase(target.replaceAll("\\s+", ""))) {
+								classTarget = classes.get(i);
+							}
 						}
 					}
 					AssociationCandidateImpl newAssociationcandidate = (AssociationCandidateImpl) metamodelFactory
 							.createAssociationCandidate();
-					newAssociationcandidate.setName(Name);
-					newAssociationcandidate.setTarget(ClassTarget);
-					newAssociationcandidate.setSource(ClassSource);
-					newAssociationcandidate.setType(Type);
+					newAssociationcandidate.setName(name);
+					newAssociationcandidate.setTarget(classTarget);
+					newAssociationcandidate.setSource(classSource);
+					newAssociationcandidate.setType(type);
 					Associations.add(newAssociationcandidate);
 
 				}
@@ -349,19 +356,22 @@ public class AssociationsFactory {
 					List<AssociationCandidate> AssociationCandidates = model.getOperation();
 					List<AssociationCandidate> index = new ArrayList<AssociationCandidate>();
 					for (int i = 0; i < AssociationCandidates.size(); i++) {
-						if ((AssociationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(target.replaceAll("\\s+", "")))
-								&& (AssociationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
-										.equalsIgnoreCase(source.replaceAll("\\s+", "")))) {
-							System.out.println("found the operation");
-							index.add(AssociationCandidates.get(i));
+						if (AssociationCandidates.get(i).getTarget().getName() != null
+								&& AssociationCandidates.get(i).getSource().getName() != null) {
+							if ((AssociationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
+									.equalsIgnoreCase(target.replaceAll("\\s+", "")))
+									&& (AssociationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
+											.equalsIgnoreCase(source.replaceAll("\\s+", "")))) {
+								System.out.println("found the operation");
+								index.add(AssociationCandidates.get(i));
 
-						}
-						if (AssociationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(source.replaceAll("\\s+", ""))
-								&& (AssociationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
-										.equalsIgnoreCase(target.replaceAll("\\s+", "")))) {
-							index.add(AssociationCandidates.get(i));
+							}
+							if (AssociationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
+									.equalsIgnoreCase(source.replaceAll("\\s+", ""))
+									&& (AssociationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
+											.equalsIgnoreCase(target.replaceAll("\\s+", "")))) {
+								index.add(AssociationCandidates.get(i));
+							}
 						}
 
 					}
@@ -411,17 +421,17 @@ public class AssociationsFactory {
 				protected void doExecute() {
 					Model model = services.getModel();
 
-					List<Association> Associations = model.getAssociation();
+					List<Association> associations = model.getAssociation();
 					int index = -1;
-					for (int i = 0; i < Associations.size(); i++) {
-						if ((Associations.get(i).getTarget().getName().replaceAll("\\s+", "")
+					for (int i = 0; i < associations.size(); i++) {
+						if ((associations.get(i).getTarget().getName().replaceAll("\\s+", "")
 								.equalsIgnoreCase(target.replaceAll("\\s+", "")))
-								&& (Associations.get(i).getSource().getName().replaceAll("\\s+", "")
+								&& (associations.get(i).getSource().getName().replaceAll("\\s+", "")
 
 										.equalsIgnoreCase(source.replaceAll("\\s+", "")))) {
 
-							if ((name != "") && (name != null) && (Associations.get(i).getName() != null)) {
-								if ((Associations.get(i).getName().replaceAll("\\s+", "")
+							if ((name != "") && (name != null) && (associations.get(i).getName() != null)) {
+								if ((associations.get(i).getName().replaceAll("\\s+", "")
 										.equalsIgnoreCase(name.replaceAll("\\s+", "")))) {
 									index = i;
 									System.out.println("found the operation");
@@ -491,9 +501,9 @@ public class AssociationsFactory {
 
 	}
 
-	public static void removeRelatedCandidateAssociations(String ClazzName, Session session) {
+	public static void removeRelatedCandidateAssociations(String clazzName, Session session) {
 
-		removeRelatedAssociationsFromCash(ClazzName);
+		removeRelatedAssociationsFromCash(clazzName);
 
 		// remove candidates:
 		try {
@@ -511,23 +521,26 @@ public class AssociationsFactory {
 				protected void doExecute() {
 					Model model = Services.getModel();
 
-					List<AssociationCandidate> AssociationCandidates = model.getOperation();
+					List<AssociationCandidate> associationCandidates = model.getOperation();
 					List<AssociationCandidate> index = new ArrayList<AssociationCandidate>();
-					for (int i = 0; i < AssociationCandidates.size(); i++) {
-						if ((AssociationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(ClazzName.replaceAll("\\s+", "")))) {
-							System.out.println("found the operation");
-							index.add(AssociationCandidates.get(i));
-						}
-						if (AssociationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(ClazzName.replaceAll("\\s+", ""))) {
-							index.add(AssociationCandidates.get(i));
+					for (int i = 0; i < associationCandidates.size(); i++) {
+						if ((associationCandidates.get(i).getTarget().getName() != null)
+								&& ((associationCandidates.get(i).getSource().getName() != null))) {
+							if ((associationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
+									.equalsIgnoreCase(clazzName.replaceAll("\\s+", "")))) {
+								System.out.println("found the operation");
+								index.add(associationCandidates.get(i));
+							}
+							if (associationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
+									.equalsIgnoreCase(clazzName.replaceAll("\\s+", ""))) {
+								index.add(associationCandidates.get(i));
+							}
 						}
 					}
 					for (int k = 0; k < index.size(); k++) {
 						model.getOperation().remove(index.get(k));
 					}
-					
+
 					SessionManager.INSTANCE.notifyRepresentationCreated(session);
 					DRepresentation represnt = null;
 

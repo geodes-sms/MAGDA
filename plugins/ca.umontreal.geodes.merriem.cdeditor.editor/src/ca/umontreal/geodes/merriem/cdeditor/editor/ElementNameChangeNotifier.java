@@ -48,33 +48,24 @@ public class ElementNameChangeNotifier extends AdapterImpl {
 					/***
 					 * First Thread - Job : Predict related concepts Predict it's attributes ?
 					 **/
-					
+
 					Display.getDefault().syncExec(new Runnable() {
 						public void run() {
 							System.out.println("refresh ? ");
-							refreshNotifier.lock=true; 				
-//							try {
-//								refreshNotifier.lock=true; 
-//								TimeUnit.MILLISECONDS.sleep(500);
-//								refreshNotifier.lock=false; 
-//							} catch (InterruptedException e1) {
-//								// TODO Auto-generated catch block
-//								e1.printStackTrace();
-//								
-//							}
-							System.out.println("refresh done ");
-							refreshNotifier.lock=false; 
+							refreshNotifier.lock = true;
+
+							refreshNotifier.lock = false;
 							try {
-							Services services = new Services();
-							DAnalysis root = (DAnalysis) services.getSession().getSessionResource().getContents().get(0);
-							DView dView = root.getOwnedViews().get(0);
-							DRepresentation represnt = null;
-							for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-								represnt = descrp.getRepresentation();
-								DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+								Services services = new Services();
+								DAnalysis root = (DAnalysis) services.getSession().getSessionResource().getContents()
+										.get(0);
+								DView dView = root.getOwnedViews().get(0);
+								DRepresentation represnt = null;
+								for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+									represnt = descrp.getRepresentation();
+									DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
-
-							}
+								}
 
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
@@ -83,10 +74,11 @@ public class ElementNameChangeNotifier extends AdapterImpl {
 
 						}
 					});
-					
+
 					ProgressBar progressBar = ((ViewSuggestions) Services.suggestionView).getProgressBar();
-					//JobConceptsDummy jobConcepts = new JobConceptsDummy("Concepts prediction", services, model, session, false,progressBar);
-					
+					// JobConceptsDummy jobConcepts = new JobConceptsDummy("Concepts prediction",
+					// services, model, session, false,progressBar);
+
 					JobConcepts jobConcepts = new JobConcepts("Concepts prediction", services, model, session, false,
 							progressBar);
 					jobConcepts.setPriority(Job.SHORT);
@@ -96,54 +88,43 @@ public class ElementNameChangeNotifier extends AdapterImpl {
 					 * Second Thread - Job : Predict related attributes for concepts added
 					 **/
 
-//					JobAttributes jobAttributes = new JobAttributes("Attributes prediction", services, model);
-//					jobAttributes.setPriority(Job.SHORT);
-//					jobAttributes.schedule();
+					JobAttributes jobAttributes = new JobAttributes("Attributes prediction", services, model);
+					jobAttributes.setPriority(Job.SHORT);
+					jobAttributes.schedule();
 
 					/***
 					 * Third Thread - Job : Predict related associations for concepts added
 					 **/
 
 					if (model.getClazz().size() > 1) {
-						ProgressBar progressBarAssociations = ((ViewAssociations) Services.associationView).getProgressBar();
+						ProgressBar progressBarAssociations = ((ViewAssociations) Services.associationView)
+								.getProgressBar();
 						JobAssociations jobAssociations = new JobAssociations("Associations prediction", services,
-								model, session,progressBarAssociations);
+								model, session, progressBarAssociations);
 //						JobAssociationsDummy jobAssociations = new JobAssociationsDummy("Associations prediction", services,
 //								model, session,progressBarAssociations);
-						
+
 						jobAssociations.setPriority(Job.SHORT);
 						jobAssociations.schedule();
 					}
 				}
-			}
-			else if ((notification.getEventType() == Notification.SET)
-					&& (notification.getFeatureID(Clazz.class) == MetamodelPackageImpl.CLAZZ__HAS )|| (notification.getFeatureID(Clazz.class) == MetamodelPackageImpl.CLAZZ__IS_MEMBER)) {
+			} else if ((notification.getEventType() == Notification.SET)
+					&& (notification.getFeatureID(Clazz.class) == MetamodelPackageImpl.CLAZZ__HAS)
+					|| (notification.getFeatureID(Clazz.class) == MetamodelPackageImpl.CLAZZ__IS_MEMBER)) {
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
-						System.out.println("composition refresh  ? ");
-						refreshNotifier.lock=true; 				
-//						try {
-//							refreshNotifier.lock=true; 
-//							TimeUnit.MILLISECONDS.sleep(500);
-//							refreshNotifier.lock=false; 
-//						} catch (InterruptedException e1) {
-//							// TODO Auto-generated catch block
-//							e1.printStackTrace();
-//							
-//						}
-						System.out.println("refresh done ");
-						refreshNotifier.lock=false; 
+					
 						try {
-						Services services = new Services();
-						DAnalysis root = (DAnalysis) services.getSession().getSessionResource().getContents().get(0);
-						DView dView = root.getOwnedViews().get(0);
-						DRepresentation represnt = null;
-						for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-							represnt = descrp.getRepresentation();
-							DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+							Services services = new Services();
+							DAnalysis root = (DAnalysis) services.getSession().getSessionResource().getContents()
+									.get(0);
+							DView dView = root.getOwnedViews().get(0);
+							DRepresentation represnt = null;
+							for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+								represnt = descrp.getRepresentation();
+								DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
-
-						}
+							}
 
 						} catch (Exception e) {
 							// TODO Auto-generated catch block

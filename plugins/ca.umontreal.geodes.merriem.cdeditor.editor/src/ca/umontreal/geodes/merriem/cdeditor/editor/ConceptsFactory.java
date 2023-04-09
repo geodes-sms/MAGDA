@@ -97,87 +97,81 @@ public class ConceptsFactory {
 
 	}
 
-	public void createClass(String Name, Session session, Boolean refreshFlag) {
+	public void createClass(String name, Session session, Boolean refreshFlag) {
 		try {
+			if (name != null) {
+				DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+				DView dView = root.getOwnedViews().get(0);
 
-			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
-			DView dView = root.getOwnedViews().get(0);
+				TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
 
-//			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE
-//					.createEditingDomain();
-			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
+				CommandStack stack = editingDomain.getCommandStack();
 
-			CommandStack stack = editingDomain.getCommandStack();
+				RecordingCommand cmd = new RecordingCommand(editingDomain) {
 
-			RecordingCommand cmd = new RecordingCommand(editingDomain) {
-//			CommandStack stack = domain.getCommandStack();
-//			
-//
-//			RecordingCommand cmd = new RecordingCommand(domain) {
+					@Override
+					protected void doExecute() {
+						Model model = services.getModel();
+						MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 
-				@Override
-				protected void doExecute() {
-					Model model = services.getModel();
-					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+						ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
+						String processedName = name.substring(0, 1).toUpperCase() + name.substring(1);
+						newClazz.setName(processedName);
+						model.getClazz().add(newClazz);
 
-					ClazzImpl newClazz = (ClazzImpl) metamodelFactory.createClazz();
-					String Name2 = Name.substring(0, 1).toUpperCase() + Name.substring(1);
-					newClazz.setName(Name2);
-					model.getClazz().add(newClazz);
-
-					SessionManager.INSTANCE.notifyRepresentationCreated(session);
-					// refresh Model
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-
-					}
-					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-				}
-
-			};
-			RecordingCommand cmd2 = new RecordingCommand(editingDomain) {
-				// RecordingCommand cmd2 = new
-				// RecordingCommand(session.getTransactionalEditingDomain()) {
-				@Override
-				protected void doExecute() {
-
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
-								.openEditor(session, represnt, new NullProgressMonitor());
-
-						/**
-						 * this suggestions to canvas
-						 **/
-						if (refreshFlag) {
-							DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
+						SessionManager.INSTANCE.notifyRepresentationCreated(session);
+						// refresh Model
+						DRepresentation represnt = null;
+						for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+							represnt = descrp.getRepresentation();
 
 						}
-					}
-					/**
-					 * this list to canvas
-					 **/
-
-					if (!refreshFlag) {
 						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 					}
-				}
-			};
-			stack.execute(cmd);
-			//stack.execute(cmd2);
 
-			// SessionManager.INSTANCE.notifyRepresentationCreated(session);
+				};
+				RecordingCommand cmd2 = new RecordingCommand(editingDomain) {
 
+					@Override
+					protected void doExecute() {
+
+						DRepresentation represnt = null;
+						for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+							represnt = descrp.getRepresentation();
+							DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
+									.openEditor(session, represnt, new NullProgressMonitor());
+
+							/**
+							 * this suggestions to canvas
+							 **/
+							if (refreshFlag) {
+								DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
+
+							}
+						}
+						/**
+						 * this list to canvas
+						 **/
+
+						if (!refreshFlag) {
+							DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+						}
+					}
+				};
+				stack.execute(cmd);
+				// stack.execute(cmd2);
+
+				// SessionManager.INSTANCE.notifyRepresentationCreated(session);
+
+			}
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
 
 	}
 
-	public void createClassCandidate(String Name, String confidence, Session session, Model model) {
-		if (!Name.equals("")) {
+	public void createClassCandidate(String name, String confidence, Session session, Model model) {
+		if (!name.equals("")) {
 			try {
 
 				EList<Clazz> classesINCanvas = model.getClazz();
@@ -185,7 +179,7 @@ public class ConceptsFactory {
 				for (int j = 0; j < classesINCanvas.size(); j++) {
 					namesOfClassesInCanvas.add(classesINCanvas.get(j).getName());
 				}
-				if (!services.containsIgnoreCase(namesOfClassesInCanvas, Name)) {
+				if (!services.containsIgnoreCase(namesOfClassesInCanvas, name)) {
 					DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 					DView dView = root.getOwnedViews().get(0);
 
@@ -202,7 +196,7 @@ public class ConceptsFactory {
 
 							ClazzCandidateImpl newClazzCandidate = (ClazzCandidateImpl) metamodelFactory
 									.createClazzCandidate();
-							newClazzCandidate.setName(Name);
+							newClazzCandidate.setName(name);
 
 							newClazzCandidate.setConfidence(Integer.parseInt(confidence));
 
@@ -223,47 +217,7 @@ public class ConceptsFactory {
 	public static void deleteClassCandidate(String classToRemove, Session session) {
 
 		try {
-//			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
-//			DView dView = root.getOwnedViews().get(0);
-//
-//			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
-//
-//			CommandStack stack = editingDomain.getCommandStack();
-//
-//			RecordingCommand cmd = new RecordingCommand(editingDomain) {
-//
-//				@Override
-//				protected void doExecute() {
-//					Model model = Services.getModel();
-//
-//					List<ClazzCandidate> classesCondidate = model.getClazzcondidate();
-//					int index = 0;
-//					for (int i = 0; i < classesCondidate.size(); i++) {
-//						if (classesCondidate.get(i).getName().replaceAll("\\s+", "")
-//								.equals(classToRemove.replaceAll("\\s+", ""))) {
-//							index = i;
-//
-//						}
-//					}
-//					model.getClazzcondidate().remove(index);
-//					SessionManager.INSTANCE.notifyRepresentationCreated(session);
-//					DRepresentation represnt = null;
-//					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-//						represnt = descrp.getRepresentation();
-//						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
-//								.openEditor(session, represnt, new NullProgressMonitor());
-//						/// DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
-//
-//					}
-//					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-//
-//				}
-//
-//			};
-//
-//			stack.execute(cmd);
-		
-			// stack.execute(cmd2);
+
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
@@ -290,7 +244,7 @@ public class ConceptsFactory {
 					}
 					System.out.println("removing class candidate..");
 					model.getClazzcondidate().remove(index);
-					
+
 					SessionManager.INSTANCE.notifyRepresentationCreated(session);
 					DRepresentation represnt = null;
 					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {

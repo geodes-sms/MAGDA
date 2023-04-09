@@ -35,6 +35,7 @@ public class TextFormatter extends Formatter {
 			List<String> flattenedList = Services.relatedClasses.values().stream()
 			        .flatMap(List::stream)
 			        .collect(Collectors.toList()); 
+			// remove duplicated 
 			sb.append(String.valueOf(flattenedList)).append(System.lineSeparator());
 		} else {
 			sb.append(" - ").append(System.lineSeparator());
