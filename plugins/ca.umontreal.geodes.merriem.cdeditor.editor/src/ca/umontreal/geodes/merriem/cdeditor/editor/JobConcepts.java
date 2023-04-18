@@ -60,7 +60,6 @@ public class JobConcepts extends Job {
 				TimeUnit.SECONDS.sleep(15);
 			}
 
-	
 			List<Clazz> classes = model.getClazz();
 
 			ConceptsFactory conceptsFactory = new ConceptsFactory(services);
@@ -92,36 +91,38 @@ public class JobConcepts extends Job {
 
 						List<HashMap<String, String>> Concepts = conceptsPrediction.run(classes.get(i).getName(), null,
 								model);
-						for (String key : Concepts.get(0).keySet()) {
-							if (!services.containsIgnoreCase(classNames, key)) {
-								Results.add(key);
+						if (Concepts != null) {
 
-							}
-						}
+							for (String key : Concepts.get(0).keySet()) {
+								if (!services.containsIgnoreCase(classNames, key)) {
+									Results.add(key);
 
-						Services.relatedClasses.put(classes.get(i).getName().toLowerCase(), Results);
-						for (String key : Concepts.get(0).keySet()) {
-
-							if (!services.containsIgnoreCase(suggestedConcepts, key)) {
-
-								conceptsFactory.createClassCandidate((String) key.toLowerCase(),
-										Concepts.get(0).get(key), session, model);
-								suggestedConcepts.add(key.toLowerCase());
-
-							} else {
-								System.out.println("found it in candidates" + key);
-
-								conceptsFactory.updateConfidenceCandidate((String) key.toLowerCase(), session, model,
-										1);
+								}
 							}
 
-						}
+							Services.relatedClasses.put(classes.get(i).getName().toLowerCase(), Results);
+							for (String key : Concepts.get(0).keySet()) {
 
+								if (!services.containsIgnoreCase(suggestedConcepts, key)) {
+
+									conceptsFactory.createClassCandidate((String) key.toLowerCase(),
+											Concepts.get(0).get(key), session, model);
+									suggestedConcepts.add(key.toLowerCase());
+
+								} else {
+									System.out.println("found it in candidates" + key);
+
+									conceptsFactory.updateConfidenceCandidate((String) key.toLowerCase(), session,
+											model, 1);
+								}
+
+							}
+
+						}
 					}
 				}
 			}
 			EList<ClazzCandidate> Candidates = model.getClazzcondidate();
-			IAttributesPrediction attributesPredcition = new AttributesPrediction();
 
 			for (int k = 0; k < Candidates.size(); k++) {
 				/**
@@ -144,7 +145,6 @@ public class JobConcepts extends Job {
 //						typeAttributes = attributesPredcition.run(null, (String) Candidates.get(k).getName(), model,
 //								false);
 
-
 						if (services.classAttributes == null) {
 							services.classAttributes = new HashMap<String, HashMap<String, String>>();
 						}
@@ -155,12 +155,10 @@ public class JobConcepts extends Job {
 				}
 			}
 
-			
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		System.out.println("Hello World (from a background job concepts)");
 
 		// reset static value to false to enable jobs running.
 		for (int i = 0; i < 100; i++) {
@@ -179,7 +177,7 @@ public class JobConcepts extends Job {
 				}
 			});
 		}
-		
+
 		Display.getDefault().syncExec(new Runnable() {
 			public void run() {
 				Services.refreshSuggestionsView();

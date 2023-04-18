@@ -1,12 +1,7 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
-import java.util.ArrayList;
 import java.util.*;
 import java.lang.*;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import java.util.Map.Entry;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -21,13 +16,20 @@ import org.eclipse.core.commands.IHandler;
 import org.eclipse.core.commands.IHandlerListener;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
+import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.util.EList;
+import org.eclipse.gmf.runtime.diagram.ui.commands.CreateOrSelectElementCommand.LabelProvider;
+import org.eclipse.jface.window.Window;
+import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
+import org.eclipse.sirius.business.api.session.SessionManager;
+import org.eclipse.sirius.viewpoint.DRepresentation;
+import org.eclipse.sirius.viewpoint.DRepresentationDescriptor;
 import org.eclipse.swt.widgets.Display;
+import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 
 public class PredictAtEnd extends AbstractHandler {
@@ -98,6 +100,7 @@ public class PredictAtEnd extends AbstractHandler {
 				System.out.println("Complete missing elements...... ");
 
 				ConceptsFactory conceptsFactory = new ConceptsFactory(services);
+				AssociationsFactory associationsFactory = new AssociationsFactory();
 
 				List<String> classesInModel = new ArrayList<String>();
 
@@ -124,106 +127,179 @@ public class PredictAtEnd extends AbstractHandler {
 				List<Entry<String, Integer>> nlist = new ArrayList<>(sortedMap.entrySet());
 				nlist.sort(Entry.comparingByValue(Comparator.reverseOrder()));
 
-				System.out.print("alll concepts ");
-				System.out.print(sortedMap);
 				List<String> topConcepts = new ArrayList<String>();
 				int l = 0;
 
 				for (Entry<String, Integer> set : nlist) {
-					if (l < 2) {
+					if (l < 5) {
 						l++;
 						topConcepts.add(set.getKey().toLowerCase());
 					} else {
 						break;
 					}
 				}
-				System.out.print("chosen ones ");
-				System.out.print(topConcepts);
 
-				for (String key : topConcepts) {
-					System.out.print(key);
-					if (!services.containsIgnoreCase(classesInModel, key)) {
-						conceptsFactory.createClass((String) key, session, true);
+				boolean cancelPressed = false;
+				ArrayList<String> addedClass = new ArrayList<String>();
+				while (topConcepts.size() > 0 && cancelPressed == false) {
+					String[] arrayConcepts = topConcepts.toArray(new String[0]);
+					ElementListSelectionDialog dialog = new ElementListSelectionDialog(
+							Display.getCurrent().getActiveShell(), new LabelProvider());
+					dialog.setElements(arrayConcepts);
+					dialog.setTitle("Select  missing class names");
+					dialog.setMultipleSelection(true);
+					if (dialog.open() != Window.OK) {
+						// return false;
 					}
-				}
+					Object[] result = dialog.getResult();
 
-				/**
-				 * One strategy: predict attributes even for potential classes
-				 * Predict only 3 attributes each
-				 **/
-				for (String key : topConcepts) {
-					HashMap<String, String> typeAttributes = new HashMap<String, String>();
-					IAttributesPrediction attributesPredcition = new AttributesPrediction();
-
-					typeAttributes = attributesPredcition.run(null, (String) key, model , true);
-					if (typeAttributes != null) {
-						System.out.println("full of attributes");
-						for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
-							if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
-									&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
-								if (services.containsIgnoreCase(types, set.getValue().replaceAll(" ", ""))) {
-									attributesFactory.createAttribute(set.getKey(), set.getValue(), key, session, true);
-								}
+					if (result != null) {
+						for (int i = 0; i < result.length; i++) {
+							if (!services.containsIgnoreCase(classesInModel, (String) result[i])) {
+								conceptsFactory.createClass((String) result[i], session, false);
+								topConcepts.remove((String) result[i]);
+								addedClass.add((String) result[i]);
 							}
 						}
 					} else {
-						System.out.println("attributes list is empty");
+						cancelPressed = true;
 					}
+
 				}
-				
+
+				for (int i = 0; i < classes.size(); i++) {
+					HashMap<String, String> typeAttributes = new HashMap<String, String>();
+					IAttributesPrediction attributesPredcition = new AttributesPrediction();
+
+					typeAttributes = attributesPredcition.run(classes.get(i), (String) classes.get(i).getName(), model,
+							true);
+					cancelPressed = false;
+
+					while (typeAttributes.size() != 0 && cancelPressed == false) {
+						List<String> ResultsTyped = new ArrayList<String>();
+
+						Iterator<Map.Entry<String, String>> iter = typeAttributes.entrySet().iterator();
+						while (iter.hasNext()) {
+							Map.Entry<String, String> entry = iter.next();
+							String key = entry.getKey();
+							String value = entry.getValue();
+							if (key.trim().isEmpty() || value.trim().isEmpty()) {
+								iter.remove();
+							} else if (!(key.replaceAll(" ", "").equalsIgnoreCase(""))
+									&& !(value.replaceAll(" ", "").equalsIgnoreCase(""))) {
+
+								if (services.containsIgnoreCase(types, value.replaceAll("\\s+", ""))) {
+
+									ResultsTyped.add(key.concat(":").concat(value.replaceAll("\\s+", "")));
+								}
+							}
+						}
+						String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
+
+						ElementListSelectionDialog dialog2 = new ElementListSelectionDialog(
+								Display.getCurrent().getActiveShell(), new LabelProvider());
+						dialog2.setElements(ArrayResultsTyped);
+						dialog2.setTitle("Select  attributes for  Class \" " + classes.get(i).getName() + "\"");
+						dialog2.setMultipleSelection(true);
+						if (dialog2.open() != Window.OK) {
+							// return false;
+						}
+						Object[] result = dialog2.getResult();
+						if (result != null) {
+							for (int i1 = 0; i1 < result.length; i1++) {
+								String res = (String) result[i1];
+								res = res.split(":")[0];
+								attributesFactory.createAttribute(res, typeAttributes.get(res),
+										classes.get(i).getName(), session, true);
+								typeAttributes.remove(res);
+							}
+							if (typeAttributes.size() == 0) {
+								cancelPressed = true;
+							}
+						} else {
+							cancelPressed = true;
+						}
+
+					}
+
+				}
+
 				/**
-				 * TO DO : predict missing attributes for classes in Canvas
-				 * Predict only 3 attributes each max
-				 **/
-				
-				
-				/**
-				 * One strategy: predict associations even for potential classes
-				 * how many associations to be predicted ? 
+				 * One strategy: predict associations even for potential classes how many
+				 * associations to be predicted ?
 				 **/
 				IAssociationsPrediction associationsPrediction = new AssociationsPrediction();
-				IAssociationsPrediction associationsPredictionDummy = new AssociationsPredictionDummy();
-				List<HashMap<String, String>> allResults = new ArrayList<HashMap<String, String>>();
-				EList<Clazz> Allclasses = model.getClazz();
-				
-				
-				for (int i = 0; i < Allclasses.size(); i++) {
-					String className = Allclasses.get(i).getName();
+				String[] ArrayResultsTyped = new String[20];
+				String item;
+				for (int i = 0; i < classes.size(); i++) {
+					if (classes.get(i).getName() != null) {
+						String className = classes.get(i).getName();
 
-					List<HashMap<String, String>> res = associationsPrediction.run(className, null, model);
-					//List<HashMap<String, String>> res = associationsPredictionDummy.run(className, null, model);
+						List<HashMap<String, String>> res = associationsPrediction.run(className, null, model);
 
-					if (res != null) {
-						allResults.addAll(res);
+						List<String> items = new ArrayList<String>();
+
+						if (res != null) {
+
+							for (int j = 0; j < res.size(); j++) {
+								if (!res.get(j).get("Type").replaceAll("\\s+", "").equals("")
+										&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equalsIgnoreCase("no")))) {
+
+									if (!(res.get(j).get("Name").replaceAll("\\s+", "").equals(""))) {
+										if (res.get(j).get("Type").equalsIgnoreCase("association")) {
+											item = res.get(j).get("Type") + " ' " + res.get(j).get("Name")
+													+ " ' between " + res.get(j).get("Source") + " => "
+													+ res.get(j).get("Target");
+										}else {
+											item = res.get(j).get("Type")  + " between " + res.get(j).get("Source") + " => "
+													+ res.get(j).get("Target");
+										}
+
+									} else {
+
+										item = res.get(j).get("Type") + " between " + res.get(j).get("Source") + " => "
+												+ res.get(j).get("Target");
+									}
+									items.add(item);
+
+								}
+
+							}
+							ArrayResultsTyped = items.toArray(new String[0]);
+						}
+
 					}
-
 				}
-
+				cancelPressed = false;
 				
-				System.out.println("Associatios ******************************");
-				for (int j = 0; j < allResults.size(); j++) {
-					
-					
-					if (!(allResults.get(j).get("Type").replaceAll("\\s+", "").equals(""))
-							&& (!(allResults.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
+				while (ArrayResultsTyped.length > 0 && (ArrayResultsTyped[0] != null) && cancelPressed == false) {
+					ElementListSelectionDialog dialog = new ElementListSelectionDialog(
+							Display.getCurrent().getActiveShell(), new LabelProvider());
 
-						AssociationsFactory associationsFactory = new AssociationsFactory();
+					dialog.setElements(ArrayResultsTyped);
+					dialog.setTitle("Select association to add to canvas");
+					dialog.setMultipleSelection(true);
 
-						// Rule: should not create if already exist association no cycles...
+					if (dialog.open() != Window.OK) {
+						// return false;
+					}
+					Object[] result = dialog.getResult();
 
-						if (!associationsFactory.checkAssociationExist(allResults.get(j).get("Target"),
-								allResults.get(j).get("Source"), services.getModel())) {
-							
-							System.out.println("creating Associatios ******************************");
-							
-							associationsFactory.createAssociation(allResults.get(j).get("Type"),
-									allResults.get(j).get("Name"), allResults.get(j).get("Target"),
-									allResults.get(j).get("Source"), session, false);
+					if (result != null) {
+						List<String> items = new ArrayList<String>(Arrays.asList(ArrayResultsTyped));
+
+						for (int j = 0; j < result.length; j++) {
+							item = (String) result[j];
+							String Type = item.split(" ")[0];
+							String Name = item.split("'")[1];
+							String Target = item.split(" ")[5];
+							String Source = item.split(" ")[7];
+							associationsFactory.createAssociation(Type, Name, Target, Source, session, true);
+							items.remove(item);
+
 						}
-						else {
-							System.out.println("already cyclic  Associatios ******************************");
-						}
-
+					} else {
+						cancelPressed = true;
 					}
 				}
 

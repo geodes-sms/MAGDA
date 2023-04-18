@@ -1,6 +1,7 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -22,6 +23,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 
+import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Attribute;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
@@ -55,17 +57,12 @@ public class Listener extends ResourceSetListenerImpl {
 					// eventType ==3 ; ADD
 					if (x.getName().equals("attributes") && object.getEventType() == 3) {
 						if (attributeNumber == 0) {
-							System.out.println("listenner, calling attributes");
-
-							// EList<Attribute> attributesInModel = Services.getModel().getAttribute();
 							List<Attribute> attributesInModel = new ArrayList<Attribute>();
 							List<Clazz> classesInModel = Services.getModel().getClazz();
 							for (int k = 0; k < classesInModel.size(); k++) {
 								attributesInModel.addAll(classesInModel.get(k).getAttributes());
 							}
-
 							for (int j = 0; j < attributesInModel.size(); j++) {
-								System.out.println("attribute in model " + attributesInModel.get(j).getName());
 								List<Adapter> adapters = attributesInModel.get(j).eAdapters();
 
 								boolean hasAdapterAttribute = false;
@@ -76,10 +73,8 @@ public class Listener extends ResourceSetListenerImpl {
 										hasAdapterAttribute = true;
 										break;
 									}
-
 								}
 								if (!hasAdapterAttribute) {
-									System.out.println("added adapter ...to " + attributesInModel.get(j).getName());
 									attributesInModel.get(j).eAdapters().add(new attributeChangedNotifier());
 								}
 
@@ -88,7 +83,6 @@ public class Listener extends ResourceSetListenerImpl {
 							Services.loggerServices.info("Create attribute");
 						} else if (attributeNumber == 6) {
 							attributeNumber = -1;
-							System.out.println("put to 0 ");
 						}
 						attributeNumber++;
 					}
@@ -102,20 +96,15 @@ public class Listener extends ResourceSetListenerImpl {
 
 								boolean hasAdapterName = false;
 								// boolean hasAdapterAttribute = false;
-
 								for (Adapter adapter : classesInModel.get(j).eAdapters()) {
 									if (adapter instanceof ElementNameChangeNotifier) {
 										hasAdapterName = true;
 										break;
 									}
-
 								}
-
 								if (!hasAdapterName) {
-
 									classesInModel.get(j).eAdapters().add(new ElementNameChangeNotifier());
 								}
-
 							}
 
 							List<Adapter> adapters = Services.getModel().eAdapters();
@@ -132,9 +121,7 @@ public class Listener extends ResourceSetListenerImpl {
 
 							}
 							if (!Services.hasAdapterDelete) {
-								System.out.println("added adapter ...");
 								Services.getModel().eAdapters().add(new ClazzDeletedNotifier());
-
 							}
 							if (!Services.hasAdapterRefresh) {
 
@@ -166,9 +153,28 @@ public class Listener extends ResourceSetListenerImpl {
 						}
 						compositionNumber++;
 					} else if (x.getName().equals("association") && object.getEventType() == 3) {
-
 						if (associationsNumber == 0) {
-							Services.loggerServices.info("Create  association");
+							Services.loggerServices.info("Create association");
+							List<Association> associationsInModel = Services.getModel().getAssociation();
+						
+							for (int j = 0; j < associationsInModel.size(); j++) {
+								List<Adapter> adapters = associationsInModel.get(j).eAdapters();
+
+								boolean hasAdapterAssociation = false;
+
+								for (Adapter adapter : adapters) {
+
+									if (adapter instanceof associationChangedNotifier) {
+										hasAdapterAssociation = true;
+										break;
+									}
+								}
+								if (!hasAdapterAssociation) {
+									associationsInModel.get(j).eAdapters().add(new associationChangedNotifier());
+								}
+
+							}
+
 						} else if (associationsNumber == 6) {
 							associationsNumber = -1;
 						}

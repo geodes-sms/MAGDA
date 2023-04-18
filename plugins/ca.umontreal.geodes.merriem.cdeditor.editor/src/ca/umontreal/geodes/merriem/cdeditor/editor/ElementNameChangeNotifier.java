@@ -19,6 +19,10 @@ import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.MetamodelPackageImpl;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.NamedElementImpl;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.ListIterator;
+
 import org.eclipse.core.runtime.NullProgressMonitor;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.emf.common.command.Command;
@@ -42,38 +46,48 @@ public class ElementNameChangeNotifier extends AdapterImpl {
 				String oldName = (String) notification.getOldValue();
 				String newName = (String) notification.getNewValue();
 
-				System.out.println("Element name changed from " + oldName + " to " + newName);
 				Services.loggerServices.info("update class name");
-				if (Services.mode != Mode.assessAtEnd && Services.mode != null) {
-					/***
-					 * First Thread - Job : Predict related concepts Predict it's attributes ?
-					 **/
 
-					Display.getDefault().syncExec(new Runnable() {
-						public void run() {
-							System.out.println("refresh ? ");
-							refreshNotifier.lock = true;
+				/***
+				 * First Thread - Job : Predict related concepts Predict it's attributes ?
+				 **/
 
-							refreshNotifier.lock = false;
-							try {
-								Services services = new Services();
-								DAnalysis root = (DAnalysis) services.getSession().getSessionResource().getContents()
-										.get(0);
-								DView dView = root.getOwnedViews().get(0);
-								DRepresentation represnt = null;
-								for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-									represnt = descrp.getRepresentation();
-									DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+				Display.getDefault().syncExec(new Runnable() {
+					public void run() {
 
-								}
+						try {
+							Services services = new Services();
+							DAnalysis root = (DAnalysis) services.getSession().getSessionResource().getContents()
+									.get(0);
+							DView dView = root.getOwnedViews().get(0);
+							DRepresentation represnt = null;
+							for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+								represnt = descrp.getRepresentation();
+								DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
-							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
 							}
 
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
 						}
-					});
+
+					}
+				});
+				if (Services.mode != Mode.assessAtEnd && Services.mode != null) {
+					// update classCandidates and cash, remove what is added:
+					if (Services.relatedClasses != null) {
+						for (List<String> values : Services.relatedClasses.values()) {
+							for (ListIterator<String> iter = values.listIterator(); iter.hasNext();) {
+								String value = iter.next();
+								if (value.equalsIgnoreCase(newName)) {
+									iter.remove();
+								} else {
+									iter.set(value.toLowerCase());
+								}
+							}
+						}
+					}
 
 					ProgressBar progressBar = ((ViewSuggestions) Services.suggestionView).getProgressBar();
 					// JobConceptsDummy jobConcepts = new JobConceptsDummy("Concepts prediction",
@@ -88,10 +102,11 @@ public class ElementNameChangeNotifier extends AdapterImpl {
 					 * Second Thread - Job : Predict related attributes for concepts added
 					 **/
 
-					JobAttributes jobAttributes = new JobAttributes("Attributes prediction", services, model);
-					jobAttributes.setPriority(Job.SHORT);
-					jobAttributes.schedule();
-
+					if (Services.mode == Mode.OnRequest) {
+						JobAttributes jobAttributes = new JobAttributes("Attributes prediction", services, model);
+						jobAttributes.setPriority(Job.SHORT);
+						jobAttributes.schedule();
+					}
 					/***
 					 * Third Thread - Job : Predict related associations for concepts added
 					 **/
@@ -110,10 +125,12 @@ public class ElementNameChangeNotifier extends AdapterImpl {
 				}
 			} else if ((notification.getEventType() == Notification.SET)
 					&& (notification.getFeatureID(Clazz.class) == MetamodelPackageImpl.CLAZZ__HAS)
-					|| (notification.getFeatureID(Clazz.class) == MetamodelPackageImpl.CLAZZ__IS_MEMBER)) {
+					|| (notification.getFeatureID(Clazz.class) == MetamodelPackageImpl.CLAZZ__IS_MEMBER)
+					|| (notification.getFeatureID(Clazz.class) == MetamodelPackageImpl.ASSOCIATION__NAME)) {
+
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
-					
+
 						try {
 							Services services = new Services();
 							DAnalysis root = (DAnalysis) services.getSession().getSessionResource().getContents()

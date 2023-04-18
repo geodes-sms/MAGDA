@@ -58,13 +58,13 @@ public class AttributesFactory {
 					for (int i = 0; i < classes.size(); i++) {
 						if (classes.get(i).getName() != null) {
 							String className = classes.get(i).getName().replaceAll("\\s+", "");
-							if (containerName.equals(className)) {
+							if (containerName.equalsIgnoreCase(className)) {
 								EList<Attribute> attributesName = model.getClazz().get(i).getAttributes();
 								boolean attributeExist = false;
 								for (int j = 0; j < attributesName.size(); j++) {
 									if (attributesName.get(j).getName()!=null) {
 										if (attributesName.get(j).getName().replaceAll("\\s+", "")
-												.equals(Name.replaceAll("\\s+", ""))) {
+												.equalsIgnoreCase(Name.replaceAll("\\s+", ""))) {
 											attributeExist = true;
 											break;
 										}

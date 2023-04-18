@@ -72,6 +72,7 @@ public class ViewAssociations extends ViewPart {
 		}
 		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
 
+			// AssociationsFactory.cleanOperationCandidate(services.getSession());
 			List<AssociationCandidate> operationsCandidate = this.services.getModel().getOperation();
 
 			Composite composite = new Composite(parent, SWT.NONE);
@@ -104,7 +105,7 @@ public class ViewAssociations extends ViewPart {
 
 			parent.layout(true, true);
 
-			String[] titles = { "Source", "Target", "Name", "Type of association", "Draw in Canvas?", "score" };
+			String[] titles = { "Name", "Source", "Target", "Type of association", "Draw in Canvas?", "score" };
 			for (String title : titles) {
 				TableColumn column = new TableColumn(table, SWT.CHECK);
 				column.setText(title);
@@ -117,7 +118,7 @@ public class ViewAssociations extends ViewPart {
 				for (AssociationCandidate associationCandidateKey : selectedOperations.keySet()) {
 					if (operationsCandidate.get(i).getSource() == null
 							|| operationsCandidate.get(i).getTarget() == null) {
-						return;
+						continue;
 					}
 					if (associationCandidateKey.getSource() != null && associationCandidateKey.getTarget() != null) {
 						if (operationsCandidate.get(i).getSource().getName()
@@ -142,23 +143,30 @@ public class ViewAssociations extends ViewPart {
 				if (type != "") {
 					type = type.substring(0, 1).toUpperCase() + type.substring(1);
 				}
-				String Source = associationCandidateKey.getSource().getName();
-				if (Source != "") {
-					Source = Source.substring(0, 1).toUpperCase() + Source.substring(1);
+				if (associationCandidateKey.getSource() == null) {
+					continue;
+				}
+				if (associationCandidateKey.getTarget() == null) {
+					continue;
+				}
+				String source = associationCandidateKey.getSource().getName();
+				if (source != "") {
+					source = source.substring(0, 1).toUpperCase() + source.substring(1);
 				}
 
-				Clazz target = associationCandidateKey.getTarget();
+				String target = associationCandidateKey.getTarget().getName();
 				if (target == null) {
-					return;
+					continue;
 				}
-				String Target = target.getName();
-				if (Target != "") {
-					Target = Target.substring(0, 1).toUpperCase() + Target.substring(1);
+
+				if (target != "") {
+					target = target.substring(0, 1).toUpperCase() + target.substring(1);
 				}
 				TableItem item = new TableItem(table, SWT.CHECK);
-				item.setText(0, Source);
-				item.setText(1, Target);
-				item.setText(2, associationCandidateKey.getName());
+				item.setText(0, associationCandidateKey.getName());
+				item.setText(1, source);
+				item.setText(2, target);
+
 				item.setText(3, type);
 				item.setText(5, selectedOperations.get(associationCandidateKey).toString());
 
@@ -170,7 +178,6 @@ public class ViewAssociations extends ViewPart {
 			TableItem[] items = table.getItems();
 			for (int i = 0; i < items.length; i++) {
 				int indexItem = i;
-
 				TableEditor editor = new TableEditor(table);
 				TableItem item = items[i];
 				Button button = new Button(table, SWT.PUSH);
@@ -195,9 +202,9 @@ public class ViewAssociations extends ViewPart {
 							Services.loggerServices.info("Accept Association From view");
 							Session session = services.getSession();
 							String type = item.getText(3);
-							String name = item.getText(2);
-							String target = item.getText(1);
-							String source = item.getText(0);
+							String name = item.getText(0);
+							String target = item.getText(2);
+							String source = item.getText(1);
 							button.setVisible(false);
 							button.dispose();
 							table.remove(indexItem);

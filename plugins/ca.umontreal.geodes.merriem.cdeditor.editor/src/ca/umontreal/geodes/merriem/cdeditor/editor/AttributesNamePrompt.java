@@ -5,7 +5,7 @@ public class AttributesNamePrompt extends Prompt {
 	public AttributesNamePrompt(String Request, String Seperator, String Symbole) {
 
 		super(Request, Seperator, Symbole);
-		this.Shot = "generate attributes for class names: \n Medication: ['id', 'label', 'hours', 'minutes', 'dose', 'units'] \n	Response: ['id', 'questionId', 'responseKey', 'value', 'timeStamp'] \n ClockState: ['mToggledDayTime', 'mChanged', 'mFirstTouch', 'mIsDayTime'] \n Medication: ['id', 'label', 'hours', 'minutes', 'dose', 'units']. \n Response: ['id', 'questionId', 'responseKey', 'value', 'timeStamp']. \n PongPanel: ['WIDTH', 'HEIGHT', 'scoreP1', 'divider', 'scoreP2', 'scorePanel', 'timer', 'DELAY']. \n patient: ['id', 'name', 'surname', 'history','gender','contact','homeAddress'].	\n Bicycle: ['costPass', 'costVehicle', 'pMax', 'vSize']. \n Bus: ['costPass', 'costVehicle', 'pMax', 'vSize'].	\n Car: ['costPassenger', 'costVehicle', 'pMax', 'vSize'].	\n Truck: ['costPass', 'costVehicle', 'pMax', 'vSize'].	\n CatchCreature: ['rnd', 'delay', 'timer', 'score']. \n nurse: ['id', 'name', 'department', 'yearsOfExperience','speciality','contact'].";
+		this.Shot = "Generate attributes for class names: \n Medication: ['id', 'label', 'hours', 'minutes', 'dose', 'units'] \n	Response: ['id', 'questionId', 'responseKey', 'value', 'timeStamp'] \n ClockState: ['mToggledDayTime', 'mChanged', 'mFirstTouch', 'mIsDayTime'] \n Medication: ['id', 'label', 'hours', 'minutes', 'dose', 'units']. \n Response: ['id', 'questionId', 'responseKey', 'value', 'timeStamp']. \n PongPanel: ['WIDTH', 'HEIGHT', 'scoreP1', 'divider', 'scoreP2', 'scorePanel', 'timer', 'DELAY']. \n patient: ['id', 'name', 'surname', 'history','gender','contact','homeAddress'].	\n Bicycle: ['costPass', 'costVehicle', 'pMax', 'vSize']. \n Bus: ['costPass', 'costVehicle', 'pMax', 'vSize'].	\n Car: ['costPassenger', 'costVehicle', 'pMax', 'vSize'].	\n Truck: ['costPass', 'costVehicle', 'pMax', 'vSize'].	\n CatchCreature: ['rnd', 'delay', 'timer', 'score']. \n nurse: ['id', 'name', 'department', 'yearsOfExperience','speciality','contact'].";
 
 		// TODO Auto-generated constructor stub
 	}
@@ -29,7 +29,6 @@ public class AttributesNamePrompt extends Prompt {
 				Attributes[j].replaceAll("'", "");
 				Attributes[j].replaceAll(" ", "");
 				Attributes[j] = Attributes[j].replaceAll("[^a-zA-Z0-9]", "");
-				System.out.println(Attributes[j]);
 			}
 		} catch (Exception e) {
 

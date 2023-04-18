@@ -1,10 +1,13 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
 import java.awt.Component;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,6 +15,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
@@ -26,9 +30,17 @@ import java.util.logging.LogManager;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
+import org.eclipse.core.resources.IFile;
+import org.eclipse.core.resources.IFolder;
+import org.eclipse.core.resources.IProject;
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
+import org.eclipse.core.runtime.Path;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Adapter;
@@ -112,21 +124,22 @@ public class Services {
 	public static String key;
 	public static boolean hasAdapterDelete = false;
 	public static boolean hasAdapterRefresh = false;
+	public static String usedModel;
 
 	public Services() throws Exception {
 		this.config = new Properties();
 		this.listener = (ResourceSetListener) new Listener();
-		// PropertyConfigurator.configure("log4j.properties");
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IPath workspacePath = workspace.getRoot().getLocation();
 
-		try {
-			InputStream stream = Services.class.getClassLoader().getResourceAsStream("/config.properties");
-			this.config.load(stream);
-			key = this.config.getProperty("Key");
+		System.out.println(workspacePath.toFile() + File.separator + "config.properties");
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		InputStream stream = Services.class.getClassLoader()
+//				.getResourceAsStream(workspacePath.toOSString() + File.separator + "config.properties");
+		InputStream stream = Services.class.getClassLoader().getResourceAsStream(File.separator + "config.properties");
+		this.config.load(stream);
+		key = this.config.getProperty("Key");
+		usedModel = this.config.getProperty("usedModel");
 
 		TransactionalEditingDomain domain = getSession().getTransactionalEditingDomain();
 
@@ -149,10 +162,31 @@ public class Services {
 			loggerServices.setUseParentHandlers(false);
 			try {
 				if (Services.fileHandler == null) {
-					Services.fileHandler = new FileHandler("/home/meriem/editorCD/class-diagram-editor" + "/log_"
-							+ System.currentTimeMillis() + ".txt", true);
+//					Services.fileHandler = new FileHandler("/home/meriem/editorCD/class-diagram-editor" + "/log_"
+//							+ System.currentTimeMillis() + ".txt", true);
+
+					// Get the workspace directory
+
+					// Create the logs directory if it does not exist
+					File logsDirectory = new File(workspacePath.toFile(), "logs");
+					if (!logsDirectory.exists()) {
+						logsDirectory.mkdirs();
+					}
+
+					// Create the log file
+					File logFile = new File(logsDirectory, "log_" + System.currentTimeMillis() + ".txt");
+					try {
+						logFile.createNewFile();
+
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+
+					// Print the path of the log file
+					Services.fileHandler = new FileHandler(logFile.getAbsolutePath(), true);
 
 				}
+
 				fileHandler.setFormatter(new TextFormatter());
 				loggerServices.setLevel(Level.INFO);
 				loggerServices.addHandler(fileHandler);
@@ -182,7 +216,7 @@ public class Services {
 		for (Map.Entry<String, String> entry : map.entrySet()) {
 			String key = entry.getKey();
 			String value = entry.getValue();
-			if (key.matches("[a-zA-Z]+") && value.matches("[a-zA-Z]+")) {
+			if (key.matches("^[a-zA-Z]*$") && value.matches("^[a-zA-Z]*$")) {
 				result.put(key, value);
 			}
 		}
@@ -341,7 +375,7 @@ public class Services {
 	}
 
 	public EObject getAttributePrediction(EObject node) {
-		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
+		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnTrigger) {
 			Services.loggerServices.info("Demand Attributes Predcion ");
 			AttributesFactory attributesFactory = new AttributesFactory();
 			Session session = SessionManager.INSTANCE.getSession(node);
@@ -364,43 +398,62 @@ public class Services {
 			if (Services.classAttributes == null) {
 				Services.classAttributes = new HashMap<String, HashMap<String, String>>();
 			}
-			if (Services.classAttributes.containsKey(NodeName.toLowerCase())) {
-				if (!Services.classAttributes.get(NodeName.toLowerCase()).isEmpty()) {
-					// && (this.classAttributes.get(NodeName).size() > 1)) {
+			if (Services.classAttributes.containsKey(NodeName.toLowerCase())
+					&& (!(Services.classAttributes.get(NodeName.toLowerCase()).isEmpty())
+							&& (this.classAttributes.get(NodeName.toLowerCase()).size() > 1))) {
 
-					typeAttributes = Services.classAttributes.get(NodeName.toLowerCase());
-				}
+				typeAttributes = Services.classAttributes.get(NodeName.toLowerCase());
+
 			} else {
 				System.out.println("running attributes prediction ");
 				IAttributesPrediction attributesPredcition = new AttributesPrediction();
 				typeAttributes = attributesPredcition.run(node, NodeName, getModel(), false);
 
-				Services.classAttributes.put(NodeName.toLowerCase(), typeAttributes);
-				// dummy example remove this
-				// typeAttributes =new HashMap<String, String>();
+				if (typeAttributes.size() > 0) {
+					Services.classAttributes.put(NodeName.toLowerCase(), typeAttributes);
+				}
+
 			}
 
 			HashMap<String, String> onlyWordsList = removeNonWords(typeAttributes);
-			if (typeAttributes == null || onlyWordsList.size() == 0) {
-				System.out.println("type attribute is null");
+			if (typeAttributes == null || onlyWordsList.size() == 0 || typeAttributes.size() == 0) {
+
 				MessageDialog dialog = new MessageDialog(Display.getCurrent().getActiveShell(), "Try again later", null,
 						"We have no suggestion for you now", MessageDialog.ERROR, new String[] { "Cancel" }, 0);
 				Services.classAttributes.remove(NodeName.toLowerCase());
 				int result = dialog.open();
 			} else {
-				for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
-					if ((set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
-							|| (set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
-						typeAttributes.remove(set.getKey());
-					} else if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
-							&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
 
-						if (containsIgnoreCase(types, set.getValue())) {
+				Iterator<Map.Entry<String, String>> iter = typeAttributes.entrySet().iterator();
+				while (iter.hasNext()) {
+					Map.Entry<String, String> entry = iter.next();
+					String key = entry.getKey();
+					String value = entry.getValue();
+					if (key.trim().isEmpty() || value.trim().isEmpty()) {
+						iter.remove();
+					} else if (!(key.replaceAll(" ", "").equalsIgnoreCase(""))
+							&& !(value.replaceAll(" ", "").equalsIgnoreCase(""))) {
 
-							ResultsTyped.add(set.getKey().concat(":").concat(set.getValue()));
+						if (containsIgnoreCase(types, value.replaceAll("\\s+", ""))) {
+
+							ResultsTyped.add(key.concat(":").concat(value.replaceAll("\\s+", "")));
 						}
 					}
 				}
+
+//				for (Map.Entry<String, String> set : typeAttributes.entrySet()) {
+//					if ((set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
+//							|| (set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
+//						typeAttributes.remove(set.getKey());
+//					} else if (!(set.getKey().replaceAll(" ", "").equalsIgnoreCase(""))
+//							&& !(set.getValue().replaceAll(" ", "").equalsIgnoreCase(""))) {
+//
+//						if (containsIgnoreCase(types, set.getValue().replaceAll("\\s+", ""))) {
+//
+//							ResultsTyped.add(set.getKey().concat(":").concat(set.getValue().replaceAll("\\s+", "")));
+//						}
+//					}
+//				}
 
 				String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
 
@@ -489,7 +542,7 @@ public class Services {
 
 		for (Clazz clazz : model.getClazz()) {
 			if (clazz != namedElement) {
-				if (clazz.getName().equals(namedElement.getName())) {
+				if (clazz.getName().equalsIgnoreCase(namedElement.getName())) {
 					return false;
 				}
 			}
@@ -499,7 +552,7 @@ public class Services {
 	}
 
 	public EObject getClassPrediction(EObject rootModel) {
-		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
+		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnTrigger) {
 
 			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(rootModel);
 			ResourceSet resourceSet = editingDomain.getResourceSet();
@@ -584,7 +637,7 @@ public class Services {
 				new Thread(new Runnable() {
 					public void run() {
 						try {
-							Thread.sleep(7000);
+							Thread.sleep(2000);
 							dlg.dispose();
 						} catch (Throwable th) {
 
@@ -632,6 +685,14 @@ public class Services {
 							conceptsFactory.deleteClassCandidate((String) result[i], session);
 
 							Results.remove((String) result[i]);
+							JobConcepts jobConcepts = new JobConcepts("Concepts prediction", this, getModel(), session,
+									false, null);
+
+//							JobConceptsDummy jobConcepts = new JobConceptsDummy("Concepts prediction", services,
+//									services.getModel(), session, false, progressBar);
+
+							jobConcepts.setPriority(Job.SHORT);
+							jobConcepts.schedule();
 
 						}
 					}
@@ -700,7 +761,7 @@ public class Services {
 	}
 
 	public EObject getAssociationPrediction(EObject rootModel) {
-		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnRequest) {
+		if (Services.mode != Mode.assessAtEnd && Services.mode != Mode.OnTrigger) {
 			Services.loggerServices.info("Demand Association Predcion ");
 			AssociationsFactory associationsFactory = new AssociationsFactory();
 			Session session = SessionManager.INSTANCE.getSession(rootModel);
@@ -727,15 +788,19 @@ public class Services {
 				List<String> items = new ArrayList<String>();
 				for (int j = 0; j < res.size(); j++) {
 					if (!res.get(j).get("Type").replaceAll("\\s+", "").equals("")
-							&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
+							&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equalsIgnoreCase("no")))) {
 
 						if (!associationsFactory.checkAssociationExist(res.get(j).get("Target"),
 								res.get(j).get("Source"), getModel())) {
 
 							if (!(res.get(j).get("Name").replaceAll("\\s+", "").equals(""))) {
-
-								item = res.get(j).get("Type") + " ' " + res.get(j).get("Name") + " ' between "
-										+ res.get(j).get("Source") + " => " + res.get(j).get("Target");
+								if (res.get(j).get("Type").equalsIgnoreCase("association")) {
+									item = res.get(j).get("Type") + " ' " + res.get(j).get("Name") + " ' between "
+											+ res.get(j).get("Source") + " => " + res.get(j).get("Target");
+								} else {
+									item = res.get(j).get("Type") + " between " + res.get(j).get("Source") + " => "
+											+ res.get(j).get("Target");
+								}
 
 							} else {
 
@@ -761,7 +826,6 @@ public class Services {
 						Display.getCurrent().getActiveShell(), new LabelProvider());
 
 				dialog.setElements(ArrayResultsTyped);
-				// dialog.s
 				dialog.setTitle("Select association to add to canvas");
 				dialog.setMultipleSelection(true);
 
@@ -777,7 +841,6 @@ public class Services {
 					for (int j = 0; j < result.length; j++) {
 						item = (String) result[j];
 						String Type = item.split(" ")[0];
-						System.out.println(Type);
 						String Name = item.split("'")[1];
 						String Target = item.split(" ")[5];
 						String Source = item.split(" ")[7];
@@ -808,33 +871,52 @@ public class Services {
 	}
 
 	public EObject switchTargetSource(EObject rootModel) throws InterruptedException {
-		System.out.println(rootModel);
-		String Source = rootModel.toString().split("source:NodeList")[1].split(" ")[1];
-
-		String Target = rootModel.toString().split("target:NodeList")[1].split(" ")[1];
-
+		String source = rootModel.toString().split("source:NodeList")[1].split(" ")[1];
+		Session session = SessionManager.INSTANCE.getSession(rootModel);
+		String target = rootModel.toString().split("target:NodeList")[1].split(" ")[1];
+		Clazz classSource = null;
+		Clazz classTarget = null;
+		Model model = getModel();
+		List<Clazz> classes = model.getClazz();
+		for (int i = 0; i < classes.size(); i++) {
+			if (classes.get(i).getName() != null) {
+				if (classes.get(i).getName().replaceAll("\\s+", "").equalsIgnoreCase(source.replaceAll("\\s+", ""))) {
+					classSource = classes.get(i);
+				}
+				if (classes.get(i).getName().replaceAll("\\s+", "").equalsIgnoreCase(target.replaceAll("\\s+", ""))) {
+					classTarget = classes.get(i);
+				}
+			}
+		}
 		AssociationsFactory associationsFactory = new AssociationsFactory();
 
 		// check if it is a composition or an association
 
 		if (rootModel.toString().contains("ClazzImpl")) {
-			// it is a composition
-			System.out.print("composition ?  ");
-			associationsFactory.removeComposition(Target, Source, getSession());
-			associationsFactory.createAssociation("composition", "", Source, Target, getSession(), true);
+			// either composition or inheritance
+
+			if (classSource.getSpecializes() != null && classSource.getSpecializes() == classTarget) {
+				associationsFactory.removeInheritance(target, source, session);
+				associationsFactory.createAssociation("inheritance", "", source, target, session, true);
+			} else if (classSource.getIsMember() != null && classSource.getIsMember() == classTarget) {
+				associationsFactory.removeComposition(target, source, session);
+				associationsFactory.createAssociation("composition", "", source, target, session, true);
+			}
 
 		} else {
-			List<Association> associations = getModel().getAssociation();
+			List<Association> associations = model.getAssociation();
 			for (int i = 0; i < associations.size(); i++) {
-				if ((associations.get(i).getTarget().getName().equalsIgnoreCase(Target))
-						&& (associations.get(i).getSource().getName().equalsIgnoreCase(Source))) {
-					System.out.print("switch associtaion ");
-					associationsFactory.createAssociation("association", String.valueOf(associations.get(i).getName()),
-							Source, Target, getSession(), true);
-					associationsFactory.deleteAssociation("association", String.valueOf(associations.get(i).getName()),
-							Target, Source, getSession());
+				if (associations.get(i).getTarget() != null && associations.get(i).getSource() != null) {
+					if ((associations.get(i).getTarget().getName().equalsIgnoreCase(target))
+							&& (associations.get(i).getSource().getName().equalsIgnoreCase(source))) {
+						System.out.print("switch associtaion ");
+						associationsFactory.createAssociation("association",
+								String.valueOf(associations.get(i).getName()), source, target, session, true);
+						associationsFactory.deleteAssociation("association",
+								String.valueOf(associations.get(i).getName()), target, source, session);
 
-					break;
+						break;
+					}
 				}
 			}
 		}

@@ -71,7 +71,7 @@ public class JobAssociations extends Job {
 
 							for (int j = 0; j < res.size(); j++) {
 								if (!res.get(j).get("Type").replaceAll("\\s+", "").equals("")
-										&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equals("no")))) {
+										&& (!(res.get(j).get("Type").replaceAll("\\s+", "").equalsIgnoreCase("no")))) {
 
 									if (!(res.get(j).get("Name").replaceAll("\\s+", "").equals(""))) {
 

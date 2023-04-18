@@ -69,8 +69,7 @@ public class ConceptsPrediction implements IConceptsPrediction {
 							Prompt concpetsPrompt = new ConceptsPrompt(input, "\n", ",");
 							concpetsPrompt.setPrompt();
 
-							String[] arrayConceptsName = concpetsPrompt.run(8, 0.7, "text-davinci-002");
-
+							String[] arrayConceptsName = concpetsPrompt.run(8, 0.7, Services.usedModel);
 							predictionLists.add(arrayConceptsName);
 							System.out.println(arrayConceptsName);
 

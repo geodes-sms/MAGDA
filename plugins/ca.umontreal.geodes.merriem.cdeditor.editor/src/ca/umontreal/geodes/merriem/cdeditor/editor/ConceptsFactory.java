@@ -235,7 +235,7 @@ public class ConceptsFactory {
 				public void execute() {
 					Model model = Services.getModel();
 					List<ClazzCandidate> classesCondidate = model.getClazzcondidate();
-					int index = 0;
+					int index = -1;
 					for (int i = 0; i < classesCondidate.size(); i++) {
 						if (classesCondidate.get(i).getName().replaceAll("\\s+", "")
 								.equals(classToRemove.replaceAll("\\s+", ""))) {
@@ -243,7 +243,9 @@ public class ConceptsFactory {
 						}
 					}
 					System.out.println("removing class candidate..");
-					model.getClazzcondidate().remove(index);
+					if (index != -1) {
+						model.getClazzcondidate().remove(index);
+					}
 
 					SessionManager.INSTANCE.notifyRepresentationCreated(session);
 					DRepresentation represnt = null;

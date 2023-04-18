@@ -9,14 +9,18 @@ public class AssociationTypePrompt extends Prompt {
 
 	@Override
 	public String[] interceptResults(String Results) {
-		
-		if("inheritance".contains(Results.toLowerCase())) {
-			Results="inheritance"; 
+
+		if ("inheritance".contains(Results.toLowerCase().replaceAll("\\s+", ""))) {
+			Results = "inheritance";
+		} else if ("association".contains(Results.toLowerCase().replaceAll("\\s+", ""))) {
+			Results = "association";
+		} else if ("composition".contains(Results.toLowerCase().replaceAll("\\s+", ""))) {
+			Results = "composition";
 		}
-		String[] results = new String[10];
-		results[0]=Results;
-		
-		return results; 
+		String[] results = new String[5];
+		results[0] = Results;
+
+		return results;
 	}
 
 }

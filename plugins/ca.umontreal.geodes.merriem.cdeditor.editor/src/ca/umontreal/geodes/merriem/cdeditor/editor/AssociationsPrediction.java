@@ -68,12 +68,12 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 
 								Prompt associtaionsNamePrompt = new AssociationNamePrompt(input, "\n", "=>");
 								associtaionsNamePrompt.setPrompt();
-								String[] arrayAssociationName = associtaionsNamePrompt.run(1, 0.7, "text-davinci-002");
+								String[] arrayAssociationName = associtaionsNamePrompt.run(1, 0.7, Services.usedModel);
 								String type = "";
 
 								Prompt associtaionsTypePrompt = new AssociationTypePrompt(input, "\n", "=>");
 								associtaionsNamePrompt.setPrompt();
-								String[] arrayAssociationType = associtaionsTypePrompt.run(1, 0.7, "text-davinci-002");
+								String[] arrayAssociationType = associtaionsTypePrompt.run(1, 0.7, Services.usedModel);
 								type = arrayAssociationType[0];
 								System.out.println(type);
 								String target = classesInModel.get(i).getName();
@@ -81,14 +81,15 @@ public class AssociationsPrediction implements IAssociationsPrediction {
 
 								if (type == "inheritance"
 										|| arrayAssociationName[0].replaceAll("\\s+", "").equalsIgnoreCase("is")) {
-									System.out.println("running source and target check for inheritance association");
-									System.out.println("previous target : super  : " + target);
 									Prompt inheritancePrompt = new InheritancePrompt(input, "\n", "=> ");
-									String[] resultInheritance = inheritancePrompt.run(1, 0.7, "text-davinci-002");
+									String[] resultInheritance = inheritancePrompt.run(1, 0.7, Services.usedModel);
+									
 									if (!(target.replaceAll("\\s+", "")
 											.equalsIgnoreCase(resultInheritance[0].replaceAll("\\s+", "")))) {
+										String temp = source;
 										source = target;
-										target = resultInheritance[0];
+										
+										target = temp;
 
 									}
 									System.out.println("new target : super  : " + target);

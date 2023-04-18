@@ -71,7 +71,10 @@ public class AssociationsFactory {
 				}
 			}
 		}
-
+		if (ClassTarget == null || ClassSource == null) {
+			return true; // return true because we can't even find the target or source so we won't be
+							// able to create associations.
+		}
 		if (ClassSource.getHas().contains(ClassTarget) || ClassSource.getGeneralizes().contains(ClassTarget)
 				|| ClassTarget.getHas().contains(ClassSource) || ClassTarget.getGeneralizes().contains(ClassSource)) {
 
@@ -98,13 +101,15 @@ public class AssociationsFactory {
 			}
 		}
 		for (int i = 0; i < AssociationsInCanvas.size(); i++) {
-			if (AssociationsInCanvas.get(i).getSource().getName().equalsIgnoreCase(Source)
-					&& AssociationsInCanvas.get(i).getTarget().getName().equalsIgnoreCase(Target)) {
-				return true;
-			}
-			if (AssociationsInCanvas.get(i).getSource().getName().equalsIgnoreCase(Target)
-					&& AssociationsInCanvas.get(i).getTarget().getName().equalsIgnoreCase(Source)) {
-				return true;
+			if (AssociationsInCanvas.get(i).getSource() != null && AssociationsInCanvas.get(i).getTarget() != null) {
+				if (AssociationsInCanvas.get(i).getSource().getName().equalsIgnoreCase(Source)
+						&& AssociationsInCanvas.get(i).getTarget().getName().equalsIgnoreCase(Target)) {
+					return true;
+				}
+				if (AssociationsInCanvas.get(i).getSource().getName().equalsIgnoreCase(Target)
+						&& AssociationsInCanvas.get(i).getTarget().getName().equalsIgnoreCase(Source)) {
+					return true;
+				}
 			}
 		}
 
@@ -204,7 +209,7 @@ public class AssociationsFactory {
 						}
 					}
 
-					switch (Type) {
+					switch (Type.toLowerCase()) {
 					case "inheritance":
 						classSource.setSpecializes(classTarget);
 
@@ -221,7 +226,7 @@ public class AssociationsFactory {
 
 						} else {
 							AssociationImpl newAssociation = (AssociationImpl) metamodelFactory.createAssociation();
-							if (!name.equalsIgnoreCase("null")) {
+							if ((!name.equalsIgnoreCase("")) && (!name.equalsIgnoreCase("null"))) {
 								newAssociation.setName(name);
 							}
 
@@ -244,35 +249,8 @@ public class AssociationsFactory {
 
 				}
 			};
-			RecordingCommand cmd2 = new RecordingCommand(session.getTransactionalEditingDomain()) {
-				@Override
-				protected void doExecute() {
-
-					DRepresentation represnt = null;
-					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
-						represnt = descrp.getRepresentation();
-						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
-								.openEditor(session, represnt, new NullProgressMonitor());
-
-						/**
-						 * this suggestions to canvas
-						 **/
-						if (!refreshFlag) {
-							DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
-
-						}
-					}
-					/**
-					 * list to canvas
-					 **/
-
-					if (refreshFlag) {
-						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-					}
-				}
-			};
+			
 			stack.execute(cmd);
-			// stack.execute(cmd2);
 
 		} catch (ServiceException e) {
 			e.printStackTrace();
@@ -284,8 +262,63 @@ public class AssociationsFactory {
 
 		System.out
 				.println("creating association candidates " + type + " " + name + " from " + source + " To " + target);
-		try {
+		List<String> types = new ArrayList<>(List.of("inheritance", "composition", "association"));
+		if (services.containsIgnoreCase(types, type)) {
+			try {
 
+				DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+				DView dView = root.getOwnedViews().get(0);
+
+				TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
+
+				CommandStack stack = editingDomain.getCommandStack();
+
+				RecordingCommand cmd = new RecordingCommand(editingDomain) {
+
+					@Override
+					protected void doExecute() {
+
+						MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+						List<Clazz> classes = new ArrayList<Clazz>();
+						List<AssociationCandidate> Associations = new ArrayList<AssociationCandidate>();
+						classes = model.getClazz();
+						Associations = model.getOperation();
+
+						// find both classes target and source:
+						Clazz classSource = null;
+						Clazz classTarget = null;
+						for (int i = 0; i < classes.size(); i++) {
+							if (classes.get(i).getName() != null) {
+								if (classes.get(i).getName().replaceAll("\\s+", "")
+										.equalsIgnoreCase(source.replaceAll("\\s+", ""))) {
+									classSource = classes.get(i);
+								}
+								if (classes.get(i).getName().replaceAll("\\s+", "")
+										.equalsIgnoreCase(target.replaceAll("\\s+", ""))) {
+									classTarget = classes.get(i);
+								}
+							}
+						}
+						AssociationCandidateImpl newAssociationcandidate = (AssociationCandidateImpl) metamodelFactory
+								.createAssociationCandidate();
+						newAssociationcandidate.setName(name);
+						newAssociationcandidate.setTarget(classTarget);
+						newAssociationcandidate.setSource(classSource);
+						newAssociationcandidate.setType(type);
+						Associations.add(newAssociationcandidate);
+
+					}
+				};
+				stack.execute(cmd);
+			} catch (ServiceException e) {
+				e.printStackTrace();
+			}
+		}
+
+	}
+
+	public static void cleanOperationCandidate(Session session) {
+		try {
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
 
@@ -297,42 +330,47 @@ public class AssociationsFactory {
 
 				@Override
 				protected void doExecute() {
+					Model model = Services.getModel();
 
-					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
-					List<Clazz> classes = new ArrayList<Clazz>();
-					List<AssociationCandidate> Associations = new ArrayList<AssociationCandidate>();
-					classes = model.getClazz();
-					Associations = model.getOperation();
+					List<AssociationCandidate> AssociationCandidates = model.getOperation();
+					List<AssociationCandidate> index = new ArrayList<AssociationCandidate>();
+					for (int i = 0; i < AssociationCandidates.size(); i++) {
+						if (AssociationCandidates.get(i).getTarget() == null
+								|| AssociationCandidates.get(i).getSource() == null) {
+							index.add(AssociationCandidates.get(i));
 
-					// find both classes target and source:
-					Clazz classSource = null;
-					Clazz classTarget = null;
-					for (int i = 0; i < classes.size(); i++) {
-						if (classes.get(i).getName() != null) {
-							if (classes.get(i).getName().replaceAll("\\s+", "")
-									.equalsIgnoreCase(source.replaceAll("\\s+", ""))) {
-								classSource = classes.get(i);
-							}
-							if (classes.get(i).getName().replaceAll("\\s+", "")
-									.equalsIgnoreCase(target.replaceAll("\\s+", ""))) {
-								classTarget = classes.get(i);
-							}
 						}
+
 					}
-					AssociationCandidateImpl newAssociationcandidate = (AssociationCandidateImpl) metamodelFactory
-							.createAssociationCandidate();
-					newAssociationcandidate.setName(name);
-					newAssociationcandidate.setTarget(classTarget);
-					newAssociationcandidate.setSource(classSource);
-					newAssociationcandidate.setType(type);
-					Associations.add(newAssociationcandidate);
+
+					for (int k = 0; k < index.size(); k++) {
+						System.out.println("clean from model candidates");
+						model.getOperation().remove(index.get(k));
+					}
+					SessionManager.INSTANCE.notifyRepresentationCreated(session);
+					DRepresentation represnt = null;
+
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
+								.openEditor(session, represnt, new NullProgressMonitor());
+						/// DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
+
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 
 				}
+
 			};
+
 			stack.execute(cmd);
+
 		} catch (ServiceException e) {
 			e.printStackTrace();
 		}
+
+		// return removedClazz;
+
 	}
 
 	public void removecandidate(String type, String name, String target, String source, Session session) {
@@ -350,19 +388,19 @@ public class AssociationsFactory {
 				@Override
 				protected void doExecute() {
 					Model model = services.getModel();
-					// MetamodelFactory metamodelFactory =
-					// ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
 
 					List<AssociationCandidate> AssociationCandidates = model.getOperation();
 					List<AssociationCandidate> index = new ArrayList<AssociationCandidate>();
 					for (int i = 0; i < AssociationCandidates.size(); i++) {
-						if (AssociationCandidates.get(i).getTarget().getName() != null
+
+						if (AssociationCandidates.get(i).getTarget() != null
+								&& AssociationCandidates.get(i).getSource() != null
+								&& AssociationCandidates.get(i).getTarget().getName() != null
 								&& AssociationCandidates.get(i).getSource().getName() != null) {
 							if ((AssociationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
 									.equalsIgnoreCase(target.replaceAll("\\s+", "")))
 									&& (AssociationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
 											.equalsIgnoreCase(source.replaceAll("\\s+", "")))) {
-								System.out.println("found the operation");
 								index.add(AssociationCandidates.get(i));
 
 							}
@@ -377,9 +415,9 @@ public class AssociationsFactory {
 					}
 
 					for (int k = 0; k < index.size(); k++) {
-						System.out.println("deleting from model candidates");
 						model.getOperation().remove(index.get(k));
 					}
+					Services.refreshAssociationsView();
 					SessionManager.INSTANCE.notifyRepresentationCreated(session);
 					DRepresentation represnt = null;
 
@@ -424,24 +462,24 @@ public class AssociationsFactory {
 					List<Association> associations = model.getAssociation();
 					int index = -1;
 					for (int i = 0; i < associations.size(); i++) {
-						if ((associations.get(i).getTarget().getName().replaceAll("\\s+", "")
-								.equalsIgnoreCase(target.replaceAll("\\s+", "")))
-								&& (associations.get(i).getSource().getName().replaceAll("\\s+", "")
+						if (associations.get(i).getTarget() != null && associations.get(i).getSource() != null) {
+							if ((associations.get(i).getTarget().getName().replaceAll("\\s+", "")
+									.equalsIgnoreCase(target.replaceAll("\\s+", "")))
+									&& (associations.get(i).getSource().getName().replaceAll("\\s+", "")
 
-										.equalsIgnoreCase(source.replaceAll("\\s+", "")))) {
+											.equalsIgnoreCase(source.replaceAll("\\s+", "")))) {
 
-							if ((name != "") && (name != null) && (associations.get(i).getName() != null)) {
-								if ((associations.get(i).getName().replaceAll("\\s+", "")
-										.equalsIgnoreCase(name.replaceAll("\\s+", "")))) {
+								if ((name != "") && (name != null) && (associations.get(i).getName() != null)) {
+									if ((associations.get(i).getName().replaceAll("\\s+", "")
+											.equalsIgnoreCase(name.replaceAll("\\s+", "")))) {
+										index = i;
+									}
+								} else {
 									index = i;
-									System.out.println("found the operation");
 								}
-							} else {
-								index = i;
-								System.out.println("found the operation");
-							}
 
-							break;
+								break;
+							}
 						}
 					}
 					if (index != -1) {
@@ -478,7 +516,6 @@ public class AssociationsFactory {
 
 		}
 
-		System.out.println(map);
 		map.values().removeIf(List::isEmpty);
 		map.keySet().removeIf(key -> map.get(key).isEmpty());
 		Services.relatedAssociations = map;
@@ -488,12 +525,11 @@ public class AssociationsFactory {
 
 		HashMap<String, List<String>> map = Services.relatedAssociations;
 		if (Services.relatedAssociations != null) {
-			System.out.println(map);
+
 			for (List<String> values : map.values()) {
 				values.removeIf(s -> s.toLowerCase().contains(ClazzName.toLowerCase()));
 			}
 
-			System.out.println(map);
 			map.values().removeIf(List::isEmpty);
 			map.keySet().removeIf(key -> map.get(key).isEmpty());
 			Services.relatedAssociations = map;
@@ -524,16 +560,19 @@ public class AssociationsFactory {
 					List<AssociationCandidate> associationCandidates = model.getOperation();
 					List<AssociationCandidate> index = new ArrayList<AssociationCandidate>();
 					for (int i = 0; i < associationCandidates.size(); i++) {
-						if ((associationCandidates.get(i).getTarget().getName() != null)
-								&& ((associationCandidates.get(i).getSource().getName() != null))) {
-							if ((associationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
-									.equalsIgnoreCase(clazzName.replaceAll("\\s+", "")))) {
-								System.out.println("found the operation");
-								index.add(associationCandidates.get(i));
-							}
-							if (associationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
-									.equalsIgnoreCase(clazzName.replaceAll("\\s+", ""))) {
-								index.add(associationCandidates.get(i));
+						if (associationCandidates.get(i).getTarget() != null
+								&& (associationCandidates.get(i).getSource() != null)) {
+
+							if ((associationCandidates.get(i).getTarget().getName() != null)
+									&& ((associationCandidates.get(i).getSource().getName() != null))) {
+								if ((associationCandidates.get(i).getTarget().getName().replaceAll("\\s+", "")
+										.equalsIgnoreCase(clazzName.replaceAll("\\s+", "")))) {
+									index.add(associationCandidates.get(i));
+								}
+								if (associationCandidates.get(i).getSource().getName().replaceAll("\\s+", "")
+										.equalsIgnoreCase(clazzName.replaceAll("\\s+", ""))) {
+									index.add(associationCandidates.get(i));
+								}
 							}
 						}
 					}
@@ -564,4 +603,113 @@ public class AssociationsFactory {
 
 	}
 
+	public static void cleanOperations(Session session) {
+		try {
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
+
+			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
+
+			CommandStack stack = editingDomain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(editingDomain) {
+
+				@Override
+				protected void doExecute() {
+					Model model = Services.getModel();
+
+					List<Association> associations = model.getAssociation();
+					List<Association> index = new ArrayList<Association>();
+					for (int i = 0; i < associations.size(); i++) {
+						if (associations.get(i).getTarget() == null || associations.get(i).getSource() == null) {
+							index.add(associations.get(i));
+
+						}
+
+					}
+
+					for (int k = 0; k < index.size(); k++) {
+						System.out.println("clean from model opearations");
+						model.getAssociation().remove(index.get(k));
+					}
+					SessionManager.INSTANCE.notifyRepresentationCreated(session);
+					DRepresentation represnt = null;
+
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
+								.openEditor(session, represnt, new NullProgressMonitor());
+						/// DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
+
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
+				}
+
+			};
+
+			stack.execute(cmd);
+
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+
+		// return removedClazz;
+
+	}
+
+	public void removeInheritance(String target, String source, Session session) {
+
+		try {
+			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
+			DView dView = root.getOwnedViews().get(0);
+
+			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
+
+			CommandStack stack = editingDomain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(editingDomain) {
+
+				@Override
+				protected void doExecute() {
+
+					Model model = services.getModel();
+					MetamodelFactory metamodelFactory = ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory.eINSTANCE;
+					List<Clazz> classes = new ArrayList<Clazz>();
+					List<Association> Associations = new ArrayList<Association>();
+					classes = model.getClazz();
+					Associations = model.getAssociation();
+
+					// find both classes target and source:
+					Clazz classSource = null;
+					for (int i = 0; i < classes.size(); i++) {
+						if (classes.get(i).getName() != null) {
+							if (classes.get(i).getName().replaceAll("\\s+", "")
+									.equalsIgnoreCase(source.replaceAll("\\s+", ""))) {
+								classSource = classes.get(i);
+							}
+
+						}
+					}
+					if (classSource != null) {
+					
+						classSource.setSpecializes(null);
+					}
+
+					DRepresentation represnt = null;
+					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
+						represnt = descrp.getRepresentation();
+					}
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
+
+				}
+			};
+			stack.execute(cmd);
+
+		} catch (ServiceException e) {
+			e.printStackTrace();
+		}
+	
+		
+	}
 }
