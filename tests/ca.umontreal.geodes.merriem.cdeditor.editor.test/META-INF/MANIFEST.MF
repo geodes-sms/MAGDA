@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test
+Bundle-SymbolicName: ca.umontreal.geodes.merriem.cdeditor.editor.test
+Bundle-Version: 1.0.0.qualifier
+Fragment-Host: ca.umontreal.geodes.meriem.cdeditor.metamodel.editor;bundle-version="1.0.0"
+Automatic-Module-Name: ca.umontreal.geodes.merriem.cdeditor.editor.test
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Require-Bundle: org.junit,
+ org.junit.jupiter.api,
+ ca.umontreal.geodes.merriem.cdeditor.editor
