@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Java
+Bundle-SymbolicName: com.theokanning.openai.gpt3.java
+Bundle-Version: 1.0.0
+Automatic-Module-Name: com.theokanning.openai.gpt3.java
+Bundle-RequiredExecutionEnvironment: JavaSE-17
+Export-Package: com.theokanning.openai,
+ com.theokanning.openai.completion,
+ com.theokanning.openai.engine,
+ com.theokanning.openai.search
