@@ -13,7 +13,7 @@ import org.osgi.framework.BundleContext;
  */
 public class Activator extends AbstractUIPlugin {
     // The plug-in ID
-    public static final String PLUGIN_ID = "ca.umontreal.geodes.merriem.cdeditor.editor";
+    public static final String PLUGIN_ID = "ca.umontreal.geodes.meriem.cdeditor.editor";
 
     // The shared instance
     private static Activator plugin;

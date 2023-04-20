@@ -126,12 +126,12 @@ public class Services {
 
 		if (Services.suggestionView == null) {
 			Services.suggestionView = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-					.findView("ca.umontreal.geodes.merriem.cdeditor.editor.view3");
+					.findView("ca.umontreal.geodes.meriem.cdeditor.editor.view3");
 
 		}
 		if (Services.associationView == null) {
 			Services.associationView = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-					.findView("ca.umontreal.geodes.merriem.cdeditor.editor.viewAssociations");
+					.findView("ca.umontreal.geodes.meriem.cdeditor.editor.viewAssociations");
 		}
 
 		if (Services.loggerServices == null) {
