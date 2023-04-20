@@ -301,7 +301,12 @@ public class AssociationsFactory {
 						}
 						AssociationCandidateImpl newAssociationcandidate = (AssociationCandidateImpl) metamodelFactory
 								.createAssociationCandidate();
-						newAssociationcandidate.setName(name);
+						if(type.equalsIgnoreCase("association")){
+							newAssociationcandidate.setName(name);
+						}else {
+							newAssociationcandidate.setName("");
+						}
+						
 						newAssociationcandidate.setTarget(classTarget);
 						newAssociationcandidate.setSource(classSource);
 						newAssociationcandidate.setType(type);

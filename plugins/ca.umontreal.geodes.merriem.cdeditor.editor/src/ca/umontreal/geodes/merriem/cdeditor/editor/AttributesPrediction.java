@@ -89,7 +89,7 @@ public class AttributesPrediction implements IAttributesPrediction {
 			Prompt attributesNamePrompt = new AttributesNamePrompt(shot, "\n", Symbol);
 			attributesNamePrompt.setPrompt();
 
-			String[] arrayAttributes = attributesNamePrompt.run(20, 0.7, Services.usedModel);
+			String[] arrayAttributes = attributesNamePrompt.run(40, 0.7, Services.usedModel);
 
 			// type of predicted attribute
 			String[] arrayAttributesTemp = new String[10];

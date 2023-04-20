@@ -39,7 +39,7 @@ public class associationChangedNotifier extends AdapterImpl {
 			if ((notification.getEventType() == Notification.SET)
 					&& ((notification.getFeatureID(Attribute.class) == MetamodelPackageImpl.ASSOCIATION__NAME))) {
 
-				System.out.println("Associations refresh ================");
+				
 				Display.getDefault().syncExec(new Runnable() {
 					public void run() {
 
@@ -62,7 +62,7 @@ public class associationChangedNotifier extends AdapterImpl {
 
 					}
 				});
-
+				
 			}
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

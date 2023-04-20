@@ -41,7 +41,7 @@ public class ElementNameChangeNotifier extends AdapterImpl {
 			EList<Clazz> classes = model.getClazz();
 			if ((notification.getEventType() == Notification.SET)
 					&& notification.getFeatureID(Clazz.class) == MetamodelPackageImpl.CLAZZ__NAME) {
-
+				Listener.classNumbers=0; 
 				Clazz element = (Clazz) notification.getNotifier();
 				String oldName = (String) notification.getOldValue();
 				String newName = (String) notification.getNewValue();

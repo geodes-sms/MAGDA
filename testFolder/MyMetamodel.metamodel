@@ -1,6 +1,3 @@
 <?xml version="1.0" encoding="ASCII"?>
 <metamodel:Model xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:metamodel="http://www.umontreal.geodes/metamodel">
-  <clazz name="hi"/>
-  <clazz name="uo"/>
-  <association name="hey" source="//@clazz.1" target="//@clazz.0"/>
 </metamodel:Model>

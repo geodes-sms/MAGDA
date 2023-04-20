@@ -181,8 +181,10 @@ public class ViewSuggestions extends ViewPart {
 					public void mouseDown(MouseEvent e) {
 						try {
 							Session session = services.getSession();
-							Services.loggerServices.info("Accept Concept From view ");
+
 							String acceptedClassName = item.getText(0);
+							String Canfidance = item.getText(1);
+							Services.loggerServices.info("Accept Concept From view { " + acceptedClassName + " }");
 							button.setVisible(false);
 							button.dispose();
 							buttonAttributes.setVisible(false);
@@ -222,79 +224,90 @@ public class ViewSuggestions extends ViewPart {
 							/**
 							 * Show potential attributes for accepted class
 							 **/
+							if (Integer.valueOf(Canfidance) > 1) {
+								HashMap<String, String> typeAttributes = null;
+								if (Services.classAttributes == null) {
+									Services.classAttributes = new HashMap<String, HashMap<String, String>>();
+								}
+								if (Services.classAttributes.containsKey(acceptedClassName.toLowerCase())
+										&& (!(Services.classAttributes.get(acceptedClassName.toLowerCase()).isEmpty())
+												&& (Services.classAttributes.get(acceptedClassName.toLowerCase())
+														.size() > 1))) {
 
-							HashMap<String, String> typeAttributes = null;
-							if (Services.classAttributes == null) {
-								Services.classAttributes = new HashMap<String, HashMap<String, String>>();
-							}
-							if (Services.classAttributes.containsKey(acceptedClassName.toLowerCase())
-									&& (!(Services.classAttributes.get(acceptedClassName.toLowerCase()).isEmpty())
-											&& (Services.classAttributes.get(acceptedClassName.toLowerCase())
-													.size() > 1))) {
+									typeAttributes = Services.classAttributes.get(acceptedClassName.toLowerCase());
 
-								typeAttributes = Services.classAttributes.get(acceptedClassName.toLowerCase());
+								} else {
+									System.out.println("running attributes prediction ");
+									IAttributesPrediction attributesPredcition = new AttributesPrediction();
+									typeAttributes = attributesPredcition.run(null, acceptedClassName,
+											Services.getModel(), false);
 
-							} else {
-								System.out.println("running attributes prediction ");
-								IAttributesPrediction attributesPredcition = new AttributesPrediction();
-								typeAttributes = attributesPredcition.run(null, acceptedClassName, Services.getModel(),
-										false);
+									if (typeAttributes.size() > 0) {
+										Services.classAttributes.put(acceptedClassName.toLowerCase(), typeAttributes);
+									}
 
-								if (typeAttributes.size() > 0) {
-									Services.classAttributes.put(acceptedClassName.toLowerCase(), typeAttributes);
 								}
 
-							}
-							boolean cancelPressed = false;
-							AttributesFactory attributesFactory = new AttributesFactory();
+								boolean cancelPressed = false;
+								AttributesFactory attributesFactory = new AttributesFactory();
 
-							List<String> types = new ArrayList<>(List.of("int", "string", "float", "char", "boolean",
-									"double", "byte", "array", "object", "collection", "date"));
-							while (typeAttributes.size() != 0 && cancelPressed == false) {
-								List<String> ResultsTyped = new ArrayList<String>();
+								List<String> types = new ArrayList<>(List.of("int", "string", "float", "char",
+										"boolean", "double", "byte", "array", "object", "collection", "date"));
+								if (typeAttributes != null) {
+									while (typeAttributes.size() != 0 && cancelPressed == false) {
+										List<String> ResultsTyped = new ArrayList<String>();
 
-								Iterator<Map.Entry<String, String>> iter = typeAttributes.entrySet().iterator();
-								while (iter.hasNext()) {
-									Map.Entry<String, String> entry = iter.next();
-									String key = entry.getKey();
-									String value = entry.getValue();
-									if (key.trim().isEmpty() || value.trim().isEmpty()) {
-										iter.remove();
-									} else if (!(key.replaceAll(" ", "").equalsIgnoreCase(""))
-											&& !(value.replaceAll(" ", "").equalsIgnoreCase(""))) {
+										Iterator<Map.Entry<String, String>> iter = typeAttributes.entrySet().iterator();
+										while (iter.hasNext()) {
+											Map.Entry<String, String> entry = iter.next();
+											String key = entry.getKey();
+											String value = entry.getValue();
+											if (key.trim().isEmpty() || value.trim().isEmpty()) {
+												iter.remove();
+											} else if (!(key.replaceAll(" ", "").equalsIgnoreCase(""))
+													&& !(value.replaceAll(" ", "").equalsIgnoreCase(""))) {
 
-										if (services.containsIgnoreCase(types, value.replaceAll("\\s+", ""))) {
+												if (services.containsIgnoreCase(types, value.replaceAll("\\s+", ""))) {
 
-											ResultsTyped.add(key.concat(":").concat(value.replaceAll("\\s+", "")));
+													ResultsTyped
+															.add(key.concat(":").concat(value.replaceAll("\\s+", "")));
+												}
+											}
+										}
+										String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
+										if (ArrayResultsTyped.length != 0) {
+											ElementListSelectionDialog dialog2 = new ElementListSelectionDialog(
+													Display.getCurrent().getActiveShell(), new LabelProvider());
+											dialog2.setElements(ArrayResultsTyped);
+											dialog2.setTitle(
+													"Select  attributes for  Class \" " + acceptedClassName + "\"");
+											dialog2.setMultipleSelection(true);
+											if (dialog2.open() != Window.OK) {
+												// return false;
+											}
+											Object[] result = dialog2.getResult();
+											if (result != null) {
+												String acceptedAttributes = "";
+												for (int i1 = 0; i1 < result.length; i1++) {
+													String res = (String) result[i1];
+													res = res.split(":")[0];
+													acceptedAttributes = acceptedAttributes + res + "; ";
+													attributesFactory.createAttribute(res, typeAttributes.get(res),
+															acceptedClassName, session, true);
+													typeAttributes.remove(res);
+												}
+												if (typeAttributes.size() == 0) {
+													cancelPressed = true;
+												}
+												Services.loggerServices.info(
+														"Accept Attributes From view {" + acceptedAttributes + "}");
+											} else {
+												cancelPressed = true;
+											}
+
 										}
 									}
 								}
-								String[] ArrayResultsTyped = ResultsTyped.toArray(new String[0]);
-
-								ElementListSelectionDialog dialog2 = new ElementListSelectionDialog(
-										Display.getCurrent().getActiveShell(), new LabelProvider());
-								dialog2.setElements(ArrayResultsTyped);
-								dialog2.setTitle("Select  attributes for  Class \" " + acceptedClassName + "\"");
-								dialog2.setMultipleSelection(true);
-								if (dialog2.open() != Window.OK) {
-									// return false;
-								}
-								Object[] result = dialog2.getResult();
-								if (result != null) {
-									for (int i1 = 0; i1 < result.length; i1++) {
-										String res = (String) result[i1];
-										res = res.split(":")[0];
-										attributesFactory.createAttribute(res, typeAttributes.get(res),
-												acceptedClassName, session, true);
-										typeAttributes.remove(res);
-									}
-									if (typeAttributes.size() == 0) {
-										cancelPressed = true;
-									}
-								} else {
-									cancelPressed = true;
-								}
-
 							}
 
 						} catch (Exception e1) {

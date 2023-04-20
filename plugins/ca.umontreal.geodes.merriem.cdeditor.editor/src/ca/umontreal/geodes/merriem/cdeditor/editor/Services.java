@@ -1,14 +1,13 @@
 package ca.umontreal.geodes.merriem.cdeditor.editor;
 
-import java.awt.Component;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringWriter;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,34 +20,25 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.FileHandler;
-import java.util.logging.Handler;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.resources.IFolder;
-import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.core.runtime.IPath;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.NullProgressMonitor;
-import org.eclipse.core.runtime.Path;
+import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.jobs.Job;
 import org.eclipse.draw2d.geometry.Point;
 import org.eclipse.emf.common.notify.Adapter;
-import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.util.EcoreUtil;
 import org.eclipse.emf.transaction.ResourceSetListener;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
@@ -61,7 +51,6 @@ import org.eclipse.gmf.runtime.notation.Diagram;
 import org.eclipse.gmf.runtime.notation.Node;
 import org.eclipse.gmf.runtime.notation.View;
 import org.eclipse.jface.dialogs.MessageDialog;
-import org.eclipse.jface.dialogs.ProgressMonitorDialog;
 import org.eclipse.jface.window.Window;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.query.EObjectQuery;
@@ -86,20 +75,15 @@ import org.eclipse.ui.IEditorReference;
 import org.eclipse.ui.IViewPart;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
-import org.eclipse.ui.dialogs.SelectionDialog;
 import org.eclipse.ui.internal.EditorReference;
+import org.osgi.framework.Bundle;
+import org.osgi.framework.FrameworkUtil;
 
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Association;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Clazz;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.ClazzCandidate;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.MetamodelFactory;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.Model;
 import ca.umontreal.geodes.meriem.cdeditor.metamodel.NamedElement;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.AssociationImpl;
-import ca.umontreal.geodes.meriem.cdeditor.metamodel.impl.ClazzImpl;
-
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 /**
  * The services class used by VSM. Ps need to check flag Mode if it is set or
@@ -132,17 +116,12 @@ public class Services {
 		IWorkspace workspace = ResourcesPlugin.getWorkspace();
 		IPath workspacePath = workspace.getRoot().getLocation();
 
-		System.out.println(workspacePath.toFile() + File.separator + "config.properties");
-
-//		InputStream stream = Services.class.getClassLoader()
-//				.getResourceAsStream(workspacePath.toOSString() + File.separator + "config.properties");
+		// File stream = getConfigFile();
 		InputStream stream = Services.class.getClassLoader().getResourceAsStream(File.separator + "config.properties");
 		this.config.load(stream);
 		key = this.config.getProperty("Key");
 		usedModel = this.config.getProperty("usedModel");
-
 		TransactionalEditingDomain domain = getSession().getTransactionalEditingDomain();
-
 		domain.addResourceSetListener(listener);
 
 		if (Services.suggestionView == null) {
@@ -156,15 +135,10 @@ public class Services {
 		}
 
 		if (Services.loggerServices == null) {
-			System.out.println("instanctiate");
-
 			loggerServices = Logger.getLogger(Services.class.getName());
 			loggerServices.setUseParentHandlers(false);
 			try {
 				if (Services.fileHandler == null) {
-//					Services.fileHandler = new FileHandler("/home/meriem/editorCD/class-diagram-editor" + "/log_"
-//							+ System.currentTimeMillis() + ".txt", true);
-
 					// Get the workspace directory
 
 					// Create the logs directory if it does not exist
@@ -230,7 +204,6 @@ public class Services {
 	}
 
 	public static void refreshSuggestionsView() {
-		// String id = "ca.umontreal.geodes.merriem.cdeditor.editor.view3";
 
 		if (Services.suggestionView instanceof ViewSuggestions) {
 
@@ -247,6 +220,10 @@ public class Services {
 			viewAssociations.createContents();
 
 		}
+	}
+
+	public Session getSession() {
+		return SessionManager.INSTANCE.getSession(getModel());
 	}
 
 	private IGraphicalEditPart getEditPart(DDiagramElement diagramElement) {
@@ -315,6 +292,15 @@ public class Services {
 		}
 	}
 	// }
+
+	public static void capitalizeWords(String[] words) {
+		for (int i = 0; i < words.length; i++) {
+			String word = words[i];
+			if (word.length() > 0) {
+				words[i] = Character.toUpperCase(word.charAt(0)) + word.substring(1);
+			}
+		}
+	}
 
 	@SuppressWarnings("restriction")
 	public boolean containsIgnoreCase(List<String> list, String soughtFor) {
@@ -478,14 +464,19 @@ public class Services {
 					if (result != null) {
 						// Services.loggerServices.info("Accept fromm Attributs list : " + result.length
 						// );
-						Services.loggerServices.info("Accept from Attributs list : " + result);
-
+						
+						String  acceptedAttributes=""; 
 						for (int i = 0; i < result.length; i++) {
 							String res = (String) result[i];
 							res = res.split(":")[0];
 							attributesFactory.createAttribute(res, typeAttributes.get(res), NodeName, session, false);
 							typeAttributes.remove(res);
+							acceptedAttributes= acceptedAttributes+ res +"; "; 
 						}
+						
+						Services.loggerServices.info("Accept Attributes From list {" + acceptedAttributes + "}");
+
+						
 						Services.classAttributes.put(NodeName.toLowerCase(), typeAttributes);
 
 					} // else {
@@ -528,10 +519,6 @@ public class Services {
 		}
 		return node;
 
-	}
-
-	public Session getSession() {
-		return SessionManager.INSTANCE.getSession(getModel());
 	}
 
 	public boolean namesAreUnique(NamedElement namedElement) {
@@ -667,6 +654,7 @@ public class Services {
 			}
 
 			String[] arrayConcepts = Results.toArray(new String[0]);
+			capitalizeWords(arrayConcepts);
 			if (arrayConcepts.length > 0) {
 				ElementListSelectionDialog dialog = new ElementListSelectionDialog(
 						Display.getCurrent().getActiveShell(), new LabelProvider());

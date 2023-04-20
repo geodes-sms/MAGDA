@@ -7,6 +7,7 @@ import org.eclipse.emf.common.command.CommandStack;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.transaction.RecordingCommand;
 import org.eclipse.emf.transaction.TransactionalEditingDomain;
+import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
@@ -38,14 +39,17 @@ public class AttributesFactory {
 
 	public void createAttribute(String Name, String Type, String containerName, Session session, Boolean refreshFlag) {
 		try {
-
+			
+			
+			
 			DAnalysis root = (DAnalysis) session.getSessionResource().getContents().get(0);
 			DView dView = root.getOwnedViews().get(0);
-			TransactionalEditingDomain domain = TransactionalEditingDomain.Factory.INSTANCE.createEditingDomain();
 
-			CommandStack stack = domain.getCommandStack();
+			TransactionalEditingDomain editingDomain = TransactionUtil.getEditingDomain(dView);
 
-			RecordingCommand cmd = new RecordingCommand(domain) {
+			CommandStack stack = editingDomain.getCommandStack();
+
+			RecordingCommand cmd = new RecordingCommand(editingDomain) {
 
 				@Override
 				protected void doExecute() {

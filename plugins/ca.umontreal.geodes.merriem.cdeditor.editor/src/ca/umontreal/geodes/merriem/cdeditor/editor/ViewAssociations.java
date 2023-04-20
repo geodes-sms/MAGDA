@@ -184,7 +184,7 @@ public class ViewAssociations extends ViewPart {
 				button.setLayoutData(new GridData(SWT.FILL, SWT.DEFAULT, true, true));
 				editor.grabHorizontal = true;
 				editor.minimumWidth = 50;
-				button.setText("Draw");
+				button.setText("Accept");
 				button.pack();
 
 				editor.setEditor(button, item, 4);

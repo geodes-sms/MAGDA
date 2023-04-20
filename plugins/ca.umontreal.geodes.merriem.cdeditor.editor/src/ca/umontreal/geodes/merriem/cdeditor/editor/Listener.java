@@ -56,6 +56,7 @@ public class Listener extends ResourceSetListenerImpl {
 
 					// eventType ==3 ; ADD
 					if (x.getName().equals("attributes") && object.getEventType() == 3) {
+						System.out.print(attributeNumber);
 						if (attributeNumber == 0) {
 							List<Attribute> attributesInModel = new ArrayList<Attribute>();
 							List<Clazz> classesInModel = Services.getModel().getClazz();
@@ -88,6 +89,7 @@ public class Listener extends ResourceSetListenerImpl {
 					}
 
 					else if (x.getName().equals("clazz") && object.getEventType() == 3) {
+						System.out.print("classNumbers : " + classNumbers + " " + "\n");
 						if (classNumbers == 0) {
 							EList<Clazz> classesInModel = Services.getModel().getClazz();
 
@@ -130,7 +132,7 @@ public class Listener extends ResourceSetListenerImpl {
 
 							Services.loggerServices.info("Create class");
 
-						} else if (classNumbers == 6) {
+						} else if (classNumbers == 4) {
 							classNumbers = -1;
 						}
 						classNumbers++;
