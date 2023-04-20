@@ -10,6 +10,7 @@ import org.eclipse.emf.transaction.TransactionalEditingDomain;
 import org.eclipse.emf.transaction.util.TransactionUtil;
 import org.eclipse.sirius.business.api.dialect.DialectManager;
 import org.eclipse.sirius.business.api.session.Session;
+import org.eclipse.sirius.business.api.session.SessionManager;
 import org.eclipse.sirius.ui.business.api.dialect.DialectEditor;
 import org.eclipse.sirius.ui.business.api.dialect.DialectUIManager;
 import org.eclipse.sirius.viewpoint.DAnalysis;
@@ -82,37 +83,20 @@ public class AttributesFactory {
 						}
 					}
 					// refresh Model
-
-				}
-			};
-			RecordingCommand cmd2 = new RecordingCommand(session.getTransactionalEditingDomain()) {
-				@Override
-				protected void doExecute() {
-
+					SessionManager.INSTANCE.notifyRepresentationCreated(session);
 					DRepresentation represnt = null;
+
 					for (DRepresentationDescriptor descrp : dView.getOwnedRepresentationDescriptors()) {
 						represnt = descrp.getRepresentation();
 						DialectEditor editor = (DialectEditor) org.eclipse.sirius.ui.business.api.dialect.DialectUIManager.INSTANCE
 								.openEditor(session, represnt, new NullProgressMonitor());
+						/// DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
 
-						/**
-						 * this suggestions to canvas
-						 **/
-
-						if (refreshFlag) {
-							DialectUIManager.INSTANCE.refreshEditor(editor, new NullProgressMonitor());
-
-						}
 					}
-
-					if (!refreshFlag) {
-						DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
-					}
-
+					DialectManager.INSTANCE.refresh(represnt, new NullProgressMonitor());
 				}
 			};
 			stack.execute(cmd);
-			stack.execute(cmd2);
 
 		} catch (ServiceException e) {
 			e.printStackTrace();
