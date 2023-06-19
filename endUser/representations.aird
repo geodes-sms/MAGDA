@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:description="http://www.eclipse.org/sirius/description/1.1.0" xmlns:description_1="http://www.eclipse.org/sirius/diagram/description/1.1.0" xmlns:diagram="http://www.eclipse.org/sirius/diagram/1.1.0" xmlns:metamodel="http://www.umontreal.geodes/metamodel" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:viewpoint="http://www.eclipse.org/sirius/1.1.0" xsi:schemaLocation="http://www.eclipse.org/sirius/description/1.1.0 http://www.eclipse.org/sirius/1.1.0#//description http://www.eclipse.org/sirius/diagram/description/1.1.0 http://www.eclipse.org/sirius/diagram/1.1.0#//description">
+  <viewpoint:DAnalysis uid="_0yz7EN_3Ee2ln6n5olTQUw" selectedViews="_hKllYOBGEe2lDY5ijWjCng" version="15.0.0.202201261500">
+    <semanticResources>file:/C:/Users/merie/Documents/cdEditor/class-diagram-editor/endUser/MyMetamodel.metamodel</semanticResources>
+    <ownedViews xmi:type="viewpoint:DView" uid="_hKllYOBGEe2lDY5ijWjCng">
+      <viewpoint xmi:type="description:Viewpoint" href="platform:/plugin/ca.umontreal.geodes.meriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']"/>
+      <ownedRepresentationDescriptors xmi:type="viewpoint:DRepresentationDescriptor" uid="_jVG8MOBGEe2lDY5ijWjCng" name="test" repPath="#_jUyMEOBGEe2lDY5ijWjCng" changeId="ad78f87d-282d-4ee3-9925-e24269d5b4a8">
+        <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/ca.umontreal.geodes.meriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']"/>
+        <target xmi:type="metamodel:Model" href="file:/C:/Users/merie/Documents/cdEditor/class-diagram-editor/endUser/MyMetamodel.metamodel#/"/>
+      </ownedRepresentationDescriptors>
+    </ownedViews>
+  </viewpoint:DAnalysis>
+  <diagram:DSemanticDiagram uid="_jUyMEOBGEe2lDY5ijWjCng">
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_jVVlsOBGEe2lDY5ijWjCng" source="GMF_DIAGRAMS">
+      <data xmi:type="notation:Diagram" xmi:id="_jVVlseBGEe2lDY5ijWjCng" type="Sirius" element="_jUyMEOBGEe2lDY5ijWjCng" measurementUnit="Pixel">
+        <styles xmi:type="notation:DiagramStyle" xmi:id="_jVVlsuBGEe2lDY5ijWjCng"/>
+      </data>
+    </ownedAnnotationEntries>
+    <ownedAnnotationEntries xmi:type="description:AnnotationEntry" uid="_jVhL4OBGEe2lDY5ijWjCng" source="DANNOTATION_CUSTOMIZATION_KEY">
+      <data xmi:type="diagram:ComputedStyleDescriptionRegistry" uid="_jVhL4eBGEe2lDY5ijWjCng"/>
+    </ownedAnnotationEntries>
+    <description xmi:type="description_1:DiagramDescription" href="platform:/plugin/ca.umontreal.geodes.meriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']"/>
+    <filterVariableHistory xmi:type="diagram:FilterVariableHistory" uid="_jU8kIOBGEe2lDY5ijWjCng"/>
+    <activatedLayers xmi:type="description_1:Layer" href="platform:/plugin/ca.umontreal.geodes.meriem.cdeditor.editor/description/editor.odesign#//@ownedViewpoints[name='MyViewpoint']/@ownedRepresentations[name='Editor']/@defaultLayer"/>
+    <target xmi:type="metamodel:Model" href="file:/C:/Users/merie/Documents/cdEditor/class-diagram-editor/endUser/MyMetamodel.metamodel#/"/>
+  </diagram:DSemanticDiagram>
+</xmi:XMI>
