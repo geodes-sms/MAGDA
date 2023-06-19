@@ -2,13 +2,14 @@
 
 An editor to create class diagram.
 ## Setting up the environment (Developers):
-  * Eclipse Version: 2022-06 (4.24.0)
-  * Install Eclipse Modeling Tools
-  * Install Sirius version: 7
-  * Import the plugins from the plugins folder and Generate domain model code. 
-  * Set up the plugin project "com.theokanning.openai.gpt3.dependencies.java" and export it. IT will be used by the plugin project
-  "ca.umontreal.geodes.merriem.cdeditor.editor". 
-  * temp fix  to solve cyclic dependency between the two different modules in this eclipse  project: Preferences > Java > Compiler > Building > Build path problems > Circular dependencies > warning
+  * https://www.eclipse.org/downloads/packages/release/juno/sr1/eclipse-modeling-tools
+  * While running the experiment, we will have 3 workspaces running, launch the first one, import the folders in the plugin folder using "open projects from file systems"
+  * lauch a second instance or eclipse application from the first workspace (plugin) , make sure you select a new workspace, import in that workspace the editor plugin;
+  * put the key of openAI in the file config.properties.
+  * lauch the third workspace from the second one;
+  * create a new modeling project; import metamodel   
+
+
   
           
         
