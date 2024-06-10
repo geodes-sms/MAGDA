@@ -12,7 +12,7 @@ A tool for domain modeling by class diagrams and GPT-driven recommendations.
 
 
 
-![High-level architectural view of MAGDA](tool-overview.pdf)
+![High-level architectural view of MAGDA](tool-overview.png)
   
           
         
