@@ -105,7 +105,7 @@ public class ViewAssociations extends ViewPart {
 
 			parent.layout(true, true);
 
-			String[] titles = { "Name", "Source", "Target", "Type of association", "Draw in Canvas?", "score" };
+			String[] titles = { "Name", "Source", "Target", "Type of relationship", "Draw in Canvas?", "score" };
 			for (String title : titles) {
 				TableColumn column = new TableColumn(table, SWT.CHECK);
 				column.setText(title);
